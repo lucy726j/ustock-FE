@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-// 주석 test
+// 주석 test : dev로 변경
 function App() {
   return (
     <div className="App">
