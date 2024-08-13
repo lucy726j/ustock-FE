@@ -35,6 +35,18 @@ jobs:
     needs: build-and-push
 
     steps:
+      - name: Get Public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Allow SSH access from GitHub Actions
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
       - name: Add SSH key
         run: |
           mkdir -p ~/.ssh
@@ -49,3 +61,11 @@ jobs:
             docker rm ustock-frontend || true
             docker run -dp 80:80 --network ustock-network --name ustock-frontend ${{ secrets.DOCKERHUB_USERNAME }}/ustock-frontend:${{ github.sha }}
           EOF
+
+      - name: Revoke SSH access from GitHub Actions
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
