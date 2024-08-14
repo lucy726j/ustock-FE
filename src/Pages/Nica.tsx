@@ -1,9 +1,12 @@
 import React from 'react';
-import StockList from "../Component/List/StockList";
+import MyStockList from "../Component/List/MyStockList";
+import StockList from '../Component/List/StockList';
 
 const Nica: React.FC = () => {
     return (
         <>
+            <MyStockList />
+            <br />
             <StockList />
         </>
     );
