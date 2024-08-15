@@ -32,7 +32,7 @@ const DropdownBox = styled.div`
 
 const BntImg = styled.img`
   width: 9px;
-  height: 10px;
+  height: 7px;
   margin-right: 5px;
 `;
 
