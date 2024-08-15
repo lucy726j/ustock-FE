@@ -1,4 +1,5 @@
 // import logo from "../../../img/logo.png";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const LogoStyle = styled.div`
@@ -11,9 +12,15 @@ const LogoStyle = styled.div`
 `;
 
 const Logo = () => {
+  const nav = useNavigate();
+
+  const handleClick = () => {
+    nav("/");
+  };
+
   return (
     <div>
-      <LogoStyle>U'STOCK</LogoStyle>
+      <LogoStyle onClick={handleClick}>U'STOCK</LogoStyle>
     </div>
   );
 };
