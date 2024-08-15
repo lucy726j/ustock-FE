@@ -13,31 +13,36 @@ const DropdownContainer = styled.div`
 const DropdownBoxContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid ${Colors.main};
-  width: 120px;
-  border-radius: 10%;
+  width: 80px;
+  border-radius: 5px;
 `;
 
 const DropdownBox = styled.div`
+  width: 80px;
+  height: 20px;
   font-size: 10px;
+  color: ${Colors.main};
   text-align: start;
   align-content: center;
+  margin-left: 5px;
 `;
 
 const BntImg = styled.img`
-  width: 18px;
-  height: 11px;
+  width: 9px;
+  height: 10px;
+  margin-right: 5px;
 `;
 
 const DropdownListBox = styled.div`
-  width: 120px;
+  width: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid ${Colors.main};
-  border-radius: 10%;
+  border-radius: 5px;
 `;
 
 const Dropdown = () => {
