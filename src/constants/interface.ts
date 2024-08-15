@@ -38,3 +38,12 @@ export interface ModalProps {
     children?: React.ReactNode;
     text ?: string;
 }
+
+export interface StockItemProps {
+    id: number;
+    name: string;
+    logo: string;
+    code: string;
+    price: number;
+    growth: number;
+}
