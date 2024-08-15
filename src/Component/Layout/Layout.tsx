@@ -3,6 +3,7 @@ import Header from "./Header/Header";
 import NavBar from "./NavBar/NavBar";
 import SearchBar from "../SearchBar/SearchBar";
 import BackHeader from "./Header/BackHeader";
+import Dropdown from "../Dropdown/Dropdown";
 
 const Layout = (props: { children: React.ReactNode }) => {
   return (
@@ -10,6 +11,7 @@ const Layout = (props: { children: React.ReactNode }) => {
       <Header />
       <BackHeader />
       <SearchBar />
+      <Dropdown />
       <main>{props.children}</main>
       <NavBar />
     </div>
