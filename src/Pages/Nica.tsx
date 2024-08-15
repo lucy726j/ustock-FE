@@ -1,13 +1,17 @@
 import React from 'react';
-import MyStockList from "../Component/List/MyStockList";
-import StockList from '../Component/List/StockList';
+import EmblaCarousel from '../Component/Carousel/EmblaCarousel';
+import { EmblaOptionsType } from 'embla-carousel'
+import "../Component/Carousel/embla.css"
+import { data } from "../data/data"
+
+const OPTIONS: EmblaOptionsType = { loop: true }
+
 
 const Nica: React.FC = () => {
+
     return (
         <>
-            <MyStockList />
-            <br />
-            <StockList />
+            <EmblaCarousel data={data} options={OPTIONS} />
         </>
     );
 }
