@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { NavBoxProps } from "../../../constants/interface";
 
 const NavContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 500px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
