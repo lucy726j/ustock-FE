@@ -1,6 +1,6 @@
 import exp from "constants";
 import Header from "./Header/Header";
-import NavBar from "./NavBar";
+import NavBar from "./NavBar/NavBar";
 
 const Layout = (props: { children: React.ReactNode }) => {
   return (
