@@ -32,7 +32,7 @@ export interface ModalProps {
   confirmLabel?: string;
   cancelLabel?: string;
   showConfirmButton?: string;
-  showCancelButton?: string;
+  showCancelButton?: boolean;
   showOneConfirmBtn?: boolean;
   children?: React.ReactNode;
   text?: string;
@@ -45,20 +45,6 @@ export interface StockItemProps {
   code: string;
   price: number;
   growth: number;
-}
-
-export interface ModalProps {
-  title?: string;
-  isOpen: boolean;
-  onRequestClose?: () => void;
-  onConfirm?: () => void;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  showConfirmButton?: string;
-  showCancelButton?: string;
-  showOneConfirmBtn?: boolean;
-  children?: React.ReactNode;
-  text?: string;
 }
 
 export interface StockItemProps {

@@ -51,3 +51,50 @@ export const ButtonStyle = styled.button`
   border: none;
   background: none;
 `;
+
+export const Ul = styled.ul`
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  list-style: none;
+`;
+
+export const Li = styled.li`
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Name = styled.span`
+  font-size: 10px;
+  font-family: "SCDream7";
+`;
+
+export const Description = styled.span`
+  font-size: 8px;
+  color: #6c757d;
+`;
+
+export const Price = styled.span`
+  margin-right: 10px;
+  font-family: "SCDream3";
+`;
+
+export const Growth = styled.span`
+  color: #ff5759;
+  font-size: 8px;
+  margin-left: "10px";
+`;
+
+export const SearchImg = styled.img`
+  position: absolute;
+  width: 20px;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+`;
