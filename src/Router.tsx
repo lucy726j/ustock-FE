@@ -7,6 +7,7 @@ import Portfolio from "./Pages/portfolio";
 import SkrrrGame from "./Pages/skrrrGame";
 import CallBackPage from "./Component/GoogleLogin/callback";
 import LoginPage from "./Pages/login";
+import StockDetail from "./Pages/stockDetail";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/nica" element={<Nica />} />
           <Route path="/stocks" element={<SearchStock />} />
+          <Route path="/stocks/:id" element={<StockDetail />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/game" element={<SkrrrGame />} />
           <Route path="/auth/callback" element={<CallBackPage />} />
