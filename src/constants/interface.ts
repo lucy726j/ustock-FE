@@ -47,6 +47,29 @@ export interface StockItemProps {
   growth: number;
 }
 
+export interface ModalProps {
+  title?: string;
+  isOpen: boolean;
+  onRequestClose?: () => void;
+  onConfirm?: () => void;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  showConfirmButton?: string;
+  showCancelButton?: string;
+  showOneConfirmBtn?: boolean;
+  children?: React.ReactNode;
+  text?: string;
+}
+
+export interface StockItemProps {
+  id: number;
+  name: string;
+  logo: string;
+  code: string;
+  price: number;
+  growth: number;
+}
+
 export interface NavBoxProps {
   id: string;
   onClick: (id: string) => void;
@@ -55,4 +78,17 @@ export interface NavBoxProps {
 
 export interface SearchBarProps {
   onSelect: (selected: string) => void;
+}
+
+export interface NewsProps {
+  id: number;
+  title: string;
+  publisher: string;
+  date: string;
+  img: string;
+  url: string;
+}
+
+export interface ValueProps {
+  isNegative: boolean;
 }
