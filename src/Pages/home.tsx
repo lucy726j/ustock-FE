@@ -1,11 +1,8 @@
 import React from "react";
 import Chart from "../Component/Chart/chart";
 import { Input } from "../Component/Input/input";
-import Candy from "../img/candy.png";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
-import StockItem from "../Component/List/StockItem";
-import { spawn } from "child_process";
 import styled from "styled-components";
 import { ValueProps } from "../constants/interface";
 
