@@ -1,4 +1,4 @@
-import { StockItemProps } from "../constants/interface"
+import { StockItemProps, NewsProps } from "../constants/interface"
 import Discord from "../img/logo/Discord.png"
 import GitHub from "../img/logo/GitHub.png"
 import Instagram from "../img/logo/Instagram.png"
@@ -90,5 +90,48 @@ export const data : StockItemProps[] = [
       "code": "101010",
       "price": 101010,
       "growth": -10.1
+    }
+]
+
+export const newsData: NewsProps[] = [
+    {
+        "id": 1,
+        "title": "코로나 재유행에 엠폭스까지… 의료체계에 상당한 압박",
+        "publisher": "동아일보",
+        "date": "2024-01-01 01:01",
+        "img" : Discord,
+        "url" : "https://n.news.naver.com/article/277/0005459748?cds=news_media_pc"
+    },
+    {
+        "id": 2,
+        "title": "비트코인으로 번 돈이 100조원…스페이스X 타는 중국계 거물의 정체",
+        "publisher": "아시아경제",
+        "date": "2024-02-02 02:02",
+        "img" : GitHub,
+        "url" : "https://n.news.naver.com/article/277/0005459696?cds=news_media_pc"
+    },
+    {
+        "id": 3,
+        "title": "구글, AI 탑재 검색 기능 'AI 오버뷰' 6개국 추가 확대…한국은 아직",
+        "publisher": "조선일보",
+        "date": "2024-03-03 03:03",
+        "img" : Instagram,
+        "url" : "https://n.news.naver.com/mnews/article/030/0003231973"
+    },
+    {
+        "id": 4,
+        "title": "김영호 '北, 대화협의체 호응 촉구…남북 통신선 재가동해야",
+        "publisher": "동아일보",
+        "date": "2024-04-04 04:04",
+        "img" : Youtube,
+        "url" : "https://n.news.naver.com/article/421/0007733313?cds=news_media_pc&type=breakingnews"
+    },
+    {
+        "id": 5,
+        "title": "SNS 논란·화제 동시에 빚었던…'노잼도시' 밈은 무엇?",
+        "publisher": "조선일보",
+        "date": "2024-05-05 05:05",
+        "img" : Twitter,
+        "url" : "https://n.news.naver.com/article/277/0005459807?cds=news_media_pc"
     }
 ]

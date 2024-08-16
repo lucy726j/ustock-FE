@@ -61,3 +61,12 @@ export interface NavBoxProps {
   onClick: (id: string) => void;
   children: React.ReactNode;
 }
+
+export interface NewsProps{
+    id: number;
+    title: string;
+    publisher: string;
+    date: string;
+    img: string;
+    url: string;
+}
