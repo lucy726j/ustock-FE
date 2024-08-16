@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import searchImg from "../../img/search.png";
 import { useState } from "react";
+import { data } from "../../data/data";
+import { StockItemProps } from "../../constants/interface";
+import StockItem from "../List/StockItem";
 
 const SearchBarStyle = styled.div`
   width: 450px;
@@ -11,6 +14,8 @@ const SearchBarStyle = styled.div`
   justify-content: start;
   align-items: center;
   gap: 20px;
+  margin-bottom: 1px;
+  position: relative;
 `;
 
 const SearchImg = styled.img`
@@ -24,29 +29,92 @@ const SearchInput = styled.input`
   border: none;
 `;
 
-const SearchBar = () => {
-  const [list, setList] = useState([]);
-  const [keyword, setKeyword] = useState("");
+const SearchResult = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  width: 450px;
+  box-shadow: 0px 2px 5px -2px #ada9bb;
+  border: none;
+  padding: 20px;
+  font-size: 12px;
+  position: absolute;
+  top: 115px;
+  z-index: 2;
+`;
 
-  const handleSearch = (event: any) => {
-    setKeyword(event.target.value.toLowerCase());
+const LiStyle = styled.li`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const StockInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StockName = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Img = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+const SearchBar = () => {
+  const [list, setList] = useState<StockItemProps[]>(data);
+  const [keyword, setKeyword] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const searching = () => {
+    setIsOpen(!isOpen);
   };
 
-  // api로 종목 리스트 받아서 list 저장하고
-  // onChange할 때마다 filter한 리스트로 setList해서 목록 보여주기
-  // const searched = list.filter((el) => {
-  //   if (!el.name || !el.code) return false;
-  //   return el.name.toLowerCase().includes(keyword) || el.code.includes(keyword);
-  // });
+  const handleSearch = (event: string) => {
+    setKeyword(event);
+    const searchResult = data.filter(
+      (el) => el.name.includes(event) || el.code.includes(event)
+    );
+    setList(searchResult);
+  };
 
   return (
-    <SearchBarStyle>
-      <SearchImg src={searchImg} alt="검색 돋보기 이미지" />
-      <SearchInput
-        placeholder="검색어를 입력해주세요"
-        onChange={handleSearch}
-      />
-    </SearchBarStyle>
+    <>
+      <SearchBarStyle>
+        <SearchImg src={searchImg} alt="검색 돋보기 이미지" />
+        <SearchInput
+          placeholder="검색어를 입력해주세요"
+          onChange={(e) => handleSearch(e.target.value)}
+          onFocus={searching}
+          onBlur={searching}
+        />
+      </SearchBarStyle>
+      {isOpen && (
+        <SearchResult>
+          {list.length == 0
+            ? "일치하는 검색결과가 없습니다"
+            : list.map((el) => (
+                <LiStyle key={el.id}>
+                  <StockInfo>
+                    <Img src={el.logo} />
+                    <StockName>
+                      <span>{el.name}</span>
+                      <span>{el.code}</span>
+                    </StockName>
+                  </StockInfo>
+                  <div>
+                    <div>{el.price}</div>
+                    <span>{el.growth}</span>
+                  </div>
+                </LiStyle>
+              ))}
+        </SearchResult>
+      )}
+    </>
   );
 };
 

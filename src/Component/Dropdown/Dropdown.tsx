@@ -9,6 +9,7 @@ const DropdownContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  position: relative;
 `;
 
 const DropdownBoxContainer = styled.div`
@@ -61,6 +62,10 @@ const DropdownListBox = styled.div`
   border-radius: 5px;
   margin-right: auto;
   padding: 5px 0px;
+  background-color: white;
+  position: absolute;
+  top: 25px;
+  z-index: 1;
 `;
 
 const Dropdown = () => {
@@ -78,21 +83,21 @@ const Dropdown = () => {
   };
 
   return (
-      <DropdownContainer>
-        <DropdownBoxContainer onClick={handleClick}>
-          <SelectBox>{filter}</SelectBox>
-          <BntImg src={!isOpen ? open : close}></BntImg>
-        </DropdownBoxContainer>
-        {isOpen && (
-          <DropdownListBox>
-            {category.map((el) => (
-              <DropdownBox key={el} onClick={handleSelect}>
-                {el}
-              </DropdownBox>
-            ))}
-          </DropdownListBox>
-        )}
-      </DropdownContainer>
+    <DropdownContainer>
+      <DropdownBoxContainer onClick={handleClick}>
+        <SelectBox>{filter}</SelectBox>
+        <BntImg src={!isOpen ? open : close}></BntImg>
+      </DropdownBoxContainer>
+      {isOpen && (
+        <DropdownListBox>
+          {category.map((el) => (
+            <DropdownBox key={el} onClick={handleSelect}>
+              {el}
+            </DropdownBox>
+          ))}
+        </DropdownListBox>
+      )}
+    </DropdownContainer>
   );
 };
 
