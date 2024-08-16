@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { data } from '../../data/data';
-import StockItem from './StockItem';
-import { StockItemProps } from '../../constants/interface';
+import React from "react";
+import styled from "styled-components";
+import { data } from "../../data/data";
+import StockItem from "./StockItem";
+import { StockItemProps } from "../../constants/interface";
 
 const ListWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 10px
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
 `;
 
 // const ListWrapper = styled.div`
@@ -20,16 +20,15 @@ const ListWrapper = styled.div`
 // `;
 
 const StockList: React.FC = () => {
-
-    return (
-        <div>
-            <ListWrapper>
-                {data.map((item: StockItemProps) => (
-                    <StockItem key={item.id} {...item} />
-                ))}
-            </ListWrapper>
-        </div>
-    );
-}
+  return (
+    <div>
+      <ListWrapper>
+        {data.map((item: StockItemProps) => (
+          <StockItem key={item.id} {...item} />
+        ))}
+      </ListWrapper>
+    </div>
+  );
+};
 
 export default StockList;

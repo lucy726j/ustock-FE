@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { StockItemProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
-import ModalOpen from "../Modal/modal";
-import GukBap from "../../img/Gukbap.png";
-import { Input } from "../Input/input";
-import * as M from "./modalStyle";
+import StockSearch from "../Modal/stockSearch";
+import AddOrEditModal from "../Modal/addStock";
+import StockPlusModal from "../Modal/plusStock";
+import DeleteConfirmationModal from "../Modal/deleteProtfolio";
+import { data } from "../../data/data";
 
 const MyStockItem: React.FC<StockItemProps> = ({
   id,
@@ -15,37 +16,45 @@ const MyStockItem: React.FC<StockItemProps> = ({
   price,
   growth,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isPlusOpen, setIsPlusOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
+    null
+  );
   const [modalAction, setModalAction] = useState<
     "add" | "edit" | "delete" | "plus" | null
   >(null);
 
   // 확인버튼 눌렀을때 어떻게 될 건지 넣어야함
   const handleConfirm = () => {
-    if (modalAction === "add") {
-    } else if (modalAction === "edit") {
-    } else if (modalAction === "delete") {
+    setIsFormOpen(false);
+    setIsPlusOpen(false);
+    setIsDeleteOpen(false);
+  };
+
+  // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
+  const openModal = (action: "add" | "edit" | "delete" | "plus") => {
+    if (action === "add") {
+      setIsSearchOpen(true);
     } else {
+      setModalAction(action);
+      if (action === "delete") {
+        setIsDeleteOpen(true);
+      } else if (action === "plus") {
+        setIsPlusOpen(true); // Open the plus modal
+      } else {
+        setIsFormOpen(true);
+      }
     }
   };
 
-  // 어떤 버튼을 눌렀냐에 따라 text가 달라짐
-  const getButtonText = () => {
-    if (modalAction === "add") return "자산 추가";
-    if (modalAction === "edit") return "자산 수정";
-    if (modalAction === "plus") return "추가 매수";
-    if (modalAction === "delete") return "삭제";
-    return "확인";
-  };
-
-  const showOneConfirmBtn = modalAction !== "delete";
-  const showConfirmButton = modalAction === "delete" ? "true" : "";
-  const showCancelButton = modalAction === "delete" ? "true" : "";
-
-  // 모달 액션
-  const openModal = (action: "add" | "edit" | "delete" | "plus") => {
-    setModalAction(action);
-    setIsOpen(true);
+  const handleSelectStock = (stock: StockItemProps) => {
+    setSelectedStock(stock);
+    setIsSearchOpen(false);
+    setModalAction("add");
+    setIsFormOpen(true);
   };
 
   return (
@@ -75,124 +84,39 @@ const MyStockItem: React.FC<StockItemProps> = ({
         </div>
       </div>
 
-      <ModalOpen
-        title={
-          modalAction === "plus"
-            ? "종목 추가"
-            : modalAction === "add"
-            ? "추가 매수"
-            : modalAction === "edit"
-            ? "자산 수정"
-            : "종목 삭제"
-        }
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        showOneConfirmBtn={showOneConfirmBtn}
-        text={getButtonText()}
-        onConfirm={handleConfirm}
-        showConfirmButton={showConfirmButton}
-        showCancelButton={showCancelButton}
-        confirmLabel="확인"
-        cancelLabel="취소"
-      >
-        {(modalAction === "add" || modalAction === "edit") && (
-          <div>
-            <M.Box>
-              <M.Img src={GukBap} alt="주식 종목" />
-              <div>
-                <h2>APS</h2>
-                <M.P>05462</M.P>
-              </div>
-            </M.Box>
-            <M.Container>
-              <div>
-                <M.Div>수량</M.Div>
-                <Input placeholder="수량" size="medium" colorType="fillType" />
-              </div>
-              <div style={{ marginTop: "1rem" }}>
-                <M.Div>평균 단가</M.Div>
-                <Input placeholder="단가" size="medium" colorType="fillType" />
-              </div>
-            </M.Container>
-          </div>
-        )}
-        {modalAction === "plus" && (
-          <div>
-            <M.Box>
-              <M.Img src={GukBap} alt="주식 종목" />
-              <div>
-                <h2>APS</h2>
-                <M.P>054620</M.P>
-              </div>
-            </M.Box>
-            <M.Container>
-              <table
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  marginBottom: "20px",
-                }}
-              >
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>수량</th>
-                    <th>구매 가격 (₩)</th>
-                    <th>투자 금액(₩)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>현재</td>
-                    <td>50</td>
-                    <td>5,000</td>
-                    <td>250,000</td>
-                  </tr>
-                  <tr>
-                    <td>추가</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td>합계</td>
-                    <td>50</td>
-                    <td>5,000</td>
-                    <td>250,000</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div>
-                <M.Div>수량</M.Div>
-                <Input
-                  placeholder="ex) 100"
-                  size="medium"
-                  colorType="fillType"
-                />
-              </div>
-              <div style={{ marginTop: "1rem" }}>
-                <M.Div>평균 단가</M.Div>
-                <Input
-                  placeholder="ex) 10,000"
-                  size="medium"
-                  colorType="fillType"
-                />
-              </div>
-            </M.Container>
-          </div>
-        )}
-        {modalAction === "delete" && (
-          <div
-            style={{
-              display: "flex",
-              marginTop: "50px",
-              justifyContent: "center",
-            }}
-          >
-            <p>정말 이 항목을 삭제하시겠습니까?</p>
-          </div>
-        )}
-      </ModalOpen>
+      {isSearchOpen && (
+        <StockSearch
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          onSelect={handleSelectStock}
+          data={data}
+        />
+      )}
+      {isFormOpen && selectedStock && (
+        <AddOrEditModal
+          isOpen={isFormOpen}
+          onClose={() => setIsFormOpen(false)}
+          onConfirm={handleConfirm}
+          action={modalAction === "add" ? "add" : "edit"}
+          selectedStock={selectedStock}
+        />
+      )}
+
+      {isPlusOpen && (
+        <StockPlusModal
+          isOpen={isPlusOpen}
+          onRequestClose={() => setIsPlusOpen(false)}
+          onConfirm={handleConfirm}
+        />
+      )}
+
+      {isDeleteOpen && (
+        <DeleteConfirmationModal
+          isOpen={isDeleteOpen}
+          onClose={() => setIsDeleteOpen}
+          onConfirm={handleConfirm}
+        />
+      )}
     </div>
   );
 };
