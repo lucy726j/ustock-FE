@@ -40,15 +40,13 @@ const SearchBar = () => {
   // });
 
   return (
-    <div>
-      <SearchBarStyle>
-        <SearchImg src={searchImg} alt="검색 돋보기 이미지" />
-        <SearchInput
-          placeholder="검색어를 입력해주세요"
-          onChange={handleSearch}
-        />
-      </SearchBarStyle>
-    </div>
+    <SearchBarStyle>
+      <SearchImg src={searchImg} alt="검색 돋보기 이미지" />
+      <SearchInput
+        placeholder="검색어를 입력해주세요"
+        onChange={handleSearch}
+      />
+    </SearchBarStyle>
   );
 };
 

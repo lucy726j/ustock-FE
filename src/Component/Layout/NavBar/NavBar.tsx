@@ -15,6 +15,7 @@ const NavContainer = styled.div`
   justify-content: space-around;
   box-shadow: 0px -2px 5px -2px #ada9bb;
   padding: 12px;
+  background-color: white;
 `;
 
 const NavBoxStyle = styled.div`
@@ -48,26 +49,24 @@ const NavBar = () => {
   };
 
   return (
-    <div>
-      <NavContainer>
-        <NavBox id="/" onClick={handleClick}>
-          <ImgStyle src={homeImg} alt="홈 버튼 이미지" />
-          <TextStyle>홈</TextStyle>
-        </NavBox>
-        <NavBox id="stocks" onClick={handleClick}>
-          <ImgStyle src={chartImg} alt="종목 조회 버튼 이미지" />
-          <TextStyle>종목 조회</TextStyle>
-        </NavBox>
-        <NavBox id="portfolio" onClick={handleClick}>
-          <ImgStyle src={portfolioImg} alt="포트폴리오 버튼 이미지" />
-          <TextStyle>포트폴리오</TextStyle>
-        </NavBox>
-        <NavBox id="game" onClick={handleClick}>
-          <ImgStyle src={gameImg} alt="스껄게임 버튼 이미지" />
-          <TextStyle>스껄 게임</TextStyle>
-        </NavBox>
-      </NavContainer>
-    </div>
+    <NavContainer>
+      <NavBox id="/" onClick={handleClick}>
+        <ImgStyle src={homeImg} alt="홈 버튼 이미지" />
+        <TextStyle>홈</TextStyle>
+      </NavBox>
+      <NavBox id="stocks" onClick={handleClick}>
+        <ImgStyle src={chartImg} alt="종목 조회 버튼 이미지" />
+        <TextStyle>종목 조회</TextStyle>
+      </NavBox>
+      <NavBox id="portfolio" onClick={handleClick}>
+        <ImgStyle src={portfolioImg} alt="포트폴리오 버튼 이미지" />
+        <TextStyle>포트폴리오</TextStyle>
+      </NavBox>
+      <NavBox id="game" onClick={handleClick}>
+        <ImgStyle src={gameImg} alt="스껄게임 버튼 이미지" />
+        <TextStyle>스껄 게임</TextStyle>
+      </NavBox>
+    </NavContainer>
   );
 };
 

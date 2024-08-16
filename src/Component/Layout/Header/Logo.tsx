@@ -19,9 +19,9 @@ const Logo = () => {
   };
 
   return (
-    <div>
+    <>
       <LogoStyle onClick={handleClick}>U'STOCK</LogoStyle>
-    </div>
+    </>
   );
 };
 

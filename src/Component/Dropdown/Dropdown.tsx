@@ -78,7 +78,6 @@ const Dropdown = () => {
   };
 
   return (
-    <div>
       <DropdownContainer>
         <DropdownBoxContainer onClick={handleClick}>
           <SelectBox>{filter}</SelectBox>
@@ -94,7 +93,6 @@ const Dropdown = () => {
           </DropdownListBox>
         )}
       </DropdownContainer>
-    </div>
   );
 };
 
