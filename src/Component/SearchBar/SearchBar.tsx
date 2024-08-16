@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import searchImg from "../../img/search.png";
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { data } from "../../data/data";
 import { StockItemProps } from "../../constants/interface";
 import StockItem from "../List/StockItem";
+import { getGrowthColor, formatPrice } from "../../util/util";
+import { SearchBarProps } from "../../constants/interface";
 
 const SearchBarStyle = styled.div`
   width: 450px;
@@ -44,10 +46,22 @@ const SearchResult = styled.div`
   z-index: 2;
 `;
 
-const LiStyle = styled.li`
+const StockItemContainer = styled.li`
+  width: 100%;
+  height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #eaeaea;
+    transform: scale(0.98);
+  }
 `;
 
 const StockInfo = styled.div`
@@ -61,12 +75,45 @@ const StockName = styled.div`
 `;
 
 const Img = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  margin: 0 20px;
 `;
 
-const SearchBar = () => {
-  const [list, setList] = useState<StockItemProps[]>(data);
+const InfoSection = styled.div`
+  flex: 1;
+`;
+
+const Name = styled.div`
+  font-size: 10px;
+  font-weight: 700;
+`;
+
+const Code = styled.div`
+  font-size: 8px;
+  font-weight: 400;
+  color: #6c757d;
+`;
+
+const Price = styled.div`
+  font-size: 10px;
+  font-weight: 400;
+  flex: 1;
+  text-align: right;
+  margin-right: 30px;
+  width: 20%;
+`;
+
+const Growth = styled.div`
+  font-size: 8px;
+  font-weight: 400;
+  margin-right: 30px;
+  width: 10%;
+  text-align: right;
+`;
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
+  const [list, setList] = useState<StockItemProps[]>([]);
   const [keyword, setKeyword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -82,6 +129,11 @@ const SearchBar = () => {
     setList(searchResult);
   };
 
+  const handleSelectStock = (event: StockItemProps) => {
+    onSelect(event.code);
+    console.log(event.code);
+  };
+
   return (
     <>
       <SearchBarStyle>
@@ -95,22 +147,23 @@ const SearchBar = () => {
       </SearchBarStyle>
       {isOpen && (
         <SearchResult>
-          {list.length == 0
+          {list.length == 0 || keyword == ""
             ? "일치하는 검색결과가 없습니다"
             : list.map((el) => (
-                <LiStyle key={el.id}>
-                  <StockInfo>
-                    <Img src={el.logo} />
-                    <StockName>
-                      <span>{el.name}</span>
-                      <span>{el.code}</span>
-                    </StockName>
-                  </StockInfo>
-                  <div>
-                    <div>{el.price}</div>
-                    <span>{el.growth}</span>
-                  </div>
-                </LiStyle>
+                <StockItemContainer
+                  key={el.code}
+                  onClick={() => handleSelectStock(el)}
+                >
+                  <Img src={el.logo} />
+                  <InfoSection>
+                    <Name>{el.name}</Name>
+                    <Code>{el.code}</Code>
+                  </InfoSection>
+                  <Price>{formatPrice(el.price)}원</Price>
+                  <Growth style={{ color: getGrowthColor(el.growth) }}>
+                    {el.growth}%
+                  </Growth>
+                </StockItemContainer>
               ))}
         </SearchResult>
       )}

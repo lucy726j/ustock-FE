@@ -27,10 +27,19 @@ const FilterContainer = styled.div`
 `;
 
 const SearchStock = () => {
+  const [selectedStockCode, setSelectedStockCode] = useState<string | null>(
+    null
+  );
+
+  const handleSelectStock = (stockCode: string) => {
+    setSelectedStockCode(stockCode);
+    console.log("Selected stock code:", stockCode); // 선택된 종목 코드를 출력
+  };
+
   return (
     <Container>
       <SearchContainer>
-        <SearchBar />
+        <SearchBar onSelect={handleSelectStock} />
       </SearchContainer>
       <FilterContainer>
         <div>종목 리스트</div>
