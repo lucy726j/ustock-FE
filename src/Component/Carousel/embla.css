@@ -2,8 +2,8 @@
   max-width: 48rem;
   margin: auto;
   --slide-height: 19rem;
-  --slide-spacing: 0.5rem;
-  --slide-size: 45%;
+  --slide-spacing: 0.2rem;
+  --slide-size: 50%;
 }
 
 .embla__viewport {
@@ -27,9 +27,6 @@
     border-radius: 20px;
     font-size: 18px;
     font-weight: 600;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
     height: var(--slide-height);
     user-select: none;
     backface-visibility: hidden;

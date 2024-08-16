@@ -14,7 +14,7 @@ const Nica: React.FC = () => {
 
     return (
         <>
-            <EmblaCarousel data={data} options={OPTIONS} />
+            
             <MyStockList />
             <NewsList />
         </>
