@@ -1,7 +1,6 @@
 import React from "react";
 import Chart from "../Component/Chart/chart";
-import { Input } from "../Component/Input/input";
-import Candy from "../img/candy.png";
+import GoogleLogin from "../Component/GoogleLogin/login";
 
 const Home = () => {
   return (
