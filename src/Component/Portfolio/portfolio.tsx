@@ -7,10 +7,23 @@ import StockSearch from "../Modal/stockSearch";
 import { StockItemProps } from "../../constants/interface";
 import AddOrEditModal from "../Modal/addStock";
 import "./pfStyle.css";
+import AddPortfolioModal from "../Modal/AddPortfolio";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    closeModal();
+  };
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
   // const [isFormOpen, setIsFormOpen] = useState(false);
   // const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
@@ -55,13 +68,18 @@ const Portfolio = () => {
         <div className="my-portfolio">
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className="title">내 포트폴리오</div>
-            <button className="circle-button">
+            <button className="circle-button" onClick={openModal}>
               <span className="plus-icon">+</span>
             </button>
           </div>
           <EmblaCarousel data={data} options={OPTIONS} />
         </div>
       </div>
+      <AddPortfolioModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        onConfirm={handleConfirm}
+      />
       {/* {isSearchOpen && (
         <StockSearch
           isOpen={isSearchOpen}

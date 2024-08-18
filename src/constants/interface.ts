@@ -36,6 +36,7 @@ export interface ModalProps {
   showOneConfirmBtn?: boolean;
   children?: React.ReactNode;
   text?: string;
+  icon?: string;
 }
 
 export interface StockItemProps {
