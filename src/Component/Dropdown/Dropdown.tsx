@@ -2,12 +2,14 @@ import styled from "styled-components";
 import { Colors } from "../../Styles/Colors";
 import close from "../../img/closeStatus.png";
 import open from "../../img/openStatus.png";
+import { useState } from "react";
 
 const DropdownContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  position: relative;
 `;
 
 const DropdownBoxContainer = styled.div`
@@ -16,18 +18,34 @@ const DropdownBoxContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   border: 1px solid ${Colors.main};
-  width: 80px;
   border-radius: 5px;
+  margin-right: auto;
+`;
+
+const SelectBox = styled.div`
+  width: 66px;
+  height: 20px;
+  font-size: 10px;
+  color: black
+  text-align: start;
+  align-content: center;
+  padding: 5px 0px 5px 5px;
 `;
 
 const DropdownBox = styled.div`
   width: 80px;
   height: 20px;
   font-size: 10px;
-  color: ${Colors.main};
+  color: black
   text-align: start;
   align-content: center;
-  margin-left: 5px;
+  padding-left: 5px;
+
+  &:hover {
+    color: ${Colors.main};
+    background-color : #F5F4FB;
+    
+  }
 `;
 
 const BntImg = styled.img`
@@ -37,29 +55,49 @@ const BntImg = styled.img`
 `;
 
 const DropdownListBox = styled.div`
-  width: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid ${Colors.main};
   border-radius: 5px;
+  margin-right: auto;
+  padding: 5px 0px;
+  background-color: white;
+  position: absolute;
+  top: 25px;
+  z-index: 1;
 `;
 
 const Dropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const category = ["시가총액순", "거래량", "등락율"];
+  const [filter, setFilter] = useState(category[0]);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSelect = (event: any) => {
+    setFilter(event.target.innerText);
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div>
-      <DropdownContainer>
-        <DropdownBoxContainer>
-          <DropdownBox>시가총액순</DropdownBox>
-          <BntImg src={close}></BntImg>
-        </DropdownBoxContainer>
+    <DropdownContainer>
+      <DropdownBoxContainer onClick={handleClick}>
+        <SelectBox>{filter}</SelectBox>
+        <BntImg src={!isOpen ? open : close}></BntImg>
+      </DropdownBoxContainer>
+      {isOpen && (
         <DropdownListBox>
-          <DropdownBox>시가총액순</DropdownBox>
-          <DropdownBox>거래량</DropdownBox>
-          <DropdownBox>등락율</DropdownBox>
+          {category.map((el) => (
+            <DropdownBox key={el} onClick={handleSelect}>
+              {el}
+            </DropdownBox>
+          ))}
         </DropdownListBox>
-      </DropdownContainer>
-    </div>
+      )}
+    </DropdownContainer>
   );
 };
 

@@ -36,7 +36,6 @@ const Profile = () => {
   };
 
   return (
-    <div>
       <ProfileContainer>
         <ImgStyle
           src={testImg}
@@ -45,7 +44,6 @@ const Profile = () => {
         />
         {isOpen && <LogoutBox>로그아웃</LogoutBox>}
       </ProfileContainer>
-    </div>
   );
 };
 

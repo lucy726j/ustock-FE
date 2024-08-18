@@ -1,5 +1,5 @@
 const SkrrrGame = () => {
-  return <div>스껄 게임 준비중</div>;
+  return <>스껄 게임 준비중</>;
 };
 
 export default SkrrrGame;
