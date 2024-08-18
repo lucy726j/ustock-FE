@@ -5,6 +5,8 @@ import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
 import { ValueProps } from "../constants/interface";
+import GoogleLogin from "../Component/GoogleLogin/login";
+import MyStockItem from "../Component/List/MyStockItem";
 
 const marketData = [
   {
