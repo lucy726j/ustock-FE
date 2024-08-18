@@ -24,31 +24,6 @@ const Portfolio = () => {
   const handleConfirm = () => {
     closeModal();
   };
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // const [isFormOpen, setIsFormOpen] = useState(false);
-  // const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-  //   null
-  // );
-  // const [modalAction, setModalAction] = useState<"add" | null>(null);
-
-  // 주식 종목 검색 창 모달이 뜬 후 종목 추가로 넘어가는 부분
-  // const handleSelectStock = (stock: StockItemProps) => {
-  //   setSelectedStock(stock);
-  //   setIsSearchOpen(false);
-  //   setIsFormOpen(true);
-  //   setModalAction("add");
-  // };
-
-  // // + 버튼이 눌러졌을 때 호출
-  // const handleAddStock = () => {
-  //   setSelectedStock(null); // Clear any previously selected stock
-  //   setIsSearchOpen(true);
-  // };
-
-  // // 현재 열려있는 모달을 닫음
-  // const handleConfirm = () => {
-  //   setIsFormOpen(false);
-  // };
 
   return (
     <div className="Portfolio">
@@ -80,23 +55,6 @@ const Portfolio = () => {
         onRequestClose={closeModal}
         onConfirm={handleConfirm}
       />
-      {/* {isSearchOpen && (
-        <StockSearch
-          isOpen={isSearchOpen}
-          onClose={() => setIsSearchOpen(false)}
-          onSelect={handleSelectStock}
-          data={data}
-        />
-      )}
-      {isFormOpen && selectedStock && (
-        <AddOrEditModal
-          isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
-          onConfirm={handleConfirm}
-          action={modalAction === "add" ? "add" : undefined}
-          selectedStock={selectedStock}
-        />
-      )} */}
     </div>
   );
 };
