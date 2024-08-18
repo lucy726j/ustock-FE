@@ -15,13 +15,13 @@ const Logo = () => {
   const nav = useNavigate();
 
   const handleClick = () => {
-    nav("/");
+    nav("/home");
   };
 
   return (
-    <div>
+    <>
       <LogoStyle onClick={handleClick}>U'STOCK</LogoStyle>
-    </div>
+    </>
   );
 };
 
