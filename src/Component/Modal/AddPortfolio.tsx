@@ -1,32 +1,61 @@
 import React from "react";
-import newPortfolio from "../../img/newPortfolio.png";
 import { Input } from "../Input/input";
 import "./AddPortfolioStyle.css";
-import icon from "../../img/Icon.png";
-import Button from "../Button/button";
+import Icon from "../../img/Icon.png";
+import ModalOpen from "./modal";
+import newPortfolio from "../../img/newPortfolio.png";
+import styled from "styled-components";
+import { Colors } from "../../Styles/Colors";
 
-const AddPortfolio: React.FC = () => {
-    const showConfirmButton = true; // 이 값을 조건에 따라 true 또는 false로 설정
+const Title = styled.span`
+  font-size: 20px;
+  color: ${Colors.main};
+  font-family: "SCDream6";
+`;
 
-    return (
-        <div className="AddPortfolio">
-            <img src={newPortfolio} alt="New Portfolio" />
-            <h1>새 포트폴리오 추가</h1>
-            <p>이름</p>
-            <Input 
-                placeholder="포트폴리오 이름을 입력하세요"
-                size="medium"
-                colorType="fillType"
-                icon={<img src={icon} alt="Icon" />}
-            />
-            <div className="button-section">
-                <Button state="normal" colorType="main" size="small">취소</Button>
-                {showConfirmButton && (
-                    <Button state="normal" colorType="main" size="small">확인</Button>
-                )}
-            </div>
-        </div>
-    );
+const Div = styled.div`
+  font-size: 14px;
+  font-family: "SCDream2";
+  margin: 10px;
+`;
+
+interface NewPortfolioModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  onConfirm: () => void;
 }
 
-export default AddPortfolio;
+const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
+  isOpen,
+  onRequestClose,
+  onConfirm,
+}) => {
+  return (
+    <ModalOpen
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      showConfirmButton="확인"
+      showCancelButton={true}
+      icon={newPortfolio}
+      onConfirm={onConfirm}
+      confirmLabel="확인"
+    >
+      <div
+        style={{
+          marginBottom: "30px",
+        }}
+      >
+        <Title>새 포트폴리오 추가</Title>
+      </div>
+      <Div>이름</Div>
+      <Input
+        icon={<img src={Icon} />}
+        placeholder="포트폴리오 이름을 입력해주세요"
+        size="medium"
+        colorType="strokeType"
+      />
+    </ModalOpen>
+  );
+};
+
+export default AddPortfolioModal;
