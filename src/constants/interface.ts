@@ -62,11 +62,19 @@ export interface NavBoxProps {
   children: React.ReactNode;
 }
 
-export interface NewsProps{
-    id: number;
-    title: string;
-    publisher: string;
-    date: string;
-    img: string;
-    url: string;
+export interface SearchBarProps {
+  onSelect: (selected: string) => void;
+}
+
+export interface NewsProps {
+  id: number;
+  title: string;
+  publisher: string;
+  date: string;
+  img: string;
+  url: string;
+}
+
+export interface ValueProps {
+  isNegative: boolean;
 }
