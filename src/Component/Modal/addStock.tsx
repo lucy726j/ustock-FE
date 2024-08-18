@@ -8,7 +8,7 @@ interface AddOrEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  action: "add" | "edit";
+  action: "add" | "edit" | undefined;
   selectedStock: { name: string; code: string; logo: string } | null;
 }
 
