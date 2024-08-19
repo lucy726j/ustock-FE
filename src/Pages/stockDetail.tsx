@@ -8,13 +8,52 @@ import { ViewSelectProps } from "../constants/interface";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 `;
 
-const StockName = styled.div``;
-const StockCode = styled.span``;
-const StockPrice = styled.div``;
-const StockChange = styled.span``;
+const InfoContainer = styled.div`
+  margin: 10px 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const StockName = styled.div`
+  font-size: 35px;
+  font-weight: 900;
+`;
+
+const CodeContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 2px;
+  margin-top: 5px;
+`;
+
+const StockCode = styled.span`
+  color: #6c757d;
+  font-size: 15px;
+`;
+
+const PriceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 5px;
+  margin-top: auto;
+`;
+
+const StockPrice = styled.div`
+  font-size: 25px;
+`;
+
+const ChangeContainer = styled.div`
+  display: flex;
+`;
+const StockChange = styled.span`
+  font-size: 20px;
+  color: ${Colors.main};
+`;
 
 const ViewSelectContainer = styled.div`
   display: flex;
@@ -51,18 +90,22 @@ const StockDetail: React.FC = () => {
 
   return (
     <Container>
-      <div>
-        <div>삼성 전자</div>
+      <InfoContainer>
         <div>
-          <span>005930</span>
-          <span>첨단 기술</span>
+          <StockName>삼성 전자</StockName>
+          <CodeContainer>
+            <StockCode>005930</StockCode>
+            <StockCode>첨단 기술</StockCode>
+          </CodeContainer>
         </div>
-        <div>
-          <div>80,000원</div>
-          <span>3,000원</span>
-          <span>2.4%</span>
-        </div>
-      </div>
+        <PriceContainer>
+          <StockPrice>80,000원</StockPrice>
+          <ChangeContainer>
+            <StockChange>3,000원</StockChange>
+            <StockChange>2.4%</StockChange>
+          </ChangeContainer>
+        </PriceContainer>
+      </InfoContainer>
       <ViewSelectContainer>
         {["일", "주", "월", "1년"].map((view) => (
           <ViewSelectBox
@@ -74,9 +117,12 @@ const StockDetail: React.FC = () => {
           </ViewSelectBox>
         ))}
       </ViewSelectContainer>
-
-      <Chart />
-      <Calculator />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Chart />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Calculator />
+      </div>
     </Container>
   );
 };
