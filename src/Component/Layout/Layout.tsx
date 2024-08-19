@@ -5,6 +5,7 @@ import NavBar from "./NavBar/NavBar";
 const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
+  const isBackHeader = location.pathname === "/stocks/${:id}";
 
   return (
     <div>
