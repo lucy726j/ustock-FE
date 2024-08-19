@@ -3,6 +3,7 @@ import portfolioImg from "../../img/portfolioImg.png";
 import styled from "styled-components";
 import Button from "../Button/button";
 import AddPortfolioModal from "../Modal/AddPortfolio";
+import axios from "axios";
 
 const Box = styled.div`
   display: flex;
@@ -45,6 +46,8 @@ const PfCreateDescription = styled.p`
 
 const PfCreate: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [portfolioName, setPortfolioName] = useState("");
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -54,7 +57,16 @@ const PfCreate: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    closeModal();
+    axios
+      .post("/v1/portfolio", { name: portfolioName })
+      .then((response) => {
+        console.log(response);
+        closeModal();
+        alert("포트폴리오가 생성되었습니다!");
+      })
+      .catch((error) => {
+        alert("포트폴리오를 다시 생성해주세요 ㅠㅠ");
+      });
   };
 
   return (
@@ -81,6 +93,8 @@ const PfCreate: React.FC = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         onConfirm={handleConfirm}
+        portfolioName={portfolioName}
+        setPortfolioName={setPortfolioName}
       />
     </Box>
   );

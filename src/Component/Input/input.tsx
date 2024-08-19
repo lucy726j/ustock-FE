@@ -22,8 +22,7 @@ const IconWrapper = styled.span`
 
 const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`
   border-radius: 5px;
-  padding: ${(props) =>
-    props.hasIcon ? "0.5rem 1rem 0.5rem 2.5rem" : "0.5rem 2.5rem"};
+  padding: ${(props) => (props.hasIcon ? "0.5rem 1rem 0.5rem 2.5rem" : "1rem")};
   font-size: 12px;
   font-family: "SCDream4";
   color: black;
