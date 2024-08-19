@@ -20,10 +20,11 @@ const DropdownBoxContainer = styled.div`
   border: 1px solid ${Colors.main};
   border-radius: 5px;
   margin-right: auto;
+  padding: 5px;
 `;
 
 const SelectBox = styled.div`
-  width: 66px;
+  width: 61px;
   height: 20px;
   font-size: 10px;
   color: black;
@@ -33,13 +34,11 @@ const SelectBox = styled.div`
 `;
 
 const DropdownBox = styled.div`
-  width: 80px;
-  height: 20px;
+  width: 75px;
   font-size: 10px;
   color: black;
   text-align: start;
-  align-content: center;
-  padding-left: 5px;
+  padding: 8px;
 
   &:hover {
     color: ${Colors.main};
@@ -59,37 +58,40 @@ const DropdownListBox = styled.div`
   justify-content: center;
   border: 1px solid ${Colors.main};
   border-radius: 5px;
-  margin-right: auto;
-  padding: 5px 0px;
   background-color: white;
   position: absolute;
-  top: 25px;
+  top: 35px;
   z-index: 1;
+  padding: 5px;
+  max-height: 100px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const Dropdown = () => {
+const Dropdown = ({ dropList }: any) => {
   const [isOpen, setIsOpen] = useState(false);
-  const category = ["시가총액순", "거래량", "등락율"];
-  const [filter, setFilter] = useState(category[0]);
+  const [value, setValue] = useState(dropList[0]);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
   const handleSelect = (event: any) => {
-    setFilter(event.target.innerText);
+    setValue(event.target.innerText);
     setIsOpen(!isOpen);
   };
 
   return (
     <DropdownContainer>
       <DropdownBoxContainer onClick={handleClick}>
-        <SelectBox>{filter}</SelectBox>
+        <SelectBox>{value}</SelectBox>
         <BntImg src={!isOpen ? open : close}></BntImg>
       </DropdownBoxContainer>
       {isOpen && (
         <DropdownListBox>
-          {category.map((el) => (
+          {dropList.map((el: any) => (
             <DropdownBox key={el} onClick={handleSelect}>
               {el}
             </DropdownBox>
