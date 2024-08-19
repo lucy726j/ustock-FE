@@ -36,6 +36,7 @@ export interface ModalProps {
   showOneConfirmBtn?: boolean;
   children?: React.ReactNode;
   text?: string;
+  icon?: string;
 }
 
 export interface StockItemProps {
@@ -77,4 +78,8 @@ export interface NewsProps {
 
 export interface ValueProps {
   isNegative: boolean;
+}
+
+export interface ViewSelectProps {
+  isSelected: boolean;
 }

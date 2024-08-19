@@ -1,5 +1,13 @@
+import GameLoding from "../img/GameLoadingPage.png";
+
 const SkrrrGame = () => {
-  return <>스껄 게임 준비중</>;
+  return (
+    <div
+      style={{ display: "flex", justifyContent: "center", paddingTop: "200px" }}
+    >
+      <img src={GameLoding} />
+    </div>
+  );
 };
 
 export default SkrrrGame;

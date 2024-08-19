@@ -27,6 +27,7 @@ const FilterContainer = styled.div`
 `;
 
 const SearchStock = () => {
+  const category = ["시가총액순", "거래량", "등락율"];
   const [selectedStockCode, setSelectedStockCode] = useState<string | null>(
     null
   );
@@ -43,7 +44,7 @@ const SearchStock = () => {
       </SearchContainer>
       <FilterContainer>
         <div>종목 리스트</div>
-        <Dropdown />
+        <Dropdown dropList={category} />
       </FilterContainer>
       <div>
         <StockList />

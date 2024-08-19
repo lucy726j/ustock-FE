@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate import 추가
 import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
@@ -21,9 +22,9 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
+    const navigate = useNavigate(); // useNavigate hook 사용
 
-    const { selectedIndex, scrollSnaps, onDotButtonClick } =
-        useDotButton(emblaApi);
+    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
     const {
         prevBtnDisabled,
@@ -120,12 +121,21 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
         };
     }, [emblaApi, tweenScale, setTweenNodes, setTweenFactor]);
 
+    const handleSlideClick = (id: number) => {
+        navigate(`/portfolio/${id}`); // ID를 사용하여 라우팅
+    };
+
     return (
         <div className="embla">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
                     {data.map((item) => (
-                        <div className="embla__slide" key={item.id}>
+                        <div 
+                            className="embla__slide" 
+                            key={item.id} 
+                            onClick={() => handleSlideClick(item.id)} // 클릭 이벤트 추가
+                            style={{ cursor: 'pointer' }} // 커서 스타일 추가
+                        >
                             <div className="embla__slide__number">
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
@@ -133,7 +143,7 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
                                     <p style={{ color: item.growth > 0 ? 'green' : '#D84343' }}>
                                         {item.growth}%
                                     </p>
-                                    <img src={myPortfolioImg} alt="Portfolio" /> {/* alt 속성 추가 */}
+                                    <img src={myPortfolioImg} alt="Portfolio" />
                                 </div>
                             </div>
                         </div>

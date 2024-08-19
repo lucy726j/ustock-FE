@@ -7,35 +7,25 @@ import StockSearch from "../Modal/stockSearch";
 import { StockItemProps } from "../../constants/interface";
 import AddOrEditModal from "../Modal/addStock";
 import "./pfStyle.css";
+import AddPortfolioModal from "../Modal/AddPortfolio";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // const [isFormOpen, setIsFormOpen] = useState(false);
-  // const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-  //   null
-  // );
-  // const [modalAction, setModalAction] = useState<"add" | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [portfolioName, setPortfolioName] = useState("");
 
-  // 주식 종목 검색 창 모달이 뜬 후 종목 추가로 넘어가는 부분
-  // const handleSelectStock = (stock: StockItemProps) => {
-  //   setSelectedStock(stock);
-  //   setIsSearchOpen(false);
-  //   setIsFormOpen(true);
-  //   setModalAction("add");
-  // };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-  // // + 버튼이 눌러졌을 때 호출
-  // const handleAddStock = () => {
-  //   setSelectedStock(null); // Clear any previously selected stock
-  //   setIsSearchOpen(true);
-  // };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-  // // 현재 열려있는 모달을 닫음
-  // const handleConfirm = () => {
-  //   setIsFormOpen(false);
-  // };
+  const handleConfirm = () => {
+    closeModal();
+  };
 
   return (
     <div className="Portfolio">
@@ -55,30 +45,20 @@ const Portfolio = () => {
         <div className="my-portfolio">
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className="title">내 포트폴리오</div>
-            <button className="circle-button">
+            <button className="circle-button" onClick={openModal}>
               <span className="plus-icon">+</span>
             </button>
           </div>
           <EmblaCarousel data={data} options={OPTIONS} />
         </div>
       </div>
-      {/* {isSearchOpen && (
-        <StockSearch
-          isOpen={isSearchOpen}
-          onClose={() => setIsSearchOpen(false)}
-          onSelect={handleSelectStock}
-          data={data}
-        />
-      )}
-      {isFormOpen && selectedStock && (
-        <AddOrEditModal
-          isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
-          onConfirm={handleConfirm}
-          action={modalAction === "add" ? "add" : undefined}
-          selectedStock={selectedStock}
-        />
-      )} */}
+      <AddPortfolioModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        onConfirm={handleConfirm}
+        portfolioName={portfolioName}
+        setPortfolioName={setPortfolioName}
+      />
     </div>
   );
 };
