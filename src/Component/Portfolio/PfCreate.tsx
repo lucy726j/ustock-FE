@@ -12,7 +12,7 @@ const Box = styled.div`
 // 스타일드 컴포넌트 정의
 const PfCreateContainer = styled.div`
   text-align: center;
-  margin: 20px;
+  margin-top: 25vh;
   width: 330px;
   height: 320px;
   border-radius: 20px;
