@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from "../Button/button";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
+import swal from "sweetalert";
 
 const Box = styled.div`
   display: flex;
@@ -62,10 +63,18 @@ const PfCreate: React.FC = () => {
       .then((response) => {
         console.log(response);
         closeModal();
-        alert("포트폴리오가 생성되었습니다!");
+        swal({
+          title: "포트폴리오를 생성했습니다.",
+          icon: "success",
+        });
       })
       .catch((error) => {
-        alert("포트폴리오를 다시 생성해주세요 ㅠㅠ");
+        swal({
+          title: "포트폴리오 생성에 실패하셨습니다.",
+          text: "다시 시도해주세요!",
+          icon: "error",
+        });
+        console.log(error);
       });
   };
 

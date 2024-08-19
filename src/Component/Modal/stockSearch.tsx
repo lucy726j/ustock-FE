@@ -57,13 +57,13 @@ const StockSearch: React.FC<StockSearchProps> = ({
         showCancelButton={false}
       >
         <div>
-          <SearchImg src={Search} />
           <Input
             placeholder="검색어 입력"
             size="large"
             colorType="fillType"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
+            icon={<SearchImg src={Search} />}
           />
           <Ul>
             {searchResults.length > 0 ? (
