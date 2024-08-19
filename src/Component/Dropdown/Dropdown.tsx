@@ -26,7 +26,7 @@ const SelectBox = styled.div`
   width: 66px;
   height: 20px;
   font-size: 10px;
-  color: black
+  color: black;
   text-align: start;
   align-content: center;
   padding: 5px 0px 5px 5px;
@@ -36,15 +36,14 @@ const DropdownBox = styled.div`
   width: 80px;
   height: 20px;
   font-size: 10px;
-  color: black
+  color: black;
   text-align: start;
   align-content: center;
   padding-left: 5px;
 
   &:hover {
     color: ${Colors.main};
-    background-color : #F5F4FB;
-    
+    background-color: #f5f4fb;
   }
 `;
 
