@@ -29,6 +29,7 @@ const StockSearch: React.FC<StockSearchProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<StockItemProps[]>(data);
+  const [hoveredStock, setHoveredStock] = useState<string | null>(null); // 현재 호버 중인 종목을 추적하는 상태
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -39,7 +40,11 @@ const StockSearch: React.FC<StockSearchProps> = ({
   };
 
   const handleSelect = (stock: StockItemProps) => {
-    onSelect(stock);
+    if (hoveredStock === stock.code) {
+      onSelect(stock);
+    } else {
+      setHoveredStock(stock.code);
+    }
   };
 
   return (
@@ -63,7 +68,17 @@ const StockSearch: React.FC<StockSearchProps> = ({
           <Ul>
             {searchResults.length > 0 ? (
               searchResults.map((stock) => (
-                <Li key={stock.code} onClick={() => handleSelect(stock)}>
+                <Li
+                  key={stock.code}
+                  onClick={() => handleSelect(stock)}
+                  onMouseEnter={() => setHoveredStock(stock.code)} // 마우스가 들어올 때 상태 설정
+                  onMouseLeave={() => setHoveredStock(null)} // 마우스가 나갈 때 상태 초기화
+                  style={{
+                    backgroundColor:
+                      hoveredStock === stock.code ? "#E6E5FF" : "transparent", // 호버된 종목에 배경색 적용
+                    cursor: "pointer",
+                  }}
+                >
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <img
                       src={stock.logo}

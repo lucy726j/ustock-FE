@@ -1,0 +1,25 @@
+.AddPortfolio{
+    width: 400px;
+    height: 350px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 25px 27px;
+}
+
+.AddPortfolio h1{
+    font-size: 20px;
+    color: #615EFC;
+    margin: 30px 0;
+}
+
+.AddPortfolio p{
+    font-size: 14px;
+    margin-bottom: 23px;
+}
+
+.button-section{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 41px;
+}

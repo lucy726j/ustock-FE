@@ -24,7 +24,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
     null
   );
   const [modalAction, setModalAction] = useState<
-    "add" | "edit" | "delete" | "plus" | null
+    "edit" | "delete" | "plus" | null
   >(null);
 
   // 확인버튼 눌렀을때 어떻게 될 건지 넣어야함
@@ -35,32 +35,28 @@ const MyStockItem: React.FC<StockItemProps> = ({
   };
 
   // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
-  const openModal = (action: "add" | "edit" | "delete" | "plus") => {
-    if (action === "add") {
-      setIsSearchOpen(true);
+  const openModal = (action: "edit" | "delete" | "plus") => {
+    setModalAction(action);
+    setSelectedStock({
+      id,
+      name,
+      logo,
+      code,
+      price,
+      growth,
+    });
+    if (action === "delete") {
+      setIsDeleteOpen(true);
+    } else if (action === "plus") {
+      setIsPlusOpen(true);
     } else {
-      setModalAction(action);
-      if (action === "delete") {
-        setIsDeleteOpen(true);
-      } else if (action === "plus") {
-        setIsPlusOpen(true); // Open the plus modal
-      } else {
-        setIsFormOpen(true);
-      }
+      setIsFormOpen(true);
     }
-  };
-
-  const handleSelectStock = (stock: StockItemProps) => {
-    setSelectedStock(stock);
-    setIsSearchOpen(false);
-    setModalAction("add");
-    setIsFormOpen(true);
   };
 
   return (
     <div className="MyStockItem">
       <div className="button-section">
-        <button onClick={() => openModal("add")}>종목 추가</button>
         <button onClick={() => openModal("plus")}>추가매수</button>
         <button onClick={() => openModal("edit")}>수정</button>
         <button onClick={() => openModal("delete")}>삭제</button>
@@ -83,21 +79,12 @@ const MyStockItem: React.FC<StockItemProps> = ({
           <p>{formatPrice(id * price)}</p>
         </div>
       </div>
-
-      {isSearchOpen && (
-        <StockSearch
-          isOpen={isSearchOpen}
-          onClose={() => setIsSearchOpen(false)}
-          onSelect={handleSelectStock}
-          data={data}
-        />
-      )}
       {isFormOpen && selectedStock && (
         <AddOrEditModal
           isOpen={isFormOpen}
           onClose={() => setIsFormOpen(false)}
           onConfirm={handleConfirm}
-          action={modalAction === "add" ? "add" : "edit"}
+          action={modalAction === "edit" ? "edit" : undefined}
           selectedStock={selectedStock}
         />
       )}

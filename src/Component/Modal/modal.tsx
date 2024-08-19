@@ -16,6 +16,7 @@ const ModalOpen: React.FC<ModalProps> = ({
   showOneConfirmBtn = false,
   text,
   children,
+  icon,
 }) => {
   return (
     <ReactModal
@@ -27,8 +28,23 @@ const ModalOpen: React.FC<ModalProps> = ({
       style={ModalStyles}
     >
       <ModalHeader>
-        {title && <h2>{title}</h2>}
-        <ButtonStyle onClick={onRequestClose}>×</ButtonStyle>
+        {icon ? (
+          <div>
+            <img src={icon} />
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "10px",
+              justifyContent: "space-between",
+            }}
+          >
+            {title && <h2>{title}</h2>}
+            <ButtonStyle onClick={onRequestClose}>×</ButtonStyle>
+          </div>
+        )}
       </ModalHeader>
       <ModalBody>{children}</ModalBody>
       {showOneConfirmBtn ? (

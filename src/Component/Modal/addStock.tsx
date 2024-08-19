@@ -1,14 +1,13 @@
 import React from "react";
-import ModalOpen from "./modal"; // Your custom modal component
+import ModalOpen from "./modal";
 import { Input } from "../Input/input";
-import { StockItemProps } from "../../constants/interface";
 import * as M from "../List/modalStyle";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  action: "add" | "edit";
+  action: "add" | "edit" | undefined;
   selectedStock: { name: string; code: string; logo: string } | null;
 }
 
