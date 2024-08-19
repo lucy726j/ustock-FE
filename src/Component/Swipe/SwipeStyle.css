@@ -3,7 +3,7 @@
   border-top-right-radius: 20px;
   padding: 20px;
   position: absolute;
-  bottom: -750px;
+  bottom: -90vh;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;

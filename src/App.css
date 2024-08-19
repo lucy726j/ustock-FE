@@ -46,7 +46,8 @@
 }
 
 .content {
-    width: 500px;
-    height: 100vh;
-    background-color: #fff;
+  width: 500px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 0px 4px 7px -2px #ada9bb;
 }
