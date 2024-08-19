@@ -15,21 +15,24 @@ const CallBackPage = () => {
     const data = { code };
     console.log("dd", data);
     try {
-      const res = await axios.post(
-        `http://localhost/8080/member/oauth2/google`,
-        data
-      );
-      if (res.status === 200) {
-        const accessToken = res.data.data.accessToken;
-        console.log("token : ", accessToken);
-        localStorage.setItem("token", accessToken);
-        handleHome();
-      } else {
-        throw new Error("로그인 실패");
-      }
+      const res = await axios
+        .post(
+          `http://localhost:8080/`, // 나중에 url수정해야함
+          { withCredentials: true }
+        )
+        .then((res) => {
+          alert(JSON.stringify(res.data));
+        })
+        .then(() => {
+          handleHome();
+        })
+        .catch((error) => {
+          alert("로그인에 실패했습니다!");
+          console.log("error : ", error);
+        });
     } catch (error) {
-      console.log("error : ", error);
-      window.alert("TLqkf");
+      console.log("error: ", error);
+      alert("로그인 실패");
     } finally {
       setLoading(false);
     }

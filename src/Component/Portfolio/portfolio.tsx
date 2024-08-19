@@ -1,7 +1,7 @@
 import EmblaCarousel from "../Carousel/EmblaCarousel";
 import { data } from "../../data/data";
 import { EmblaOptionsType } from "embla-carousel";
-import HyperText from "../Animation/HyperText";
+import HyperText from "../Button/Animation/HyperText";
 import { useState } from "react";
 import StockSearch from "../Modal/stockSearch";
 import { StockItemProps } from "../../constants/interface";
@@ -13,6 +13,8 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [portfolioName, setPortfolioName] = useState("");
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -54,6 +56,8 @@ const Portfolio = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         onConfirm={handleConfirm}
+        portfolioName={portfolioName}
+        setPortfolioName={setPortfolioName}
       />
     </div>
   );
