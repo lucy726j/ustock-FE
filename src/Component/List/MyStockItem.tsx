@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StockItemProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
-import StockSearch from "../Modal/stockSearch";
 import AddOrEditModal from "../Modal/addStock";
 import StockPlusModal from "../Modal/plusStock";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
-import { data } from "../../data/data";
+import axios from "axios";
+import swal from "sweetalert";
 
 const MyStockItem: React.FC<StockItemProps> = ({
-  id,
+  id: pfId,
   name,
   logo,
   code,
   price,
   growth,
 }) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -26,19 +25,81 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
+  const [confirmAction, setConfirmAction] = useState<boolean>(false);
 
-  // 확인버튼 눌렀을때 어떻게 될 건지 넣어야함
+  useEffect(() => {
+    if (confirmAction) {
+      if (modalAction === "plus") {
+        axios
+          .patch(`/v1/portfolio/${pfId}/${code}`)
+          .then((res) => {
+            console.log(res);
+            swal({
+              title: "추가 등록완료!",
+              icon: "success",
+            });
+            setIsPlusOpen(false);
+          })
+          .catch((error) => {
+            swal({
+              title: "등록에 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            });
+            console.log(error);
+          });
+      } else if (modalAction === "edit") {
+        axios
+          .put(`/v1/portfolio/${pfId}/${code}`)
+          .then((res) => {
+            console.log(res);
+            swal({
+              title: "수정 완료!",
+              icon: "success",
+            });
+            setIsFormOpen(false);
+          })
+          .catch((error) => {
+            swal({
+              title: "수정 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            });
+            console.log(error);
+          });
+      } else {
+        axios
+          .delete(`/v1/portfolio/${pfId}/${code}`)
+          .then((res) => {
+            console.log(res);
+            swal({
+              title: "삭제 완료!",
+              icon: "success",
+            });
+            setIsDeleteOpen(false);
+          })
+          .catch((error) => {
+            swal({
+              title: "삭제에 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            });
+            console.log(error);
+          });
+      }
+      setConfirmAction(false);
+    }
+  }, [confirmAction, modalAction, pfId, code]);
+
   const handleConfirm = () => {
-    setIsFormOpen(false);
-    setIsPlusOpen(false);
-    setIsDeleteOpen(false);
+    setConfirmAction(true);
   };
 
   // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
-      id,
+      id: pfId,
       name,
       logo,
       code,
@@ -74,9 +135,9 @@ const MyStockItem: React.FC<StockItemProps> = ({
           {growth}%
         </div>
         <div className="price-section">
-          <p>수량 {id}</p>
+          <p>수량 {pfId}</p>
           <div>{formatPrice(price)}원</div>
-          <p>{formatPrice(id * price)}</p>
+          <p>{formatPrice(pfId * price)}</p>
         </div>
       </div>
       {isFormOpen && selectedStock && (
@@ -100,8 +161,9 @@ const MyStockItem: React.FC<StockItemProps> = ({
       {isDeleteOpen && (
         <DeleteConfirmationModal
           isOpen={isDeleteOpen}
-          onClose={() => setIsDeleteOpen}
           onConfirm={handleConfirm}
+          onRequestClose={() => setIsDeleteOpen(false)}
+          showCancelButton={true}
         />
       )}
     </div>
