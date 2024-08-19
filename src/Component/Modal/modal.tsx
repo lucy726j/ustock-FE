@@ -33,7 +33,14 @@ const ModalOpen: React.FC<ModalProps> = ({
             <img src={icon} />
           </div>
         ) : (
-          <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "10px",
+              justifyContent: "space-between",
+            }}
+          >
             {title && <h2>{title}</h2>}
             <ButtonStyle onClick={onRequestClose}>×</ButtonStyle>
           </div>
