@@ -23,12 +23,16 @@ interface NewPortfolioModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onConfirm: () => void;
+  portfolioName: string;
+  setPortfolioName: (name: string) => void;
 }
 
 const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
   isOpen,
   onRequestClose,
   onConfirm,
+  portfolioName,
+  setPortfolioName,
 }) => {
   return (
     <ModalOpen
@@ -53,6 +57,8 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
         placeholder="포트폴리오 이름을 입력해주세요"
         size="medium"
         colorType="strokeType"
+        value={portfolioName}
+        onChange={(e) => setPortfolioName(e.target.value)}
       />
     </ModalOpen>
   );

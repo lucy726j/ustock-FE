@@ -3,14 +3,16 @@ import ModalOpen from "./modal"; // Your custom modal component
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
-  onClose: () => void;
   onConfirm: () => void;
+  onRequestClose: () => void;
+  showCancelButton: boolean;
 }
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   isOpen,
-  onClose,
   onConfirm,
+  onRequestClose,
+  showCancelButton = true,
 }) => {
   const showConfirmButton = "delete" ? "true" : "";
   // const showCancelButton = "delete" ? "true" : "";
@@ -18,12 +20,12 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     <ModalOpen
       title="종목 삭제"
       isOpen={isOpen}
-      onRequestClose={onClose}
       showOneConfirmBtn={false}
       text="삭제"
       onConfirm={onConfirm}
+      onRequestClose={onRequestClose}
       showConfirmButton={showConfirmButton}
-      showCancelButton={true}
+      showCancelButton={showCancelButton}
       confirmLabel="삭제"
       cancelLabel="취소"
     >
