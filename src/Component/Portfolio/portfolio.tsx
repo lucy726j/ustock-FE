@@ -13,6 +13,8 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [portfolioName, setPortfolioName] = useState("");
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -54,6 +56,8 @@ const Portfolio = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         onConfirm={handleConfirm}
+        portfolioName={portfolioName}
+        setPortfolioName={setPortfolioName}
       />
     </div>
   );
