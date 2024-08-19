@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import testImg from "../../../img/person.png";
 import { useState } from "react";
+import { useAuth } from "../../../contexts/authContext";
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -31,19 +32,26 @@ const LogoutBox = styled.div`
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
+
+  const hadleLogout = () => {
+    setIsOpen(false);
+    logout();
+  };
+
   const handleClickProfile = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-      <ProfileContainer>
-        <ImgStyle
-          src={testImg}
-          alt="프로필 이미지"
-          onClick={handleClickProfile}
-        />
-        {isOpen && <LogoutBox>로그아웃</LogoutBox>}
-      </ProfileContainer>
+    <ProfileContainer>
+      <ImgStyle
+        src={testImg}
+        alt="프로필 이미지"
+        onClick={handleClickProfile}
+      />
+      {isOpen && <LogoutBox onClick={hadleLogout}>로그아웃</LogoutBox>}
+    </ProfileContainer>
   );
 };
 
