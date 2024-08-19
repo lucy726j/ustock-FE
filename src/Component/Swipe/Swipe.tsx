@@ -44,12 +44,12 @@ const Swipe: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100%", position: "relative" }}>
+      <div style={{ width: "100%", position: "absolute", bottom: '70px'}}>
       <div
         className="swipeableContainer"
         style={{
           height,
-          overflowY: height === MIN_HEIGHT ? "hidden" : "auto", // 조건에 따른 overflow 설정
+          overflowY: height === MIN_HEIGHT ? "hidden" : "auto",
         }}
       >
         <div className="swipeHandle">

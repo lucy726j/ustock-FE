@@ -8,9 +8,9 @@ const Layout = (props: { children: React.ReactNode }) => {
 
   return (
     <div>
-      {!isLoginPage && <Header />}
-      <main>{props.children}</main>
-      {!isLoginPage && <NavBar />}
+      <Header />
+      <main style={{height: "100%"}}>{props.children}</main>
+      <NavBar />
     </div>
   );
 };
