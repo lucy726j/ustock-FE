@@ -24,3 +24,4 @@ export default Button;
 
 // 버튼 사용 예시 
 {/* <Button state="normal" colorType="main" size="small">버튼</Button> */}
+

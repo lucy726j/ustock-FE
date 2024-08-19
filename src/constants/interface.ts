@@ -79,3 +79,7 @@ export interface NewsProps {
 export interface ValueProps {
   isNegative: boolean;
 }
+
+export interface ViewSelectProps {
+  isSelected: boolean;
+}
