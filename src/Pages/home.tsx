@@ -26,10 +26,12 @@ const marketData = [
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 25px;
 `;
 
 const MarketContainer = styled.div`
-  width: 100%;
+  width: 95%;
   height: 80px;
   box-shadow: 0px 4px 7px -2px #ada9bb;
   border-radius: 10px;
@@ -70,8 +72,10 @@ const ListContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
-  margin-bottom: 5px;
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const StockWrapper = styled.div`
