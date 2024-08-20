@@ -6,7 +6,7 @@ const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
 
   return (
-    <div>
+    <div className="Layout">
       <Header />
       <main style={{ height: "100%" }}>{props.children}</main>
       <NavBar />

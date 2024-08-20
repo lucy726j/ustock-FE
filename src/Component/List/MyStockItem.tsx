@@ -25,74 +25,68 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
-  const [confirmAction, setConfirmAction] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (confirmAction) {
-      if (modalAction === "plus") {
-        axios
-          .patch(`/v1/portfolio/${pfId}/${code}`)
-          .then((res) => {
-            console.log(res);
-            swal({
-              title: "추가 등록완료!",
-              icon: "success",
-            });
-            setIsPlusOpen(false);
-          })
-          .catch((error) => {
-            swal({
-              title: "등록에 실패하셨습니다.",
-              text: "다시 시도해주세요!",
-              icon: "error",
-            });
-            console.log(error);
+  const handleConfirm = (quantity: number, price: number) => {
+    if (modalAction === "plus") {
+      axios
+        .patch(`/v1/portfolio/${pfId}/${code}`, { quantity, price })
+        .then((res) => {
+          console.log(res);
+          swal({
+            title: "추가 등록완료!",
+            icon: "success",
           });
-      } else if (modalAction === "edit") {
-        axios
-          .put(`/v1/portfolio/${pfId}/${code}`)
-          .then((res) => {
-            console.log(res);
-            swal({
-              title: "수정 완료!",
-              icon: "success",
-            });
-            setIsFormOpen(false);
-          })
-          .catch((error) => {
-            swal({
-              title: "수정 실패하셨습니다.",
-              text: "다시 시도해주세요!",
-              icon: "error",
-            });
-            console.log(error);
+          setIsPlusOpen(false);
+        })
+        .catch((error) => {
+          swal({
+            title: "등록에 실패하셨습니다.",
+            text: "다시 시도해주세요!",
+            icon: "error",
           });
-      } else {
-        axios
-          .delete(`/v1/portfolio/${pfId}/${code}`)
-          .then((res) => {
-            console.log(res);
-            swal({
-              title: "삭제 완료!",
-              icon: "success",
-            });
-            setIsDeleteOpen(false);
-          })
-          .catch((error) => {
-            swal({
-              title: "삭제에 실패하셨습니다.",
-              text: "다시 시도해주세요!",
-              icon: "error",
-            });
-            console.log(error);
+          console.log(error);
+        });
+    } else if (modalAction === "edit") {
+      axios
+        .put(`/v1/portfolio/${pfId}/${code}`, { quantity, price })
+        .then((res) => {
+          console.log(res);
+          swal({
+            title: "수정 완료!",
+            icon: "success",
           });
-      }
-      setConfirmAction(false);
+          setIsFormOpen(false);
+        })
+        .catch((error) => {
+          swal({
+            title: "수정 실패하셨습니다.",
+            text: "다시 시도해주세요!",
+            icon: "error",
+          });
+          console.log(error);
+        });
     }
-  }, [confirmAction, modalAction, pfId, code]);
+  };
 
-  const handleConfirm = () => {
-    setConfirmAction(true);
+  const deleteHandle = () => {
+    axios
+      .delete(`/v1/portfolio/${pfId}/${code}`)
+      .then((res) => {
+        console.log(res);
+        swal({
+          title: "삭제 완료!",
+          icon: "success",
+        });
+        setIsDeleteOpen(false);
+      })
+      .catch((error) => {
+        swal({
+          title: "삭제에 실패하셨습니다.",
+          text: "다시 시도해주세요!",
+          icon: "error",
+        });
+        console.log(error);
+      });
   };
 
   // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
@@ -161,7 +155,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
       {isDeleteOpen && (
         <DeleteConfirmationModal
           isOpen={isDeleteOpen}
-          onConfirm={handleConfirm}
+          onConfirm={deleteHandle}
           onRequestClose={() => setIsDeleteOpen(false)}
           showCancelButton={true}
         />

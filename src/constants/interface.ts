@@ -22,6 +22,8 @@ export interface inputProps extends InputStyleProps {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   name?: string;
   icon?: React.ReactNode;
+  isValid: boolean;
+  errorMessage: string;
 }
 
 export interface ModalProps {
