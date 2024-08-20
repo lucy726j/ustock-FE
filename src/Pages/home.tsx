@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "../Component/Chart/chart";
 import { Input } from "../Component/Input/input";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import { ValueProps } from "../constants/interface";
+import { StockItemProps, ValueProps } from "../constants/interface";
 import GoogleLogin from "../Component/GoogleLogin/login";
 import MyStockItem from "../Component/List/MyStockItem";
+import axios from "axios";
 
 const marketData = [
   {
@@ -93,6 +94,33 @@ const NewsContainer = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const [list, setList] = useState([]);
+
+  // 오늘의 증시 데이터
+  useEffect(() => {
+    axios
+      .post(`/v1/stocks/market`)
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  // 인기 종목 리스트 데이터
+  useEffect(() => {
+    axios
+      .post(`/v1/stocks?order=volume5`)
+      .then((res) => {
+        // console.log(res);
+        setList(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <Container>
       <MarketContainer>
@@ -120,7 +148,7 @@ const Home: React.FC = () => {
       <ListContainer>
         <Title>오늘의 인기 종목</Title>
         <StockWrapper>
-          <StockList />
+          <StockList data={list} />
         </StockWrapper>
       </ListContainer>
       <NewsContainer>
