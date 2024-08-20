@@ -30,6 +30,7 @@ const StockSearch: React.FC<StockSearchProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<StockItemProps[]>(data);
   const [hoveredStock, setHoveredStock] = useState<string | null>(null); // 현재 호버 중인 종목을 추적하는 상태
+  const [isValid, setIsValid] = useState(true);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -64,6 +65,8 @@ const StockSearch: React.FC<StockSearchProps> = ({
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             icon={<SearchImg src={Search} />}
+            errorMessage="종목을 선택해주세요"
+            isValid={isValid}
           />
           <Ul>
             {searchResults.length > 0 ? (

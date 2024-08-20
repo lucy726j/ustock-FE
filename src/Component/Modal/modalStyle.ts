@@ -12,7 +12,7 @@ export const ModalStyles: ReactModal.Styles = {
   },
   content: {
     width: "400px",
-    height: "400px",
+    height: "450px",
     zIndex: "11",
     position: "fixed",
     top: "50%",

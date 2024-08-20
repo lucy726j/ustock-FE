@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../Input/input";
 import "./AddPortfolioStyle.css";
 import Icon from "../../img/Icon.png";
@@ -34,6 +34,24 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
   portfolioName,
   setPortfolioName,
 }) => {
+  const [isValid, setIsValid] = useState(true);
+
+  const handleConfirm = () => {
+    if (!portfolioName) {
+      setIsValid(false);
+      return;
+    }
+    setIsValid(true);
+    onConfirm();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPortfolioName(e.target.value);
+    if (e.target.value) {
+      setIsValid(true);
+    }
+  };
+
   return (
     <ModalOpen
       isOpen={isOpen}
@@ -41,7 +59,7 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
       showConfirmButton="확인"
       showCancelButton={true}
       icon={newPortfolio}
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
       confirmLabel="확인"
     >
       <div
@@ -58,7 +76,9 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
         size="medium"
         colorType="strokeType"
         value={portfolioName}
-        onChange={(e) => setPortfolioName(e.target.value)}
+        onChange={handleInputChange}
+        isValid={isValid}
+        errorMessage="포트폴리오 이름을 입력해주세요"
       />
     </ModalOpen>
   );
