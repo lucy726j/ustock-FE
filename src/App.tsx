@@ -12,34 +12,31 @@ function App() {
   const { user, login, logout } = useAuth();
   return (
        <div>
-         {user ? (
-           <>
-             <Header />
-             <Profile />
-             <GlobalStyle />
-             <Router />
-           </>
-         ) : (
-           <div className="app-container">
-             <div
-               style={{
-                 display: "flex",
-                 width: "500px",
-                 height: "100vh",
-                 backgroundColor: "#fff",
-                 alignContent: "center",
-                 alignItems: "center",
-                 justifyContent: "center",
-               }}
-             >
-               <GoogleLogin />
-             </div>
-           </div>
-         )}
-{/*     <>
-      <GlobalStyle />
-      <Router />
-    </> */}
+      {user ? (
+        <>
+          <Header />
+          <Profile />
+          <GlobalStyle />
+          <Router />
+        </>
+      ) : (
+        <div className="app-container">
+          <div
+            style={{
+              display: "flex",
+              width: "500px",
+              height: "100vh",
+              backgroundColor: "#fff",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <GoogleLogin />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
