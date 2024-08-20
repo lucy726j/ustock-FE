@@ -16,7 +16,7 @@ const CallBackPage = () => {
   const RedirectPage = async (code: string) => {
     try {
       const res = await axios.post(
-        `https://api.ustock.site/`,
+        "https://api.ustock.site/",
         { code },
         { withCredentials: true }
       );
