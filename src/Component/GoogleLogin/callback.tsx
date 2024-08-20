@@ -10,7 +10,6 @@ const CallBackPage = () => {
 
   const handleHome = () => {
     navigate("/");
-    window.location.reload();
   };
 
   const RedirectPage = async (code: string) => {
