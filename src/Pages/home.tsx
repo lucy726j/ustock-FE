@@ -101,7 +101,7 @@ const Home: React.FC = () => {
     axios
       .post(`/v1/stocks/market`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((e) => {
         console.log(e);
@@ -113,20 +113,8 @@ const Home: React.FC = () => {
     axios
       .post(`/v1/stocks?order=volume5`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setList(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-
-  // 나만의 뉴스 데이터
-  const NewsData = useEffect(() => {
-    axios
-      .post(`/v1/news/my`)
-      .then((res) => {
-        console.log(res);
       })
       .catch((e) => {
         console.log(e);

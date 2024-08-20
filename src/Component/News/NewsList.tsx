@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { newsData } from "../../data/data";
 import NewsItem from "./NewsItem";
 import { NewsProps } from "../../constants/interface";
 import "./NewsItemStyle.css";
+import { useEffect } from "react";
+import axios from "axios";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -14,6 +16,20 @@ const ListWrapper = styled.div`
 `;
 
 const NewsList: React.FC = () => {
+  // 나만의 뉴스 데이터
+  const [News, setNews] = useState([]);
+  const NewsData = useEffect(() => {
+    axios
+      .post(`https://api.ustock.site/v1/news/my`)
+      .then((res) => {
+        console.log(res);
+        setNews(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <div>
       <ListWrapper>
