@@ -12,16 +12,12 @@ function App() {
   const { user } = useAuth();
   return (
     <div>
-      {/* {user ? (
+      {user ? (
         <>
           <Header />
           <Profile />
           <GlobalStyle />
-          <div className="app-container">
-            <div className="content">
-              <Router />
-            </div>
-          </div>
+          <Router />
         </>
       ) : (
         <div className="app-container">
@@ -39,14 +35,12 @@ function App() {
             <GoogleLogin />
           </div>
         </div>
-      )} */}
-      <GlobalStyle />
-      <div className="app-container">
-        <div className="content">
-          <Router />
-        </div>
-      </div>
+      )}
     </div>
+    // <>
+    //   <GlobalStyle />
+    //   <Router />
+    // </>
   );
 }
 
