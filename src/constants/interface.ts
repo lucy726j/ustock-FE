@@ -66,7 +66,7 @@ export interface NavBoxProps {
 }
 
 export interface SearchBarProps {
-  onSelect: (selected: string) => void;
+  onSelect: (selected: number) => void;
 }
 
 export interface NewsProps {
@@ -84,6 +84,10 @@ export interface ValueProps {
 
 export interface ViewSelectProps {
   isSelected: boolean;
+}
+
+export interface StockListProps {
+  data: never[];
 }
 
 export interface StockDataProps {
