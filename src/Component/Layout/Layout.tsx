@@ -7,7 +7,7 @@ const Layout = (props: { children: React.ReactNode }) => {
   const isLoginPage = location.pathname === "/";
 
   return (
-    <div>
+    <div className="Layout">
       <Header />
       <main style={{height: "100%"}}>{props.children}</main>
       <NavBar />
