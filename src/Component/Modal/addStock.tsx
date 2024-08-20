@@ -6,7 +6,7 @@ import * as M from "../List/modalStyle";
 interface AddOrEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (quantity: number, price: number) => void;
   action: "add" | "edit" | undefined;
   selectedStock: { name: string; code: string; logo: string } | null;
 }
@@ -18,8 +18,8 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   action,
   selectedStock,
 }) => {
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
   const [isValid, setIsValid] = useState(true);
 
   const handleConfirm = () => {
@@ -27,12 +27,13 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
       setIsValid(false);
       return;
     }
-    onConfirm();
+    onConfirm(quantity, price);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(e.target.value);
-    setPrice(e.target.value);
+    const value = parseFloat(e.target.value);
+    setQuantity(isNaN(value) ? 0 : value);
+    setPrice(isNaN(value) ? 0 : value);
     setIsValid(true);
   };
 
@@ -62,7 +63,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
               colorType="fillType"
               errorMessage="수량을 입력해주세요"
               isValid={isValid || !!quantity}
-              value={quantity}
+              value={quantity.toString()}
               onChange={handleChange}
             />
           </div>
@@ -74,7 +75,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
               colorType="fillType"
               errorMessage="단가를 입력해주세요"
               isValid={isValid || !!price}
-              value={price}
+              value={price.toString()}
               onChange={handleChange}
             />
           </div>
