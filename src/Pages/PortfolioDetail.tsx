@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { data } from "../data/data"; // 데이터 임포트
 import Swipe from "../Component/Swipe/Swipe";
 import PfCard from "../Component/Portfolio/PfCard";
+import PieChart from "../Component/Chart/PieChart";
 
 const PortfolioDetail = () => {
   const { id } = useParams<{ id: string }>(); // id를 string 타입으로 명시적으로 선언
@@ -15,10 +16,13 @@ const PortfolioDetail = () => {
   }
 
   return (
-    <div style={{height: '100%', display: "flex", justifyContent: "center", justifySelf: "center"}}>
+    <div style={{height: '100%', display: "flex", justifyContent: "center", justifySelf: "center", flexDirection: "column"}}>
       <h2>{portfolioItem.id}</h2>
           <Swipe />
           <PfCard />
+          <div>
+            <PieChart />
+          </div>
       </div>
   );
 };
