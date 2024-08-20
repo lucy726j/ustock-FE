@@ -73,6 +73,7 @@ const Calculator = () => {
       </div>
       <div>
         <Label>금액</Label>
+
 {/*         <Input
           placeholder="금액"
           size="small"
