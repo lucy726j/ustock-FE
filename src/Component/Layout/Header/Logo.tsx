@@ -15,7 +15,7 @@ const Logo = () => {
   const nav = useNavigate();
 
   const handleClick = () => {
-    nav("/home");
+    nav("/");
   };
 
   return (
