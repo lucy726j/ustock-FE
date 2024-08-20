@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { data } from "../../data/data";
 import StockItem from "./StockItem";
-import { StockItemProps } from "../../constants/interface";
+import { StockItemProps, StockListProps } from "../../constants/interface";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const ListWrapper = styled.div`
 //     width: 100%;
 // `;
 
-const StockList: React.FC = () => {
+const StockList: React.FC<StockListProps> = ({ data }: any) => {
   return (
     <div>
       <ListWrapper>
