@@ -97,7 +97,7 @@ const Home: React.FC = () => {
   const [list, setList] = useState([]);
 
   // 오늘의 증시 데이터
-  const Data = useEffect(() => {
+  useEffect(() => {
     axios
       .post(`/v1/stocks/market`)
       .then((res) => {
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
   }, []);
 
   // 인기 종목 리스트 데이터
-  const ListData = useEffect(() => {
+  useEffect(() => {
     axios
       .post(`/v1/stocks?order=volume5`)
       .then((res) => {

@@ -7,6 +7,7 @@ import StockItem from "../List/StockItem";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { SearchBarProps } from "../../constants/interface";
 import * as S from "./SearchBarStyle";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
   const [list, setList] = useState<StockItemProps[]>([]);
@@ -25,9 +26,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
     setList(searchResult);
   };
 
+  const nav = useNavigate();
   const handleSelectStock = (event: StockItemProps) => {
-    onSelect(event.code);
-    console.log(event.code);
+    console.log(event.id);
+    nav(`/stocks/${event.id}`);
   };
 
   return (
@@ -47,8 +49,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
             ? "일치하는 검색결과가 없습니다"
             : list.map((el) => (
                 <S.StockItemContainer
-                  key={el.code}
-                  onClick={() => handleSelectStock(el)}
+                  key={el.id}
+                  onMouseDown={(e) => handleSelectStock(el)}
                 >
                   <S.Img src={el.logo} />
                   <S.InfoSection>

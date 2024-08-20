@@ -57,7 +57,8 @@ export interface NavBoxProps {
 }
 
 export interface SearchBarProps {
-  onSelect: (selected: string) => void;
+  // onSelect: (selected: number) => void;
+  onSelect: (item: number) => void;
 }
 
 export interface NewsProps {

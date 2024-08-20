@@ -12,7 +12,7 @@ function App() {
   const { user, login, logout } = useAuth();
   return (
     <div>
-      {user ? (
+      {/* {user ? (
         <>
           <Header />
           <Profile />
@@ -39,13 +39,13 @@ function App() {
             <GoogleLogin />
           </div>
         </div>
-      )}
-      {/* <GlobalStyle />
+      )} */}
+      <GlobalStyle />
       <div className="app-container">
         <div className="content">
           <Router />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

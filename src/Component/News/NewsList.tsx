@@ -17,8 +17,8 @@ const ListWrapper = styled.div`
 
 const NewsList: React.FC = () => {
   // 나만의 뉴스 데이터
-  const [News, setNews] = useState([]);
-  const NewsData = useEffect(() => {
+  const [news, setNews] = useState([]);
+  useEffect(() => {
     axios
       .post(`https://api.ustock.site/v1/news/my`)
       .then((res) => {
@@ -33,7 +33,7 @@ const NewsList: React.FC = () => {
   return (
     <div>
       <ListWrapper>
-        {newsData.map((news: NewsProps) => (
+        {news.map((news: NewsProps) => (
           <NewsItem key={news.id} {...news} />
         ))}
       </ListWrapper>
