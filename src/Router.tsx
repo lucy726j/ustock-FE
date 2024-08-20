@@ -5,7 +5,7 @@ import Layout from "./Component/Layout/Layout";
 import SearchStock from "./Pages/searchStock";
 import PortfolioPage from "./Pages/portfolio";
 import CallBackPage from "./Component/GoogleLogin/callback";
-import StockDetail from "./Pages/stockDetail";
+import StockDetail from "./Pages/stockDetail/stockDetail";
 import PortfolioNo from "./Pages/PortfolioNo";
 import PortfolioDetail from "./Pages/PortfolioDetail";
 import SkrrrGamePage from "./Pages/skrrrGame";
