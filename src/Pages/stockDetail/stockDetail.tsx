@@ -11,12 +11,34 @@ import { useParams } from "react-router-dom";
 
 type ViewList = "일" | "주" | "월" | "1년";
 
+// viewList를 정수랑 매핑
+const viewListToInt: Record<ViewList, number> = {
+  일: 1,
+  주: 2,
+  월: 3,
+  "1년": 4,
+};
+
+// viewList값을 정수로 변환
+const convertViewListToInt = (view: ViewList): number => {
+  return viewListToInt[view];
+};
+
 const StockDetail: React.FC = () => {
   const [selectedView, setSelectedView] = useState<ViewList>("일");
 
+  const selectedViewInt = convertViewListToInt(selectedView);
+
+  // 클릭한 기준 css 변경 && INT로 변환
+  const handleClick = (view: ViewList) => {
+    setSelectedView(view);
+    const viewInt = convertViewListToInt(view);
+    console.log(viewInt);
+  };
+
   const { stockId } = useParams();
 
-  // 주식 상세 정보 불러오기
+  // 주식 상세 정보 불러오기 API 연결
   // const [stockData, setStockData] = useState<StockDataProps | null>(null);
   // useEffect(() => {
   //   if (stockId)
@@ -30,6 +52,7 @@ const StockDetail: React.FC = () => {
   // }, [stockId]);
 
   // API 데이터로 바꿀 때, stockData 옆에 붙은 [0] 삭제 필요
+  // 데이터 확인용 dummy
   const stockData = [
     {
       code: "005930",
@@ -39,6 +62,18 @@ const StockDetail: React.FC = () => {
       changeRate: 3.9,
     },
   ];
+
+  // 쿼리스트링으로 보낼 때, 시작/종료 날짜 보내야하는지 확인
+  // 상태저장해서 Chart 컴포넌트 Props로 넘겨줘야하는지 확인
+  useEffect(() => {
+    console.log(selectedViewInt);
+    axios
+      .post(
+        `https://api.ustock.site/v1/stocks/${stockId}/chart?period=${selectedViewInt}/`
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, [selectedView]);
 
   return (
     <S.Container>
@@ -66,7 +101,7 @@ const StockDetail: React.FC = () => {
               <S.ViewSelectBox
                 key={view}
                 isSelected={selectedView === view}
-                onClick={() => setSelectedView(view as ViewList)}
+                onClick={() => handleClick(view as ViewList)}
               >
                 {view}
               </S.ViewSelectBox>
