@@ -9,44 +9,40 @@ import Header from "./Component/Layout/Header/Header";
 import Profile from "./Component/Layout/Header/Profile";
 
 function App() {
-  const { user, login, logout } = useAuth();
+  const { user } = useAuth();
   return (
-    <div>
-      {/* {user ? (
-        <>
-          <Header />
-          <Profile />
-          <GlobalStyle />
-          <div className="app-container">
-            <div className="content">
-              <Router />
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className="app-container">
-          <div
-            style={{
-              display: "flex",
-              width: "500px",
-              height: "100vh",
-              backgroundColor: "#fff",
-              alignContent: "center",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <GoogleLogin />
-          </div>
-        </div>
-      )} */}
-      <GlobalStyle />
-      <div className="app-container">
-        <div className="content">
-          <Router />
-        </div>
-      </div>
-    </div>
+
+    //    <div>
+    //   {user ? (
+    //     <>
+    //       <Header />
+    //       <Profile />
+    //       <GlobalStyle />
+    //       <Router />
+    //     </>
+    //   ) : (
+    //     <div className="app-container">
+    //       <div
+    //         style={{
+    //           display: "flex",
+    //           width: "500px",
+    //           height: "100vh",
+    //           backgroundColor: "#fff",
+    //           alignContent: "center",
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}
+    //       >
+    //         <GoogleLogin />
+    //       </div>
+    //     </div>
+    //   )}
+      // </div>
+    <>
+        <Router />
+        <GlobalStyle />
+    </>
+
   );
 }
 

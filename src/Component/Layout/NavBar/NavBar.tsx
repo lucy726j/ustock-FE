@@ -50,7 +50,7 @@ const NavBar = () => {
 
   return (
     <NavContainer>
-      <NavBox id="/home" onClick={handleClick}>
+      <NavBox id="/" onClick={handleClick}>
         <ImgStyle src={homeImg} alt="홈 버튼 이미지" />
         <TextStyle>홈</TextStyle>
       </NavBox>
