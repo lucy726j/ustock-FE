@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ModalOpen from "./modal";
 import { Input } from "../Input/input";
 import * as M from "../List/modalStyle";
@@ -6,7 +6,7 @@ import * as M from "../List/modalStyle";
 interface AddOrEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (quantity: number, price: number) => void;
   action: "add" | "edit" | undefined;
   selectedStock: { name: string; code: string; logo: string } | null;
 }
@@ -18,6 +18,25 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   action,
   selectedStock,
 }) => {
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [isValid, setIsValid] = useState(true);
+
+  const handleConfirm = () => {
+    if (!quantity || !price) {
+      setIsValid(false);
+      return;
+    }
+    onConfirm(quantity, price);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setQuantity(isNaN(value) ? 0 : value);
+    setPrice(isNaN(value) ? 0 : value);
+    setIsValid(true);
+  };
+
   return (
     <ModalOpen
       title={action === "add" ? "자산 추가" : "자산 수정"}
@@ -25,7 +44,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
       onRequestClose={onClose}
       showOneConfirmBtn={true}
       text={action === "add" ? "자산 추가" : "자산 수정"}
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
     >
       <div>
         <M.Box>
@@ -38,11 +57,27 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
         <M.Container>
           <div>
             <M.Div>수량</M.Div>
-            <Input placeholder="수량" size="medium" colorType="fillType" />
+            <Input
+              placeholder="수량"
+              size="medium"
+              colorType="fillType"
+              errorMessage="수량을 입력해주세요"
+              isValid={isValid || !!quantity}
+              value={quantity.toString()}
+              onChange={handleChange}
+            />
           </div>
           <div style={{ marginTop: "1rem" }}>
             <M.Div>평균 단가</M.Div>
-            <Input placeholder="단가" size="medium" colorType="fillType" />
+            <Input
+              placeholder="단가"
+              size="medium"
+              colorType="fillType"
+              errorMessage="단가를 입력해주세요"
+              isValid={isValid || !!price}
+              value={price.toString()}
+              onChange={handleChange}
+            />
           </div>
         </M.Container>
       </div>

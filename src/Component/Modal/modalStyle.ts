@@ -12,7 +12,7 @@ export const ModalStyles: ReactModal.Styles = {
   },
   content: {
     width: "400px",
-    height: "400px",
+    height: "450px",
     zIndex: "11",
     position: "fixed",
     top: "50%",
@@ -93,8 +93,8 @@ export const Growth = styled.span`
 `;
 
 export const SearchImg = styled.img`
+  display: flex;
   position: absolute;
   width: 20px;
-  margin-top: 0.5rem;
-  margin-left: 0.5rem;
+  margin-left: 1.5rem;
 `;

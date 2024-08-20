@@ -4,6 +4,7 @@ import { Input } from "../Input/input";
 import Button from "../Button/button";
 import Img from "../../img/calcul.png";
 import { Colors } from "../../Styles/Colors";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 450px;
@@ -50,6 +51,10 @@ const Calculator = () => {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
 
+  const [price, setPrice] = useState("");
+
+  // const handle;
+
   return (
     <Container>
       <TitleContainer>
@@ -69,9 +74,12 @@ const Calculator = () => {
       <div>
         <Label>금액</Label>
         <Input
-          placeholder={"금액을 입력해주세요"}
+          placeholder="금액"
           size="small"
           colorType="strokeType"
+          errorMessage="금액을 입력해주세요"
+          // value={}
+          // isValid={}
         />
       </div>
       <Button

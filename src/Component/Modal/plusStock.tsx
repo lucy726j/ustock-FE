@@ -2,11 +2,12 @@ import { Input } from "../Input/input";
 import ModalOpen from "./modal";
 import * as M from "../List/modalStyle";
 import GukBap from "../../img/Gukbap.png";
+import { useState } from "react";
 
 interface StockPlusModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (quantity: number, price: number) => void;
 }
 
 const StockPlusModal: React.FC<StockPlusModalProps> = ({
@@ -14,6 +15,25 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
   onRequestClose,
   onConfirm,
 }) => {
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [isValid, setIsValid] = useState(true);
+
+  const handleConfirm = () => {
+    if (!quantity || !price) {
+      setIsValid(false);
+      return;
+    }
+    onConfirm(quantity, price);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setQuantity(isNaN(value) ? 0 : value);
+    setPrice(isNaN(value) ? 0 : value);
+    setIsValid(true);
+  };
+
   return (
     <ModalOpen
       title="종목 추가"
@@ -21,7 +41,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
       onRequestClose={onRequestClose}
       showOneConfirmBtn={true}
       text="추가 매수"
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
     >
       <div>
         <M.Box>
@@ -70,7 +90,15 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
           </table>
           <div>
             <M.Div>수량</M.Div>
-            <Input placeholder="ex) 100" size="medium" colorType="fillType" />
+            <Input
+              placeholder="ex) 100"
+              size="medium"
+              colorType="fillType"
+              errorMessage="수량을 입력해주세요"
+              value={quantity.toString()}
+              isValid={isValid || !!quantity}
+              onChange={handleChange}
+            />
           </div>
           <div style={{ marginTop: "1rem" }}>
             <M.Div>평균 단가</M.Div>
@@ -78,6 +106,10 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
               placeholder="ex) 10,000"
               size="medium"
               colorType="fillType"
+              errorMessage="단가를 입력해주세요"
+              isValid={isValid || !!price}
+              value={price.toString()}
+              onChange={handleChange}
             />
           </div>
         </M.Container>
