@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const Container = styled.div`
   width: 450px;
+  height: 330px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,14 +73,15 @@ const Calculator = () => {
       </div>
       <div>
         <Label>금액</Label>
-        <Input
+
+{/*         <Input
           placeholder="금액"
           size="small"
           colorType="strokeType"
           errorMessage="금액을 입력해주세요"
           // value={}
           // isValid={}
-        />
+        /> */}
       </div>
       <Button
         children={"결과 확인하기"}

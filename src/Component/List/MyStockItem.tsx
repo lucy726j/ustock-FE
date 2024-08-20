@@ -29,7 +29,10 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
       axios
-        .patch(`/v1/portfolio/${pfId}/${code}`, { quantity, price })
+        .patch(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
+          quantity,
+          price,
+        })
         .then((res) => {
           console.log(res);
           swal({
@@ -48,7 +51,10 @@ const MyStockItem: React.FC<StockItemProps> = ({
         });
     } else if (modalAction === "edit") {
       axios
-        .put(`/v1/portfolio/${pfId}/${code}`, { quantity, price })
+        .put(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
+          quantity,
+          price,
+        })
         .then((res) => {
           console.log(res);
           swal({
@@ -70,7 +76,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
 
   const deleteHandle = () => {
     axios
-      .delete(`/v1/portfolio/${pfId}/${code}`)
+      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`)
       .then((res) => {
         console.log(res);
         swal({

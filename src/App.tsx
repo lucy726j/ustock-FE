@@ -9,7 +9,7 @@ import Header from "./Component/Layout/Header/Header";
 import Profile from "./Component/Layout/Header/Profile";
 
 function App() {
-  const { user, login, logout } = useAuth();
+  const { user } = useAuth();
   return (
     <div>
       {user ? (
@@ -17,11 +17,7 @@ function App() {
           <Header />
           <Profile />
           <GlobalStyle />
-          <div className="app-container">
-            <div className="content">
-              <Router />
-            </div>
-          </div>
+          <Router />
         </>
       ) : (
         <div className="app-container">
@@ -40,13 +36,11 @@ function App() {
           </div>
         </div>
       )}
-      {/* <GlobalStyle />
-      <div className="app-container">
-        <div className="content">
-          <Router />
-        </div>
-      </div> */}
     </div>
+    // <>
+    //   <GlobalStyle />
+    //   <Router />
+    // </>
   );
 }
 
