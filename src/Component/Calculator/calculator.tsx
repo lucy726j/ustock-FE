@@ -7,6 +7,7 @@ import { Colors } from "../../Styles/Colors";
 
 const Container = styled.div`
   width: 450px;
+  height: 330px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Calculator from "../Component/Calculator/calculator";
+import CalculResult from "../Component/Calculator/calculResult";
 import Chart from "../Component/Chart/chart";
 import { Colors } from "../Styles/Colors";
 import { useState } from "react";
@@ -120,8 +121,15 @@ const StockDetail: React.FC = () => {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Chart />
       </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <Calculator />
+        <CalculResult />
       </div>
     </Container>
   );
