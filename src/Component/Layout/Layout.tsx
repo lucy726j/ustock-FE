@@ -18,11 +18,11 @@ const Container = styled.div`
 
 const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/";
 
   return (
     <Container className="Layout">
       <Header />
+
           <Main style={{ height: "100%" }}>{props.children}</Main>
       <NavBar />
     </Container>
