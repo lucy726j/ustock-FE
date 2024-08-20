@@ -3,9 +3,6 @@ import { data } from "../../data/data";
 import { EmblaOptionsType } from "embla-carousel";
 import HyperText from "../Animation/HyperText";
 import { useState } from "react";
-import StockSearch from "../Modal/stockSearch";
-import { StockItemProps } from "../../constants/interface";
-import AddOrEditModal from "../Modal/addStock";
 import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 

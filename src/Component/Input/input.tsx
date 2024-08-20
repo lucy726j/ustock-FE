@@ -36,24 +36,64 @@ const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`
 
 export const Input = forwardRef<HTMLInputElement, inputProps>(
   (
-    { placeholder, value, onChange, onBlur, name, icon, ...styleProps },
+    {
+      placeholder,
+      value,
+      onChange,
+      onBlur,
+      name,
+      icon,
+      isValid = true,
+      errorMessage,
+      ...styleProps
+    },
     ref
   ) => {
     return (
-      <InputContainer>
-        {icon && <IconWrapper>{icon}</IconWrapper>}
-        <InputStyle
-          {...styleProps}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          ref={ref}
-          name={name}
-          disabled={styleProps.disabled}
-          hasIcon={!!icon}
-        />
-      </InputContainer>
+      <div>
+        <InputContainer>
+          {icon && <IconWrapper>{icon}</IconWrapper>}
+          <InputStyle
+            {...styleProps}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            ref={ref}
+            name={name}
+            disabled={styleProps.disabled}
+            hasIcon={!!icon}
+            style={{
+              border: isValid ? "1px solid #ccc" : "1px solid red",
+              paddingRight: isValid ? "0.5rem" : "2rem",
+            }}
+          />
+          {!isValid && (
+            <span
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: "red",
+                fontSize: "1.5rem",
+              }}
+            />
+          )}
+        </InputContainer>
+        {!isValid && (
+          <div
+            style={{
+              color: "red",
+              marginTop: "0.5rem",
+              paddingLeft: "0.5rem",
+              fontSize: "10px",
+            }}
+          >
+            {errorMessage}
+          </div>
+        )}
+      </div>
     );
   }
 );

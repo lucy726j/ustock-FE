@@ -2,6 +2,7 @@ import { Input } from "../Input/input";
 import ModalOpen from "./modal";
 import * as M from "../List/modalStyle";
 import GukBap from "../../img/Gukbap.png";
+import { useState } from "react";
 
 interface StockPlusModalProps {
   isOpen: boolean;
@@ -14,6 +15,24 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
   onRequestClose,
   onConfirm,
 }) => {
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [isValid, setIsValid] = useState(true);
+
+  const handleConfirm = () => {
+    if (!quantity || !price) {
+      setIsValid(false);
+      return;
+    }
+    onConfirm();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuantity(e.target.value);
+    setPrice(e.target.value);
+    setIsValid(true);
+  };
+
   return (
     <ModalOpen
       title="종목 추가"
@@ -21,7 +40,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
       onRequestClose={onRequestClose}
       showOneConfirmBtn={true}
       text="추가 매수"
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
     >
       <div>
         <M.Box>
@@ -70,7 +89,15 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
           </table>
           <div>
             <M.Div>수량</M.Div>
-            <Input placeholder="ex) 100" size="medium" colorType="fillType" />
+            <Input
+              placeholder="ex) 100"
+              size="medium"
+              colorType="fillType"
+              errorMessage="수량을 입력해주세요"
+              value={quantity}
+              isValid={isValid || !!quantity}
+              onChange={handleChange}
+            />
           </div>
           <div style={{ marginTop: "1rem" }}>
             <M.Div>평균 단가</M.Div>
@@ -78,6 +105,10 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
               placeholder="ex) 10,000"
               size="medium"
               colorType="fillType"
+              errorMessage="단가를 입력해주세요"
+              isValid={isValid || !!price}
+              value={price}
+              onChange={handleChange}
             />
           </div>
         </M.Container>
