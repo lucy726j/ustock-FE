@@ -3,16 +3,16 @@ import React from "react";
 import { GlobalStyle } from "./Styles/GlobalStyles";
 import Router from "./Router";
 import "./App.css";
-// import { useAuth } from "./contexts/authContext";
-// import GoogleLogin from "./Component/GoogleLogin/login";
-// import Header from "./Component/Layout/Header/Header";
-// import Profile from "./Component/Layout/Header/Profile";
+import { useAuth } from "./contexts/authContext";
+import GoogleLogin from "./Component/GoogleLogin/login";
+import Header from "./Component/Layout/Header/Header";
+import Profile from "./Component/Layout/Header/Profile";
 
 function App() {
-  // const { user, login, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   return (
     <div>
-      {/* {user ? (
+      {user ? (
         <>
           <Header />
           <Profile />
@@ -39,13 +39,13 @@ function App() {
             <GoogleLogin />
           </div>
         </div>
-      )} */}
-      <GlobalStyle />
+      )}
+      {/* <GlobalStyle />
       <div className="app-container">
         <div className="content">
           <Router />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

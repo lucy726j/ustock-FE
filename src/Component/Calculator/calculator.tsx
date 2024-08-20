@@ -52,7 +52,7 @@ const Calculator = () => {
 
   const [price, setPrice] = useState("");
 
-  const handle;
+  // const handle;
 
   return (
     <Container>
