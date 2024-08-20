@@ -9,18 +9,18 @@ const PieChart = () => {
 
   const options: ApexOptions = {
     chart: {
-      type: "donut",
+      type: "donut"
     },
     labels: labels,
+    legend: {
+        position: "bottom",
+    },
     responsive: [
       {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
+           width: 200
           },
         },
       },
@@ -28,7 +28,7 @@ const PieChart = () => {
   };
 
   return (
-    <div id="chart">
+    <div id="chart" style={{width: "450px", marginTop: "6rem"}}>
       <ReactApexChart options={options} series={series} type="donut" />
     </div>
   );
