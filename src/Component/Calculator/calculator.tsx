@@ -73,14 +73,14 @@ const Calculator = () => {
       </div>
       <div>
         <Label>금액</Label>
-        <Input
+{/*         <Input
           placeholder="금액"
           size="small"
           colorType="strokeType"
           errorMessage="금액을 입력해주세요"
           // value={}
           // isValid={}
-        />
+        /> */}
       </div>
       <Button
         children={"결과 확인하기"}
