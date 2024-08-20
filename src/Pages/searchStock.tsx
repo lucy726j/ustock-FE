@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Dropdown from "../Component/Dropdown/Dropdown";
 import StockList from "../Component/List/StockList";
-import SearchBar from "../Component/SearchBar/SearchBar";
+import SearchBar from "../Component/SearchBar/SearchBar"
 import StockItem from "../Component/List/StockItem";
 import { useState } from "react";
 
