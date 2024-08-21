@@ -8,6 +8,9 @@ export const getGrowthColor = (growth: number): string => {
     }
 };
 
-export const formatPrice = (price: number): string => {
-    return price.toLocaleString();
+export const formatPrice = (price: number | undefined | null): string => {
+  if (price === undefined || price === null) {
+    return "0"; // price가 undefined나 null일 경우 기본값 반환
+  }
+  return `${price.toLocaleString()}`;
 };

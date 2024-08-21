@@ -1,16 +1,21 @@
 import EmblaCarousel from "../Carousel/EmblaCarousel";
-import { data } from "../../data/data";
+// import { data } from "../../data/data";
 import { EmblaOptionsType } from "embla-carousel";
 import HyperText from "../Button/Animation/HyperText";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
+import axios from "axios";
+import { formatPrice, getGrowthColor } from "../../util/util";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [portfolioName, setPortfolioName] = useState("");
+    const [portfolioName, setPortfolioName] = useState("");
+    const [totalAsset, setTotalAsset] = useState(0)
+    const [totalROR, setTotalROR] = useState(0)
+    const [portfolioData, setPortfolioData] = useState([])
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -23,7 +28,30 @@ const Portfolio = () => {
   const handleConfirm = () => {
     closeModal();
   };
-
+    
+    // 포트폴리오 전체 조회
+    useEffect(() => {
+        axios.get(`http://localhost:8080/v1/portfolio`, {
+            withCredentials: true,
+            headers: {
+            "Content-Type": "application/json",
+            },
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                setTotalAsset(res.data.budget)
+                setTotalROR(res.data.ror)
+                setPortfolioData(res.data.list)
+                console.log(res.data.list);
+            } else if (res.status === 401) {
+                console.log(res)
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }, []);
+    
   return (
     <div className="Portfolio">
       <div className="asset">
@@ -32,11 +60,11 @@ const Portfolio = () => {
         <div className="asset-value">
           <div className="total-value">
             <HyperText
-              text="₩ 1,110,000" // 적용할 텍스트
+              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
               duration={1200} // 애니메이션 지속 시간
               className="text-xl font-bold" // 필요한 클래스명 추가
             />
-            <div className="total-growth">+ 12.00%</div>
+                      <div className="total-growth" style={{ color: getGrowthColor(totalROR) }}>{`${(totalAsset)} %`}</div>
           </div>
         </div>
         <div className="my-portfolio">
@@ -46,7 +74,7 @@ const Portfolio = () => {
               <span className="plus-icon">+</span>
             </button>
           </div>
-          <EmblaCarousel data={data} options={OPTIONS} />
+          <EmblaCarousel data={portfolioData} options={OPTIONS} />
         </div>
       </div>
       <AddPortfolioModal
