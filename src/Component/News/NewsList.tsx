@@ -21,26 +21,26 @@ const NewsList: React.FC = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .post(`https://api.ustock.site/v1/news/my`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res);
-          setNews(res.data);
-        } else if (res.status === 401) {
-          navigate("/login");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .post(`https://api.ustock.site/v1/news/my`, {
+  //       withCredentials: true,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         console.log(res);
+  //         setNews(res.data);
+  //       } else if (res.status === 401) {
+  //         navigate("/login");
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }, []);
 
   return (
     <div>
