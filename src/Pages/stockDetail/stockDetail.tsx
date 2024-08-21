@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ViewSelectProps, StockDataProps } from "../../constants/interface";
 import * as S from "./stockDetailStyle";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 type ViewList = "일" | "주" | "월" | "1년";
 
@@ -25,6 +25,9 @@ const convertViewListToInt = (view: ViewList): number => {
 };
 
 const StockDetail: React.FC = () => {
+  const location = useLocation();
+  const stockCode = location.pathname.split("/")[2];
+  const nav = useNavigate();
   const [selectedView, setSelectedView] = useState<ViewList>("일");
 
   const selectedViewInt = convertViewListToInt(selectedView);
@@ -36,32 +39,40 @@ const StockDetail: React.FC = () => {
     console.log(viewInt);
   };
 
-  const { stockId } = useParams();
-
   // 주식 상세 정보 불러오기 API 연결
-  // const [stockData, setStockData] = useState<StockDataProps | null>(null);
-  // useEffect(() => {
-  //   if (stockId)
-  //     axios
-  //       .post(`https://api.ustock.site/v1/stocks/${stockId}`)
-  //       .then((res) => {
-  //         console.log(res);
-  //         setStockData(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  // }, [stockId]);
+  const [stockData, setStockData] = useState<StockDataProps | null>(null);
+  useEffect(() => {
+    if (stockCode)
+      axios
+        .get(`http://localhost:8080/v1/stocks/${stockCode}`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(JSON.stringify(res.data));
+            const result = res.data;
+            setStockData(result);
+          } else if (res.status === 400) {
+            nav("/login");
+          }
+        })
+        .catch((err) => console.log(err));
+  }, []);
 
   // API 데이터로 바꿀 때, stockData 옆에 붙은 [0] 삭제 필요
   // 데이터 확인용 dummy
-  const stockData = [
-    {
-      code: "005930",
-      name: "삼성전자",
-      price: 80000,
-      change: 3000,
-      changeRate: 3.9,
-    },
-  ];
+  // const stockData = [
+  //   {
+  //     code: "005930",
+  //     name: "삼성전자",
+  //     price: 80000,
+  //     change: 3000,
+  //     changeRate: 3.9,
+  //   },
+  // ];
 
   // 쿼리스트링으로 보낼 때, 시작/종료 날짜 보내야하는지 확인
   // 상태저장해서 Chart 컴포넌트 Props로 넘겨줘야하는지 확인
@@ -69,7 +80,7 @@ const StockDetail: React.FC = () => {
     console.log(selectedViewInt);
     axios
       .post(
-        `https://api.ustock.site/v1/stocks/${stockId}/chart?period=${selectedViewInt}/`
+        `http://localhost:8080/v1/stocks/${stockCode}/chart?period=${selectedViewInt}/`
       )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
@@ -81,18 +92,18 @@ const StockDetail: React.FC = () => {
         <>
           <S.InfoContainer>
             <div>
-              <S.StockName>{stockData[0].name}</S.StockName>
+              {/* <S.StockName>{stockData.name}</S.StockName> */}
               <S.CodeContainer>
-                <S.StockCode>{stockData[0].code}</S.StockCode>
+                {/* <S.StockCode>{stockData.code}</S.StockCode> */}
                 {/* 데이터 없음. 삭제 */}
                 {/* <S.StockCode>첨단 기술</S.StockCode> */}
               </S.CodeContainer>
             </div>
             <S.PriceContainer>
-              <S.StockPrice>{stockData[0].price}원</S.StockPrice>
+              {/* <S.StockPrice>{stockData.price}원</S.StockPrice> */}
               <S.ChangeContainer>
-                <S.StockChange>{stockData[0].change}원</S.StockChange>
-                <S.StockChange>{stockData[0].changeRate}%</S.StockChange>
+                {/* <S.StockChange>{stockData.change}원</S.StockChange> */}
+                {/* <S.StockChange>{stockData.changeRate}%</S.StockChange> */}
               </S.ChangeContainer>
             </S.PriceContainer>
           </S.InfoContainer>
