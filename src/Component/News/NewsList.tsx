@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { newsData } from "../../data/data";
 import NewsItem from "./NewsItem";
 import { NewsProps } from "../../constants/interface";
 import "./NewsItemStyle.css";

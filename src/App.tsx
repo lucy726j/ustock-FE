@@ -9,10 +9,10 @@ import Header from "./Component/Layout/Header/Header";
 import Profile from "./Component/Layout/Header/Profile";
 
 function App() {
-  const { user } = useAuth();
+  const { accessToken } = useAuth();
   return (
     <div>
-      {user ? (
+      {accessToken ? (
         <>
           <Header />
           <Profile />

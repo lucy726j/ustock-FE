@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Chart from "../Component/Chart/chart";
-import { Input } from "../Component/Input/input";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import { StockItemProps, ValueProps } from "../constants/interface";
-import GoogleLogin from "../Component/GoogleLogin/login";
-import MyStockItem from "../Component/List/MyStockItem";
+import { ValueProps } from "../constants/interface";
 import axios from "axios";
 
 const marketData = [
