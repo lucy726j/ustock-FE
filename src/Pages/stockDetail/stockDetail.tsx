@@ -92,18 +92,16 @@ const StockDetail: React.FC = () => {
         <>
           <S.InfoContainer>
             <div>
-              {/* <S.StockName>{stockData.name}</S.StockName> */}
+              <S.StockName>{stockData.name}</S.StockName>
               <S.CodeContainer>
-                {/* <S.StockCode>{stockData.code}</S.StockCode> */}
-                {/* 데이터 없음. 삭제 */}
-                {/* <S.StockCode>첨단 기술</S.StockCode> */}
+                <S.StockCode>{stockData.code}</S.StockCode>
               </S.CodeContainer>
             </div>
             <S.PriceContainer>
-              {/* <S.StockPrice>{stockData.price}원</S.StockPrice> */}
+              <S.StockPrice>{stockData.price}원</S.StockPrice>
               <S.ChangeContainer>
-                {/* <S.StockChange>{stockData.change}원</S.StockChange> */}
-                {/* <S.StockChange>{stockData.changeRate}%</S.StockChange> */}
+                <S.StockChange>{stockData.change}원</S.StockChange>
+                <S.StockChange>{stockData.changeRate}%</S.StockChange>
               </S.ChangeContainer>
             </S.PriceContainer>
           </S.InfoContainer>

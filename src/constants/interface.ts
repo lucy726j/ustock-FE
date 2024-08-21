@@ -79,6 +79,7 @@ export interface StockDataProps {
     price: number;
     change: number;
     changeRate: number;
+    logo: string;
   }>;
 }
 

@@ -58,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
 
   const handleSelectStock = (event: StockItemProps) => {
     console.log(event.code);
-    nav(`/stocks/code=${event.code}`);
+    nav(`/stocks/${event.code}`);
   };
 
   return (
