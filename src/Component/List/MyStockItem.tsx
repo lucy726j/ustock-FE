@@ -18,15 +18,13 @@ const MyStockItem: React.FC<MyStockItemProps> = ({
   name,
   quantity,
   average,
-    ror,
-  portfolioId
+  ror,
+  portfolioId,
 }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockProps | null>(
-    null
-  );
+  const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
@@ -131,12 +129,12 @@ const MyStockItem: React.FC<MyStockItemProps> = ({
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
-        code,
-        name,
-        quantity,
-        average,
-        ror,
-        logo: selectedStock?.logo || 'default-logo.png'
+      code,
+      name,
+      quantity,
+      average,
+      ror,
+      logo: selectedStock?.logo || "default-logo.png",
     });
     if (action === "delete") {
       setIsDeleteOpen(true);
@@ -160,10 +158,7 @@ const MyStockItem: React.FC<MyStockItemProps> = ({
           <h2>{name}</h2>
           <p>{code}</p>
         </div>
-        <div
-          className="growth-section"
-          style={{ color: getGrowthColor(ror) }}
-        >
+        <div className="growth-section" style={{ color: getGrowthColor(ror) }}>
           {ror.toFixed(2)}%
         </div>
         <div className="price-section">

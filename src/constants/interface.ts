@@ -41,7 +41,6 @@ export interface ModalProps {
   icon?: string;
 }
 
-
 export interface NavBoxProps {
   id: string;
   onClick: (id: string) => void;
@@ -83,6 +82,15 @@ export interface StockDataProps {
   }>;
 }
 
+export interface StockItemProps {
+  id: number;
+  name: string;
+  code: string;
+  price: number;
+  growth: number;
+  logo: string;
+}
+
 export interface MarketDataProps {
   kospi: {
     price: number;
@@ -106,8 +114,8 @@ export interface StockProps {
   name: string;
   quantity: number;
   average: number;
-    ror: number;
-    logo?: string
+  ror: number;
+  logo?: string;
 }
 
 export interface PortfolioProps {

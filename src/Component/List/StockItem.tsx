@@ -2,7 +2,7 @@ import React from "react";
 import { StockItemProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const StockItem: React.FC<StockItemProps> = ({
   id,
@@ -14,7 +14,7 @@ const StockItem: React.FC<StockItemProps> = ({
 }) => {
   const nav = useNavigate();
   const handleStockSelect = () => {
-    nav(`/stocks/${id}`);
+    nav(`/stocks/${code}`);
   };
 
   return (
