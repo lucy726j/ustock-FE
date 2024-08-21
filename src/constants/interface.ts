@@ -50,6 +50,24 @@ export interface StockItemProps {
   growth: number;
 }
 
+export interface ListProps {
+  id: number;
+  logo: string;
+  name: string;
+  code: string;
+  price: number;
+  changeRate: number;
+}
+
+export interface PlusProps {
+  name: string;
+  logo: string;
+  code: string;
+  quantity: number;
+  principal: number;
+  average: number;
+}
+
 export interface NavBoxProps {
   id: string;
   onClick: (id: string) => void;

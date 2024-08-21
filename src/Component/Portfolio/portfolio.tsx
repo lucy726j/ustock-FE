@@ -5,12 +5,16 @@ import HyperText from "../Button/Animation/HyperText";
 import { useState } from "react";
 import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
+import axios from "axios";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [portfolioName, setPortfolioName] = useState("");
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,7 +25,37 @@ const Portfolio = () => {
   };
 
   const handleConfirm = () => {
-    closeModal();
+    console.log("handleConfirm called");
+    axios
+      .post(
+        "http://localhost:8080/v1/portfolio",
+        { name: portfolioName },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response);
+        console.log(response.data);
+        if (response.status === 200) {
+          console.log("포트폴리오가 만들어졌음:", response);
+          closeModal();
+          swal({
+            title: "포트폴리오를 생성했습니다.",
+            icon: "success",
+          });
+          navigate("/portfolio");
+        } else {
+          console.log("error status code : ", response.status);
+        }
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+        swal({
+          title: "포트폴리오 생성에 실패하셨습니다.",
+          text: "다시 시도해주세요!",
+          icon: "error",
+        });
+        console.log(error);
+      });
   };
 
   return (

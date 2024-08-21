@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalOpen from "./modal";
 import { Input } from "../Input/input";
 import * as M from "../List/modalStyle";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (quantity: number, price: number) => void;
   action: "add" | "edit" | undefined;
-  selectedStock: { name: string; code: string; logo: string } | null;
+  selectedStock: {
+    id: number;
+    name: string;
+    code: string;
+    logo: string;
+  } | null;
 }
 
 const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
@@ -20,22 +27,51 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
-  const [isValid, setIsValid] = useState(true);
+  const [isValidQuantity, setIsValidQuantity] = useState(true);
+  const [isValidPrice, setIsValidPrice] = useState(true);
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  console.log("id : ", id);
 
   const handleConfirm = () => {
     if (!quantity || !price) {
-      setIsValid(false);
+      setIsValidQuantity(false);
+      setIsValidPrice(false);
       return;
     }
     onConfirm(quantity, price);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setQuantity(isNaN(value) ? 0 : value);
-    setPrice(isNaN(value) ? 0 : value);
-    setIsValid(true);
+    setIsValidQuantity(true);
   };
+
+  const handelChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setPrice(isNaN(value) ? 0 : value);
+    setIsValidPrice(true);
+  };
+
+  useEffect(() => {
+    if (selectedStock && quantity > 0 && price > 0) {
+      axios
+        .post(
+          `http://localhost:8080/v1/portfolio/${id}/holding/${selectedStock?.code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log(res);
+          alert("내 자산 추가 ~ 성공 !");
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("에렁미...");
+        });
+    }
+  }, [selectedStock, quantity, price]);
 
   return (
     <ModalOpen
@@ -48,7 +84,34 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
     >
       <div>
         <M.Box>
-          <M.Img src={selectedStock?.logo || ""} alt="주식 종목" />
+          {selectedStock?.logo ? (
+            <img
+              src={selectedStock.logo}
+              alt={`${selectedStock.name} logo`}
+              style={{
+                width: "30px",
+                height: "30px",
+                marginRight: "20px",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "30px",
+                height: "30px",
+                marginRight: "20px",
+                borderRadius: "10px",
+                textAlign: "center",
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                color: "#fff",
+                background: "#615EFC",
+              }}
+            >
+              {selectedStock?.name.charAt(0)}
+            </div>
+          )}
           <div>
             <h2>{selectedStock?.name}</h2>
             <M.P>{selectedStock?.code}</M.P>
@@ -62,9 +125,9 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
               size="medium"
               colorType="fillType"
               errorMessage="수량을 입력해주세요"
-              isValid={isValid || !!quantity}
+              isValid={isValidQuantity || !!quantity}
               value={quantity.toString()}
-              onChange={handleChange}
+              onChange={handleChangeQuantity}
             />
           </div>
           <div style={{ marginTop: "1rem" }}>
@@ -74,9 +137,9 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
               size="medium"
               colorType="fillType"
               errorMessage="단가를 입력해주세요"
-              isValid={isValid || !!price}
+              isValid={isValidPrice || !!price}
               value={price.toString()}
-              onChange={handleChange}
+              onChange={handelChangePrice}
             />
           </div>
         </M.Container>

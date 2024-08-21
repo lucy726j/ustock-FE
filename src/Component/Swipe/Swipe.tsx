@@ -3,9 +3,8 @@ import "./SwipeStyle.css";
 import close from "../../img/closeStatus.png";
 import open from "../../img/openStatus.png";
 import MyStockList from "../List/MyStockList";
-import { StockItemProps } from "../../constants/interface";
+import { StockItemProps, ListProps } from "../../constants/interface";
 import StockSearch from "../Modal/stockSearch";
-import { data } from "../../data/data";
 import AddOrEditModal from "../Modal/addStock";
 
 const MAX_HEIGHT_PERCENT = 80; // 80%
@@ -15,12 +14,10 @@ const Swipe: React.FC = () => {
   const [heightPercent, setHeightPercent] = useState(MIN_HEIGHT_PERCENT);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-    null
-  );
+  const [selectedStock, setSelectedStock] = useState<ListProps | null>(null);
   const [modalAction, setModalAction] = useState<"add" | null>(null);
 
-  const handleSelectStock = (stock: StockItemProps) => {
+  const handleSelectStock = (stock: ListProps) => {
     setSelectedStock(stock);
     setIsSearchOpen(false);
     setIsFormOpen(true);
@@ -37,11 +34,15 @@ const Swipe: React.FC = () => {
   };
 
   const toggleHeight = () => {
-    setHeightPercent(heightPercent === MIN_HEIGHT_PERCENT ? MAX_HEIGHT_PERCENT : MIN_HEIGHT_PERCENT);
+    setHeightPercent(
+      heightPercent === MIN_HEIGHT_PERCENT
+        ? MAX_HEIGHT_PERCENT
+        : MIN_HEIGHT_PERCENT
+    );
   };
 
   return (
-    <div style={{ width: "100%", position: "absolute", bottom: '70px'}}>
+    <div style={{ width: "100%", position: "absolute", bottom: "70px" }}>
       <div
         className="swipeableContainer"
         style={{
@@ -79,7 +80,6 @@ const Swipe: React.FC = () => {
           isOpen={isSearchOpen}
           onClose={() => setIsSearchOpen(false)}
           onSelect={handleSelectStock}
-          data={data}
         />
       )}
       {isFormOpen && selectedStock && (

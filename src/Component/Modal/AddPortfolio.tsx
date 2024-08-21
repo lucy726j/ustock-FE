@@ -37,6 +37,7 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
   const [isValid, setIsValid] = useState(true);
 
   const handleConfirm = () => {
+    console.log("핸들러 콜 ~");
     if (!portfolioName) {
       setIsValid(false);
       return;

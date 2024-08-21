@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StockItemProps } from "../../constants/interface";
+import { PlusProps, StockItemProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import AddOrEditModal from "../Modal/addStock";
@@ -27,9 +27,11 @@ const MyStockItem: React.FC<StockItemProps> = ({
     "edit" | "delete" | "plus" | null
   >(null);
   const navigate = useNavigate();
+  const [userStocks, setUserStocks] = useState<PlusProps[]>([]); // 사용자가 구매한 종목들
 
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
+      console.log(quantity, price);
       axios
         .patch(
           `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
@@ -44,6 +46,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
               icon: "success",
             });
             setIsPlusOpen(false);
+            navigate(`/protfolio/${pfId}`);
           }
         })
         .catch((error) => {
@@ -69,6 +72,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
               icon: "success",
             });
             setIsFormOpen(false);
+            navigate(`/protfolio/${pfId}`);
           } else if (res.status === 401) {
             swal({
               title: "수정 실패하셨습니다.",
@@ -183,6 +187,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
           isOpen={isPlusOpen}
           onRequestClose={() => setIsPlusOpen(false)}
           onConfirm={handleConfirm}
+          userStocks={userStocks}
         />
       )}
 
