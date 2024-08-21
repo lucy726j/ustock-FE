@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import StockItem from "./StockItem";
-import { StockDataProps, StockItemProps } from "../../constants/interface";
+import { StockDataProps } from "../../constants/interface";
 
 const ListWrapper = styled.div`
   display: flex;
