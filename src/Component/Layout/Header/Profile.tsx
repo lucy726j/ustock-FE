@@ -2,6 +2,7 @@ import styled from "styled-components";
 import testImg from "../../../img/person.png";
 import { useState } from "react";
 import { useAuth } from "../../../contexts/authContext";
+import GoogleLogin from "../../GoogleLogin/login";
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -32,9 +33,9 @@ const LogoutBox = styled.div`
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
-  const hadleLogout = () => {
+  const handleLogout = () => {
     setIsOpen(false);
     logout();
   };
@@ -44,14 +45,20 @@ const Profile = () => {
   };
 
   return (
-    <ProfileContainer>
-      <ImgStyle
-        src={testImg}
-        alt="프로필 이미지"
-        onClick={handleClickProfile}
-      />
-      {isOpen && <LogoutBox onClick={hadleLogout}>로그아웃</LogoutBox>}
-    </ProfileContainer>
+    <>
+      {user ? (
+        <ProfileContainer>
+          <ImgStyle
+            src={user.profile}
+            alt="프로필 이미지"
+            onClick={handleClickProfile}
+          />
+          {isOpen && <LogoutBox onClick={handleLogout}>로그아웃</LogoutBox>}
+        </ProfileContainer>
+      ) : (
+        <GoogleLogin />
+      )}
+    </>
   );
 };
 
