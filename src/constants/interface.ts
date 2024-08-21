@@ -112,3 +112,8 @@ export interface MarketDataProps {
     changeRate: number;
   };
 }
+
+export interface DropdownProps {
+  dropList: any[];
+  onSelect: (category: string) => void;
+}

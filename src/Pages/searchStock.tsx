@@ -2,7 +2,9 @@ import styled from "styled-components";
 import Dropdown from "../Component/Dropdown/Dropdown";
 import StockList from "../Component/List/StockList";
 import SearchBar from "../Component/SearchBar/SearchBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -26,15 +28,47 @@ const FilterContainer = styled.div`
 `;
 
 const SearchStock = () => {
-  const category = ["시가총액순", "거래량", "등락율"];
-  const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
-  // 아무것도 아님
-  const [nothing, setNothing] = useState([]);
+  const nav = useNavigate();
 
+  const category = ["capital", "trade", "change"];
+  const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
+  const [list, setList] = useState([]);
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(category[0]);
+
+  // 리스트에서 종목 클릭시
   const handleSelectStock = (stockId: number) => {
     setSelectedStockId(stockId);
-    console.log("Selected stock code:", stockId); // 선택된 종목 코드를 출력
+    console.log("Selected stock code:", stockId);
   };
+
+  // 카테고리 set
+  const handleSelectedCategory = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  // 정렬된 종목 리스트 API
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/v1/stocks?order=${selectedCategory}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log("종목리스트API" + JSON.stringify(res.data.stock));
+          const stockData = res.data.stock;
+          setList(stockData);
+        } else if (res.status === 401) {
+          nav("/login");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [selectedCategory]);
 
   return (
     <Container>
@@ -43,10 +77,10 @@ const SearchStock = () => {
       </SearchContainer>
       <FilterContainer>
         <div>종목 리스트</div>
-        <Dropdown dropList={category} />
+        <Dropdown dropList={category} onSelect={handleSelectedCategory} />
       </FilterContainer>
       <div>
-        <StockList data={nothing} />
+        <StockList data={list} />
       </div>
     </Container>
   );
