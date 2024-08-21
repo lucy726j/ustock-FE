@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StockItemProps } from "../../constants/interface";
+import { StockProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import AddOrEditModal from "../Modal/addStock";
@@ -9,18 +9,22 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
-const MyStockItem: React.FC<StockItemProps> = ({
-  id: pfId,
-  name,
-  logo,
+interface MyStockItemProps extends StockProps {
+  portfolioId: string;
+}
+
+const MyStockItem: React.FC<MyStockItemProps> = ({
   code,
-  price,
-  growth,
+  name,
+  quantity,
+  average,
+    ror,
+  portfolioId
 }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
+  const [selectedStock, setSelectedStock] = useState<StockProps | null>(
     null
   );
   const [modalAction, setModalAction] = useState<
@@ -32,7 +36,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
     if (modalAction === "plus") {
       axios
         .patch(
-          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          `https://api.ustock.site/v1/portfolio/${portfolioId}/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -57,7 +61,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          `https://api.ustock.site/v1/portfolio/${portfolioId}/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -102,7 +106,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
 
   const deleteHandle = () => {
     axios
-      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
+      .delete(`https://api.ustock.site/v1/portfolio/${portfolioId}/${code}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -127,12 +131,12 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
-      id: pfId,
-      name,
-      logo,
-      code,
-      price,
-      growth,
+        code,
+        name,
+        quantity,
+        average,
+        ror,
+        logo: selectedStock?.logo || 'default-logo.png'
     });
     if (action === "delete") {
       setIsDeleteOpen(true);
@@ -151,21 +155,21 @@ const MyStockItem: React.FC<StockItemProps> = ({
         <button onClick={() => openModal("delete")}>삭제</button>
       </div>
       <div className="MyStockItemWrapper">
-        <img className="logo" src={logo}></img>
+        <img className="logo" src={name} alt={name} /> {/*사진 넣어야함*/}
         <div className="info-section">
           <h2>{name}</h2>
           <p>{code}</p>
         </div>
         <div
           className="growth-section"
-          style={{ color: getGrowthColor(growth) }}
+          style={{ color: getGrowthColor(ror) }}
         >
-          {growth}%
+          {ror.toFixed(2)}%
         </div>
         <div className="price-section">
-          <p>수량 {pfId}</p>
-          <div>{formatPrice(price)}원</div>
-          <p>{formatPrice(pfId * price)}</p>
+          <p>수량 {quantity}</p>
+          <div>{formatPrice(average)}원</div>
+          <p>{formatPrice(quantity * average)}원</p>
         </div>
       </div>
       {isFormOpen && selectedStock && (
