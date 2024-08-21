@@ -86,16 +86,18 @@ export interface ViewSelectProps {
   isSelected: boolean;
 }
 
-export interface StockListProps {
-  data: never[];
-}
+// export interface StockListProps {
+//   data: never[];
+// }
 
 export interface StockDataProps {
-  code: string;
-  name: string;
-  price: number;
-  change: number;
-  changeRate: number;
+  data: Array<{
+    code: string;
+    name: string;
+    price: number;
+    change: number;
+    changeRate: number;
+  }>;
 }
 
 export interface MarketDataProps {

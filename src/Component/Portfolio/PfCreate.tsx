@@ -59,7 +59,10 @@ const PfCreate: React.FC = () => {
 
   const handleConfirm = () => {
     axios
-      .post("/v1/portfolio", { name: portfolioName }, { withCredentials: true })
+      .post("http://localhost:8080/v1/portfolio", {
+        name: portfolioName,
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           console.log(response);

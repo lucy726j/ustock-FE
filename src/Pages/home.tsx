@@ -2,25 +2,14 @@ import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import { MarketDataProps, ValueProps } from "../constants/interface";
+import {
+  MarketDataProps,
+  StockDataProps,
+  ValueProps,
+} from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Div } from "../Component/Modal/modalStyle";
-
-// const marketData = [
-//   {
-//     KOSPI: {
-//       price: 2777.68,
-//       change: 6.99,
-//       changeRate: +0.25,
-//     },
-//     KOSDAQ: {
-//       price: 2777.68,
-//       change: 6.99,
-//       changeRate: -0.25,
-//     },
-//   },
-// ];
 
 const Container = styled.div`
   display: flex;
@@ -107,10 +96,10 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log("증시데이터API", res.data);
+          // console.log("증시데이터API", res.data);
           const marketData = res.data;
           setMarket(marketData);
-          console.log(market);
+          // console.log(market);
         } else if (res.status === 401) {
           nav("/login");
         }
@@ -131,8 +120,9 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          setList(res.data);
-          console.log("인기종목리스트API" + res);
+          console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
+          const stockData = res.data.stock;
+          setList(stockData);
         } else if (res.status === 401) {
           nav("/login");
         }
@@ -172,7 +162,9 @@ const Home: React.FC = () => {
       </MarketContainer>
       <ListContainer>
         <Title>오늘의 인기 종목</Title>
-        <StockWrapper>{/* <StockList data={list} /> */}</StockWrapper>
+        <StockWrapper>
+          {list ? <StockList data={list} /> : <div>로딩중</div>}
+        </StockWrapper>
       </ListContainer>
       <NewsContainer>
         <Title>나만의 뉴스</Title>
