@@ -1,15 +1,13 @@
 import React from "react";
-import { StockDataProps } from "../../constants/interface";
+import { StockDataPropList } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { useLocation, useNavigate } from "react-router-dom";
-import { stringify } from "querystring";
 
-const StockItem: React.FC<StockDataProps> = ({ data }) => {
+const StockItem: React.FC<StockDataPropList> = ({ data }) => {
   const nav = useNavigate();
-
   const handleStockSelect = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e);
+    // console.log(e);
     const stockItemDiv = (e.target as HTMLElement).closest(".StockItem");
     const stockId = stockItemDiv?.id;
     nav(`/stocks/${stockId}`);

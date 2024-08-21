@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import {
-  MarketDataProps,
-  StockDataProps,
-  ValueProps,
-} from "../constants/interface";
+import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Div } from "../Component/Modal/modalStyle";
 
 const Container = styled.div`
   display: flex;
