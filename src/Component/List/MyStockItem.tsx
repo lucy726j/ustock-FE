@@ -7,6 +7,7 @@ import StockPlusModal from "../Modal/plusStock";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import axios from "axios";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const MyStockItem: React.FC<StockItemProps> = ({
   id: pfId,
@@ -25,15 +26,16 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
+  const navigate = useNavigate();
 
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
       axios
-        .patch(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
-          quantity,
-          price,
-          withCredentials: true,
-        })
+        .patch(
+          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
         .then((res) => {
           if (res.status === 200) {
             console.log(res);
@@ -54,32 +56,55 @@ const MyStockItem: React.FC<StockItemProps> = ({
         });
     } else if (modalAction === "edit") {
       axios
-        .put(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
-          quantity,
-          price,
-        })
+        .put(
+          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
         .then((res) => {
-          console.log(res);
-          swal({
-            title: "수정 완료!",
-            icon: "success",
-          });
-          setIsFormOpen(false);
+          if (res.status === 200) {
+            console.log(res);
+            swal({
+              title: "수정 완료!",
+              icon: "success",
+            });
+            setIsFormOpen(false);
+          } else if (res.status === 401) {
+            swal({
+              title: "수정 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            }).then(() => {
+              navigate("/login");
+            });
+          }
         })
         .catch((error) => {
-          swal({
-            title: "수정 실패하셨습니다.",
-            text: "다시 시도해주세요!",
-            icon: "error",
-          });
-          console.log(error);
+          if (error.response && error.response.status === 401) {
+            swal({
+              title: "Unauthorized",
+              text: "로그인을 다시 시도해주세요.",
+              icon: "warning",
+            }).then(() => {
+              navigate("/login");
+            });
+          } else {
+            swal({
+              title: "Edit failed",
+              text: "다시 시도해주세요",
+              icon: "error",
+            });
+            console.log(error);
+          }
         });
     }
   };
 
   const deleteHandle = () => {
     axios
-      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`)
+      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res);
         swal({
