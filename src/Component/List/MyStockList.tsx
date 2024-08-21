@@ -1,29 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import { data } from '../../data/data';
 import MyStockItem from './MyStockItem';
-import { StockItemProps } from '../../constants/interface';
+import { StockProps } from '../../constants/interface';
 import "./MyStockItemStyle.css"
 
+interface MyStockListProps {
+    stockData: StockProps[];
+    portfolioId: string;
+}
+
 const ListWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 10px
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
 `;
 
-const MyStockList: React.FC = () => {
-
-    return (
-        <div>
-            <ListWrapper>
-                {data.map((item: StockItemProps) => (
-                    <MyStockItem key={item.id} {...item} />
-                ))}
-            </ListWrapper>
-        </div>
-    );
-}
+const MyStockList: React.FC<MyStockListProps> = ({ stockData, portfolioId }) => {
+  return (
+    <div>
+      <ListWrapper>
+        {stockData.map((item: StockProps) => (
+          <MyStockItem key={item.code} {...item} portfolioId={portfolioId}/>
+        ))}
+      </ListWrapper>
+    </div>
+  );
+};
 
 export default MyStockList;

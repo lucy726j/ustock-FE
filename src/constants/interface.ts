@@ -41,14 +41,6 @@ export interface ModalProps {
   icon?: string;
 }
 
-export interface StockItemProps {
-  id: number;
-  name: string;
-  logo: string;
-  code: string;
-  price: number;
-  growth: number;
-}
 
 export interface NavBoxProps {
   id: string;
@@ -80,4 +72,22 @@ export interface ViewSelectProps {
 
 export interface StockListProps {
   data: never[];
+}
+
+export interface StockProps {
+  code: string;
+  name: string;
+  quantity: number;
+  average: number;
+    ror: number;
+    logo?: string
+}
+
+export interface PortfolioProps {
+  name: string;
+  budget: number;
+  principal: number;
+  ret: number;
+  ror: number;
+  stocks: StockProps[];
 }

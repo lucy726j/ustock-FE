@@ -1,5 +1,4 @@
 import EmblaCarousel from "../Carousel/EmblaCarousel";
-// import { data } from "../../data/data";
 import { EmblaOptionsType } from "embla-carousel";
 import HyperText from "../Button/Animation/HyperText";
 import { useEffect, useState } from "react";
@@ -51,6 +50,8 @@ const Portfolio = () => {
             console.log(e);
         });
     }, []);
+
+    
     
   return (
     <div className="Portfolio">
@@ -74,7 +75,7 @@ const Portfolio = () => {
               <span className="plus-icon">+</span>
             </button>
           </div>
-          <EmblaCarousel data={portfolioData} options={OPTIONS} />
+          <EmblaCarousel data={portfolioData} options={OPTIONS}/>
         </div>
       </div>
       <AddPortfolioModal
