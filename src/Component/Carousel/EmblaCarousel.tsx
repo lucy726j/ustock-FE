@@ -4,7 +4,7 @@ import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carou
 import useEmblaCarousel from "embla-carousel-react";
 import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import { StockItemProps } from "../../constants/interface";
+import { StockProps } from "../../constants/interface";
 import { formatPrice } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
 
@@ -14,11 +14,11 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
     Math.min(Math.max(number, min), max);
 
 type PropType = {
-    data: StockItemProps[];
+    data: { id: number; name: string; average: number; ror: number }[];
     options?: EmblaOptionsType;
 };
 
-const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
+const EmblaCarousel: React.FC<PropType> = ({ data, options}) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
@@ -139,9 +139,9 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
                             <div className="embla__slide__number">
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
-                                    <p>₩  {formatPrice(item.price)}</p>
-                                    <p style={{ color: item.growth > 0 ? 'green' : '#D84343' }}>
-                                        {item.growth}%
+                                    <p>₩  {formatPrice(item.average)}</p>
+                                    <p style={{ color: item.ror > 0 ? 'green' : '#D84343' }}>
+                                        {item.ror}%
                                     </p>
                                     <img src={myPortfolioImg} alt="Portfolio" />
                                 </div>
