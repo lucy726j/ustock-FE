@@ -28,7 +28,7 @@ const PieChart = () => {
   };
 
   return (
-    <div id="chart" style={{width: "450px", marginTop: "6rem"}}>
+    <div id="chart" style={{width: "450px", marginTop: "6rem", marginBottom: "10rem"}}>
       <ReactApexChart options={options} series={series} type="donut" />
     </div>
   );
