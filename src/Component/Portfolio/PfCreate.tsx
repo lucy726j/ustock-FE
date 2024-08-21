@@ -59,14 +59,16 @@ const PfCreate: React.FC = () => {
 
   const handleConfirm = () => {
     axios
-      .post("/v1/portfolio", { name: portfolioName })
+      .post("/v1/portfolio", { name: portfolioName }, { withCredentials: true })
       .then((response) => {
-        console.log(response);
-        closeModal();
-        swal({
-          title: "포트폴리오를 생성했습니다.",
-          icon: "success",
-        });
+        if (response.status === 200) {
+          console.log(response);
+          closeModal();
+          swal({
+            title: "포트폴리오를 생성했습니다.",
+            icon: "success",
+          });
+        }
       })
       .catch((error) => {
         swal({
