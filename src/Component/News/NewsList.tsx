@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { newsData } from "../../data/data";
 import NewsItem from "./NewsItem";
 import { NewsProps } from "../../constants/interface";
 import "./NewsItemStyle.css";
 import { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -18,12 +18,24 @@ const ListWrapper = styled.div`
 const NewsList: React.FC = () => {
   // 나만의 뉴스 데이터
   const [news, setNews] = useState([]);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios
-      .post(`https://api.ustock.site/v1/news/my`)
+      .post(`https://api.ustock.site/v1/news/my`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
-        console.log(res);
-        setNews(res.data);
+        if (res.status === 200) {
+          console.log(res);
+          setNews(res.data);
+        } else if (res.status === 401) {
+          navigate("/login");
+        }
       })
       .catch((e) => {
         console.log(e);

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
-  user: string | null;
-  login: (user: string) => void;
+  user: { name: string; profile: string } | null;
+  login: (user: { name: string; profile: string }) => void;
   logout: () => void;
 }
 
@@ -13,10 +13,22 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<{ name: string; profile: string } | null>(
+    () => {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+  );
 
-  const login = (user: string) => setUser(user);
-  const logout = () => setUser(null);
+  const login = (user: { name: string; profile: string }) => {
+    setUser(user);
+    localStorage.setItem("user : ", JSON.stringify(user));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -28,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("인증된 사용자가 아닙니다!");
+    throw new Error("AuthProvider 내에서 사용해야함");
   }
   return context;
 };

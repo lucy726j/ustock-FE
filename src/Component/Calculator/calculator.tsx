@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Dropdown from "../Dropdown/Dropdown";
-import { Input } from "../Input/input";
 import Button from "../Button/button";
 import Img from "../../img/calcul.png";
 import { Colors } from "../../Styles/Colors";
@@ -74,7 +73,7 @@ const Calculator = () => {
       <div>
         <Label>금액</Label>
 
-{/*         <Input
+        {/*         <Input
           placeholder="금액"
           size="small"
           colorType="strokeType"

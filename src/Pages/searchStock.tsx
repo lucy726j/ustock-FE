@@ -2,9 +2,7 @@ import styled from "styled-components";
 import Dropdown from "../Component/Dropdown/Dropdown";
 import StockList from "../Component/List/StockList";
 import SearchBar from "../Component/SearchBar/SearchBar";
-import StockItem from "../Component/List/StockItem";
 import { useState } from "react";
-import { StockListProps } from "../constants/interface";
 
 const Container = styled.div`
   display: flex;
