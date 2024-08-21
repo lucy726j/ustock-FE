@@ -19,13 +19,18 @@ const CallBackPage = () => {
         { code },
         { withCredentials: true }
       );
-      const userData = res.data;
-      login(userData.username);
-      handleHome();
+      if (res.status === 200) {
+        const { accessToken, refreshToken } = res.data;
+        login(accessToken, refreshToken);
+        handleHome();
+      } else {
+        throw new Error(`status code: ${res.status}`);
+      }
     } catch (error) {
       alert("로그인에 실패했습니다!");
-      console.log("error : ", error);
+      console.log("Login error : ", error);
     } finally {
+      console.log("로그인 왜 안되냐 진짜 짜증나게 하지마셈;;;;");
       setLoading(false);
     }
   };

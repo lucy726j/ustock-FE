@@ -1,9 +1,7 @@
-import styled from "styled-components";
 import searchImg from "../../img/search.png";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { data } from "../../data/data";
 import { StockItemProps } from "../../constants/interface";
-import StockItem from "../List/StockItem";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { SearchBarProps } from "../../constants/interface";
 import * as S from "./SearchBarStyle";
