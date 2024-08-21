@@ -41,17 +41,8 @@ export interface ModalProps {
   icon?: string;
 }
 
-export interface StockItemProps {
-  id: number;
-  name: string;
-  logo: string;
-  code: string;
-  price: number;
-  growth: number;
-}
-
 export interface ListProps {
-  id: number;
+  portfolioId: number;
   logo: string;
   name: string;
   code: string;
@@ -60,11 +51,11 @@ export interface ListProps {
 }
 
 export interface PlusProps {
+  portfolioId: number;
   name: string;
   logo: string;
   code: string;
   quantity: number;
-  principal: number;
   average: number;
 }
 
@@ -75,8 +66,7 @@ export interface NavBoxProps {
 }
 
 export interface SearchBarProps {
-  // onSelect: (selected: number) => void;
-  onSelect: (item: number) => void;
+  onSelect: (selected: number) => void;
 }
 
 export interface NewsProps {
@@ -96,6 +86,62 @@ export interface ViewSelectProps {
   isSelected: boolean;
 }
 
-export interface StockListProps {
-  data: never[];
+// export interface StockListProps {
+//   data: never[];
+// }
+
+export interface StockDataProps {
+  data: Array<{
+    code: string;
+    name: string;
+    price: number;
+    change: number;
+    changeRate: number;
+  }>;
+}
+
+export interface MarketDataProps {
+  kospi: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+  kosdaq: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+}
+
+export interface DropdownProps {
+  dropList: any[];
+  onSelect: (category: string) => void;
+}
+
+export interface StockProps {
+  portfolioId: number;
+  code: string;
+  name: string;
+  quantity: number;
+  average: number;
+  ror: number;
+  logo?: string;
+}
+
+export interface PortfolioProps {
+  name: string;
+  budget: number;
+  principal: number;
+  ret: number;
+  ror: number;
+  stocks: StockProps[];
+}
+
+export interface StockItemProps {
+  id: number;
+  name: string;
+  code: string;
+  price: number;
+  growth: number;
+  logo: string;
 }

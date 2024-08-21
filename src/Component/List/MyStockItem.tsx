@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { PlusProps, StockItemProps } from "../../constants/interface";
+import React, { useEffect, useState } from "react";
+import { StockProps, PlusProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import AddOrEditModal from "../Modal/addStock";
@@ -9,32 +9,60 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
-const MyStockItem: React.FC<StockItemProps> = ({
-  id: pfId,
-  name,
-  logo,
+interface MyStockItemProps extends StockProps {
+  portfolioId: number;
+}
+
+const MyStockItem: React.FC<StockProps> = ({
   code,
-  price,
-  growth,
+  name,
+  quantity,
+  average,
+  ror,
+  portfolioId,
+  logo,
 }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-    null
-  );
+  const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
   const navigate = useNavigate();
-  const [userStocks, setUserStocks] = useState<PlusProps[]>([]); // 사용자가 구매한 종목들
+  const [userStocks, setUserStocks] = useState<PlusProps[]>([
+    {
+      code,
+      name,
+      quantity,
+      average,
+      portfolioId,
+      logo: logo || "default_logo",
+    },
+  ]);
 
+  console.log("ror", ror / 100);
+
+  // 처음 렌더링 시 useEffect로 초기 값 설정 (이미 위에서 초기화한 경우 불필요할 수 있음)
+  useEffect(() => {
+    setUserStocks([
+      {
+        code,
+        name,
+        quantity,
+        average,
+        portfolioId,
+        logo: logo || "default_logo",
+      },
+    ]);
+    console.log("ttttt", userStocks);
+  }, [code, name, quantity, average, ror, portfolioId]);
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
       console.log(quantity, price);
       axios
         .patch(
-          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -46,7 +74,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
               icon: "success",
             });
             setIsPlusOpen(false);
-            navigate(`/protfolio/${pfId}`);
+            navigate(`/portfolio/${portfolioId}`);
           }
         })
         .catch((error) => {
@@ -60,7 +88,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          `https://api.ustock.site/v1/portfolio/${pfId}/${code}`,
+          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -72,7 +100,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
               icon: "success",
             });
             setIsFormOpen(false);
-            navigate(`/protfolio/${pfId}`);
+            navigate(`/portfolio/${portfolioId}`);
           } else if (res.status === 401) {
             swal({
               title: "수정 실패하셨습니다.",
@@ -106,9 +134,12 @@ const MyStockItem: React.FC<StockItemProps> = ({
 
   const deleteHandle = () => {
     axios
-      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
-        withCredentials: true,
-      })
+      .delete(
+        `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log(res);
         swal({
@@ -131,12 +162,13 @@ const MyStockItem: React.FC<StockItemProps> = ({
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
-      id: pfId,
-      name,
-      logo,
+      portfolioId,
       code,
-      price,
-      growth,
+      name,
+      quantity,
+      average,
+      ror,
+      logo: selectedStock?.logo || selectedStock?.name,
     });
     if (action === "delete") {
       setIsDeleteOpen(true);
@@ -155,21 +187,53 @@ const MyStockItem: React.FC<StockItemProps> = ({
         <button onClick={() => openModal("delete")}>삭제</button>
       </div>
       <div className="MyStockItemWrapper">
-        <img className="logo" src={logo}></img>
+        {logo ? (
+          <img
+            src={logo}
+            alt={`${name} logo`}
+            style={{
+              width: "30px",
+              height: "30px",
+              marginRight: "20px",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "30px",
+              height: "30px",
+              marginRight: "20px",
+              borderRadius: "10px",
+              textAlign: "center",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+              color: "#fff",
+              background: "#615EFC",
+            }}
+          >
+            {name.charAt(0)}
+          </div>
+        )}
         <div className="info-section">
           <h2>{name}</h2>
           <p>{code}</p>
         </div>
-        <div
-          className="growth-section"
-          style={{ color: getGrowthColor(growth) }}
-        >
-          {growth}%
+        <div className="growth-section" style={{ color: getGrowthColor(ror) }}>
+          {ror.toFixed(2)}%
         </div>
         <div className="price-section">
-          <p>수량 {pfId}</p>
-          <div>{formatPrice(price)}원</div>
-          <p>{formatPrice(pfId * price)}</p>
+          <p>수량 {quantity}</p>
+          <div>{formatPrice(average)}원</div>
+          {/* 수량 * 평단가 * ( 1 + 수익률 / 100) */}
+          {/* 수량* 평단가 = 투자금액
+          투자금액 * 수익률(1+) */}
+          <p>
+            {formatPrice(
+              quantity * average * (1 + ror / 100) - quantity * average
+            )}
+            원
+          </p>
         </div>
       </div>
       {isFormOpen && selectedStock && (

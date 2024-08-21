@@ -4,6 +4,8 @@ import { Input } from "../Input/input";
 import * as M from "../List/modalStyle";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import swal from "sweetalert";
+import { ListProps } from "../../constants/interface";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
@@ -11,10 +13,10 @@ interface AddOrEditModalProps {
   onConfirm: (quantity: number, price: number) => void;
   action: "add" | "edit" | undefined;
   selectedStock: {
-    id: number;
+    portfolioId: number;
     name: string;
     code: string;
-    logo: string;
+    logo?: string;
   } | null;
 }
 
@@ -31,16 +33,6 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   const [isValidPrice, setIsValidPrice] = useState(true);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  console.log("id : ", id);
-
-  const handleConfirm = () => {
-    if (!quantity || !price) {
-      setIsValidQuantity(false);
-      setIsValidPrice(false);
-      return;
-    }
-    onConfirm(quantity, price);
-  };
 
   const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -54,24 +46,48 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
     setIsValidPrice(true);
   };
 
-  useEffect(() => {
+  const handleConfirm = () => {
+    if (!quantity || !price) {
+      setIsValidQuantity(!quantity);
+      setIsValidPrice(!price);
+      swal({
+        title: "입력 오류",
+        text: "수량과 가격을 정확히 입력해주세요!",
+        icon: "warning",
+      });
+      return;
+    }
+
     if (selectedStock && quantity > 0 && price > 0) {
       axios
         .post(
-          `http://localhost:8080/v1/portfolio/${id}/holding/${selectedStock?.code}`,
+          `http://localhost:8080/v1/portfolio/${id}/holding/${selectedStock.code}`,
           { quantity, price },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res);
-          alert("내 자산 추가 ~ 성공 !");
+          if (res.status === 200) {
+            const newStock = { ...selectedStock, quantity, price };
+            // onUpdateStocks(newStock);
+            swal({
+              title: "자산 추가가 되었습니다.",
+              text: "성공적으로 완료되었습니다",
+              icon: "success",
+            });
+            onConfirm(quantity, price);
+            onClose();
+          }
         })
         .catch((error) => {
           console.log(error);
-          alert("에렁미...");
+          swal({
+            title: "추가에 실패하셨습니다.",
+            text: "다시 시도해주세요!",
+            icon: "error",
+          });
         });
     }
-  }, [selectedStock, quantity, price]);
+  };
 
   return (
     <ModalOpen

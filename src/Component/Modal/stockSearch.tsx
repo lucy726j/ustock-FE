@@ -84,7 +84,7 @@ const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
             {searchResults.length > 0 ? (
               searchResults.map((stock) => (
                 <Li
-                  key={stock.id}
+                  key={stock.portfolioId}
                   onClick={() => handleSelect(stock)}
                   onMouseEnter={() => setHoveredStock(stock.code)} // 마우스가 들어올 때 상태 설정
                   onMouseLeave={() => setHoveredStock(null)} // 마우스가 나갈 때 상태 초기화

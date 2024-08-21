@@ -75,7 +75,7 @@ export default function HyperText({
       onMouseEnter={triggerAnimation}
     >
         <motion.h1
-              style={{ fontSize: "32px" }}
+              style={{ fontSize: "32px", marginLeft: "-100px" }}
         className={`font-mono ${className}`}
         {...framerProps}
         >

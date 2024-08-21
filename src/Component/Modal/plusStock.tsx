@@ -1,7 +1,6 @@
 import { Input } from "../Input/input";
 import ModalOpen from "./modal";
 import * as M from "../List/modalStyle";
-import GukBap from "../../img/Gukbap.png";
 import { useState } from "react";
 import { PlusProps } from "../../constants/interface";
 
@@ -46,7 +45,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
 
   const calculateTotal = (stock: PlusProps) => {
     const totalQuantity = stock.quantity + quantity;
-    const totalInvestment = stock.principal + quantity * price;
+    const totalInvestment = stock.average + quantity * price;
     return { totalQuantity, totalInvestment };
   };
 
@@ -120,7 +119,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
                         <td>현재</td>
                         <td>{stock.quantity}</td>
                         <td>{stock.average}</td>
-                        <td>{stock.principal}</td>
+                        <td>{stock.quantity * stock.average}</td>
                       </tr>
                       <tr>
                         <td>추가</td>
