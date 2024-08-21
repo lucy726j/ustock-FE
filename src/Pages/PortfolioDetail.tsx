@@ -17,9 +17,9 @@ const PortfolioDetail = () => {
   return (
     <div style={{height: '100%', display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
         <h2 style={{marginLeft: "-200px", marginBottom: "30px"}}>{portfolioItem.id}의 포트폴리오</h2>
-        <Swipe />
         <PfCard />
         <PieChart />
+        <Swipe />
     </div>
   );
 };
