@@ -9,29 +9,7 @@ const DropdownContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 5px;
-  /* position: relative; */
 `;
-
-// const DropdownBoxContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   align-items: center;
-//   border: 1px solid ${Colors.main};
-//   border-radius: 5px;
-//   margin-right: auto;
-//   padding: 5px;
-// `;
-
-// const SelectBox = styled.div`
-//   width: 61px;
-//   height: 20px;
-//   font-size: 10px;
-//   color: black;
-//   text-align: start;
-//   align-content: center;
-//   padding: 5px 0px 5px 5px;
-// `;
 
 const DropdownBox = styled.option`
   width: 75px;
@@ -46,12 +24,6 @@ const DropdownBox = styled.option`
   }
 `;
 
-// const BntImg = styled.img`
-//   width: 9px;
-//   height: 7px;
-//   margin-right: 5px;
-// `;
-
 const DropdownListBox = styled.select`
   display: flex;
   flex-direction: column;
@@ -59,12 +31,9 @@ const DropdownListBox = styled.select`
   border: 1px solid ${Colors.main};
   border-radius: 5px;
   background-color: white;
-  /* position: absolute; */
   top: 35px;
   z-index: 1;
   padding: 5px;
-  /* max-height: 100px; */
-  /* overflow: auto; // Ensure it scrolls if content exceeds max-height */
   &::-webkit-scrollbar {
     display: none;
   }
@@ -87,11 +56,6 @@ const Dropdown: React.FC<DropdownProps> = ({ dropList, onSelect }) => {
 
   return (
     <DropdownContainer>
-      {/* <DropdownBoxContainer onClick={handleToggle}> */}
-      {/* <SelectBox>{value}</SelectBox> */}
-      {/* <BntImg src={isOpen ? close : open} alt="Toggle Dropdown" /> */}
-      {/* </DropdownBoxContainer> */}
-      {/* {isOpen && ( */}
       <DropdownListBox onChange={handleSelect}>
         {dropList.map((el) => (
           <DropdownBox key={el} value={el}>
@@ -101,7 +65,7 @@ const Dropdown: React.FC<DropdownProps> = ({ dropList, onSelect }) => {
               ? "거래량순"
               : el === "change"
               ? "등락율순"
-              : "null"}
+              : el}
           </DropdownBox>
         ))}
       </DropdownListBox>
