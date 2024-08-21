@@ -4,7 +4,9 @@ import Button from "../Button/button";
 import Img from "../../img/calcul.png";
 import { Colors } from "../../Styles/Colors";
 import { useState } from "react";
+import { DropdownProps } from "../../constants/interface";
 
+const nothing = () => {};
 const Container = styled.div`
   width: 450px;
   height: 330px;
@@ -63,11 +65,11 @@ const Calculator = () => {
         </span>
       </TitleContainer>
       <div>
-        <Label>년도 월 일</Label>
+        <Label>날짜 선택</Label>
         <DropContainer>
-          <Dropdown dropList={year} />
-          <Dropdown dropList={month} />
-          <Dropdown dropList={day} />
+          <Dropdown dropList={year} onSelect={nothing} />
+          <Dropdown dropList={month} onSelect={nothing} />
+          <Dropdown dropList={day} onSelect={nothing} />
         </DropContainer>
       </div>
       <div>

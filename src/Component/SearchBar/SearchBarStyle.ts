@@ -35,7 +35,7 @@ export const SearchResult = styled.div`
   padding: 20px;
   font-size: 12px;
   position: absolute;
-  top: 115px;
+  top: 135px;
   z-index: 2;
 `;
 

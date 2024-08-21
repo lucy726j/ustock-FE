@@ -49,8 +49,7 @@ export interface NavBoxProps {
 }
 
 export interface SearchBarProps {
-  // onSelect: (selected: number) => void;
-  onSelect: (item: number) => void;
+  onSelect: (selected: number) => void;
 }
 
 export interface NewsProps {
@@ -70,8 +69,36 @@ export interface ViewSelectProps {
   isSelected: boolean;
 }
 
-export interface StockListProps {
-  data: never[];
+// export interface StockListProps {
+//   data: never[];
+// }
+
+export interface StockDataProps {
+  data: Array<{
+    code: string;
+    name: string;
+    price: number;
+    change: number;
+    changeRate: number;
+  }>;
+}
+
+export interface MarketDataProps {
+  kospi: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+  kosdaq: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+}
+
+export interface DropdownProps {
+  dropList: any[];
+  onSelect: (category: string) => void;
 }
 
 export interface StockProps {
