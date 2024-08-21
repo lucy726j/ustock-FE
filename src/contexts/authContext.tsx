@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
-  accessToken: string | null;
-  refreshToken: string | null;
-  login: (accessToken: string, refreshToken: string) => void;
+  user: { name: string; profile: string } | null;
+  login: (user: { name: string; profile: string }) => void;
   logout: () => void;
 }
 
@@ -14,29 +13,25 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [accessToken, setAccessToken] = useState<string | null>(() =>
-    localStorage.getItem("accessToken")
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(() =>
-    localStorage.getItem("refreshToken")
+  const [user, setUser] = useState<{ name: string; profile: string } | null>(
+    () => {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
   );
 
-  const login = (accessToken: string, refreshToken: string) => {
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+  const login = (user: { name: string; profile: string }) => {
+    setUser(user);
+    localStorage.setItem("user : ", JSON.stringify(user));
   };
 
   const logout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -20,9 +20,11 @@ const CallBackPage = () => {
         { withCredentials: true }
       );
       if (res.status === 200) {
-        const { accessToken, refreshToken } = res.data;
-        login(accessToken, refreshToken);
+        const { name, profile } = res.data.user;
+        login({ name, profile });
         handleHome();
+      } else if (res.status === 401) {
+        console.log("망할망할 ~~~~");
       } else {
         throw new Error(`status code: ${res.status}`);
       }

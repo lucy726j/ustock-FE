@@ -12,11 +12,11 @@ const GoogleLogin = () => {
 
   return (
     <Box>
-      <Container>
+      {/* <Container>
         <Img src={AppLogo} />
         <P>U'STOCK</P>
       </Container>
-      <Description>SNS 계정으로 로그인</Description>
+      <Description>SNS 계정으로 로그인</Description> */}
       <Button onClick={handleLogin}>
         <img src={Google} />
       </Button>

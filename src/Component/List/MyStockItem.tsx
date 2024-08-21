@@ -32,14 +32,17 @@ const MyStockItem: React.FC<StockItemProps> = ({
         .patch(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
           quantity,
           price,
+          withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
-          swal({
-            title: "추가 등록완료!",
-            icon: "success",
-          });
-          setIsPlusOpen(false);
+          if (res.status === 200) {
+            console.log(res);
+            swal({
+              title: "추가 등록완료!",
+              icon: "success",
+            });
+            setIsPlusOpen(false);
+          }
         })
         .catch((error) => {
           swal({
