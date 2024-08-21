@@ -97,3 +97,16 @@ export interface StockDataProps {
   change: number;
   changeRate: number;
 }
+
+export interface MarketDataProps {
+  kospi: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+  kosdaq: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+}

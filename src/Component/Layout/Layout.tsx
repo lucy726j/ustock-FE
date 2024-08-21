@@ -22,6 +22,7 @@ const Layout = (props: { children: React.ReactNode }) => {
   return (
     <Container className="Layout">
       <Header />
+
           <Main style={{ height: "100%" }}>{props.children}</Main>
       <NavBar />
     </Container>

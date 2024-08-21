@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
-import Chart from "../Component/Chart/chart";
-import { Input } from "../Component/Input/input";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import { StockItemProps, ValueProps } from "../constants/interface";
-import GoogleLogin from "../Component/GoogleLogin/login";
-import MyStockItem from "../Component/List/MyStockItem";
+import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Div } from "../Component/Modal/modalStyle";
 
-const marketData = [
-  {
-    KOSPI: {
-      price: 2777.68,
-      change: 6.99,
-      changeRate: +0.25,
-    },
-    KOSDAQ: {
-      price: 2777.68,
-      change: 6.99,
-      changeRate: -0.25,
-    },
-  },
-];
+// const marketData = [
+//   {
+//     KOSPI: {
+//       price: 2777.68,
+//       change: 6.99,
+//       changeRate: +0.25,
+//     },
+//     KOSDAQ: {
+//       price: 2777.68,
+//       change: 6.99,
+//       changeRate: -0.25,
+//     },
+//   },
+// ];
 
 const Container = styled.div`
   display: flex;
@@ -94,14 +92,28 @@ const NewsContainer = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const nav = useNavigate();
+  const [market, setMarket] = useState<MarketDataProps | null>(null);
   const [list, setList] = useState([]);
 
   // 오늘의 증시 데이터
   useEffect(() => {
     axios
-      .post(`/v1/stocks/market`)
+      .get(`http://localhost:8080/v1/stocks/market`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
-        // console.log(res);
+        if (res.status === 200) {
+          console.log("증시데이터API", res.data);
+          const marketData = res.data;
+          setMarket(marketData);
+          console.log(market);
+        } else if (res.status === 401) {
+          nav("/login");
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -111,10 +123,19 @@ const Home: React.FC = () => {
   // 인기 종목 리스트 데이터
   useEffect(() => {
     axios
-      .post(`/v1/stocks?order=volume5`)
+      .get(`http://localhost:8080/v1/stocks?order=top`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
-        // console.log(res);
-        setList(res.data);
+        if (res.status === 200) {
+          setList(res.data);
+          console.log("인기종목리스트API" + res);
+        } else if (res.status === 401) {
+          nav("/login");
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -124,32 +145,34 @@ const Home: React.FC = () => {
   return (
     <Container>
       <MarketContainer>
-        {marketData.map((el) => (
-          <Kospi>
-            <span>KOSPI</span>
-            <Info isNegative={el.KOSPI.changeRate < 0}>
-              <span>{el.KOSPI.price}</span>
-              <span>{el.KOSPI.change}</span>
-              <span>{el.KOSPI.changeRate}</span>
+        <Kospi>
+          <span>KOSPI</span>
+          {market ? (
+            <Info isNegative={market.kospi.changeRate < 0}>
+              <span>{market.kospi.price}</span>
+              <span>{market.kospi.change}</span>
+              <span>{market.kospi.changeRate}</span>
             </Info>
-          </Kospi>
-        ))}
-        {marketData.map((el) => (
-          <Kosdaq>
-            <span>KOSDAQ</span>
-            <Info isNegative={el.KOSDAQ.changeRate < 0}>
-              <span>{el.KOSDAQ.price}</span>
-              <span>{el.KOSDAQ.change}</span>
-              <span>{el.KOSDAQ.changeRate}</span>
+          ) : (
+            <div>로딩중</div>
+          )}
+        </Kospi>
+        <Kosdaq>
+          <span>KOSDAQ</span>
+          {market ? (
+            <Info isNegative={market.kosdaq.changeRate < 0}>
+              <span>{market.kosdaq.price}</span>
+              <span>{market.kosdaq.change}</span>
+              <span>{market.kosdaq.changeRate}</span>
             </Info>
-          </Kosdaq>
-        ))}
+          ) : (
+            <div>로딩중</div>
+          )}
+        </Kosdaq>
       </MarketContainer>
       <ListContainer>
         <Title>오늘의 인기 종목</Title>
-        <StockWrapper>
-          <StockList data={list} />
-        </StockWrapper>
+        <StockWrapper>{/* <StockList data={list} /> */}</StockWrapper>
       </ListContainer>
       <NewsContainer>
         <Title>나만의 뉴스</Title>
