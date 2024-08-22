@@ -4,8 +4,10 @@ import styled from "styled-components";
 import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import StockDataList from "../Component/List/Data/stockDataList";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+
 
 const Container = styled.div`
   display: flex;

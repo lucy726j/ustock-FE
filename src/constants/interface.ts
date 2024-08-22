@@ -153,3 +153,17 @@ export interface CalculResultProps {
   iphone: string;
   chicken: string;
 }
+  
+export interface ChartProps {
+  date: string;
+  candle: {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+  };
+}
+
+export interface CandleData {
+  data: { x: string; y: [number, number, number, number] }[];
+}
