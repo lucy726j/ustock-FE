@@ -148,3 +148,17 @@ export interface StockItemProps {
   growth: number;
   logo: string;
 }
+
+export interface ChartProps {
+  date: string;
+  candle: {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+  };
+}
+
+export interface CandleData {
+  data: { x: string; y: [number, number, number, number] }[];
+}
