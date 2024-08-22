@@ -28,7 +28,7 @@ const Portfolio = () => {
   };
 
   const handleConfirm = () => {
-    console.log("handleConfirm called");
+    console.log("handleConfirm called", portfolioName);
     axios
       .post(
         "http://localhost:8080/v1/portfolio",

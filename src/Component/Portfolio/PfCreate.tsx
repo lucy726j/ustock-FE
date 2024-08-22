@@ -58,7 +58,7 @@ const PfCreate: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    console.log("handleConfirm called");
+    console.log("handleConfirm called. create : ", portfolioName);
     axios
       .post(
         "http://localhost:8080/v1/portfolio",
