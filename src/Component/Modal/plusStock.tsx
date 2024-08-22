@@ -70,9 +70,9 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
                       src={stock.logo}
                       alt={`${stock.name} logo`}
                       style={{
-                        width: "25px",
-                        height: "25px",
-                        marginRight: "34px",
+                        width: "30px",
+                        height: "30px",
+                        marginRight: "20px",
                       }}
                     />
                   ) : (

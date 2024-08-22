@@ -23,7 +23,7 @@ const NewsList: React.FC = () => {
 
   useEffect(() => {
     axios
-      .post(`https://api.ustock.site/v1/news/my`, {
+      .post(`http://localhost:8080/v1/news/my`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

@@ -49,7 +49,7 @@ const Profile = () => {
       {user ? (
         <ProfileContainer>
           <ImgStyle
-            src={user.profile}
+            src={encodeURI(user.profile)}
             alt="프로필 이미지"
             onClick={handleClickProfile}
           />
