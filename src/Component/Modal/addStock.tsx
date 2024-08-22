@@ -5,7 +5,6 @@ import * as M from "../List/modalStyle";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import swal from "sweetalert";
-import { ListProps } from "../../constants/interface";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
@@ -85,6 +84,9 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
             text: "다시 시도해주세요!",
             icon: "error",
           });
+
+          setPrice(0);
+          setQuantity(0);
         });
     }
   };

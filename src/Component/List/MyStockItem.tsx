@@ -59,7 +59,7 @@ const MyStockItem: React.FC<StockProps> = ({
   }, [code, name, quantity, average, ror, portfolioId]);
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
-      console.log(quantity, price);
+      // console.log(quantity, price);
       axios
         .patch(
           `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
@@ -74,6 +74,8 @@ const MyStockItem: React.FC<StockProps> = ({
               icon: "success",
             });
             setIsPlusOpen(false);
+            setSelectedStock(null);
+            setModalAction(null);
             navigate(`/portfolio/${portfolioId}`);
           }
         })
@@ -83,6 +85,8 @@ const MyStockItem: React.FC<StockProps> = ({
             text: "다시 시도해주세요!",
             icon: "error",
           });
+          setSelectedStock(null);
+          setModalAction(null);
           console.log(error);
         });
     } else if (modalAction === "edit") {
@@ -126,6 +130,8 @@ const MyStockItem: React.FC<StockProps> = ({
               text: "다시 시도해주세요",
               icon: "error",
             });
+            setSelectedStock(null);
+            setModalAction(null);
             console.log(error);
           }
         });
@@ -141,12 +147,14 @@ const MyStockItem: React.FC<StockProps> = ({
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         swal({
           title: "삭제 완료!",
           icon: "success",
         });
         setIsDeleteOpen(false);
+        setSelectedStock(null);
+        setModalAction(null);
       })
       .catch((error) => {
         swal({
@@ -154,6 +162,9 @@ const MyStockItem: React.FC<StockProps> = ({
           text: "다시 시도해주세요!",
           icon: "error",
         });
+
+        setSelectedStock(null);
+        setModalAction(null);
         console.log(error);
       });
   };

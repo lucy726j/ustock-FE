@@ -38,11 +38,13 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
 
   const handleConfirm = () => {
     console.log("핸들러 콜 ~");
+    console.log("addmodal : ", portfolioName);
     if (!portfolioName) {
       setIsValid(false);
       return;
     }
     setIsValid(true);
+    setPortfolioName("");
     onConfirm();
   };
 
