@@ -86,10 +86,6 @@ export interface ViewSelectProps {
   isSelected: boolean;
 }
 
-// export interface StockListProps {
-//   data: never[];
-// }
-
 export interface StockDataProps {
   code: string;
   name: string;
@@ -147,4 +143,13 @@ export interface StockItemProps {
   price: number;
   growth: number;
   logo: string;
+}
+
+export interface CalculResultProps {
+  price: number;
+  slave: string;
+  candy: string;
+  soul: string;
+  iphone: string;
+  chicken: string;
 }

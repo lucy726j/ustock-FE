@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
-import StockList from "../Component/List/StockList";
 import styled from "styled-components";
 import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import StockDataList from "../Component/List/Data/stockDataList";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 
 const Container = styled.div`
   display: flex;
@@ -136,7 +136,15 @@ const Home: React.FC = () => {
           {market ? (
             <Info isNegative={market.kospi.changeRate < 0}>
               <span>{market.kospi.price}</span>
-              <span>{market.kospi.change}</span>
+              <span>
+                {" "}
+                {market.kospi.change < 0 ? (
+                  <GoTriangleDown />
+                ) : (
+                  <GoTriangleUp />
+                )}
+                {market.kospi.change}
+              </span>
               <span>{market.kospi.changeRate}</span>
             </Info>
           ) : (
@@ -148,7 +156,14 @@ const Home: React.FC = () => {
           {market ? (
             <Info isNegative={market.kosdaq.changeRate < 0}>
               <span>{market.kosdaq.price}</span>
-              <span>{market.kosdaq.change}</span>
+              <span>
+                {market.kosdaq.change < 0 ? (
+                  <GoTriangleDown />
+                ) : (
+                  <GoTriangleUp />
+                )}
+                {market.kosdaq.change}
+              </span>
               <span>{market.kosdaq.changeRate}</span>
             </Info>
           ) : (

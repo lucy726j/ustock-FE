@@ -77,7 +77,9 @@ const SearchStock = () => {
         <SearchBar onSelect={handleSelectStock} />
       </SearchContainer>
       <FilterContainer>
-        <div>종목 리스트</div>
+        <div style={{ fontFamily: "SCDream6", fontSize: "20px" }}>
+          종목 리스트
+        </div>
         <Dropdown dropList={category} onSelect={handleSelectedCategory} />
       </FilterContainer>
       <div>

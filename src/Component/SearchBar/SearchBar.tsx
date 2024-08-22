@@ -1,7 +1,6 @@
 import searchImg from "../../img/search.png";
 import React, { useEffect, useState } from "react";
-// import { data } from "../../data/data";
-import { StockItemProps } from "../../constants/interface";
+import { StockDataProps } from "../../constants/interface";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { SearchBarProps } from "../../constants/interface";
 import * as S from "./SearchBarStyle";
@@ -9,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SearchBar: React.FC<SearchBarProps> = () => {
-  const [list, setList] = useState<StockItemProps[]>([]);
+  const [list, setList] = useState<StockDataProps[]>([]);
   const [keyword, setKeyword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const nav = useNavigate();
@@ -36,8 +35,8 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.stocks);
-          const result = res.data.stocks;
+          console.log(res.data);
+          const result = res.data;
           setList(result);
         } else if (res.status === 401) {
           nav("/login");
@@ -56,7 +55,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   //   setList(searchResult);
   // };
 
-  const handleSelectStock = (event: StockItemProps) => {
+  const handleSelectStock = (event: StockDataProps) => {
     console.log(event.code);
     nav(`/stocks/${event.code}`);
   };
@@ -78,17 +77,47 @@ const SearchBar: React.FC<SearchBarProps> = () => {
             ? "일치하는 검색결과가 없습니다"
             : list.map((el) => (
                 <S.StockItemContainer
-                  key={el.id}
+                  key={el.code}
                   onMouseDown={() => handleSelectStock(el)}
                 >
-                  <S.Img src={el.logo} />
+                  {el.logo ? (
+                    <S.Img
+                      src={el.logo}
+                      alt={`${el.name} logo`}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginRight: "20px",
+                        marginLeft: "1rem",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginRight: "20px",
+                        borderRadius: "10px",
+                        textAlign: "center",
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        color: "#fff",
+                        background: "#615EFC",
+                        marginLeft: "1rem",
+                      }}
+                    >
+                      {el.name.charAt(0)}
+                    </div>
+                  )}
                   <S.InfoSection>
                     <S.Name>{el.name}</S.Name>
                     <S.Code>{el.code}</S.Code>
                   </S.InfoSection>
                   <S.Price>{formatPrice(el.price)}원</S.Price>
-                  <S.Growth style={{ color: getGrowthColor(el.growth) }}>
-                    {el.growth}%
+                  <S.Growth style={{ color: getGrowthColor(el.changeRate) }}>
+                    {el.changeRate}%
                   </S.Growth>
                 </S.StockItemContainer>
               ))}
