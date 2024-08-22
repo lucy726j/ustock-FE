@@ -1,6 +1,7 @@
 import React from "react"
 import "./PfCardStyle.css"
 import { PortfolioProps } from "../../constants/interface"
+import { getGrowthColor, formatROR } from "../../util/util"
 
 interface PfCardProps{
     data: PortfolioProps
@@ -11,6 +12,7 @@ const PfCard: React.FC<PfCardProps> = ({ data }) => {
     const principal = data.principal;
     const profitLoss = data.ret;
     const ror = data.ror;
+    console.log(data)
 
     return (
         <div className="PfCard">
@@ -23,7 +25,9 @@ const PfCard: React.FC<PfCardProps> = ({ data }) => {
                 </div>
                 <div className="gain-and-loss">
                     <div className="title-area">평가 손익</div>
-                    <div className="value-area">₩ {profitLoss.toLocaleString()} ({ror.toFixed(2)}%)</div>
+                    <div className="value-area"
+                        style={{color : getGrowthColor(ror)}}
+                    >₩ {profitLoss.toLocaleString()} ({formatROR(ror)}%)</div>
                 </div>
             </div>
         </div>

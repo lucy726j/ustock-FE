@@ -14,8 +14,8 @@ const ListWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  gap: 10px;
-`;
+  gap: 10px;`
+;
 
 const MyStockList: React.FC<MyStockListProps> = ({
   stockData,
