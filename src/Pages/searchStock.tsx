@@ -43,8 +43,10 @@ const SearchStock = () => {
   };
 
   // 카테고리 set
-  const handleSelectedCategory = (category: string) => {
-    setSelectedCategory(category);
+  const handleSelectedCategory = (category: string | number) => {
+    if (typeof category === "string") {
+      setSelectedCategory(category);
+    }
   };
 
   // 정렬된 종목 리스트 API

@@ -118,7 +118,7 @@ export interface MarketDataProps {
 
 export interface DropdownProps {
   dropList: any[];
-  onSelect: (category: string) => void;
+  onSelect: (category: string | number) => void;
 }
 
 export interface StockProps {

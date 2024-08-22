@@ -5,8 +5,11 @@ import Img from "../../img/calcul.png";
 import { Colors } from "../../Styles/Colors";
 import { useState } from "react";
 import { DropdownProps } from "../../constants/interface";
+import { Input } from "../Input/input";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import CalculResult from "./calculResult";
 
-const nothing = () => {};
 const Container = styled.div`
   width: 450px;
   height: 330px;
@@ -40,6 +43,8 @@ const DropContainer = styled.div`
 
 const Label = styled.div``;
 
+const nothing = () => {};
+
 const Calculator = () => {
   // CHECK API 연결할 떄,, 현재 시점 보다 미래의 날짜를 했을 때, 검색 불가하게 막기 필요
   //       없는 날짜를 검색하면 검색 불가하게 막기 필요
@@ -53,10 +58,57 @@ const Calculator = () => {
   ];
 
   const [price, setPrice] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [selectedYear, setSelectedYear] = useState(2014);
+  const [selectedMonth, setSelectedMonth] = useState(1);
+  const [selectedDay, setSelectedDay] = useState(1);
 
-  // const handle;
+  const location = useLocation();
+  const code = location.pathname.split("/")[2];
 
-  return (
+  const ConfirmHandler = async () => {
+    axios
+      .post(
+        `http://localhost:8080/v1/stocks/${code}/skrrr?date=${
+          selectedYear + "/" + selectedMonth + "/" + selectedDay
+        }&price=${price}`
+      )
+      .then((res) => {
+        console.log("계신기 값 : ", res);
+        setResult(true);
+      });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPrice(e.target.value);
+    if (e.target.value) {
+      setIsValid(true);
+    }
+  };
+
+  const handleSelectedYear = (category: number | string) => {
+    if (typeof category === "number") {
+      setSelectedYear(category);
+    }
+  };
+
+  const handleSelectedMonth = (category: number | string) => {
+    if (typeof category === "number") {
+      setSelectedMonth(category);
+    }
+  };
+
+  const handleSelectedDay = (category: number | string) => {
+    if (typeof category === "number") {
+      setSelectedDay(category);
+    }
+  };
+
+  const [result, setResult] = useState(false);
+
+  return result ? (
+    <CalculResult />
+  ) : (
     <Container>
       <TitleContainer>
         <img src={Img} alt="앵무새가 컴퓨터 보는 이미지" />
@@ -67,28 +119,30 @@ const Calculator = () => {
       <div>
         <Label>날짜 선택</Label>
         <DropContainer>
-          <Dropdown dropList={year} onSelect={nothing} />
-          <Dropdown dropList={month} onSelect={nothing} />
-          <Dropdown dropList={day} onSelect={nothing} />
+          <Dropdown dropList={year} onSelect={handleSelectedYear} />
+          <Dropdown dropList={month} onSelect={handleSelectedMonth} />
+          <Dropdown dropList={day} onSelect={handleSelectedDay} />
         </DropContainer>
       </div>
       <div>
         <Label>금액</Label>
 
-        {/*         <Input
+        <Input
           placeholder="금액"
           size="small"
           colorType="strokeType"
           errorMessage="금액을 입력해주세요"
-          // value={}
-          // isValid={}
-        /> */}
+          value={price}
+          onChange={handleInputChange}
+          isValid={isValid}
+        />
       </div>
       <Button
         children={"결과 확인하기"}
         state="normal"
         size="gradientBtn"
         colorType="main"
+        onClick={ConfirmHandler}
       />
     </Container>
   );
