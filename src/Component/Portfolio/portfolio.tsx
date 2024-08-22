@@ -28,7 +28,7 @@ const Portfolio = () => {
   };
 
   const handleConfirm = () => {
-    console.log("handleConfirm called");
+    console.log("handleConfirm called", portfolioName);
     axios
       .post(
         "http://localhost:8080/v1/portfolio",
@@ -85,6 +85,9 @@ const Portfolio = () => {
       });
   }, []);
 
+  console.log(formatPrice(totalAsset));
+  const text = formatPrice(totalAsset);
+
   return (
     <div className="Portfolio">
       <div className="asset">
@@ -93,7 +96,7 @@ const Portfolio = () => {
         <div className="asset-value">
           <div className="total-value">
             <HyperText
-              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
+              text={`₩ ${formatPrice(totalAsset)}`} // 적용할 텍스트
               duration={1200} // 애니메이션 지속 시간
               className="text-xl font-bold" // 필요한 클래스명 추가
             />

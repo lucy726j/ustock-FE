@@ -21,7 +21,6 @@ const ListWrapper = styled.div`
 // `;
 
 const StockList: React.FC<StockDataProps> = ({ data }: any) => {
-  // console.log(JSON.stringify(data));
   return (
     <div>
       <ListWrapper>

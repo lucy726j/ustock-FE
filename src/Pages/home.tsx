@@ -116,7 +116,7 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
+          // console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
           const stockData = res.data.stock;
           setList(stockData);
         } else if (res.status === 401) {

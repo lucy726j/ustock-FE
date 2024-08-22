@@ -58,7 +58,6 @@ const SearchStock = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log("종목리스트API" + JSON.stringify(res.data.stock));
           const stockData = res.data.stock;
           setList(stockData);
         } else if (res.status === 401) {
