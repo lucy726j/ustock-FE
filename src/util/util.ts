@@ -24,3 +24,9 @@ export const formatRate = (rate: number | undefined | null): string => {
     maximumFractionDigits: 2,
   });
 };
+
+
+export const formatROR = (ror: number): string => {
+  const sign = ror > 0 ? '+' : '';  // 양수일 때 + 기호 추가
+  return `${sign}${ror.toFixed(2)}`; // 소수점 둘째 자리까지 포맷팅
+}

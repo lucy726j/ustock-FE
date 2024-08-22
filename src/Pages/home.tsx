@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
-import StockList from "../Component/List/StockList";
 import styled from "styled-components";
 import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import StockDataList from "../Component/List/Data/stockDataList";
+import StockDataList from "../Component/List/Data/stockDataList"
 
 const Container = styled.div`
   display: flex;
