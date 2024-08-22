@@ -118,7 +118,6 @@ const StockDetail: React.FC = () => {
             }}
           >
             <Calculator />
-            <CalculResult />
           </div>
         </>
       ) : (

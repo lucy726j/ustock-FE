@@ -30,7 +30,7 @@ const StockData: React.FC<StockDataProps> = ({
             width: "30px",
             height: "30px",
             marginRight: "20px",
-            paddingLeft: "2rem",
+            marginLeft: "1rem",
           }}
         />
       ) : (
