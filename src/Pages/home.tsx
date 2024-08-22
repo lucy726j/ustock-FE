@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import StockDataList from "../Component/List/Data/stockDataList";
 
 const Container = styled.div`
   display: flex;
@@ -115,7 +116,7 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
+          console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
           const stockData = res.data.stock;
           setList(stockData);
         } else if (res.status === 401) {
@@ -158,7 +159,7 @@ const Home: React.FC = () => {
       <ListContainer>
         <Title>오늘의 인기 종목</Title>
         <StockWrapper>
-          {list ? <StockList data={list} /> : <div>로딩중</div>}
+          {list ? <StockDataList data={list} /> : <div>로딩중</div>}
         </StockWrapper>
       </ListContainer>
       <NewsContainer>

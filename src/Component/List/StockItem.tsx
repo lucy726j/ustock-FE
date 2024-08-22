@@ -1,36 +1,41 @@
 import React from "react";
+import { StockProps } from "../../constants/interface";
 import { StockDataPropList } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const StockItem: React.FC<StockDataPropList> = ({ data }) => {
+const StockItem: React.FC<StockProps> = ({
+  portfolioId,
+  name,
+  logo,
+  code,
+  ror,
+  average,
+}) => {
   const nav = useNavigate();
-  const handleStockSelect = (e: React.MouseEvent<HTMLDivElement>) => {
-    // console.log(e);
-    const stockItemDiv = (e.target as HTMLElement).closest(".StockItem");
-    const stockId = stockItemDiv?.id;
-    nav(`/stocks/${stockId}`);
+  const handleStockSelect = () => {
+    nav(`/stocks/${portfolioId}`);
   };
 
-  return data.map((stock) => (
-    <div className="StockItem" id={stock.code} onClick={handleStockSelect}>
-      {stock?.logo ? (
-        <img className="logo" src={stock.logo}></img>
+  return (
+    <div className="StockItem" id={code} onClick={handleStockSelect}>
+      {logo ? (
+        <img className="logo" src={logo}></img>
       ) : (
-        <div className="logo">{stock?.name.charAt(0)}</div>
+        <div className="logo">{name.charAt(0)}</div>
       )}
 
       <div className="info-section">
-        <h2>{stock.name}</h2>
-        <p>{stock.code}</p>
+        <h2>{name}</h2>
+        <p>{code}</p>
       </div>
-      <div className="price">{formatPrice(stock.price)}원</div>
-      <div className="growth" style={{ color: getGrowthColor(stock.change) }}>
-        {stock.changeRate}%
+      <div className="price">{formatPrice(average)}원</div>
+      <div className="growth" style={{ color: getGrowthColor(ror) }}>
+        {ror}%
       </div>
     </div>
-  ));
+  );
 };
 
 export default StockItem;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import StockItem from "./StockItem";
-import { StockDataProps } from "../../constants/interface";
+import StockData from "../Data/stockData";
+import { StockDataPropList } from "../../../constants/interface";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -13,24 +13,17 @@ const ListWrapper = styled.div`
   overflow-y: auto; /* 스크롤바를 활성화 */
 `;
 
-// const ListWrapper = styled.div`
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-//     gap: 20px;
-//     width: 100%;
-// `;
-
-const StockList: React.FC<StockDataProps> = ({ data }: any) => {
+const StockDataList: React.FC<StockDataPropList> = ({ data }) => {
   // console.log(JSON.stringify(data));
   return (
     <div>
       <ListWrapper>
-        {data.map((item: any) => (
-          <StockItem key={item.code} {...item} />
+        {data.map((item) => (
+          <StockData key={item.code} {...item} />
         ))}
       </ListWrapper>
     </div>
   );
 };
 
-export default StockList;
+export default StockDataList;

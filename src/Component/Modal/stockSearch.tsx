@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalOpen from "./modal";
 import { Input } from "../Input/input";
-import { StockItemProps } from "../../constants/interface";
+import { ListProps } from "../../constants/interface";
 import { formatPrice } from "../../util/util";
 import {
   Ul,
@@ -14,39 +14,51 @@ import {
   SearchImg,
 } from "./modalStyle";
 import Search from "../../img/search.png";
+import axios from "axios";
 
 interface StockSearchProps {
   isOpen: boolean;
-  onSelect: (selectedStock: StockItemProps) => void;
+  onSelect: (selectedStock: ListProps) => void;
   onClose: () => void;
-  data: StockItemProps[];
 }
 
-const StockSearch: React.FC<StockSearchProps> = ({
-  onSelect,
-  onClose,
-  data,
-}) => {
+const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<StockItemProps[]>(data);
+  const [searchResults, setSearchResults] = useState<ListProps[]>([]);
   const [hoveredStock, setHoveredStock] = useState<string | null>(null); // 현재 호버 중인 종목을 추적하는 상태
   const [isValid, setIsValid] = useState(true);
+  const [stockList, setStockList] = useState<ListProps[]>([]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    const results = data.filter(
+    const results = stockList.filter(
       (stock) => stock.name.includes(term) || stock.code.includes(term)
     );
     setSearchResults(results);
   };
 
-  const handleSelect = (stock: StockItemProps) => {
+  const handleSelect = (stock: ListProps) => {
     if (hoveredStock === stock.code) {
       onSelect(stock);
     } else {
       setHoveredStock(stock.code);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/v1/stocks?order=capital`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data.stock);
+        setStockList(res.data.stock);
+        setSearchResults(res.data.stock);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div>
@@ -72,7 +84,7 @@ const StockSearch: React.FC<StockSearchProps> = ({
             {searchResults.length > 0 ? (
               searchResults.map((stock) => (
                 <Li
-                  key={stock.code}
+                  key={stock.portfolioId}
                   onClick={() => handleSelect(stock)}
                   onMouseEnter={() => setHoveredStock(stock.code)} // 마우스가 들어올 때 상태 설정
                   onMouseLeave={() => setHoveredStock(null)} // 마우스가 나갈 때 상태 초기화
@@ -83,15 +95,34 @@ const StockSearch: React.FC<StockSearchProps> = ({
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <img
-                      src={stock.logo}
-                      alt={`${stock.name} logo`}
-                      style={{
-                        width: "25px",
-                        height: "25px",
-                        marginRight: "34px",
-                      }}
-                    />
+                    {stock.logo ? (
+                      <img
+                        src={stock.logo}
+                        alt={`${stock.name} logo`}
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: "20px",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: "20px",
+                          borderRadius: "10px",
+                          textAlign: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          color: "#fff",
+                          background: "#615EFC",
+                        }}
+                      >
+                        {stock.name.charAt(0)}
+                      </div>
+                    )}
                     <Div>
                       <Name>{stock.name}</Name>
                       <Description>{stock.code}</Description>
@@ -111,10 +142,10 @@ const StockSearch: React.FC<StockSearchProps> = ({
                     </div>
                     <Growth
                       style={{
-                        color: stock.growth < 0 ? "#ff5759" : "#615EFC",
+                        color: stock.changeRate < 0 ? "#ff5759" : "#615EFC",
                       }}
                     >
-                      {stock.growth}%
+                      {stock.changeRate}%
                     </Growth>
                   </div>
                 </Li>

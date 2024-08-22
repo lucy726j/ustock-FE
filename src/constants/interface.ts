@@ -41,6 +41,24 @@ export interface ModalProps {
   icon?: string;
 }
 
+export interface ListProps {
+  portfolioId: number;
+  logo: string;
+  name: string;
+  code: string;
+  price: number;
+  changeRate: number;
+}
+
+export interface PlusProps {
+  portfolioId: number;
+  name: string;
+  logo: string;
+  code: string;
+  quantity: number;
+  average: number;
+}
+
 export interface NavBoxProps {
   id: string;
   onClick: (id: string) => void;
@@ -73,27 +91,16 @@ export interface ViewSelectProps {
 // }
 
 export interface StockDataProps {
-  // data: Array<{
   code: string;
   name: string;
+  logo: string;
   price: number;
   change: number;
   changeRate: number;
-  logo: string;
-  // }>;
 }
 
 export interface StockDataPropList {
   data: Array<StockDataProps>;
-}
-
-export interface StockItemProps {
-  id: number;
-  name: string;
-  code: string;
-  price: number;
-  growth: number;
-  logo: string;
 }
 
 export interface MarketDataProps {
@@ -115,6 +122,7 @@ export interface DropdownProps {
 }
 
 export interface StockProps {
+  portfolioId: number;
   code: string;
   name: string;
   quantity: number;
@@ -130,4 +138,13 @@ export interface PortfolioProps {
   ret: number;
   ror: number;
   stocks: StockProps[];
+}
+
+export interface StockItemProps {
+  id: number;
+  name: string;
+  code: string;
+  price: number;
+  growth: number;
+  logo: string;
 }
