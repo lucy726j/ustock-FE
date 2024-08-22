@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Dropdown from "../Component/Dropdown/Dropdown";
-import StockList from "../Component/List/StockList";
+import StockDataList from "../Component/List/Data/stockDataList";
 import SearchBar from "../Component/SearchBar/SearchBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -80,7 +80,7 @@ const SearchStock = () => {
         <Dropdown dropList={category} onSelect={handleSelectedCategory} />
       </FilterContainer>
       <div>
-        <StockList data={list} />
+        <StockDataList data={list} />
       </div>
     </Container>
   );

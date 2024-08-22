@@ -8,6 +8,7 @@ import { ViewSelectProps, StockDataProps } from "../../constants/interface";
 import * as S from "./stockDetailStyle";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { formatRate, formatPrice } from "../../util/util";
 
 type ViewList = "일" | "주" | "월" | "1년";
 
@@ -62,18 +63,6 @@ const StockDetail: React.FC = () => {
         .catch((err) => console.log(err));
   }, []);
 
-  // API 데이터로 바꿀 때, stockData 옆에 붙은 [0] 삭제 필요
-  // 데이터 확인용 dummy
-  // const stockData = [
-  //   {
-  //     code: "005930",
-  //     name: "삼성전자",
-  //     price: 80000,
-  //     change: 3000,
-  //     changeRate: 3.9,
-  //   },
-  // ];
-
   // 쿼리스트링으로 보낼 때, 시작/종료 날짜 보내야하는지 확인
   // 상태저장해서 Chart 컴포넌트 Props로 넘겨줘야하는지 확인
   useEffect(() => {
@@ -92,18 +81,18 @@ const StockDetail: React.FC = () => {
         <>
           <S.InfoContainer>
             <div>
-              {/* <S.StockName>{stockData.name}</S.StockName> */}
+              <S.StockName>{stockData.name}</S.StockName>
               <S.CodeContainer>
-                {/* <S.StockCode>{stockData.code}</S.StockCode> */}
-                {/* 데이터 없음. 삭제 */}
-                {/* <S.StockCode>첨단 기술</S.StockCode> */}
+                <S.StockCode>{stockData.code}</S.StockCode>
               </S.CodeContainer>
             </div>
             <S.PriceContainer>
-              {/* <S.StockPrice>{stockData.price}원</S.StockPrice> */}
+              <S.StockPrice>{formatPrice(stockData.price)}원</S.StockPrice>
               <S.ChangeContainer>
-                {/* <S.StockChange>{stockData.change}원</S.StockChange> */}
-                {/* <S.StockChange>{stockData.changeRate}%</S.StockChange> */}
+                <S.StockChange>{formatPrice(stockData.change)}원</S.StockChange>
+                <S.StockChange>
+                  {formatRate(stockData.changeRate)}%
+                </S.StockChange>
               </S.ChangeContainer>
             </S.PriceContainer>
           </S.InfoContainer>

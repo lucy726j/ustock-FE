@@ -91,13 +91,16 @@ export interface ViewSelectProps {
 // }
 
 export interface StockDataProps {
-  data: Array<{
-    code: string;
-    name: string;
-    price: number;
-    change: number;
-    changeRate: number;
-  }>;
+  code: string;
+  name: string;
+  logo: string;
+  price: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StockDataPropList {
+  data: Array<StockDataProps>;
 }
 
 export interface MarketDataProps {

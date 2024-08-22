@@ -25,7 +25,7 @@ const StockList: React.FC<StockDataProps> = ({ data }: any) => {
     <div>
       <ListWrapper>
         {data.map((item: any) => (
-          <StockItem key={item.id} {...item} />
+          <StockItem key={item.code} {...item} />
         ))}
       </ListWrapper>
     </div>

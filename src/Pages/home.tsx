@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
 import StockList from "../Component/List/StockList";
 import styled from "styled-components";
-import {
-  MarketDataProps,
-  StockDataProps,
-  ValueProps,
-} from "../constants/interface";
+import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Div } from "../Component/Modal/modalStyle";
+import StockDataList from "../Component/List/Data/stockDataList";
 
 const Container = styled.div`
   display: flex;
@@ -163,7 +159,7 @@ const Home: React.FC = () => {
       <ListContainer>
         <Title>오늘의 인기 종목</Title>
         <StockWrapper>
-          {list ? <StockList data={list} /> : <div>로딩중</div>}
+          {list ? <StockDataList data={list} /> : <div>로딩중</div>}
         </StockWrapper>
       </ListContainer>
       <NewsContainer>
