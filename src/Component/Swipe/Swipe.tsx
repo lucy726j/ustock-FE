@@ -1,27 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SwipeStyle.css";
 import close from "../../img/closeStatus.png";
 import open from "../../img/openStatus.png";
 import MyStockList from "../List/MyStockList";
-import { StockItemProps } from "../../constants/interface";
+import { ListProps, StockProps } from "../../constants/interface";
 import StockSearch from "../Modal/stockSearch";
-import { data } from "../../data/data";
 import AddOrEditModal from "../Modal/addStock";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
+
+interface SwipeProps {
+  portfolioId: number;
+}
 
 const MAX_HEIGHT_PERCENT = 80; // 80%
 const MIN_HEIGHT_PERCENT = 10; // 10%
 
-const Swipe: React.FC = () => {
+const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
+    const stockData = usePortfolioStore((state) => state.stockData)
+    const addStock = usePortfolioStore((state) => state.addStock)
   const [heightPercent, setHeightPercent] = useState(MIN_HEIGHT_PERCENT);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-    null
-  );
+  const [selectedStock, setSelectedStock] = useState<ListProps | null>(null);
   const [modalAction, setModalAction] = useState<"add" | null>(null);
 
-  const handleSelectStock = (stock: StockItemProps) => {
-    setSelectedStock(stock);
+  const handleSelectStock = (stockData: ListProps) => {
+    //console.log("stock 값들 : ", stockData);
+    setSelectedStock(stockData);
     setIsSearchOpen(false);
     setIsFormOpen(true);
     setModalAction("add");
@@ -32,16 +37,43 @@ const Swipe: React.FC = () => {
     setIsSearchOpen(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (quantity: number, price: number) => {
+    if (modalAction === "add" && selectedStock) {
+      const newStock: StockProps = {
+        code: selectedStock.code,
+        name: selectedStock.name,
+        quantity: quantity,
+        average: price,
+        ror: 0, // 새로운 종목이 추가될 때 초기 수익률은 0으로 설정 //이게 뭔소리노
+        portfolioId,
+        logo: selectedStock.logo,
+      };
+
+      addStock(newStock); // zustand 상태 업데이트
+    }
+
     setIsFormOpen(false);
   };
+    
+    // useEffect(() => {
+    //     alert("실행되니?");
+    //     handleAddStock();
+    //     // handleSelectStock;
+    //     // handleConfirm;
+    // }, [handleAddStock]);
+
 
   const toggleHeight = () => {
-    setHeightPercent(heightPercent === MIN_HEIGHT_PERCENT ? MAX_HEIGHT_PERCENT : MIN_HEIGHT_PERCENT);
+    setHeightPercent(
+      heightPercent === MIN_HEIGHT_PERCENT
+        ? MAX_HEIGHT_PERCENT
+        : MIN_HEIGHT_PERCENT
+    );
   };
+  //console.log(stockData);
 
   return (
-    <div style={{ width: "100%", position: "absolute", bottom: '70px'}}>
+    <div style={{ width: "100%", position: "absolute", bottom: "70px" }}>
       <div
         className="swipeableContainer"
         style={{
@@ -50,7 +82,7 @@ const Swipe: React.FC = () => {
         }}
       >
         <div className="swipeHandle">
-          <h3>스껄무새 님의 자산내역</h3>
+          <h3>자산내역</h3>
           <div
             style={{
               display: "flex",
@@ -63,6 +95,7 @@ const Swipe: React.FC = () => {
                 <span className="plus-icon">+</span>
               </button>
             )}
+
             <div className="dragHandle" onClick={toggleHeight}>
               <img
                 src={heightPercent === MIN_HEIGHT_PERCENT ? close : open}
@@ -72,14 +105,13 @@ const Swipe: React.FC = () => {
             </div>
           </div>
         </div>
-        <MyStockList />
+        <MyStockList portfolioId={portfolioId} />
       </div>
       {isSearchOpen && (
         <StockSearch
           isOpen={isSearchOpen}
           onClose={() => setIsSearchOpen(false)}
           onSelect={handleSelectStock}
-          data={data}
         />
       )}
       {isFormOpen && selectedStock && (

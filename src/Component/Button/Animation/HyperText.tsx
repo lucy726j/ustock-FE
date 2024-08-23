@@ -68,6 +68,10 @@ export default function HyperText({
     // Clean up interval on unmount
     return () => clearInterval(interval);
   }, [text, duration, trigger, animateOnLoad]);
+    
+    useEffect(() => {
+        setDisplayText(text);
+    }, [text]);
 
   return (
     <div
@@ -75,7 +79,7 @@ export default function HyperText({
       onMouseEnter={triggerAnimation}
     >
         <motion.h1
-              style={{ fontSize: "32px" }}
+              style={{ fontSize: "32px", marginLeft: "-100px" }}
         className={`font-mono ${className}`}
         {...framerProps}
         >

@@ -1,37 +1,52 @@
 import { Input } from "../Input/input";
 import ModalOpen from "./modal";
 import * as M from "../List/modalStyle";
-import GukBap from "../../img/Gukbap.png";
 import { useState } from "react";
+import { PlusProps } from "../../constants/interface";
 
 interface StockPlusModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onConfirm: (quantity: number, price: number) => void;
+  userStocks: PlusProps[];
 }
 
 const StockPlusModal: React.FC<StockPlusModalProps> = ({
   isOpen,
   onRequestClose,
   onConfirm,
+  userStocks,
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
-  const [isValid, setIsValid] = useState(true);
+  const [isValidQuantity, setIsValidQuantity] = useState(true);
+  const [isValidPrice, setIsValidPrice] = useState(true);
 
   const handleConfirm = () => {
     if (!quantity || !price) {
-      setIsValid(false);
+      setIsValidQuantity(false);
+      setIsValidPrice(false);
       return;
     }
     onConfirm(quantity, price);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setQuantity(isNaN(value) ? 0 : value);
+    setIsValidQuantity(true);
+  };
+
+  const handelChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
     setPrice(isNaN(value) ? 0 : value);
-    setIsValid(true);
+    setIsValidPrice(true);
+  };
+
+  const calculateTotal = (stock: PlusProps) => {
+    const totalQuantity = stock.quantity + quantity;
+    const totalInvestment = stock.average + quantity * price;
+    return { totalQuantity, totalInvestment };
   };
 
   return (
@@ -44,75 +59,114 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
       onConfirm={handleConfirm}
     >
       <div>
-        <M.Box>
-          <M.Img src={GukBap} alt="주식 종목" />
-          <div>
-            <h2>APS</h2>
-            <M.P>054620</M.P>
-          </div>
-        </M.Box>
-        <M.Container>
-          <table
-            style={{
-              width: "100%",
-              textAlign: "center",
-              marginBottom: "20px",
-            }}
-          >
-            <thead>
-              <tr>
-                <th></th>
-                <th>수량</th>
-                <th>구매 가격 (₩)</th>
-                <th>투자 금액(₩)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>현재</td>
-                <td>50</td>
-                <td>5,000</td>
-                <td>250,000</td>
-              </tr>
-              <tr>
-                <td>추가</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>합계</td>
-                <td>50</td>
-                <td>5,000</td>
-                <td>250,000</td>
-              </tr>
-            </tbody>
-          </table>
-          <div>
-            <M.Div>수량</M.Div>
-            <Input
-              placeholder="ex) 100"
-              size="medium"
-              colorType="fillType"
-              errorMessage="수량을 입력해주세요"
-              value={quantity.toString()}
-              isValid={isValid || !!quantity}
-              onChange={handleChange}
-            />
-          </div>
-          <div style={{ marginTop: "1rem" }}>
-            <M.Div>평균 단가</M.Div>
-            <Input
-              placeholder="ex) 10,000"
-              size="medium"
-              colorType="fillType"
-              errorMessage="단가를 입력해주세요"
-              isValid={isValid || !!price}
-              value={price.toString()}
-              onChange={handleChange}
-            />
-          </div>
-        </M.Container>
+        {userStocks.length > 0 ? (
+          userStocks.map((stock) => {
+            const { totalQuantity, totalInvestment } = calculateTotal(stock);
+            return (
+              <div key={stock.code}>
+                <M.Box>
+                  {stock.logo ? (
+                    <img
+                      src={stock.logo}
+                      alt={`${stock.name} logo`}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginRight: "20px",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginRight: "20px",
+                        borderRadius: "10px",
+                        textAlign: "center",
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        color: "#fff",
+                        background: "#615EFC",
+                      }}
+                    >
+                      {stock.name.charAt(0)}
+                    </div>
+                  )}
+                  <div>
+                    <h2>{stock.name}</h2>
+                    <M.P>{stock.code}</M.P>
+                  </div>
+                </M.Box>
+                <M.Container>
+                  <table
+                    style={{
+                      width: "100%",
+                      textAlign: "center",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>수량</th>
+                        <th>구매 가격 (₩)</th>
+                        <th>투자 금액(₩)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>현재</td>
+                        <td>{stock.quantity}</td>
+                        <td>{stock.average}</td>
+                        <td>{stock.quantity * stock.average}</td>
+                      </tr>
+                      <tr>
+                        <td>추가</td>
+                        {/* 사용자가 입력한  수량*/}
+                        <td>{quantity}</td>
+                        {/* 사용자가 입력한 구매금액 */}
+                        <td>{price.toLocaleString()}</td>
+                        {/* 사용자가 입력한 수령 * 구매금액 = 총 투자금액 */}
+                        <td>{(quantity * price).toLocaleString()}</td>
+                      </tr>
+                      <tr>
+                        <td>합계</td>
+                        <td>{totalQuantity}</td>
+                        <td></td>
+                        <td>{totalInvestment.toLocaleString()}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </M.Container>
+                <M.Div>수량</M.Div>
+                <Input
+                  placeholder="ex) 100"
+                  size="medium"
+                  colorType="fillType"
+                  errorMessage="수량을 입력해주세요"
+                  value={quantity.toString()}
+                  isValid={isValidQuantity || !!quantity}
+                  onChange={handleChangeQuantity}
+                />
+                <div style={{ marginTop: "1rem" }}>
+                  <M.Div>구매 가격</M.Div>
+                  <Input
+                    placeholder="ex) 10,000"
+                    size="medium"
+                    colorType="fillType"
+                    errorMessage="단가를 입력해주세요"
+                    isValid={isValidPrice || !!price}
+                    value={price.toString()}
+                    onChange={handelChangePrice}
+                  />
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>사용자의 종목이 없습니다.</p>
+        )}
       </div>
     </ModalOpen>
   );

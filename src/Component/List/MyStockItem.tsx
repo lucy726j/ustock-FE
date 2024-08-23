@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StockItemProps } from "../../constants/interface";
+import { StockProps, PlusProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import AddOrEditModal from "../Modal/addStock";
@@ -7,41 +7,72 @@ import StockPlusModal from "../Modal/plusStock";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import axios from "axios";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
-const MyStockItem: React.FC<StockItemProps> = ({
-  id: pfId,
-  name,
-  logo,
+const MyStockItem: React.FC<StockProps> = ({
   code,
-  price,
-  growth,
+  name,
+  quantity,
+  average,
+  ror,
+  portfolioId,
+  logo,
 }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState<StockItemProps | null>(
-    null
-  );
+  const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
   const [modalAction, setModalAction] = useState<
     "edit" | "delete" | "plus" | null
   >(null);
+  const navigate = useNavigate();
+
+  const updateBudget = usePortfolioStore((state) => state.updateBudget);
+  const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
+  const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
+  const calculateROR = usePortfolioStore((state) => state.calculateROR);
+
+  const updateStock = usePortfolioStore((state) => state.updateStock);
+  const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
+  const userStocks: PlusProps[] = [
+    {
+      code,
+      name,
+      quantity,
+      average,
+      portfolioId,
+      logo: logo || "default_logo",
+    },
+  ];
 
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
       axios
-        .patch(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
-          quantity,
-          price,
-          withCredentials: true,
-        })
+        .patch(
+          `/https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
         .then((res) => {
           if (res.status === 200) {
-            console.log(res);
+            const updatedStock: StockProps = {
+              code,
+              name,
+              quantity,
+              average: price,
+              ror,
+              portfolioId,
+              logo,
+            };
+            updateStock(updatedStock);
             swal({
               title: "추가 등록완료!",
               icon: "success",
             });
             setIsPlusOpen(false);
+            setSelectedStock(null);
+            setModalAction(null);
           }
         })
         .catch((error) => {
@@ -50,43 +81,97 @@ const MyStockItem: React.FC<StockItemProps> = ({
             text: "다시 시도해주세요!",
             icon: "error",
           });
+          setSelectedStock(null);
+          setModalAction(null);
           console.log(error);
         });
     } else if (modalAction === "edit") {
       axios
-        .put(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`, {
-          quantity,
-          price,
-        })
+        .put(
+          `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
         .then((res) => {
-          console.log(res);
-          swal({
-            title: "수정 완료!",
-            icon: "success",
-          });
-          setIsFormOpen(false);
+          if (res.status === 200) {
+            const updatedStock: StockProps = {
+              code,
+              name,
+              quantity,
+              average: price,
+              ror,
+              portfolioId,
+              logo,
+            };
+            updateStock(updatedStock);
+            swal({
+              title: "수정 완료!",
+              icon: "success",
+            });
+            setIsFormOpen(false);
+          } else if (res.status === 401) {
+            swal({
+              title: "수정 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            }).then(() => {
+              navigate("/login");
+            });
+          }
         })
         .catch((error) => {
-          swal({
-            title: "수정 실패하셨습니다.",
-            text: "다시 시도해주세요!",
-            icon: "error",
-          });
-          console.log(error);
+          if (error.response && error.response.status === 401) {
+            swal({
+              title: "Unauthorized",
+              text: "로그인을 다시 시도해주세요.",
+              icon: "warning",
+            }).then(() => {
+              navigate("/login");
+            });
+          } else {
+            swal({
+              title: "Edit failed",
+              text: "다시 시도해주세요",
+              icon: "error",
+            });
+            setSelectedStock(null);
+            setModalAction(null);
+            console.log(error);
+          }
         });
     }
   };
 
   const deleteHandle = () => {
     axios
-      .delete(`https://api.ustock.site/v1/portfolio/${pfId}/${code}`)
+      .delete(
+        `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        console.log(res);
-        swal({
-          title: "삭제 완료!",
-          icon: "success",
-        });
-        setIsDeleteOpen(false);
+        if (res.status === 200) {
+          deleteStockFromStore(code);
+
+          const deletedStockValue = quantity * average;
+          const deletedProfitLoss =
+            quantity * average * (1 + ror / 100) - deletedStockValue;
+
+          // store 업데이트
+          updateBudget(deletedStockValue);
+          updatePrincipal(deletedStockValue);
+          updateProfitLoss(deletedProfitLoss);
+          calculateROR();
+
+          swal({
+            title: "삭제 완료!",
+            icon: "success",
+          });
+          setIsDeleteOpen(false);
+          setSelectedStock(null);
+          setModalAction(null);
+        }
       })
       .catch((error) => {
         swal({
@@ -94,20 +179,22 @@ const MyStockItem: React.FC<StockItemProps> = ({
           text: "다시 시도해주세요!",
           icon: "error",
         });
+        setSelectedStock(null);
+        setModalAction(null);
         console.log(error);
       });
   };
 
-  // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
-      id: pfId,
-      name,
-      logo,
+      portfolioId,
       code,
-      price,
-      growth,
+      name,
+      quantity,
+      average,
+      ror,
+      logo: selectedStock?.logo || logo,
     });
     if (action === "delete") {
       setIsDeleteOpen(true);
@@ -126,21 +213,50 @@ const MyStockItem: React.FC<StockItemProps> = ({
         <button onClick={() => openModal("delete")}>삭제</button>
       </div>
       <div className="MyStockItemWrapper">
-        <img className="logo" src={logo}></img>
+        {logo ? (
+          <img
+            src={logo}
+            alt={`${name} logo`}
+            style={{
+              width: "30px",
+              height: "30px",
+              marginRight: "20px",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "30px",
+              height: "30px",
+              marginRight: "20px",
+              borderRadius: "10px",
+              textAlign: "center",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+              color: "#fff",
+              background: "#615EFC",
+            }}
+          >
+            {name.charAt(0)}
+          </div>
+        )}
         <div className="info-section">
           <h2>{name}</h2>
           <p>{code}</p>
         </div>
-        <div
-          className="growth-section"
-          style={{ color: getGrowthColor(growth) }}
-        >
-          {growth}%
+        <div className="growth-section" style={{ color: getGrowthColor(ror) }}>
+          {ror.toFixed(2)}%
         </div>
         <div className="price-section">
-          <p>수량 {pfId}</p>
-          <div>{formatPrice(price)}원</div>
-          <p>{formatPrice(pfId * price)}</p>
+          <p>수량 {quantity}</p>
+          <div>{formatPrice(average)}원</div>
+          <p>
+            {formatPrice(
+              quantity * average * (1 + ror / 100) - quantity * average
+            )}
+            원
+          </p>
         </div>
       </div>
       {isFormOpen && selectedStock && (
@@ -158,6 +274,7 @@ const MyStockItem: React.FC<StockItemProps> = ({
           isOpen={isPlusOpen}
           onRequestClose={() => setIsPlusOpen(false)}
           onConfirm={handleConfirm}
+          userStocks={userStocks}
         />
       )}
 

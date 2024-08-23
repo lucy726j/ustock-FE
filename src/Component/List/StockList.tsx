@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import StockItem from "./StockItem";
-import { StockItemProps, StockListProps } from "../../constants/interface";
+import { StockDataProps } from "../../constants/interface";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -20,12 +20,12 @@ const ListWrapper = styled.div`
 //     width: 100%;
 // `;
 
-const StockList: React.FC<StockListProps> = ({ data }: any) => {
+const StockList: React.FC<StockDataProps> = ({ data }: any) => {
   return (
     <div>
       <ListWrapper>
-        {data.map((item: StockItemProps) => (
-          <StockItem key={item.id} {...item} />
+        {data.map((item: any) => (
+          <StockItem key={item.code} {...item} />
         ))}
       </ListWrapper>
     </div>

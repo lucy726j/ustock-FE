@@ -2,10 +2,15 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { data } from "../../data/data";
+import { StockProps } from "../../constants/interface";
 
-const PieChart = () => {
-  const series = data.map((item) => item.price);
-  const labels = data.map((item) => item.name);
+interface PieChartProps{
+    stockData: StockProps[];
+}
+
+const PieChart:React.FC<PieChartProps> = ({stockData}) => {
+  const series = stockData.map((item) => item.quantity);
+  const labels = stockData.map((item) => item.name);
 
   const options: ApexOptions = {
     chart: {

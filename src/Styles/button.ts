@@ -1,58 +1,58 @@
-import { css } from "styled-components"
-import { Colors } from "./Colors"
+import { css } from "styled-components";
+import { Colors } from "./Colors";
 
 export const buttonSize = {
-    small : css`
-        width : 140px;
-        height: 40px;
-    `,
-    medium : css`
-        width : 170px;
-        height: 44px;
-    `,
-    large : css`
-        width : 330px;
-        height: 60px;
-    `,
-    plusBtn : css`
-        width : 340px;
-        height: 45px;
-    `,
-    gradientBtn : css`
-        width : 250px;
-        height: 50px;
-    `
-}
+  small: css`
+    width: 140px;
+    height: 40px;
+  `,
+  medium: css`
+    width: 170px;
+    height: 44px;
+  `,
+  large: css`
+    width: 330px;
+    height: 60px;
+  `,
+  plusBtn: css`
+    width: 340px;
+    height: 45px;
+  `,
+  gradientBtn: css`
+    width: 264px;
+    height: 52px;
+  `,
+};
 
 export const mainColorBtn = {
-    normal : css`
-        background : ${Colors.main};
-        color : #fff;
-        border: none;
-        font-size : 14px;
-    `
-}
+  normal: css`
+    background: ${Colors.main};
+    color: #fff;
+    border: none;
+    font-size: 14px;
+  `,
+};
 
 export const gradientBtnStyle = {
-    normal : css`
-        background : radial-gradient(circle, #4834D4 0%, #686DE0 100%);
-        color : #fff;
-        border: none;
-        font-size : 14px;
-    `
-}
+  normal: css`
+    background: radial-gradient(circle, #4834d4 0%, #686de0 100%);
+    color: #fff;
+    border: none;
+    font-size: 14px;
+  `,
+};
 
 export const cancelBtnStyle = {
-    normal : css`
-        background: none;
-        border : 1px solid ${Colors.red};
-        color: ${Colors.red};
-        font-size : 14px;
-    `
-}
+  normal: css`
+    background: none;
+    border: 1px solid ${Colors.red};
+    color: ${Colors.red};
+    font-size: 14px;
+  `,
+};
 
 export const buttonType = {
-    main: mainColorBtn,
-    gradient: gradientBtnStyle,
-    cancel : cancelBtnStyle
+  main: mainColorBtn,
+  gradient: gradientBtnStyle,
+  cancel: cancelBtnStyle,
 };

@@ -1,16 +1,32 @@
 import EmblaCarousel from "../Carousel/EmblaCarousel";
-import { data } from "../../data/data";
 import { EmblaOptionsType } from "embla-carousel";
 import HyperText from "../Button/Animation/HyperText";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
+import axios from "axios";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
+
+// 포트폴리오 데이터 구조 타입 정의
+interface Portfolio {
+  id: number;
+  name: string;
+  budget: number;
+  ror: number;
+  average: number;
+}
 
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [portfolioName, setPortfolioName] = useState("");
+  const navigate = useNavigate();
+  const [totalAsset, setTotalAsset] = useState(0);
+  const [totalROR, setTotalROR] = useState(0);
+  const [portfolioData, setPortfolioData] = useState<Portfolio[]>([]); // 초기 타입 지정
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -20,9 +36,70 @@ const Portfolio = () => {
     setIsModalOpen(false);
   };
 
+  // 포트폴리오 추가
   const handleConfirm = () => {
-    closeModal();
+    console.log("handleConfirm called", portfolioName);
+    axios
+      .post(
+        "https://api.ustock.site/v1/portfolio",
+        { name: portfolioName },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          const newPortfolio: Portfolio = response.data;
+
+          // 기존 포트폴리오 데이터에 새로 생성된 포트폴리오를 추가
+          setPortfolioData((prevData) => [...prevData, newPortfolio]);
+
+          closeModal();
+          swal({
+            title: "포트폴리오를 생성했습니다.",
+            icon: "success",
+          });
+          navigate("/portfolio");
+        } else {
+          console.log("error status code : ", response.status);
+        }
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+        swal({
+          title: "포트폴리오 생성에 실패하셨습니다.",
+          text: "다시 시도해주세요!",
+          icon: "error",
+        });
+        console.log(error);
+      });
   };
+
+  // 포트폴리오 전체 조회
+  useEffect(() => {
+    axios
+      .get(`https://api.ustock.site/v1/portfolio`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setTotalAsset(res.data.budget);
+          setTotalROR(res.data.ror);
+          setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
+          //console.log(res.data.list);
+          console.log(res.data);
+        } else if (res.status === 401) {
+          console.log(res);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [portfolioData]);
+
+  console.log(formatPrice(totalAsset));
+  const text = formatPrice(totalAsset);
 
   return (
     <div className="Portfolio">
@@ -32,11 +109,14 @@ const Portfolio = () => {
         <div className="asset-value">
           <div className="total-value">
             <HyperText
-              text="₩ 1,110,000" // 적용할 텍스트
+              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
               duration={1200} // 애니메이션 지속 시간
               className="text-xl font-bold" // 필요한 클래스명 추가
             />
-            <div className="total-growth">+ 12.00%</div>
+            <div
+              className="total-growth"
+              style={{ color: getGrowthColor(totalROR) }}
+            >{`${formatROR(totalROR)} %`}</div>
           </div>
         </div>
         <div className="my-portfolio">
@@ -46,7 +126,11 @@ const Portfolio = () => {
               <span className="plus-icon">+</span>
             </button>
           </div>
-          <EmblaCarousel data={data} options={OPTIONS} />
+          <EmblaCarousel
+            data={portfolioData}
+            options={OPTIONS}
+            portfolioName={portfolioName}
+          />
         </div>
       </div>
       <AddPortfolioModal

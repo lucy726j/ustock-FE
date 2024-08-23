@@ -41,13 +41,22 @@ export interface ModalProps {
   icon?: string;
 }
 
-export interface StockItemProps {
-  id: number;
+export interface ListProps {
+  portfolioId: number;
+  logo: string;
+  name: string;
+  code: string;
+  price: number;
+  changeRate: number;
+}
+
+export interface PlusProps {
+  portfolioId: number;
   name: string;
   logo: string;
   code: string;
-  price: number;
-  growth: number;
+  quantity: number;
+  average: number;
 }
 
 export interface NavBoxProps {
@@ -57,8 +66,7 @@ export interface NavBoxProps {
 }
 
 export interface SearchBarProps {
-  // onSelect: (selected: number) => void;
-  onSelect: (item: number) => void;
+  onSelect: (selected: number) => void;
 }
 
 export interface NewsProps {
@@ -78,6 +86,89 @@ export interface ViewSelectProps {
   isSelected: boolean;
 }
 
-export interface StockListProps {
-  data: never[];
+export interface StockDataProps {
+  code: string;
+  name: string;
+  logo: string;
+  price: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StockDataPropList {
+  data: Array<StockDataProps>;
+}
+
+export interface MarketDataProps {
+  kospi: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+  kosdaq: {
+    price: number;
+    change: number;
+    changeRate: number;
+  };
+}
+
+export interface DropdownProps {
+  dropList: any[];
+  onSelect: (category: string | number) => void;
+}
+
+export interface StockProps {
+  portfolioId: number;
+  code: string;
+  name: string;
+  quantity: number;
+  average: number;
+  ror: number;
+  logo?: string;
+}
+
+export interface PortfolioProps {
+  name: string;
+  budget: number;
+  principal: number;
+  ret: number;
+  ror: number;
+  stocks: StockProps[];
+}
+
+export interface StockItemProps {
+  id: number;
+  name: string;
+  code: string;
+  price: number;
+  growth: number;
+  logo: string;
+}
+
+export interface CalculResultProps {
+  price: number;
+  slave: string;
+  candy: string;
+  soul: string;
+  iphone: string;
+  chicken: string;
+}
+
+export interface ChartProps {
+  date: string;
+  candle: {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+  };
+  news: {
+    title: string;
+    url: string;
+  }[];
+}
+
+export interface CandleData {
+  data: { x: string; y: [number, number, number, number] }[];
+
 }

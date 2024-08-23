@@ -4,8 +4,7 @@ import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carou
 import useEmblaCarousel from "embla-carousel-react";
 import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import { StockItemProps } from "../../constants/interface";
-import { formatPrice } from "../../util/util";
+import { formatPrice, formatROR, getGrowthColor } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
 
 const TWEEN_FACTOR_BASE = 0.52;
@@ -14,15 +13,17 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
     Math.min(Math.max(number, min), max);
 
 type PropType = {
-    data: StockItemProps[];
+    data: { id: number; name: string; budget: number; ror: number }[];
     options?: EmblaOptionsType;
+    portfolioName: string
 };
 
-const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
+const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
     const navigate = useNavigate(); // useNavigate hook 사용
+    //console.log(data)
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
@@ -95,6 +96,7 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
         [tweenFactor, tweenNodes]
     );
 
+
     useEffect(() => {
         if (!emblaApi) return;
 
@@ -139,9 +141,9 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options }) => {
                             <div className="embla__slide__number">
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
-                                    <p>₩  {formatPrice(item.price)}</p>
-                                    <p style={{ color: item.growth > 0 ? 'green' : '#D84343' }}>
-                                        {item.growth}%
+                                    <p style={{fontSize: "20px"}}>₩  {formatPrice(item.budget)}</p>
+                                    <p style={{ color: getGrowthColor(item.ror) }}>
+                                        {formatROR(item.ror)}%
                                     </p>
                                     <img src={myPortfolioImg} alt="Portfolio" />
                                 </div>
