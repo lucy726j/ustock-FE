@@ -9,7 +9,7 @@ export const SearchBarStyle = styled.div`
   justify-content: start;
   align-items: center;
   gap: 20px;
-  margin-bottom: 1px;
+  margin-bottom: 1rem;
   position: relative;
 `;
 
@@ -37,6 +37,9 @@ export const SearchResult = styled.div`
   position: absolute;
   top: 135px;
   z-index: 2;
+  height: 300px;
+  overflow: scroll;
+  scrollbar-width: none;
 `;
 
 export const StockItemContainer = styled.li`
@@ -47,7 +50,7 @@ export const StockItemContainer = styled.li`
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 0 10px;
+  padding: 10px 10px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 

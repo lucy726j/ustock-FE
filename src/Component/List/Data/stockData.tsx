@@ -31,6 +31,7 @@ const StockData: React.FC<StockDataProps> = ({
             height: "30px",
             marginRight: "20px",
             marginLeft: "1rem",
+            borderRadius: "10px",
           }}
         />
       ) : (

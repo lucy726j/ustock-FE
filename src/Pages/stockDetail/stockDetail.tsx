@@ -1,24 +1,26 @@
 import Calculator from "../../Component/Calculator/calculator";
 import Chart from "../../Component/Chart/chart";
 import { useEffect, useState } from "react";
+
 import {
   StockDataProps,
   ChartProps,
   CandleData,
 } from "../../constants/interface";
+
 import * as S from "./stockDetailStyle";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { formatRate, formatPrice } from "../../util/util";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 
-type ViewList = "일" | "주" | "월" | "1년";
+type ViewList = "일" | "주" | "월";
 
-// viewList를 정수랑 매핑
+// viewList를 정수랑 매핑ㄹ
 const viewListToInt: Record<ViewList, number> = {
   일: 1,
   주: 2,
   월: 3,
-  "1년": 4,
 };
 
 // viewList값을 정수로 변환
@@ -104,17 +106,27 @@ const StockDetail: React.FC = () => {
               </S.CodeContainer>
             </div>
             <S.PriceContainer>
-              <S.StockPrice>{formatPrice(stockData.price)}원</S.StockPrice>
+              <S.StockPrice>
+                {formatPrice(stockData.price)}
+                <span style={{ fontSize: "12px" }}>원</span>
+              </S.StockPrice>
               <S.ChangeContainer>
-                <S.StockChange>{formatPrice(stockData.change)}원</S.StockChange>
                 <S.StockChange>
-                  {formatRate(stockData.changeRate)}%
+                  {stockData.changeRate < 0 ? (
+                    <GoTriangleDown />
+                  ) : (
+                    <GoTriangleUp />
+                  )}
+                  {formatPrice(Math.abs(stockData.change))}원
+                </S.StockChange>
+                <S.StockChange>
+                  ({formatRate(Math.abs(stockData.changeRate))}%)
                 </S.StockChange>
               </S.ChangeContainer>
             </S.PriceContainer>
           </S.InfoContainer>
           <S.ViewSelectContainer>
-            {["일", "주", "월", "1년"].map((view) => (
+            {["일", "주", "월"].map((view) => (
               <S.ViewSelectBox
                 key={view}
                 isSelected={selectedView === view}

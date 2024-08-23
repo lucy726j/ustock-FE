@@ -60,7 +60,6 @@ const SearchStock = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log("종목리스트API" + JSON.stringify(res.data.stock));
           const stockData = res.data.stock;
           setList(stockData);
         } else if (res.status === 401) {
@@ -78,7 +77,9 @@ const SearchStock = () => {
         <SearchBar onSelect={handleSelectStock} />
       </SearchContainer>
       <FilterContainer>
-        <div>종목 리스트</div>
+        <div style={{ fontFamily: "SCDream6", fontSize: "20px" }}>
+          종목 리스트
+        </div>
         <Dropdown dropList={category} onSelect={handleSelectedCategory} />
       </FilterContainer>
       <div>

@@ -86,6 +86,9 @@ const Portfolio = () => {
       });
   }, []);
 
+  console.log(formatPrice(totalAsset));
+  const text = formatPrice(totalAsset);
+
   return (
     <div className="Portfolio">
       <div className="asset">
