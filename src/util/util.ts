@@ -26,7 +26,16 @@ export const formatRate = (rate: number | undefined | null): string => {
 };
 
 
-export const formatROR = (ror: number): string => {
-  const sign = ror > 0 ? '+' : '';  // 양수일 때 + 기호 추가
-  return `${sign}${ror.toFixed(2)}`; // 소수점 둘째 자리까지 포맷팅
-}
+// export const formatROR = (ror: number): string => {
+//   const sign = ror > 0 ? '+' : '';  // 양수일 때 + 기호 추가
+//   return `${sign}${ror.toFixed(2)}`; // 소수점 둘째 자리까지 포맷팅
+// }
+
+export const formatROR = (ror: number | undefined): string => {
+  if (ror === undefined || ror === null) {
+    return "0.00"; // 기본값으로 0.00% 반환
+  }
+  return ror.toFixed(2);
+};
+
+

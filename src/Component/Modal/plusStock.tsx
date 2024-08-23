@@ -133,7 +133,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
                       <tr>
                         <td>합계</td>
                         <td>{totalQuantity}</td>
-                        <td>{stock.average.toLocaleString()}</td>
+                        <td></td>
                         <td>{totalInvestment.toLocaleString()}</td>
                       </tr>
                     </tbody>

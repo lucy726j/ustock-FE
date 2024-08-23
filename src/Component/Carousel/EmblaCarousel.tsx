@@ -13,15 +13,17 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
     Math.min(Math.max(number, min), max);
 
 type PropType = {
-    data: { id: number; name: string; average: number; ror: number }[];
+    data: { id: number; name: string; budget: number; ror: number }[];
     options?: EmblaOptionsType;
+    portfolioName: string
 };
 
-const EmblaCarousel: React.FC<PropType> = ({ data, options}) => {
+const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
     const navigate = useNavigate(); // useNavigate hook 사용
+    //console.log(data)
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
@@ -94,6 +96,7 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options}) => {
         [tweenFactor, tweenNodes]
     );
 
+
     useEffect(() => {
         if (!emblaApi) return;
 
@@ -138,7 +141,7 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options}) => {
                             <div className="embla__slide__number">
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
-                                    <p>₩  {formatPrice(item.average)}</p>
+                                    <p style={{fontSize: "20px"}}>₩  {formatPrice(item.budget)}</p>
                                     <p style={{ color: getGrowthColor(item.ror) }}>
                                         {formatROR(item.ror)}%
                                     </p>

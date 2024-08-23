@@ -11,13 +11,22 @@ import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
+// 포트폴리오 데이터 구조 타입 정의
+interface Portfolio {
+  id: number;
+  name: string;
+  budget: number;
+  ror: number;
+    average: number;
+}
+
 const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [portfolioName, setPortfolioName] = useState("");
   const navigate = useNavigate();
   const [totalAsset, setTotalAsset] = useState(0);
   const [totalROR, setTotalROR] = useState(0);
-  const [portfolioData, setPortfolioData] = useState([]);
+  const [portfolioData, setPortfolioData] = useState<Portfolio[]>([]); // 초기 타입 지정
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,6 +36,7 @@ const Portfolio = () => {
     setIsModalOpen(false);
   };
 
+  // 포트폴리오 추가
   const handleConfirm = () => {
     console.log("handleConfirm called", portfolioName);
     axios
@@ -36,10 +46,12 @@ const Portfolio = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response);
-        console.log(response.data);
         if (response.status === 200) {
-          console.log("포트폴리오가 만들어졌음:", response);
+          const newPortfolio: Portfolio = response.data;
+
+          // 기존 포트폴리오 데이터에 새로 생성된 포트폴리오를 추가
+          setPortfolioData((prevData) => [...prevData, newPortfolio]);
+
           closeModal();
           swal({
             title: "포트폴리오를 생성했습니다.",
@@ -74,8 +86,8 @@ const Portfolio = () => {
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
           setTotalROR(res.data.ror);
-          setPortfolioData(res.data.list);
-          console.log(res.data.list);
+          setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
+          //console.log(res.data.list);
           console.log(res.data);
         } else if (res.status === 401) {
           console.log(res);
@@ -84,7 +96,7 @@ const Portfolio = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [portfolioData]);
 
   return (
     <div className="Portfolio">
@@ -94,7 +106,7 @@ const Portfolio = () => {
         <div className="asset-value">
           <div className="total-value">
             <HyperText
-                text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
+              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
               duration={1200} // 애니메이션 지속 시간
               className="text-xl font-bold" // 필요한 클래스명 추가
             />
@@ -111,7 +123,7 @@ const Portfolio = () => {
               <span className="plus-icon">+</span>
             </button>
           </div>
-          <EmblaCarousel data={portfolioData} options={OPTIONS} />
+            <EmblaCarousel data={portfolioData} options={OPTIONS} portfolioName={portfolioName} />
         </div>
       </div>
       <AddPortfolioModal
