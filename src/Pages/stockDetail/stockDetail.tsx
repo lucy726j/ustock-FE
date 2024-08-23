@@ -84,6 +84,12 @@ const StockDetail: React.FC = () => {
               chart.candle.low,
               chart.candle.close,
             ],
+            z: chart.news.map((newItem) => {
+              return {
+                title: newItem.title,
+                url: newItem.url,
+              };
+            }),
           }));
           console.log(res.data);
           setChartData(formattedData);

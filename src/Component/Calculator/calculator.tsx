@@ -9,6 +9,7 @@ import { Input } from "../Input/input";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import CalculResult from "./calculResult";
+import swal from "sweetalert";
 
 const Container = styled.div`
   width: 100%;
@@ -116,6 +117,7 @@ const Calculator = () => {
   const [selectedMonth, setSelectedMonth] = useState("01");
   const [selectedDay, setSelectedDay] = useState("01");
   const [result, setResult] = useState<CalculResultProps | null>(null);
+  const [error, setError] = useState("");
 
   const location = useLocation();
   const code = location.pathname.split("/")[2];
@@ -131,17 +133,30 @@ const Calculator = () => {
         console.log("계신기 값 : ", res.data);
         const data = res.data;
         setResult(data);
+        setError("해당 주식이 상장되지 않은 날짜입니다.");
       })
       .catch((error) => {
         console.log(error);
         setIsValid(false);
+        swal({
+          title: "서버에러발생...",
+          icon: "error",
+        });
       });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
     setPrice(e.target.value);
     if (e.target.value) {
       setIsValid(true);
+    }
+    if (value === "") {
+      setError("금액을 입력해주세요");
+      setIsValid(false);
+    } else if (isNaN(Number(value))) {
+      setError("숫자를 입력해주세요");
+      setIsValid(false);
     }
   };
 
@@ -189,7 +204,7 @@ const Calculator = () => {
             placeholder="금액"
             size="small"
             colorType="strokeType"
-            errorMessage="금액을 입력해주세요"
+            errorMessage={error}
             value={price}
             onChange={handleInputChange}
             isValid={isValid}

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import StockDataList from "../Component/List/Data/stockDataList";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,7 +40,7 @@ const Kosdaq = styled.div`
   justify-content: space-around;
 `;
 
-const Info = styled.div<ValueProps>`
+export const Info = styled.div<ValueProps>`
   color: ${(props) => (props.isNegative ? "#615EFC" : "#FF5759")};
 
   display: flex;

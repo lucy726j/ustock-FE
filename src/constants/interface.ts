@@ -153,7 +153,7 @@ export interface CalculResultProps {
   iphone: string;
   chicken: string;
 }
-  
+
 export interface ChartProps {
   date: string;
   candle: {
@@ -162,6 +162,10 @@ export interface ChartProps {
     low: number;
     close: number;
   };
+  news: {
+    title: string;
+    url: string;
+  }[];
 }
 
 export interface CandleData {

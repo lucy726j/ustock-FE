@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import Header from "./Header/Header";
 import NavBar from "./NavBar/NavBar";
 import styled from "styled-components";
+import { useAuth } from "../../contexts/authContext";
 
 const Main = styled.main`
   width: 500px;
@@ -18,13 +19,13 @@ const Container = styled.div`
 
 const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
+  const isLoginPage = location.pathname === "/nologin";
 
   return (
     <Container className="Layout">
-      <Header />
-
-          <Main style={{ height: "100%" }}>{props.children}</Main>
-      <NavBar />
+      {!isLoginPage && <Header />}
+      <Main style={{ height: "100%" }}>{props.children}</Main>
+      {!isLoginPage && <NavBar />}
     </Container>
   );
 };
