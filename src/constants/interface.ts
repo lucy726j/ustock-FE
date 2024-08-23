@@ -157,6 +157,10 @@ export interface ChartProps {
     low: number;
     close: number;
   };
+  news: {
+    title: string;
+    url: string;
+  }[];
 }
 
 export interface CandleData {
