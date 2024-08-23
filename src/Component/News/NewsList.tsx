@@ -20,6 +20,7 @@ const NewsList: React.FC = () => {
   const [news, setNews] = useState([]);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     axios
       .get(`https://api.ustock.site/v1/news/user`, {
@@ -40,6 +41,7 @@ const NewsList: React.FC = () => {
         console.log(e);
       });
   }, []);
+
 
   return (
     <div>
