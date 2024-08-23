@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { usePortfolioStore } from "../../store/usePortfolioStore"
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const MyStockItem: React.FC<StockProps> = ({
   code,
@@ -23,17 +23,19 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
-  const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
-    const navigate = useNavigate();
-    
-    const updateBudget = usePortfolioStore((state) => state.updateBudget);
+  const [modalAction, setModalAction] = useState<
+    "edit" | "delete" | "plus" | null
+  >(null);
+  const navigate = useNavigate();
+
+  const updateBudget = usePortfolioStore((state) => state.updateBudget);
   const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
   const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
   const calculateROR = usePortfolioStore((state) => state.calculateROR);
 
   const updateStock = usePortfolioStore((state) => state.updateStock);
-    const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
-    const userStocks: PlusProps[] = [
+  const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
+  const userStocks: PlusProps[] = [
     {
       code,
       name,
@@ -48,7 +50,7 @@ const MyStockItem: React.FC<StockProps> = ({
     if (modalAction === "plus") {
       axios
         .patch(
-          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+          `/https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -86,7 +88,7 @@ const MyStockItem: React.FC<StockProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+          `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -143,24 +145,24 @@ const MyStockItem: React.FC<StockProps> = ({
   const deleteHandle = () => {
     axios
       .delete(
-        `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+        `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
         {
           withCredentials: true,
         }
       )
       .then((res) => {
         if (res.status === 200) {
-            deleteStockFromStore(code);
-            
-            const deletedStockValue = quantity * average;
-            const deletedProfitLoss = quantity * average * (1 + ror / 100) - deletedStockValue
-            
-            // store 업데이트
-            updateBudget(deletedStockValue)
-            updatePrincipal(deletedStockValue)
-            updateProfitLoss(deletedProfitLoss)
-            calculateROR()
+          deleteStockFromStore(code);
 
+          const deletedStockValue = quantity * average;
+          const deletedProfitLoss =
+            quantity * average * (1 + ror / 100) - deletedStockValue;
+
+          // store 업데이트
+          updateBudget(deletedStockValue);
+          updatePrincipal(deletedStockValue);
+          updateProfitLoss(deletedProfitLoss);
+          calculateROR();
 
           swal({
             title: "삭제 완료!",

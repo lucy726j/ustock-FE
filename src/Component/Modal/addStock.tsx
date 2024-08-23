@@ -60,7 +60,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
     if (selectedStock && quantity > 0 && price > 0) {
       axios
         .post(
-          `http://localhost:8080/v1/portfolio/${id}/holding/${selectedStock.code}`,
+          `https://api.ustock.site/v1/portfolio/${id}/holding/${selectedStock.code}`,
           { quantity, price },
           { withCredentials: true }
         )

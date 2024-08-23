@@ -37,6 +37,7 @@ const DropdownListBox = styled.select`
   text-align: center;
   text-justify: center;
   margin-bottom: 1rem;
+  font-size: 12px;
 
   &::-webkit-scrollbar {
     display: none;

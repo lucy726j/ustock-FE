@@ -170,4 +170,5 @@ export interface ChartProps {
 
 export interface CandleData {
   data: { x: string; y: [number, number, number, number] }[];
+
 }

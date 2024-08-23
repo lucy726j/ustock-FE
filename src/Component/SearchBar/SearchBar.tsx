@@ -27,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       setList([]); // Clear the list if the keyword is empty
     }
     axios
-      .get(`http://localhost:8080/v1/stocks/search?query=${keyword}`, {
+      .get(`https://api.ustock.site/v1/stocks/search?query=${keyword}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

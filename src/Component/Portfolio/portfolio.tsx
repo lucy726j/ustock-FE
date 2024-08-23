@@ -17,7 +17,7 @@ interface Portfolio {
   name: string;
   budget: number;
   ror: number;
-    average: number;
+  average: number;
 }
 
 const Portfolio = () => {
@@ -41,7 +41,7 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        "http://localhost:8080/v1/portfolio",
+        "https://api.ustock.site/v1/portfolio",
         { name: portfolioName },
         { withCredentials: true }
       )
@@ -76,7 +76,7 @@ const Portfolio = () => {
   // 포트폴리오 전체 조회
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/v1/portfolio`, {
+      .get(`https://api.ustock.site/v1/portfolio`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,11 @@ const Portfolio = () => {
               <span className="plus-icon">+</span>
             </button>
           </div>
-            <EmblaCarousel data={portfolioData} options={OPTIONS} portfolioName={portfolioName} />
+          <EmblaCarousel
+            data={portfolioData}
+            options={OPTIONS}
+            portfolioName={portfolioName}
+          />
         </div>
       </div>
       <AddPortfolioModal
