@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { Colors } from "../../Styles/Colors";
-import close from "../../img/closeStatus.png";
-import open from "../../img/openStatus.png";
 import { useState } from "react";
 import { DropdownProps } from "../../constants/interface";
 
@@ -33,7 +31,13 @@ const DropdownListBox = styled.select`
   background-color: white;
   top: 35px;
   z-index: 1;
-  padding: 5px;
+  padding: 10px 5px;
+  height: 35px;
+  width: 85px;
+  text-align: center;
+  text-justify: center;
+  margin-bottom: 1rem;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -69,7 +73,6 @@ const Dropdown: React.FC<DropdownProps> = ({ dropList, onSelect }) => {
           </DropdownBox>
         ))}
       </DropdownListBox>
-      {/* )} */}
     </DropdownContainer>
   );
 };

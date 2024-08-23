@@ -43,12 +43,16 @@ export const PriceContainer = styled.div`
 export const StockPrice = styled.div`
   font-size: 25px;
   white-space: nowrap;
+  display: flex;
+  flex-direction: row;
 `;
 
 export const ChangeContainer = styled.div`
   display: flex;
   white-space: nowrap;
+  gap: 3px;
 `;
+
 export const StockChange = styled.span`
   font-size: 20px;
   color: ${Colors.main};
