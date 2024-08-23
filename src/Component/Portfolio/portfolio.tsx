@@ -7,7 +7,7 @@ import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { formatPrice, getGrowthColor } from "../../util/util";
+import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
@@ -76,6 +76,7 @@ const Portfolio = () => {
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list);
           console.log(res.data.list);
+          console.log(res.data);
         } else if (res.status === 401) {
           console.log(res);
         }
@@ -96,14 +97,14 @@ const Portfolio = () => {
         <div className="asset-value">
           <div className="total-value">
             <HyperText
-              text={`₩ ${formatPrice(totalAsset)}`} // 적용할 텍스트
+              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
               duration={1200} // 애니메이션 지속 시간
               className="text-xl font-bold" // 필요한 클래스명 추가
             />
             <div
               className="total-growth"
               style={{ color: getGrowthColor(totalROR) }}
-            >{`${totalAsset} %`}</div>
+            >{`${formatROR(totalROR)} %`}</div>
           </div>
         </div>
         <div className="my-portfolio">

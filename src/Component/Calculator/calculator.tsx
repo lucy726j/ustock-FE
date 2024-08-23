@@ -163,8 +163,28 @@ const Calculator = () => {
     }
   };
 
+  const handleRetry = () => {
+    setResult(null);
+  };
+
   return result ? (
-    <CalculResult {...result} />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: "2rem",
+      }}
+    >
+      <CalculResult {...result} />
+      <Button
+        children={"다시 계산하기"}
+        state="normal"
+        size="gradientBtn"
+        colorType="gradient"
+        onClick={handleRetry}
+      />
+    </div>
   ) : (
     <Container>
       <TitleContainer>

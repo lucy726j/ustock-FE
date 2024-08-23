@@ -4,8 +4,7 @@ import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carou
 import useEmblaCarousel from "embla-carousel-react";
 import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import { StockProps } from "../../constants/interface";
-import { formatPrice } from "../../util/util";
+import { formatPrice, formatROR, getGrowthColor } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
 
 const TWEEN_FACTOR_BASE = 0.52;
@@ -140,8 +139,8 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options}) => {
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
                                     <p>₩  {formatPrice(item.average)}</p>
-                                    <p style={{ color: item.ror > 0 ? 'green' : '#D84343' }}>
-                                        {item.ror}%
+                                    <p style={{ color: getGrowthColor(item.ror) }}>
+                                        {formatROR(item.ror)}%
                                     </p>
                                     <img src={myPortfolioImg} alt="Portfolio" />
                                 </div>

@@ -17,7 +17,7 @@ const Container = styled.div`
   gap: 10px;
   padding: 50px;
   border-top: 2px solid rgb(0, 0, 0, 0.2);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   /* background-color: yellow; */
 `;
 
@@ -55,6 +55,7 @@ const SkrrrBird = styled.img`
   top: 45px;
   left: 115px;
   width: 260px;
+  opacity: 0.5;
 `;
 const NeverBuySkrrrBird = styled.img`
   position: absolute;
