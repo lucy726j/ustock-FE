@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
-import styled from "styled-components";
+import { ChartStyle, ChartDate } from "./chartStyle";
+import { formatPrice } from "../../util/util";
+import { Info } from "../../Pages/home";
 
 interface CandleData {
   data: {
@@ -50,13 +52,26 @@ const Chart = ({ data }: CandleData) => {
               w.globals.seriesX[seriesIndex][dataPointIndex]
             ).toLocaleDateString("ko-KR");
 
+            const color = close > open ? "#FF5759" : "#615EFC";
+
             return `
-            <div style="padding: 5px; font-size: 12px;">
-            <p>${xLabel}</p>
-            <p>시가: ${open}</p>
-            <p>고가: ${high}</p>
-            <p>저가: ${low}</p>
-            <p>종가: ${close}</p>
+            <div style="padding: 5px; font-size: 12px; width: 120px; height: 120px;text-align : center">
+            <p style="font-family: 'SCDream7';">${xLabel}</p>
+            <hr style="margin-bottom : 0.5rem;margin-top : 0.2rem;"/>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+            <p>시가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
+              open
+            )}</span></p>
+            <p>고가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
+              high
+            )}</span></p>
+            <p>저가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
+              low
+            )}</span></p>
+            <p>종가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
+              close
+            )}</span></p>
+            </div>
             `;
           },
         },
@@ -84,10 +99,5 @@ const Chart = ({ data }: CandleData) => {
     </>
   );
 };
-
-const ChartStyle = styled.div`
-  width: 90%;
-  margin-bottom: 30px;
-`;
 
 export default Chart;
