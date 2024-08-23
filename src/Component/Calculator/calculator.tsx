@@ -116,6 +116,7 @@ const Calculator = () => {
   const [selectedMonth, setSelectedMonth] = useState("01");
   const [selectedDay, setSelectedDay] = useState("01");
   const [result, setResult] = useState<CalculResultProps | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const location = useLocation();
   const code = location.pathname.split("/")[2];
@@ -134,7 +135,6 @@ const Calculator = () => {
       })
       .catch((error) => {
         console.log(error);
-        setIsValid(false);
       });
   };
 
@@ -209,7 +209,7 @@ const Calculator = () => {
             placeholder="금액"
             size="small"
             colorType="strokeType"
-            errorMessage="금액을 입력해주세요"
+            errorMessage={"금액을 입력해주세요"}
             value={price}
             onChange={handleInputChange}
             isValid={isValid}

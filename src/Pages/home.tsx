@@ -137,13 +137,12 @@ const Home: React.FC = () => {
             <Info isNegative={market.kospi.changeRate < 0}>
               <span>{market.kospi.price}</span>
               <span>
-                {" "}
                 {market.kospi.change < 0 ? (
                   <GoTriangleDown />
                 ) : (
                   <GoTriangleUp />
                 )}
-                {market.kospi.change}
+                {Math.abs(market.kospi.change)}
               </span>
               <span>{market.kospi.changeRate}</span>
             </Info>
@@ -162,7 +161,7 @@ const Home: React.FC = () => {
                 ) : (
                   <GoTriangleUp />
                 )}
-                {market.kosdaq.change}
+                {Math.abs(market.kosdaq.change)}
               </span>
               <span>{market.kosdaq.changeRate}</span>
             </Info>

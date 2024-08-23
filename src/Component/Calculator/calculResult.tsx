@@ -47,6 +47,7 @@ const SpanContainer = styled.div`
   flex-direction: row;
   gap: 3px;
   font-size: 20px;
+  white-space: nowrap;
 `;
 const SpanStyle = styled.div<ValueProps>`
   font-weight: bold;
@@ -59,7 +60,9 @@ const SkrrrBird = styled.img`
   left: 115px;
   width: 260px;
   opacity: 0.5;
+  z-index: -1;
 `;
+
 const NeverBuySkrrrBird = styled.img`
   margin-right: 5rem;
   width: 460px;
