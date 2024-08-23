@@ -1,11 +1,13 @@
 import Calculator from "../../Component/Calculator/calculator";
 import Chart from "../../Component/Chart/chart";
 import { useEffect, useState } from "react";
+
 import {
   StockDataProps,
   ChartProps,
   CandleData,
 } from "../../constants/interface";
+
 import * as S from "./stockDetailStyle";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -46,7 +48,7 @@ const StockDetail: React.FC = () => {
   useEffect(() => {
     if (stockCode)
       axios
-        .get(`http://localhost:8080/v1/stocks/${stockCode}`, {
+        .get(`https://api.ustock.site/v1/stocks/${stockCode}`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -82,6 +84,12 @@ const StockDetail: React.FC = () => {
               chart.candle.low,
               chart.candle.close,
             ],
+            z: chart.news.map((newItem) => {
+              return {
+                title: newItem.title,
+                url: newItem.url,
+              };
+            }),
           }));
           console.log(res.data);
           setChartData(formattedData);

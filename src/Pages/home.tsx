@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MarketDataProps, ValueProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import StockDataList from "../Component/List/Data/stockDataList";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 
@@ -39,7 +40,7 @@ const Kosdaq = styled.div`
   justify-content: space-around;
 `;
 
-const Info = styled.div<ValueProps>`
+export const Info = styled.div<ValueProps>`
   color: ${(props) => (props.isNegative ? "#615EFC" : "#FF5759")};
 
   display: flex;
@@ -84,7 +85,7 @@ const Home: React.FC = () => {
   // 오늘의 증시 데이터
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/v1/stocks/market`, {
+      .get(`https://api.ustock.site/v1/stocks/market`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +109,7 @@ const Home: React.FC = () => {
   // 인기 종목 리스트 데이터
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/v1/stocks?order=top`, {
+      .get(`https://api.ustock.site/v1/stocks?order=top`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

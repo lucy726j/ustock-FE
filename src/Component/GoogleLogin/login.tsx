@@ -6,7 +6,7 @@ import { Box, Button, Container, Description, Img, P } from "./loginStyle";
 const GoogleLogin = () => {
   // Google 로그인 버튼 클릭 시 처리
   const handleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = "https://api.ustock.site/oauth2/authorization/google";
   };
 
   return (

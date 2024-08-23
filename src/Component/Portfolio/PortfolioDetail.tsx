@@ -1,22 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Swipe from "../Swipe/Swipe";
 import PfCard from "./PfCard";
 import PieChart from "../Chart/PieChart";
 import axios from "axios";
-import { PortfolioProps, StockProps } from "../../constants/interface";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const PortfolioDetail = () => {
   const location = useLocation();
   const id = Number(location.pathname.split("/")[2]);
-  const [pfName, setPfName] = useState("");
-  const [data, setData] = useState<PortfolioProps | null>(null);
-  const [stockData, setStockData] = useState<StockProps[]>([]);
+
+  const setPortfolio = usePortfolioStore((state) => state.setPortfolio);
+  const setFinancialData = usePortfolioStore((state) => state.setFinancialData);
+  const pfName = usePortfolioStore((state) => state.pfName);
+  const data = usePortfolioStore((state) => state.data);
+  const stockData = usePortfolioStore((state) => state.stockData);
+  const budget = usePortfolioStore((state) => state.budget);
+  const principal = usePortfolioStore((state) => state.principal);
+  const ret = usePortfolioStore((state) => state.ret);
+  const ror = usePortfolioStore((state) => state.ror);
 
   // 포트폴리오 상세 조회
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/v1/portfolio/${id}`, {
+      .get(`https://api.ustock.site/v1/portfolio/${id}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -24,9 +31,16 @@ const PortfolioDetail = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          setPfName(res.data.name);
-          setData(res.data);
-          setStockData(res.data.stocks);
+          setPortfolio(res.data.name, res.data, res.data.stocks);
+          setFinancialData(
+            res.data.budget,
+            res.data.principal,
+            res.data.ret,
+            res.data.ror
+          );
+          //alert("성공");
+          console.log(res.data.name, res.data, res.data.stocks);
+          console.log("Portfolio and financial data updated:", res.data);
         } else if (res.status === 401) {
           console.log(res);
         }
@@ -34,7 +48,7 @@ const PortfolioDetail = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [id]);
+  }, [id, setPortfolio, setFinancialData]);
 
   if (!data) {
     return <div>포트폴리오를 찾을 수 없습니다.</div>;
@@ -51,9 +65,9 @@ const PortfolioDetail = () => {
       }}
     >
       <h2 style={{ marginLeft: "-200px", marginBottom: "30px" }}>{pfName}</h2>
-      <PfCard data={data} />
+      <PfCard />
       <PieChart stockData={stockData} />
-      <Swipe stockData={stockData} portfolioId={id} />
+      <Swipe portfolioId={id} />
     </div>
   );
 };

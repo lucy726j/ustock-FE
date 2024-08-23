@@ -3,11 +3,12 @@ import styled from "styled-components";
 import MyStockItem from "./MyStockItem";
 import { StockProps } from "../../constants/interface";
 import "./MyStockItemStyle.css";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
-interface MyStockListProps {
-  stockData: StockProps[];
-  portfolioId: number;
-}
+// interface MyStockListProps {
+//   stockData: StockProps[];
+//   portfolioId: number;
+// }
 
 const ListWrapper = styled.div`
   display: flex;
@@ -17,10 +18,8 @@ const ListWrapper = styled.div`
   gap: 10px;`
 ;
 
-const MyStockList: React.FC<MyStockListProps> = ({
-  stockData,
-  portfolioId,
-}) => {
+const MyStockList: React.FC<{ portfolioId: number }> = ({ portfolioId }) => {
+    const stockData = usePortfolioStore((state) => state.stockData)
   return (
     <div>
       <ListWrapper>

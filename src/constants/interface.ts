@@ -145,6 +145,15 @@ export interface StockItemProps {
   logo: string;
 }
 
+export interface CalculResultProps {
+  price: number;
+  slave: string;
+  candy: string;
+  soul: string;
+  iphone: string;
+  chicken: string;
+}
+
 export interface ChartProps {
   date: string;
   candle: {
@@ -153,17 +162,13 @@ export interface ChartProps {
     low: number;
     close: number;
   };
+  news: {
+    title: string;
+    url: string;
+  }[];
 }
 
 export interface CandleData {
   data: { x: string; y: [number, number, number, number] }[];
-}
 
-export interface CalculResultProps {
-  price: number;
-  slave: string;
-  candy: string;
-  soul: string;
-  iphone: string;
-  chicken: string;
 }
