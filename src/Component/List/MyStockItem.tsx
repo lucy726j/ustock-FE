@@ -24,7 +24,12 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
   const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    
+    const updateBudget = usePortfolioStore((state) => state.updateBudget);
+  const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
+  const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
+  const calculateROR = usePortfolioStore((state) => state.calculateROR);
 
   const updateStock = usePortfolioStore((state) => state.updateStock);
     const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
@@ -145,7 +150,18 @@ const MyStockItem: React.FC<StockProps> = ({
       )
       .then((res) => {
         if (res.status === 200) {
-          deleteStockFromStore(code);
+            deleteStockFromStore(code);
+            
+            const deletedStockValue = quantity * average;
+            const deletedProfitLoss = quantity * average * (1 + ror / 100) - deletedStockValue
+            
+            // store 업데이트
+            updateBudget(deletedStockValue)
+            updatePrincipal(deletedStockValue)
+            updateProfitLoss(deletedProfitLoss)
+            calculateROR()
+
+
           swal({
             title: "삭제 완료!",
             icon: "success",
