@@ -61,9 +61,7 @@ const SkrrrBird = styled.img`
   opacity: 0.5;
 `;
 const NeverBuySkrrrBird = styled.img`
-  position: absolute;
-  top: 700px;
-  left: 430px;
+  margin-right: 5rem;
   width: 460px;
   opacity: 0.5;
 `;
@@ -79,7 +77,7 @@ const SkrrrText = styled.div`
 `;
 
 const NeverBuyText = styled.div`
-  position: absolute;
+  /* position: absolute; */
   top: 670px;
   left: 470px;
   z-index: 3;
@@ -89,7 +87,12 @@ const NeverBuyText = styled.div`
 `;
 
 const BirdContainer = styled.div`
-  height: 300px;
+  display: flex;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
 `;
 
 const CalculResult: React.FC<CalculResultProps> = ({
@@ -149,12 +152,10 @@ const CalculResult: React.FC<CalculResultProps> = ({
           </ResultContainer>
         </Container>
       ) : (
-        <Container>
-          <BirdContainer>
-            <NeverBuySkrrrBird src={Skrrr} alt="" />
-            <NeverBuyText>그 돈으론 1주도 사지 못했~스껄~,,,@</NeverBuyText>
-          </BirdContainer>
-        </Container>
+        <BirdContainer>
+          <NeverBuyText>그 돈으론 1주도 사지 못했~스껄~,,,@</NeverBuyText>
+          <NeverBuySkrrrBird src={Skrrr} alt="" />
+        </BirdContainer>
       )}
     </>
   );
