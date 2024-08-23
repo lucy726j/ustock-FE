@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { usePortfolioStore } from "../../store/usePortfolioStore"
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const MyStockItem: React.FC<StockProps> = ({
   code,
@@ -24,16 +24,14 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
   const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
-    const navigate = useNavigate();
-    
-    const updateBudget = usePortfolioStore((state) => state.updateBudget);
-  const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
-  const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
+  const navigate = useNavigate();
+
+  const addStockToStore = usePortfolioStore((state) => state.addStock);
+  const updateStockInStore = usePortfolioStore((state) => state.updateStock);
+  const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
   const calculateROR = usePortfolioStore((state) => state.calculateROR);
 
-  const updateStock = usePortfolioStore((state) => state.updateStock);
-    const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
-    const userStocks: PlusProps[] = [
+  const userStocks: PlusProps[] = [
     {
       code,
       name,
@@ -44,12 +42,12 @@ const MyStockItem: React.FC<StockProps> = ({
     },
   ];
 
-  const handleConfirm = (quantity: number, price: number) => {
+  const handleConfirm = (newQuantity: number, newPrice: number) => {
     if (modalAction === "plus") {
       axios
         .patch(
           `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
-          { quantity, price },
+          { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
         .then((res) => {
@@ -57,13 +55,14 @@ const MyStockItem: React.FC<StockProps> = ({
             const updatedStock: StockProps = {
               code,
               name,
-              quantity,
-              average: price,
+              quantity: newQuantity,
+              average: newPrice,
               ror,
               portfolioId,
               logo,
             };
-            updateStock(updatedStock);
+            addStockToStore(updatedStock);
+            calculateROR();
             swal({
               title: "추가 등록완료!",
               icon: "success",
@@ -87,21 +86,27 @@ const MyStockItem: React.FC<StockProps> = ({
       axios
         .put(
           `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
-          { quantity, price },
+          { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
         .then((res) => {
           if (res.status === 200) {
+            const oldStockValue = quantity * average;
+            const newStockValue = newQuantity * newPrice;
+            const valueDifference = newStockValue - oldStockValue;
+
             const updatedStock: StockProps = {
               code,
               name,
-              quantity,
-              average: price,
+              quantity: newQuantity,
+              average: newPrice,
               ror,
               portfolioId,
               logo,
             };
-            updateStock(updatedStock);
+            updateStockInStore(updatedStock);
+            calculateROR();
+
             swal({
               title: "수정 완료!",
               icon: "success",
@@ -150,17 +155,10 @@ const MyStockItem: React.FC<StockProps> = ({
       )
       .then((res) => {
         if (res.status === 200) {
-            deleteStockFromStore(code);
-            
-            const deletedStockValue = quantity * average;
-            const deletedProfitLoss = quantity * average * (1 + ror / 100) - deletedStockValue
-            
-            // store 업데이트
-            updateBudget(deletedStockValue)
-            updatePrincipal(deletedStockValue)
-            updateProfitLoss(deletedProfitLoss)
-            calculateROR()
+          const deletedStockValue = quantity * average;
 
+          deleteStockFromStore(code, deletedStockValue);
+          calculateROR();
 
           swal({
             title: "삭제 완료!",
