@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StockProps, PlusProps } from "../../constants/interface";
 import "./StockItemStyle.css";
 import { getGrowthColor, formatPrice } from "../../util/util";
@@ -8,10 +8,7 @@ import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-
-interface MyStockItemProps extends StockProps {
-  portfolioId: number;
-}
+import { usePortfolioStore } from "../../store/usePortfolioStore"
 
 const MyStockItem: React.FC<StockProps> = ({
   code,
@@ -26,11 +23,17 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
-  const [modalAction, setModalAction] = useState<
-    "edit" | "delete" | "plus" | null
-  >(null);
-  const navigate = useNavigate();
-  const [userStocks, setUserStocks] = useState<PlusProps[]>([
+  const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
+    const navigate = useNavigate();
+    
+    const updateBudget = usePortfolioStore((state) => state.updateBudget);
+  const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
+  const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
+  const calculateROR = usePortfolioStore((state) => state.calculateROR);
+
+  const updateStock = usePortfolioStore((state) => state.updateStock);
+    const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
+    const userStocks: PlusProps[] = [
     {
       code,
       name,
@@ -39,27 +42,10 @@ const MyStockItem: React.FC<StockProps> = ({
       portfolioId,
       logo: logo || "default_logo",
     },
-  ]);
+  ];
 
-  console.log("ror", ror / 100);
-
-  // 처음 렌더링 시 useEffect로 초기 값 설정 (이미 위에서 초기화한 경우 불필요할 수 있음)
-  useEffect(() => {
-    setUserStocks([
-      {
-        code,
-        name,
-        quantity,
-        average,
-        portfolioId,
-        logo: logo || "default_logo",
-      },
-    ]);
-    console.log("ttttt", userStocks);
-  }, [code, name, quantity, average, ror, portfolioId]);
   const handleConfirm = (quantity: number, price: number) => {
     if (modalAction === "plus") {
-      // console.log(quantity, price);
       axios
         .patch(
           `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
@@ -68,7 +54,16 @@ const MyStockItem: React.FC<StockProps> = ({
         )
         .then((res) => {
           if (res.status === 200) {
-            console.log(res);
+            const updatedStock: StockProps = {
+              code,
+              name,
+              quantity,
+              average: price,
+              ror,
+              portfolioId,
+              logo,
+            };
+            updateStock(updatedStock);
             swal({
               title: "추가 등록완료!",
               icon: "success",
@@ -76,7 +71,6 @@ const MyStockItem: React.FC<StockProps> = ({
             setIsPlusOpen(false);
             setSelectedStock(null);
             setModalAction(null);
-            navigate(`/portfolio/${portfolioId}`);
           }
         })
         .catch((error) => {
@@ -98,13 +92,21 @@ const MyStockItem: React.FC<StockProps> = ({
         )
         .then((res) => {
           if (res.status === 200) {
-            console.log(res);
+            const updatedStock: StockProps = {
+              code,
+              name,
+              quantity,
+              average: price,
+              ror,
+              portfolioId,
+              logo,
+            };
+            updateStock(updatedStock);
             swal({
               title: "수정 완료!",
               icon: "success",
             });
             setIsFormOpen(false);
-            navigate(`/portfolio/${portfolioId}`);
           } else if (res.status === 401) {
             swal({
               title: "수정 실패하셨습니다.",
@@ -147,14 +149,27 @@ const MyStockItem: React.FC<StockProps> = ({
         }
       )
       .then((res) => {
-        // console.log(res);
-        swal({
-          title: "삭제 완료!",
-          icon: "success",
-        });
-        setIsDeleteOpen(false);
-        setSelectedStock(null);
-        setModalAction(null);
+        if (res.status === 200) {
+            deleteStockFromStore(code);
+            
+            const deletedStockValue = quantity * average;
+            const deletedProfitLoss = quantity * average * (1 + ror / 100) - deletedStockValue
+            
+            // store 업데이트
+            updateBudget(deletedStockValue)
+            updatePrincipal(deletedStockValue)
+            updateProfitLoss(deletedProfitLoss)
+            calculateROR()
+
+
+          swal({
+            title: "삭제 완료!",
+            icon: "success",
+          });
+          setIsDeleteOpen(false);
+          setSelectedStock(null);
+          setModalAction(null);
+        }
       })
       .catch((error) => {
         swal({
@@ -162,14 +177,12 @@ const MyStockItem: React.FC<StockProps> = ({
           text: "다시 시도해주세요!",
           icon: "error",
         });
-
         setSelectedStock(null);
         setModalAction(null);
         console.log(error);
       });
   };
 
-  // 모달 액션(종목추가를 누르면 종목 검색 모달이 먼저 뜨게 구현)
   const openModal = (action: "edit" | "delete" | "plus") => {
     setModalAction(action);
     setSelectedStock({
@@ -179,7 +192,7 @@ const MyStockItem: React.FC<StockProps> = ({
       quantity,
       average,
       ror,
-      logo: selectedStock?.logo || selectedStock?.name,
+      logo: selectedStock?.logo || logo,
     });
     if (action === "delete") {
       setIsDeleteOpen(true);
@@ -236,9 +249,6 @@ const MyStockItem: React.FC<StockProps> = ({
         <div className="price-section">
           <p>수량 {quantity}</p>
           <div>{formatPrice(average)}원</div>
-          {/* 수량 * 평단가 * ( 1 + 수익률 / 100) */}
-          {/* 수량* 평단가 = 투자금액
-          투자금액 * 수익률(1+) */}
           <p>
             {formatPrice(
               quantity * average * (1 + ror / 100) - quantity * average

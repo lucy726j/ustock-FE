@@ -1,5 +1,5 @@
 import React from "react";
-import ModalOpen from "./modal"; // Your custom modal component
+import ModalOpen from "./modal";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;

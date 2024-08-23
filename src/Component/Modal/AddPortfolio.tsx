@@ -44,12 +44,12 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
       return;
     }
     setIsValid(true);
-    setPortfolioName("");
     onConfirm();
+    setPortfolioName(portfolioName);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPortfolioName(e.target.value);
+      setPortfolioName(e.target.value);
     if (e.target.value) {
       setIsValid(true);
     }
