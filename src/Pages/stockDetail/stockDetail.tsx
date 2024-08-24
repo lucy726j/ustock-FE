@@ -48,7 +48,7 @@ const StockDetail: React.FC = () => {
   useEffect(() => {
     if (stockCode)
       axios
-        .get(`http://localhost:8080/v1/stocks/${stockCode}`, {
+        .get(`https://api.ustock.site/v1/stocks/${stockCode}`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",

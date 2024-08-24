@@ -18,12 +18,11 @@ const ListWrapper = styled.div`
 const NewsList: React.FC = () => {
   // 나만의 뉴스 데이터
   const [news, setNews] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8080/v1/news/my`, {
+      .get(`https://api.ustock.site/v1/news/user`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +30,7 @@ const NewsList: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
+          console.log(res.data);
           setNews(res.data);
         } else if (res.status === 401) {
           navigate("/login");
