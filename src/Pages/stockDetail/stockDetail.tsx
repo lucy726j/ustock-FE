@@ -70,9 +70,12 @@ const StockDetail: React.FC = () => {
   // 상태저장해서 Chart 컴포넌트 Props로 넘겨줘야하는지 확인
   useEffect(() => {
     axios
-      .get(`/v1/stocks/${stockCode}/chart?period=${selectedViewInt}`, {
-        withCredentials: true,
-      })
+      .get(
+        `https://api.ustock.site/v1/stocks/${stockCode}/chart?period=${selectedViewInt}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           console.log("차트 데이터: ", res.data);
