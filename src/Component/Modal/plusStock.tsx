@@ -45,7 +45,7 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
 
   const calculateTotal = (stock: PlusProps) => {
     const totalQuantity = stock.quantity + quantity;
-    const totalInvestment = stock.average + quantity * price;
+    const totalInvestment = (stock.quantity * stock.average )+ (quantity * price);
     return { totalQuantity, totalInvestment };
   };
 
@@ -118,8 +118,8 @@ const StockPlusModal: React.FC<StockPlusModalProps> = ({
                       <tr>
                         <td>현재</td>
                         <td>{stock.quantity}</td>
-                        <td>{stock.average}</td>
-                        <td>{stock.quantity * stock.average}</td>
+                        <td>{stock.average.toLocaleString()}</td>
+                        <td>{(stock.quantity * stock.average).toLocaleString()}</td>
                       </tr>
                       <tr>
                         <td>추가</td>
