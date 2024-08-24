@@ -23,18 +23,15 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
-  const [modalAction, setModalAction] = useState<
-    "edit" | "delete" | "plus" | null
-  >(null);
+
+  const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
   const navigate = useNavigate();
 
-  const updateBudget = usePortfolioStore((state) => state.updateBudget);
-  const updatePrincipal = usePortfolioStore((state) => state.updatePrincipal);
-  const updateProfitLoss = usePortfolioStore((state) => state.updateProfitLoss);
-  const calculateROR = usePortfolioStore((state) => state.calculateROR);
-
-  const updateStock = usePortfolioStore((state) => state.updateStock);
+  const addStockToStore = usePortfolioStore((state) => state.addStock);
+  const updateStockInStore = usePortfolioStore((state) => state.updateStock);
   const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
+  const calculateROR = usePortfolioStore((state) => state.calculateROR);
+    
   const userStocks: PlusProps[] = [
     {
       code,
@@ -46,12 +43,12 @@ const MyStockItem: React.FC<StockProps> = ({
     },
   ];
 
-  const handleConfirm = (quantity: number, price: number) => {
+  const handleConfirm = (newQuantity: number, newPrice: number) => {
     if (modalAction === "plus") {
       axios
         .patch(
           `/https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
-          { quantity, price },
+          { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
         .then((res) => {
@@ -59,13 +56,14 @@ const MyStockItem: React.FC<StockProps> = ({
             const updatedStock: StockProps = {
               code,
               name,
-              quantity,
-              average: price,
+              quantity: newQuantity,
+              average: newPrice,
               ror,
               portfolioId,
               logo,
             };
-            updateStock(updatedStock);
+            addStockToStore(updatedStock);
+            calculateROR();
             swal({
               title: "추가 등록완료!",
               icon: "success",
@@ -89,21 +87,27 @@ const MyStockItem: React.FC<StockProps> = ({
       axios
         .put(
           `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
-          { quantity, price },
+          { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
         .then((res) => {
           if (res.status === 200) {
+            const oldStockValue = quantity * average;
+            const newStockValue = newQuantity * newPrice;
+            const valueDifference = newStockValue - oldStockValue;
+
             const updatedStock: StockProps = {
               code,
               name,
-              quantity,
-              average: price,
+              quantity: newQuantity,
+              average: newPrice,
               ror,
               portfolioId,
               logo,
             };
-            updateStock(updatedStock);
+            updateStockInStore(updatedStock);
+            calculateROR();
+
             swal({
               title: "수정 완료!",
               icon: "success",
@@ -152,16 +156,11 @@ const MyStockItem: React.FC<StockProps> = ({
       )
       .then((res) => {
         if (res.status === 200) {
-          deleteStockFromStore(code);
 
           const deletedStockValue = quantity * average;
-          const deletedProfitLoss =
-            quantity * average * (1 + ror / 100) - deletedStockValue;
 
-          // store 업데이트
-          updateBudget(deletedStockValue);
-          updatePrincipal(deletedStockValue);
-          updateProfitLoss(deletedProfitLoss);
+          deleteStockFromStore(code, deletedStockValue);
+        
           calculateROR();
 
           swal({
