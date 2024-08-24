@@ -16,7 +16,7 @@ import { useEffect } from "react";
 
 // 구글 애널리틱스 설정
 const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID;
-const clarityTrakingId = process.env.REACT_APP_CLARITY_TRACKING_ID;
+const clarityTrackingId = process.env.REACT_APP_CLARITY_TRACKING_ID;
 
 if (gaTrackingId) {
   ReactGA.initialize(gaTrackingId, { debug: true }); // react-ga 초기화 및 debug 사용
@@ -58,7 +58,7 @@ useEffect(() => {
     if (y && y.parentNode) {
       y.parentNode.insertBefore(t, y);
     }
-  })(window, document, "clarity", "script", clarityTrakingId);
+  })(window, document, "clarity", "script", clarityTrackingId);
 }, []);
 const Router = () => {
   const { user } = useAuth();
