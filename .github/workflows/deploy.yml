@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   build-and-push:
@@ -19,12 +20,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -32,8 +27,38 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Deploy to S3
-        run: aws s3 sync build s3://ustock-bucket/react/ --delete
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+      - name: Ensure env-cmd is installed
+        run: npm install env-cmd --save-dev
+
+      - name: Set environment variables for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_DEV }}" > .env.development
+        env:
+          REACT_APP_ENV: development
+
+      - name: Build Project for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: CI=false npm run build:dev
+
+      - name: Set environment variables for Production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env.production
+        env:
+          REACT_APP_ENV: production
+
+      - name: Build Project for Production
+        if: github.ref == 'refs/heads/main'
+        run: CI=false npm run build:prod
+
+      - name: Invalidate CloudFront Cache for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} --paths "/*"
+
+      - name: Invalidate CloudFront Cache for Production
+        if: github.ref == 'refs/heads/main'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} --paths "/*"

@@ -6,6 +6,7 @@ import "./NewsItemStyle.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NoNews from "./\bnoNews";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const NewsList: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/news/user`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/news/user`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -46,9 +47,11 @@ const NewsList: React.FC = () => {
   return (
     <div>
       <ListWrapper>
-        {news.map((news: NewsProps) => (
-          <NewsItem key={news.id} {...news} />
-        ))}
+        {news.length > 0 ? (
+          news.map((news: NewsProps) => <NewsItem key={news.id} {...news} />)
+        ) : (
+          <NoNews />
+        )}
       </ListWrapper>
     </div>
   );

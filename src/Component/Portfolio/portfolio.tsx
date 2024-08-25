@@ -6,7 +6,7 @@ import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
@@ -27,6 +27,7 @@ const Portfolio = () => {
   const [totalAsset, setTotalAsset] = useState(0);
   const [totalROR, setTotalROR] = useState(0);
   const [portfolioData, setPortfolioData] = useState<Portfolio[]>([]); // 초기 타입 지정
+  const [portfolioListLen, setPortfolioListLen] = useState(0);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -41,7 +42,7 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        "https://api.ustock.site/v1/portfolio",
+        "${process.env.REACT_APP_API_URL}/v1/portfolio",
         { name: portfolioName },
         { withCredentials: true }
       )
@@ -76,7 +77,7 @@ const Portfolio = () => {
   // 포트폴리오 전체 조회
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/portfolio`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +88,8 @@ const Portfolio = () => {
           setTotalAsset(res.data.budget);
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
-          //console.log(res.data.list);
+          setPortfolioListLen(res.data.list.length); // 포트폴리오 리스트의 길이 업데이트
+          console.log(res.data.list.length);
           console.log(res.data);
         } else if (res.status === 401) {
           console.log(res);
@@ -96,7 +98,7 @@ const Portfolio = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [portfolioData]);
+  }, [portfolioListLen]);
 
   console.log(formatPrice(totalAsset));
   const text = formatPrice(totalAsset);

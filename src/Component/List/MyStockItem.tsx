@@ -24,14 +24,16 @@ const MyStockItem: React.FC<StockProps> = ({
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<StockProps | null>(null);
 
-  const [modalAction, setModalAction] = useState<"edit" | "delete" | "plus" | null>(null);
+  const [modalAction, setModalAction] = useState<
+    "edit" | "delete" | "plus" | null
+  >(null);
   const navigate = useNavigate();
 
   const addStockToStore = usePortfolioStore((state) => state.addStock);
   const updateStockInStore = usePortfolioStore((state) => state.updateStock);
   const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
   const calculateROR = usePortfolioStore((state) => state.calculateROR);
-    
+
   const userStocks: PlusProps[] = [
     {
       code,
@@ -47,7 +49,7 @@ const MyStockItem: React.FC<StockProps> = ({
     if (modalAction === "plus") {
       axios
         .patch(
-          `/https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+          `/${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
@@ -86,7 +88,7 @@ const MyStockItem: React.FC<StockProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+          `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
@@ -149,18 +151,17 @@ const MyStockItem: React.FC<StockProps> = ({
   const deleteHandle = () => {
     axios
       .delete(
-        `https://api.ustock.site/v1/portfolio/${portfolioId}/holding/${code}`,
+        `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
         {
           withCredentials: true,
         }
       )
       .then((res) => {
         if (res.status === 200) {
-
           const deletedStockValue = quantity * average;
 
           deleteStockFromStore(code, deletedStockValue);
-        
+
           calculateROR();
 
           swal({
