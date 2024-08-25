@@ -42,7 +42,7 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        "${process.env.REACT_APP_API_URL}/v1/portfolio",
+        `${process.env.REACT_APP_API_URL}/v1/portfolio`,
         { name: portfolioName },
         { withCredentials: true }
       )

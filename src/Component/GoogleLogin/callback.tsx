@@ -19,7 +19,7 @@ const CallBackPage = () => {
       hasFetchedRef.current = true;
       try {
         const res = await axios.get(
-          "${process.env.REACT_APP_API_URL}/v1/user",
+          `${process.env.REACT_APP_API_URL}/v1/user`,
           {
             withCredentials: true,
           }
