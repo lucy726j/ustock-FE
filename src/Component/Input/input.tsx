@@ -5,7 +5,8 @@ import { inputSize, inputType } from "../../Styles/input";
 
 const InputContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   width: 100%;
 `;
 
