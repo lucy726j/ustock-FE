@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   build-and-push:
@@ -22,8 +23,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Project
-        run: npm run build
+      - name: Build Project for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: npm run build:dev
+
+      - name: Build Project for Production
+        if: github.ref == 'refs/heads/main'
+        run: npm run build:prod
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -32,8 +38,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Deploy to S3
+      - name: Deploy to S3 for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: aws s3 sync build s3://ustock-dev-bucket/react/ --delete
+
+      - name: Deploy to S3 for Production
+        if: github.ref == 'refs/heads/main'
         run: aws s3 sync build s3://ustock-bucket/react/ --delete
 
-      - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+      - name: Invalidate CloudFront Cache for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} --paths "/*"
+
+      - name: Invalidate CloudFront Cache for Production
+        if: github.ref == 'refs/heads/main'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} --paths "/*"
