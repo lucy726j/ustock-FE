@@ -47,7 +47,7 @@ const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
 
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/stocks?order=capital`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/stocks?order=capital`, {
         withCredentials: true,
       })
       .then((res) => {

@@ -25,5 +25,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# 구글애널리틱스 관련
-.env
+# env
+.env.production
+.env.development

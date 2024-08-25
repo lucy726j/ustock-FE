@@ -27,12 +27,15 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       setList([]); // Clear the list if the keyword is empty
     }
     axios
-      .get(`https://api.ustock.site/v1/stocks/search?query=${keyword}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);

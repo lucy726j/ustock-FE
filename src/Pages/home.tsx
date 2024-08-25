@@ -85,7 +85,7 @@ const Home: React.FC = () => {
   // 오늘의 증시 데이터
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/stocks/market`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/stocks/market`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
   // 인기 종목 리스트 데이터
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/stocks?order=top`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/stocks?order=top`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

@@ -125,7 +125,7 @@ const Calculator = () => {
   const ConfirmHandler = async () => {
     axios
       .get(
-        `https://api.ustock.site/v1/stocks/${code}/skrrr?date=${
+        `${process.env.REACT_APP_API_URL}/v1/stocks/${code}/skrrr?date=${
           selectedYear + "/" + selectedMonth + "/" + selectedDay
         }&price=${price}`
       )

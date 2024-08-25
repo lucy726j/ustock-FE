@@ -18,9 +18,12 @@ const CallBackPage = () => {
       if (hasFetchedRef.current) return; // 두 번째 실행 방지
       hasFetchedRef.current = true;
       try {
-        const res = await axios.get("https://api.ustock.site/v1/user", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "${process.env.REACT_APP_API_URL}/v1/user",
+          {
+            withCredentials: true,
+          }
+        );
         if (res.status === 200) {
           const { name, profile } = res.data;
           login({ name, profile });
