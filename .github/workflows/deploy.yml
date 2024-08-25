@@ -20,20 +20,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Ensure env-cmd is installed
-        run: npm install env-cmd --save-dev
-
-      - name: Build Project for Develop
-        if: github.ref == 'refs/heads/dev'
-        run: npm run build:dev
-
-      - name: Build Project for Production
-        if: github.ref == 'refs/heads/main'
-        run: npm run build:prod
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -41,13 +27,30 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Deploy to S3 for Develop
-        if: github.ref == 'refs/heads/dev'
-        run: aws s3 sync build s3://ustock-dev-bucket/react/ --delete
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Deploy to S3 for Production
+      - name: Set environment variables for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_DEV }}" > .env
+        env:
+          REACT_APP_ENV: development
+
+      - name: Build Project for Develop
+        if: github.ref == 'refs/heads/dev'
+        run: npm run build:dev
+
+      - name: Set environment variables for Production
         if: github.ref == 'refs/heads/main'
-        run: aws s3 sync build s3://ustock-bucket/react/ --delete
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env
+        env:
+          REACT_APP_ENV: production
+
+      - name: Build Project for Production
+        if: github.ref == 'refs/heads/main'
+        run: npm run build:prod
 
       - name: Invalidate CloudFront Cache for Develop
         if: github.ref == 'refs/heads/dev'
