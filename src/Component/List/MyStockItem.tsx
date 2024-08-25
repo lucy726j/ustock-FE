@@ -91,8 +91,7 @@ const MyStockItem: React.FC<StockProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          // `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
-          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+          `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
@@ -155,8 +154,7 @@ const MyStockItem: React.FC<StockProps> = ({
   const deleteHandle = () => {
     axios
       .delete(
-        // `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
-        `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
+        `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
         {
           withCredentials: true,
         }

@@ -61,8 +61,7 @@ const PfCreate: React.FC = () => {
     console.log("handleConfirm called. create : ", portfolioName);
     axios
       .post(
-        // `${process.env.REACT_APP_API_URL}/v1/portfolio`,
-        `http://localhost:8080/v1/portfolio`,
+        `${process.env.REACT_APP_API_URL}/v1/portfolio`,
         { name: portfolioName },
         { withCredentials: true }
       )
