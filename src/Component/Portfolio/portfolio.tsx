@@ -37,6 +37,7 @@ const Portfolio = () => {
         setIsModalOpen(false);
     };
 
+
     // 포트폴리오 추가
     const handleConfirm = () => {
         console.log("handleConfirm called", portfolioName);
@@ -50,6 +51,7 @@ const Portfolio = () => {
             .then((response) => {
                 if (response.status === 200) {
                     const newPortfolio: Portfolio = response.data;
+
 
                     // 기존 포트폴리오 데이터에 새로 생성된 포트폴리오를 추가
                     setPortfolioData((prevData) => [...prevData, newPortfolio]);
