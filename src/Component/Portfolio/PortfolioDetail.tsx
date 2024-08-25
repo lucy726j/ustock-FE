@@ -25,16 +25,12 @@ const PortfolioDetail = () => {
   // 포트폴리오 상세 조회
   useEffect(() => {
     axios
-      .get(
-        // `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`,
-        `http://localhost:8080/v1/portfolio/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         if (res.status === 200) {
           // console.log("개별 포트폴리오 조회", res);

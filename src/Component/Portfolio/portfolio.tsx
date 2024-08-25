@@ -47,8 +47,7 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        // `${process.env.REACT_APP_API_URL}/v1/portfolio`,
-        `http://localhost:8080/v1/portfolio`,
+        `${process.env.REACT_APP_API_URL}/v1/portfolio`,
         { name: portfolioName },
         { withCredentials: true }
       )
@@ -82,16 +81,12 @@ const Portfolio = () => {
   // 포트폴리오 전체 조회
   useEffect(() => {
     axios
-      .get(
-        // `${process.env.REACT_APP_API_URL}/v1/portfolio`,
-        `http://localhost:8080/v1/portfolio`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
