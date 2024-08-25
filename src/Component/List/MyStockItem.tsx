@@ -49,7 +49,7 @@ const MyStockItem: React.FC<StockProps> = ({
     if (modalAction === "plus") {
       axios
         .patch(
-          `/${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
+          `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
