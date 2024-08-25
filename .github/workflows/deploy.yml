@@ -42,7 +42,9 @@ jobs:
 
       - name: Build Project for Develop
         if: github.ref == 'refs/heads/dev'
-        run: CI=false npm run build:dev
+        run: |
+          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_DEV }}
+          CI=false npm run build:dev
 
       - name: Deploy to S3 for Development
         if: github.ref == 'refs/heads/dev'
@@ -61,7 +63,9 @@ jobs:
 
       - name: Build Project for Production
         if: github.ref == 'refs/heads/main'
-        run: CI=false npm run build:prod
+        run: |
+          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_PROD }}
+          CI=false npm run build:prod
 
       - name: Deploy to S3 for Production
         if: github.ref == 'refs/heads/main'
