@@ -43,7 +43,7 @@ jobs:
       - name: Build Project for Develop
         if: github.ref == 'refs/heads/dev'
         run: |
-          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_DEV }}
+          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_DEV }}"
           CI=false npm run build:dev
 
       - name: Deploy to S3 for Development
@@ -57,7 +57,7 @@ jobs:
       - name: Set environment variables for Production
         if: github.ref == 'refs/heads/main'
         run: |
-          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env.production
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env.production"
         env:
           REACT_APP_ENV: production
 
