@@ -72,7 +72,6 @@ const Router = () => {
   // }, []);
   // usePageTracking();
 
-
   return (
     <BrowserRouter>
       <Layout>
@@ -81,15 +80,15 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/stocks" element={<SearchStock />} />
           <Route path="/stocks/:id" element={<StockDetail />} />
-          {user ? (
-            <>
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/no" element={<PortfolioNo />} />
-              <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
-            </>
+          {/* {user ? (
+            <> */}
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/portfolio/no" element={<PortfolioNo />} />
+          <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
+          {/* </>
           ) : (
             <Route path="/*" element={<NoUserPage />} />
-          )}
+          )} */}
           <Route path="/game" element={<SkrrrGamePage />} />
           <Route path="/auth/callback" element={<CallBackPage />} />
         </Routes>

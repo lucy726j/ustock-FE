@@ -5,6 +5,7 @@ import * as M from "../List/modalStyle";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import swal from "sweetalert";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
@@ -33,6 +34,9 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   const location = useLocation();
   const id = location.pathname.split("/")[2];
 
+  const changeStatus = usePortfolioStore((state) => state.change);
+  const changeCheck = usePortfolioStore((state) => state.setChange);
+
   const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setQuantity(isNaN(value) ? 0 : value);
@@ -60,7 +64,8 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
     if (selectedStock && quantity > 0 && price > 0) {
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}/holding/${selectedStock.code}`,
+          // `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}/holding/${selectedStock.code}`,
+          `http://localhost:8080/v1/portfolio/${id}/holding/${selectedStock.code}`,
           { quantity, price },
           { withCredentials: true }
         )
@@ -68,6 +73,8 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
           if (res.status === 200) {
             const newStock = { ...selectedStock, quantity, price };
             // onUpdateStocks(newStock);
+            // 상태변화 업데이트
+            changeCheck(!changeStatus);
             swal({
               title: "자산 추가가 되었습니다.",
               text: "성공적으로 완료되었습니다",

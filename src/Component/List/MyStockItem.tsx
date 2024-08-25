@@ -33,6 +33,8 @@ const MyStockItem: React.FC<StockProps> = ({
   const updateStockInStore = usePortfolioStore((state) => state.updateStock);
   const deleteStockFromStore = usePortfolioStore((state) => state.deleteStock);
   const calculateROR = usePortfolioStore((state) => state.calculateROR);
+  const setChange = usePortfolioStore((state) => state.setChange);
+  const change = usePortfolioStore((state) => state.change);
 
   const userStocks: PlusProps[] = [
     {
@@ -66,6 +68,7 @@ const MyStockItem: React.FC<StockProps> = ({
             };
             addStockToStore(updatedStock);
             calculateROR();
+            setChange(!change);
             swal({
               title: "추가 등록완료!",
               icon: "success",
@@ -88,7 +91,8 @@ const MyStockItem: React.FC<StockProps> = ({
     } else if (modalAction === "edit") {
       axios
         .put(
-          `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
+          // `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
+          `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
           { quantity: newQuantity, price: newPrice },
           { withCredentials: true }
         )
@@ -109,7 +113,7 @@ const MyStockItem: React.FC<StockProps> = ({
             };
             updateStockInStore(updatedStock);
             calculateROR();
-
+            setChange(!change);
             swal({
               title: "수정 완료!",
               icon: "success",
@@ -151,7 +155,8 @@ const MyStockItem: React.FC<StockProps> = ({
   const deleteHandle = () => {
     axios
       .delete(
-        `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
+        // `${process.env.REACT_APP_API_URL}/v1/portfolio/${portfolioId}/holding/${code}`,
+        `http://localhost:8080/v1/portfolio/${portfolioId}/holding/${code}`,
         {
           withCredentials: true,
         }
@@ -163,6 +168,7 @@ const MyStockItem: React.FC<StockProps> = ({
           deleteStockFromStore(code, deletedStockValue);
 
           calculateROR();
+          setChange(!change);
 
           swal({
             title: "삭제 완료!",
