@@ -48,7 +48,7 @@ const StockDetail: React.FC = () => {
   useEffect(() => {
     if (stockCode)
       axios
-        .get(`https://api.ustock.site/v1/stocks/${stockCode}`, {
+        .get(`${process.env.REACT_APP_API_URL}/v1/stocks/${stockCode}`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const StockDetail: React.FC = () => {
   useEffect(() => {
     axios
       .get(
-        `https://api.ustock.site/v1/stocks/${stockCode}/chart?period=${selectedViewInt}`,
+        `${process.env.REACT_APP_API_URL}/v1/stocks/${stockCode}/chart?period=${selectedViewInt}`,
         {
           withCredentials: true,
         }

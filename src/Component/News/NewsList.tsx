@@ -23,7 +23,7 @@ const NewsList: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/news/user`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/news/user`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

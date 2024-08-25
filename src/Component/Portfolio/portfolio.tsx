@@ -42,7 +42,7 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        "https://api.ustock.site/v1/portfolio",
+        "${process.env.REACT_APP_API_URL}/v1/portfolio",
         { name: portfolioName },
         { withCredentials: true }
       )
@@ -77,7 +77,7 @@ const Portfolio = () => {
   // 포트폴리오 전체 조회
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/portfolio`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

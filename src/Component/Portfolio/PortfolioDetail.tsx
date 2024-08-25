@@ -23,7 +23,7 @@ const PortfolioDetail = () => {
   // 포트폴리오 상세 조회
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/portfolio/${id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

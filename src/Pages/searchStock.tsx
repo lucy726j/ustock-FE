@@ -52,12 +52,15 @@ const SearchStock = () => {
   // 정렬된 종목 리스트 API
   useEffect(() => {
     axios
-      .get(`https://api.ustock.site/v1/stocks?order=${selectedCategory}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/v1/stocks?order=${selectedCategory}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           const stockData = res.data.stock;
