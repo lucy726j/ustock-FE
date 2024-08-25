@@ -11,58 +11,66 @@ import SkrrrGamePage from "./Pages/skrrrGame";
 import { useAuth } from "./contexts/authContext";
 import NoUserPage from "./Pages/404/noUser";
 import LoginPage from "./Pages/404/loginPage";
-import ReactGA from "react-ga";
-import { useEffect } from "react";
+// import TagManager from "react-gtm-module";
+// import { useEffect } from "react";
 
-// 구글 애널리틱스 설정
-const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID;
-const clarityTrackingId = process.env.REACT_APP_CLARITY_TRACKING_ID;
-
-if (gaTrackingId) {
-  ReactGA.initialize(gaTrackingId, { debug: true }); // react-ga 초기화 및 debug 사용
-} else {
-  console.error("Google Analytics tracking ID is not defined");
-}
-
-const usePageTracking = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (gaTrackingId) {
-      ReactGA.pageview(location.pathname + location.search);
-    }
-  }, [location]);
-};
-
-// MicroSoft Clarity 설정
-// 타입 에러 때문에,,, c,a,i any로 변경
-useEffect(() => {
-  (function (
-    c: any,
-    l: Document,
-    a: any,
-    r: keyof HTMLElementTagNameMap,
-    i: any
-  ) {
-    c[a] =
-      c[a] ||
-      function () {
-        (c[a].q = c[a].q || []).push(arguments);
-      };
-
-    const t: HTMLScriptElement = l.createElement(r) as HTMLScriptElement;
-    t.async = true;
-    t.src = "https://www.clarity.ms/tag/" + i;
-
-    const y = l.getElementsByTagName(r)[0] as HTMLElement; // Explicitly cast to HTMLElement
-    if (y && y.parentNode) {
-      y.parentNode.insertBefore(t, y);
-    }
-  })(window, document, "clarity", "script", clarityTrackingId);
-}, []);
 const Router = () => {
   const { user } = useAuth();
-  usePageTracking();
+
+  // // 구글 애널리틱스 설정
+  // const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID;
+  // const clarityTrackingId = process.env.REACT_APP_CLARITY_TRACKING_ID;
+
+  // if (gaTrackingId) {
+  //   // Initialize Google Analytics 4
+  //   TagManager.initialize({ gtmId: gaTrackingId });
+  // } else {
+  //   console.error("Google Analytics tracking ID is not defined");
+  // }
+
+  // const usePageTracking = () => {
+  //   interface Window {
+  //     gtag: (...args: any[]) => void;
+  //   }
+
+  //   useEffect(() => {
+  //     if (gaTrackingId) {
+  //       // Send pageview event to GA4
+  //       Window.gtag("config", gaTrackingId, {
+  //         send_page_view: false,
+  //         page_path: window.location.pathname + window.location.search,
+  //       });
+  //     }
+  //   }, [window.location.pathname, window.location.search]);
+  // };
+
+  // // MicroSoft Clarity 설정
+  // // 타입 에러 때문에,,, c,a,i any로 변경
+  // useEffect(() => {
+  //   (function (
+  //     c: any,
+  //     l: Document,
+  //     a: any,
+  //     r: keyof HTMLElementTagNameMap,
+  //     i: any
+  //   ) {
+  //     c[a] =
+  //       c[a] ||
+  //       function () {
+  //         (c[a].q = c[a].q || []).push(arguments);
+  //       };
+
+  //     const t: HTMLScriptElement = l.createElement(r) as HTMLScriptElement;
+  //     t.async = true;
+  //     t.src = "https://www.clarity.ms/tag/" + i;
+
+  //     const y = l.getElementsByTagName(r)[0] as HTMLElement; // Explicitly cast to HTMLElement
+  //     if (y && y.parentNode) {
+  //       y.parentNode.insertBefore(t, y);
+  //     }
+  //   })(window, document, "clarity", "script", clarityTrackingId);
+  // }, []);
+  // usePageTracking();
 
   return (
     <BrowserRouter>
