@@ -19,6 +19,7 @@ const IconWrapper = styled.span`
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  padding-left: 1rem;
 `;
 
 const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`

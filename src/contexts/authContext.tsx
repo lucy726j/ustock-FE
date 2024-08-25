@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import axios from "axios";
 
 interface AuthContextType {
   user: { name: string; profile: string } | null;
@@ -27,8 +28,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setUser(null);
+        localStorage.removeItem("user");
+      });
   };
 
   return (
