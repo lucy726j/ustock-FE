@@ -5,7 +5,8 @@ import { inputSize, inputType } from "../../Styles/input";
 
 const InputContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -18,6 +19,7 @@ const IconWrapper = styled.span`
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  padding-left: 1rem;
 `;
 
 const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`

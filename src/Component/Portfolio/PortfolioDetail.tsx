@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Swipe from "../Swipe/Swipe";
 import PfCard from "./PfCard";
@@ -19,18 +19,25 @@ const PortfolioDetail = () => {
   const principal = usePortfolioStore((state) => state.principal);
   const ret = usePortfolioStore((state) => state.ret);
   const ror = usePortfolioStore((state) => state.ror);
+  const changeStatus = usePortfolioStore((state) => state.change);
+  // const changeCheck = usePortfolioStore((state) => state.setChange);
 
   // 포트폴리오 상세 조회
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(
+        // `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`,
+        `http://localhost:8080/v1/portfolio/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
+          // console.log("개별 포트폴리오 조회", res);
           setPortfolio(res.data.name, res.data, res.data.stocks);
           setFinancialData(
             res.data.budget,
@@ -39,8 +46,8 @@ const PortfolioDetail = () => {
             res.data.ror
           );
           //alert("성공");
-          console.log(res.data.name, res.data, res.data.stocks);
-          console.log("Portfolio and financial data updated:", res.data);
+          // console.log(res.data.name, res.data, res.data.stocks);
+          // console.log("Portfolio and financial data updated:", res.data);
         } else if (res.status === 401) {
           console.log(res);
         }
@@ -48,7 +55,7 @@ const PortfolioDetail = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [id, setPortfolio, setFinancialData]);
+  }, [setPortfolio, setFinancialData, changeStatus]);
 
   if (!data) {
     return <div>포트폴리오를 찾을 수 없습니다.</div>;

@@ -8,6 +8,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useAsyncError, useNavigate } from "react-router-dom";
 import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
+import { stat } from "fs";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
@@ -27,7 +29,10 @@ const Portfolio = () => {
   const [totalAsset, setTotalAsset] = useState(0);
   const [totalROR, setTotalROR] = useState(0);
   const [portfolioData, setPortfolioData] = useState<Portfolio[]>([]); // 초기 타입 지정
-  const [portfolioListLen, setPortfolioListLen] = useState(0);
+  // const [portfolioListLen, setPortfolioListLen] = useState(0);
+  const [add, setAdd] = useState(0);
+  const setChange = usePortfolioStore((state) => state.setChange);
+  const change = usePortfolioStore((state) => state.change);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -42,17 +47,17 @@ const Portfolio = () => {
     console.log("handleConfirm called", portfolioName);
     axios
       .post(
-        `${process.env.REACT_APP_API_URL}/v1/portfolio`,
+        // `${process.env.REACT_APP_API_URL}/v1/portfolio`,
+        `http://localhost:8080/v1/portfolio`,
         { name: portfolioName },
         { withCredentials: true }
       )
       .then((response) => {
         if (response.status === 200) {
           const newPortfolio: Portfolio = response.data;
-
           // 기존 포트폴리오 데이터에 새로 생성된 포트폴리오를 추가
           setPortfolioData((prevData) => [...prevData, newPortfolio]);
-
+          setAdd(add + 1);
           closeModal();
           swal({
             title: "포트폴리오를 생성했습니다.",
@@ -77,19 +82,23 @@ const Portfolio = () => {
   // 포트폴리오 전체 조회
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/v1/portfolio`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(
+        // `${process.env.REACT_APP_API_URL}/v1/portfolio`,
+        `http://localhost:8080/v1/portfolio`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
-          setPortfolioListLen(res.data.list.length); // 포트폴리오 리스트의 길이 업데이트
-          console.log(res.data.list.length);
+          // setPortfolioListLen(res.data.list.length); // 포트폴리오 리스트의 길이 업데이트
+          // console.log(res.data.list.length);
           console.log(res.data);
         } else if (res.status === 401) {
           console.log(res);
@@ -98,10 +107,10 @@ const Portfolio = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [portfolioListLen]);
+  }, [add, change]);
 
-  console.log(formatPrice(totalAsset));
-  const text = formatPrice(totalAsset);
+  // console.log(formatPrice(totalAsset));
+  // const text = formatPrice(totalAsset);
 
   return (
     <div className="Portfolio">

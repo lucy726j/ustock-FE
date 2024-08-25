@@ -3,6 +3,7 @@ import ApexCharts from "apexcharts";
 import { ChartStyle, ChartDate } from "./chartStyle";
 import { formatPrice } from "../../util/util";
 import { Info } from "../../Pages/home";
+import ModalOpen from "../Modal/modal";
 
 interface CandleData {
   data: {
@@ -11,10 +12,24 @@ interface CandleData {
     z: { title: string; url: string }[];
   }[];
 }
-
 const Chart = ({ data }: CandleData) => {
   const chartRef = useRef<HTMLDivElement>(null);
   console.log("chart : ", data);
+  const [click, setClick] = useState(false);
+
+  const handlerClick = () => {
+    return (
+      <ModalOpen
+        isOpen={isOpen}
+        // onRequestClose={onRequestClose}
+        showConfirmButton="확인"
+        showCancelButton={true}
+        // icon={newPortfolio}
+        onConfirm={handleConfirm}
+        confirmLabel="확인"
+      />
+    );
+  };
 
   useEffect(() => {
     console.log("차트", data);
@@ -29,14 +44,63 @@ const Chart = ({ data }: CandleData) => {
         chart: {
           type: "candlestick",
           height: 350,
+          events: {
+            // dataPointSelection: function (
+            //   event: any,
+            //   chartContext: any,
+            //   opts: any
+            // ) {
+            //   alert(chartContext.w.globals.labels[opts.dataPointIndex]);
+            // },
+            // onNodeClick: function (event: any, chartContext: any, opts: any) {
+            //   alert("온노드클릭");
+            // },
+            click: function (event: any, chartContext: any, opts: any) {
+              var newsHtml = "";
+              console.log("차트컨텍스트", chartContext);
+              console.log("데이터포인트", opts.dataPointIndex);
+              const news = opts.globals.seriesZ[0][opts.dataPointIndex]; // 뉴스 데이터
+              if (Array.isArray(news)) {
+                newsHtml = `<ul>`;
+                news.forEach((newItem, index) => {
+                  newsHtml += `<li><a href=${newItem.url} target="_blank">${newItem.title}</a></li>`;
+                });
+                newsHtml += "</ul>";
+              } else {
+                console.error();
+              }
+
+              // alert("된다");
+              // handlerClick();
+              // return (
+              {
+                click ? (
+                  <ModalOpen
+                    isOpen={isOpen}
+                    // onRequestClose={onRequestClose}
+                    showConfirmButton="확인"
+                    showCancelButton={true}
+                    // icon={newPortfolio}
+                    onConfirm={handleConfirm}
+                    confirmLabel="확인"
+                  />
+                ) : (
+                  alert("상태관리 안된다")
+                );
+              }
+              // );
+              // return `<div style="height:500px; background-color : red" ><p>관련 뉴스: <span style="padding-left : 1rem;">${newsHtml}</span></p></div>`;
+            },
+          },
         },
+
         xaxis: {
           type: "datetime",
           labels: {
             datetimeFormatter: {
               year: "yyyy년",
               month: "M월",
-              day: "d월",
+              day: "dd일",
               hour: "HH:mm",
             },
           }, // 차트를 좀 더 널널하게 보여줘야함.. zoom 속성 알아보기
@@ -87,6 +151,7 @@ const Chart = ({ data }: CandleData) => {
             <p>종가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
               close
             )}</span></p>
+            
             </div>
             `;
           },

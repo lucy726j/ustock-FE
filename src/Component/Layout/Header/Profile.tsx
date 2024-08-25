@@ -56,7 +56,7 @@ const Profile = () => {
           {isOpen && <LogoutBox onClick={handleLogout}>로그아웃</LogoutBox>}
         </ProfileContainer>
       ) : (
-        <></>
+        <GoogleLogin />
       )}
     </>
   );

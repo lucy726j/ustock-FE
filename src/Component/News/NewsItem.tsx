@@ -20,16 +20,15 @@ const NewsItem: React.FC<NewsProps> = ({
       target="_blank"
       rel="noopener noreferrer nofollow"
       // onClick={handleClick}
+      // style={{ textDecoration: "none", color: "black" }}
     >
       <div className="news-section">
         <div className="news-content">{title}</div>
         <div className="news-info">
+          <div className="stock">삼성전자</div>
           <h3>{publisher}</h3>
           <p>{date}</p>
         </div>
-      </div>
-      <div className="img-section">
-        <img src={img} alt="뉴스 이미지" />
       </div>
     </a>
   );
