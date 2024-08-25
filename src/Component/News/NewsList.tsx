@@ -6,6 +6,7 @@ import "./NewsItemStyle.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NoNews from "./\bnoNews";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -44,9 +45,11 @@ const NewsList: React.FC = () => {
   return (
     <div>
       <ListWrapper>
-        {news.map((news: NewsProps) => (
-          <NewsItem key={news.id} {...news} />
-        ))}
+        {news.length > 0 ? (
+          news.map((news: NewsProps) => <NewsItem key={news.id} {...news} />)
+        ) : (
+          <NoNews />
+        )}
       </ListWrapper>
     </div>
   );
