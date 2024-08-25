@@ -36,7 +36,7 @@ jobs:
       - name: Set environment variables for Develop
         if: github.ref == 'refs/heads/dev'
         run: |
-          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_DEV }}" > .env
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_DEV }}" > .env.development
         env:
           REACT_APP_ENV: development
 
@@ -47,7 +47,7 @@ jobs:
       - name: Set environment variables for Production
         if: github.ref == 'refs/heads/main'
         run: |
-          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL_PROD }}" > .env.production
         env:
           REACT_APP_ENV: production
 
