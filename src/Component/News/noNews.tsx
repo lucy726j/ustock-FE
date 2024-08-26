@@ -10,7 +10,12 @@ const Container = styled.div`
 `;
 
 const Div = styled.div`
+  margin-bottom: 0.5rem;
+`;
+
+const Text = styled.div`
   margin-bottom: 1rem;
+  font-size: 12px;
 `;
 
 const NoNews = () => {
@@ -21,7 +26,8 @@ const NoNews = () => {
 
   return (
     <Container>
-      <Div>아직 보유하신 포트폴리오가 없어요!</Div>
+      <Div>❌ 아직 보유하신 종목이 없어요 ❌ </Div>
+      <Text>내 포트폴리오를 생성하고, 종목을 추가해보세요 !</Text>
       <Button
         children={"내 포트폴리오 생성하러 가기"}
         state="normal"

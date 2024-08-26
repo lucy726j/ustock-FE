@@ -5,7 +5,7 @@ import { NewsProps } from "../../constants/interface";
 import "./NewsItemStyle.css";
 import { useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NoNews from "./\bnoNews";
 
 const ListWrapper = styled.div`
@@ -20,6 +20,7 @@ const NewsList: React.FC = () => {
   // 나만의 뉴스 데이터
   const [news, setNews] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
 
   useEffect(() => {
@@ -45,7 +46,9 @@ const NewsList: React.FC = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [location]);
+
+  console.log(news.length);
 
 
   return (
