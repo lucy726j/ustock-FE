@@ -30,7 +30,7 @@ const LogoutBox = styled.div`
   font-size: 10px;
   position: absolute;
   top: 40px;
-  right: 0px;
+  right: 40px;
 `;
 
 const Profile = () => {

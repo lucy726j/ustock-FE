@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../Component/Button/button";
+import { GoAlert } from "react-icons/go";
+import { Colors } from "../../Styles/Colors";
 
 const Box = styled.div`
   height: 60vh;
@@ -28,10 +30,17 @@ const NoUserPage = () => {
   return (
     <Box>
       <Container>
-        <Div>접근할 수 없는 페이지입니다.</Div>
-        <Button size="small" colorType="main" state="normal" onClick={Login}>
+        <GoAlert
+          style={{
+            fontSize: "100px",
+            color: Colors.main,
+            marginBottom: "1rem",
+          }}
+        />
+        <Div>로그인이 필요한 페이지입니다.</Div>
+        {/* <Button size="small" colorType="main" state="normal" onClick={Login}>
           로그인 하러 가기
-        </Button>
+        </Button> */}
       </Container>
     </Box>
   );
