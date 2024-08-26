@@ -50,14 +50,6 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       });
   }, [keyword]);
 
-  // const handleSearch = (event: string) => {
-  //   setKeyword(event);
-  //   const searchResult = data.filter(
-  //     (el) => el.name.includes(event) || el.code.includes(event)
-  //   );
-  //   setList(searchResult);
-  // };
-
   const handleSelectStock = (event: StockDataProps) => {
     console.log(event.code);
     nav(`/stocks/${event.code}`);

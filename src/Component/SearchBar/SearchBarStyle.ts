@@ -37,7 +37,7 @@ export const SearchResult = styled.div`
   position: absolute;
   top: 135px;
   z-index: 2;
-  height: 300px;
+  max-height: 300px;
   overflow: scroll;
   scrollbar-width: none;
 `;
