@@ -5,7 +5,7 @@ import Chicken from "../../img/chicken.png";
 import Iphone from "../../img/iphone.png";
 import styled from "styled-components";
 import Skrrr from "../../img/SkerrImg.png";
-import { CalculResultProps } from "../../constants/interface";
+import { CalculResultProps, UserProps } from "../../constants/interface";
 import { ValueProps } from "../../constants/interface";
 import { formatPrice } from "../../util/util";
 
@@ -106,12 +106,21 @@ const CalculResult: React.FC<CalculResultProps> = ({
   chicken,
   iphone,
 }) => {
+  let userName: string = "사용자";
+
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    userName = JSON.parse(userData).name;
+  } else {
+    console.log("유저 정보 없음");
+  }
+
   return (
     <>
       {price !== 0 ? (
         <Container>
           <SpanContainer>
-            <SpanStyle isNegative={true}>스껄</SpanStyle>
+            <SpanStyle isNegative={true}>{userName}</SpanStyle>
             님은
             <SpanStyle isNegative={price < 0}>
               {formatPrice(Math.abs(price))}
