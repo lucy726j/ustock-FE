@@ -16,8 +16,8 @@ const MAX_HEIGHT_PERCENT = 80; // 80%
 const MIN_HEIGHT_PERCENT = 10; // 10%
 
 const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
-    const stockData = usePortfolioStore((state) => state.stockData)
-    const addStock = usePortfolioStore((state) => state.addStock)
+  const stockData = usePortfolioStore((state) => state.stockData);
+  const addStock = usePortfolioStore((state) => state.addStock);
   const [heightPercent, setHeightPercent] = useState(MIN_HEIGHT_PERCENT);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -44,7 +44,8 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
         name: selectedStock.name,
         quantity: quantity,
         average: price,
-        ror: 0, // 새로운 종목이 추가될 때 초기 수익률은 0으로 설정 //이게 뭔소리노
+        ror: 0,
+        // 새로운 종목이 추가될 때 초기 수익률은 0으로 설정 //이게 뭔소리노
         portfolioId,
         logo: selectedStock.logo,
       };
@@ -54,14 +55,13 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
 
     setIsFormOpen(false);
   };
-    
-    // useEffect(() => {
-    //     alert("실행되니?");
-    //     handleAddStock();
-    //     // handleSelectStock;
-    //     // handleConfirm;
-    // }, [handleAddStock]);
 
+  // useEffect(() => {
+  //     alert("실행되니?");
+  //     handleAddStock();
+  //     // handleSelectStock;
+  //     // handleConfirm;
+  // }, [handleAddStock]);
 
   const toggleHeight = () => {
     setHeightPercent(

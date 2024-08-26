@@ -2,55 +2,60 @@ import { create } from "zustand";
 import { PortfolioProps, StockProps } from "../constants/interface";
 
 interface PortfolioState {
-    pfName: string;
-    data: PortfolioProps | null;
-    stockData: StockProps[];
-    budget: number;
-    principal: number;
-    ret: number;
-    ror: number;
-    setPortfolio: (
-        pfName: string,
-        data: PortfolioProps,
-        stockData: StockProps[]
-    ) => void;
-    addStock: (newStock: StockProps) => void;
-    updateStock: (updatedStock: StockProps) => void;
-    deleteStock: (stockCode: string, stockValue: number) => void;
-    setFinancialData: (
-        budget: number,
-        principal: number,
-        ret: number,
-        ror: number
-    ) => void;
-    updateBudget: (amount: number) => void;
-    updatePrincipal: (amount: number) => void;
-    updateProfitLoss: (amount: number) => void;
-    calculateROR: () => void;
+  pfName: string;
+  data: PortfolioProps | null;
+  stockData: StockProps[];
+  budget: number;
+  principal: number;
+  ret: number;
+  ror: number;
+  change: boolean;
+  setChange: (change: boolean) => void;
+  setPortfolio: (
+    pfName: string,
+    data: PortfolioProps,
+    stockData: StockProps[]
+  ) => void;
+  addStock: (newStock: StockProps) => void;
+  updateStock: (updatedStock: StockProps) => void;
+  deleteStock: (stockCode: string, stockValue: number) => void;
+  setFinancialData: (
+    budget: number,
+    principal: number,
+    ret: number,
+    ror: number
+  ) => void;
+  updateBudget: (amount: number) => void;
+  updatePrincipal: (amount: number) => void;
+  updateProfitLoss: (amount: number) => void;
+  calculateROR: () => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
-    pfName: "",
-    data: null,
-    stockData: [],
-    budget: 0,
-    principal: 0,
-    ret: 0,
-    ror: 0,
+  pfName: "",
+  data: null,
+  stockData: [],
+  budget: 0,
+  principal: 0,
+  ret: 0,
+  ror: 0,
+  change: false,
 
-    setPortfolio: (pfName, data, stockData) => set({ pfName, data, stockData }),
+  setChange: (change) => set({ change }),
 
-    // 주식을 추가하는 함수
-    addStock: (newStock) =>
-        set((state) => {
-            const newStockValue = newStock.quantity * newStock.average;
-            return {
-                stockData: [...state.stockData, newStock],
-                budget: state.budget + newStockValue,
-                principal: state.principal + newStockValue,
-                // ret와 ror는 calculateROR 함수에서 계산
-            };
-        }),
+  setPortfolio: (pfName, data, stockData) => set({ pfName, data, stockData }),
+
+  // 주식을 추가하는 함수
+  addStock: (newStock) =>
+    set((state) => {
+      const newStockValue = newStock.quantity * newStock.average;
+      return {
+        stockData: [...state.stockData, newStock],
+        budget: state.budget + newStockValue,
+        principal: state.principal + newStockValue,
+        // ret와 ror는 calculateROR 함수에서 계산
+      };
+    }),
 
     // 주식을 수정하는 함수
     updateStock: (updatedStock) =>
@@ -85,8 +90,11 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
             // ret와 ror는 calculateROR 함수에서 계산
         })),
 
+
     setFinancialData: (budget, principal, ret, ror) =>
         set({ budget, principal, ret, ror }),
+
+ 
 
     // 재무 데이터 업데이트 함수
     updateBudget: (amount: number) =>

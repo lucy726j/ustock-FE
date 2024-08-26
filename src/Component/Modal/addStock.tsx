@@ -5,6 +5,7 @@ import * as M from "../List/modalStyle";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import swal from "sweetalert";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 interface AddOrEditModalProps {
     isOpen: boolean;
@@ -33,11 +34,14 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
     const location = useLocation();
     const id = location.pathname.split("/")[2];
 
-    const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseFloat(e.target.value);
-        setQuantity(isNaN(value) ? 0 : value);
-        setIsValidQuantity(true);
-    };
+  const changeStatus = usePortfolioStore((state) => state.change);
+  const changeCheck = usePortfolioStore((state) => state.setChange);
+
+  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setQuantity(isNaN(value) ? 0 : value);
+    setIsValidQuantity(true);
+  };
 
     const handelChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(e.target.value);
@@ -45,10 +49,31 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
         setIsValidPrice(true);
     };
 
-    const handleConfirm = () => {
-        if (!quantity || !price) {
-            setIsValidQuantity(!quantity);
-            setIsValidPrice(!price);
+  const handleConfirm = () => {
+    if (!quantity || !price) {
+      setIsValidQuantity(!quantity);
+      setIsValidPrice(!price);
+      swal({
+        title: "입력 오류",
+        text: "수량과 가격을 정확히 입력해주세요!",
+        icon: "warning",
+      });
+      return;
+    }
+
+    if (selectedStock && quantity > 0 && price > 0) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}/holding/${selectedStock.code}`,
+          { quantity, price },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            const newStock = { ...selectedStock, quantity, price };
+            // onUpdateStocks(newStock);
+            // 상태변화 업데이트
+            changeCheck(!changeStatus);
             swal({
                 title: "입력 오류",
                 text: "수량과 가격을 정확히 입력해주세요!",

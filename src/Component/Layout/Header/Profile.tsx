@@ -1,13 +1,15 @@
 import styled from "styled-components";
-import testImg from "../../../img/person.png";
 import { useState } from "react";
 import { useAuth } from "../../../contexts/authContext";
 import GoogleLogin from "../../GoogleLogin/login";
+import { FaRegPaperPlane } from "react-icons/fa";
+import { Colors } from "../../../Styles/Colors";
 
 const ProfileContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  gap: 1rem;
 `;
 
 const ImgStyle = styled.img`
@@ -28,7 +30,7 @@ const LogoutBox = styled.div`
   font-size: 10px;
   position: absolute;
   top: 40px;
-  right: 0px;
+  right: 40px;
 `;
 
 const Profile = () => {
@@ -44,6 +46,10 @@ const Profile = () => {
     setIsOpen(!isOpen);
   };
 
+  const userFeedback = () => {
+    window.open("https://forms.gle/GcfMhNoqBHkxiF1c7", "_blank");
+  };
+
   return (
     <>
       {user ? (
@@ -54,9 +60,14 @@ const Profile = () => {
             onClick={handleClickProfile}
           />
           {isOpen && <LogoutBox onClick={handleLogout}>로그아웃</LogoutBox>}
+
+          <FaRegPaperPlane
+            style={{ fontSize: "1.7rem", color: Colors.main }}
+            onClick={userFeedback}
+          />
         </ProfileContainer>
       ) : (
-        <></>
+        <GoogleLogin />
       )}
     </>
   );

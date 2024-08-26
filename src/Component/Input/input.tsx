@@ -4,20 +4,22 @@ import styled from "styled-components";
 import { inputSize, inputType } from "../../Styles/input";
 
 const InputContainer = styled.div`
-    position: relative;
-    display: inline-block;
-    width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 
 const IconWrapper = styled.span`
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding-left: 1rem;
 `;
 
 const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`
