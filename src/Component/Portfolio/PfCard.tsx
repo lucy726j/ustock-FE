@@ -23,8 +23,11 @@ const PfCard: React.FC = () => {
                 </div>
                 <div className="gain-and-loss">
                     <div className="title-area">평가 손익</div>
-                    <div className="value-area" style={{ color }}>
-                        ₩ {profitLoss.toLocaleString()} ({formattedROR}%)
+                    <div className="value-area">
+                        <p
+                            style={{ color }}
+                        >{`₩ ${profitLoss.toLocaleString()}`}</p>
+                        <p style={{ color }}>{`(${formattedROR}%)`}</p>
                     </div>
                 </div>
             </div>
