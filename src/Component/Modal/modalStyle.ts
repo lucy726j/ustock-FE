@@ -6,7 +6,7 @@ export const ModalStyles: ReactModal.Styles = {
     backgroundColor: "rgb(255 255 255 / 60%)",
     width: "100%",
     height: "100%",
-    zIndex: 10,
+    zIndex: 100,
     top: "0",
     left: "0",
   },
