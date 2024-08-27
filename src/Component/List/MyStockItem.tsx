@@ -258,7 +258,7 @@ const MyStockItem: React.FC<StockProps> = ({
                     {`${formatROR(ror).value} %`}
                 </div>
                 <div className="price-section">
-                    <p>수량 {quantity}</p>
+                    <p>수량 {formatPrice(quantity)}</p>
                     <div>{formatPrice(average)}원</div>
                     <p>
                         {formatPrice(
