@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NoNews from "./\bnoNews";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const NewsList: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // const change = usePortfolioStore((state) => state.change);
 
   useEffect(() => {
     axios
@@ -37,7 +39,6 @@ const NewsList: React.FC = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           setNews(res.data);
         } else if (res.status === 401) {
           navigate("/login");
@@ -48,8 +49,7 @@ const NewsList: React.FC = () => {
       });
   }, [location]);
 
-  console.log(news.length);
-
+  console.log(news);
 
   return (
     <div>
