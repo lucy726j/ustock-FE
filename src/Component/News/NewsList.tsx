@@ -55,7 +55,7 @@ const NewsList: React.FC = () => {
     <div>
       <ListWrapper>
         {news.length > 0 ? (
-          news.map((news: NewsProps) => <NewsItem key={news.id} {...news} />)
+          news.map((news: NewsProps) => <NewsItem key={news.code} {...news} />)
         ) : (
           <NoNews />
         )}
