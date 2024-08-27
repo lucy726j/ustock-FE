@@ -1,7 +1,6 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { data } from "../../data/data";
 import { StockProps } from "../../constants/interface";
 
 interface PieChartProps{
