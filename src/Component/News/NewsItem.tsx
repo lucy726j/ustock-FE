@@ -25,6 +25,7 @@ const NewsItem: React.FC<NewsProps> = ({
       <div className="news-section">
         <div className="news-content">{title}</div>
         <div className="news-info">
+
           <div className="stock">{name}</div>
           <h3>{publisher}</h3>
           <p>{date}</p>

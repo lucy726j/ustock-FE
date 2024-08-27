@@ -1,10 +1,18 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import 추가
-import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
+import {
+    EmblaCarouselType,
+    EmblaEventType,
+    EmblaOptionsType,
+} from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
+import {
+    NextButton,
+    PrevButton,
+    usePrevNextButtons,
+} from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import { formatPrice, formatROR, getGrowthColor } from "../../util/util";
+import { formatPrice, formatROR } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
 import axios from "axios";
 import {usePortfolioStore} from "../../store/usePortfolioStore";
@@ -18,10 +26,14 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 type PropType = {
     data: { id: number; name: string; budget: number; ror: number }[];
     options?: EmblaOptionsType;
-    portfolioName: string
+    portfolioName: string;
 };
 
-const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
+const EmblaCarousel: React.FC<PropType> = ({
+    data,
+    options,
+    portfolioName,
+}) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
@@ -29,7 +41,8 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
     //console.log(data)
     const [useless, setUseless] = useState(false);
 
-    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
+    const { selectedIndex, scrollSnaps, onDotButtonClick } =
+        useDotButton(emblaApi);
 
     const change = usePortfolioStore((state)=> state.change)
     const setChange = usePortfolioStore((state)=> state.setChange)
@@ -42,19 +55,26 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
     } = usePrevNextButtons(emblaApi);
 
     const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-        tweenNodes.current = emblaApi.slideNodes().map((slideNode, index) => {
-            const node = slideNode.querySelector(".embla__slide__number");
-            if (node) {
-                return node as HTMLElement;
-            } else {
-                console.error(`Slide node not found at index ${index}`, slideNode);
-                return null;
-            }
-        }).filter((node): node is HTMLElement => node !== null);
+        tweenNodes.current = emblaApi
+            .slideNodes()
+            .map((slideNode, index) => {
+                const node = slideNode.querySelector(".embla__slide__number");
+                if (node) {
+                    return node as HTMLElement;
+                } else {
+                    console.error(
+                        `Slide node not found at index ${index}`,
+                        slideNode
+                    );
+                    return null;
+                }
+            })
+            .filter((node): node is HTMLElement => node !== null);
     }, []);
 
     const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
-        tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
+        tweenFactor.current =
+            TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
     }, []);
 
     const tweenScale = useCallback(
@@ -69,7 +89,8 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
                 const slidesInSnap = engine.slideRegistry[snapIndex];
 
                 slidesInSnap.forEach((slideIndex) => {
-                    if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
+                    if (isScrollEvent && !slidesInView.includes(slideIndex))
+                        return;
 
                     if (engine.options.loop) {
                         engine.slideLooper.loopPoints.forEach((loopItem) => {
@@ -79,30 +100,38 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
                                 const sign = Math.sign(target);
 
                                 if (sign === -1) {
-                                    diffToTarget = scrollSnap - (1 + scrollProgress);
+                                    diffToTarget =
+                                        scrollSnap - (1 + scrollProgress);
                                 }
                                 if (sign === 1) {
-                                    diffToTarget = scrollSnap + (1 - scrollProgress);
+                                    diffToTarget =
+                                        scrollSnap + (1 - scrollProgress);
                                 }
                             }
                         });
                     }
 
-                    const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-                    const scale = numberWithinRange(tweenValue, 0, 1).toString();
+                    const tweenValue =
+                        1 - Math.abs(diffToTarget * tweenFactor.current);
+                    const scale = numberWithinRange(
+                        tweenValue,
+                        0,
+                        1
+                    ).toString();
                     const tweenNode = tweenNodes.current[slideIndex];
 
                     if (tweenNode) {
                         tweenNode.style.transform = `scale(${scale})`;
                     } else {
-                        console.error(`tweenNode is undefined at index ${slideIndex}`);
+                        console.error(
+                            `tweenNode is undefined at index ${slideIndex}`
+                        );
                     }
                 });
             });
         },
         [tweenFactor, tweenNodes]
     );
-
 
     useEffect(() => {
         if (!emblaApi) return;
@@ -147,29 +176,46 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
         <div className="embla">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
-                    {data.map((item) => (
-                        <div 
-                            className="embla__slide"
-                            key={item.id} 
-                            //onClick={() => handleSlideClick(item.id)} // 클릭 이벤트 추가
-                            style={{ cursor: 'pointer' }} // 커서 스타일 추가
-                        >
+
+                    {data.map((item) => {
+                        const { value, color } = formatROR(item.ror); // formatROR 호출
+
+                        return (
+                            <div
+                                className="embla__slide"
+                                key={item.id}
+                                //onClick={() => handleSlideClick(item.id)}
+                                style={{ cursor: "pointer" }}
+                            >
                             <div
                                 className="embla_delete"
                                 onClick={() => deleteCarousel(item.id)}
                             >삭제이미지넣어주세요</div>
-                            <div className="embla__slide__number">
-                                <div className="embla__slide__info">
-                                    <h3>{item.name}</h3>
-                                    <p style={{fontSize: "20px"}}>₩  {formatPrice(item.budget)}</p>
-                                    <p style={{ color: getGrowthColor(item.ror) }}>
-                                        {formatROR(item.ror)}%
-                                    </p>
-                                    <img src={myPortfolioImg} alt="Portfolio" />
+                                <div className="embla__slide__number">
+                                    <div className="embla__slide__info">
+                                        <h3>{item.name}</h3>
+                                        <p
+                                            style={{
+                                                fontSize: "20px",
+                                                color: "black",
+                                            }}
+                                        >
+                                            ₩ {formatPrice(item.budget)}
+                                        </p>
+                                        <p style={{ color: color }}>
+                                            {" "}
+                                            {/* 여기서 color 사용 */}
+                                            {value}% {/* 여기서 value 사용 */}
+                                        </p>
+                                        <img
+                                            src={myPortfolioImg}
+                                            alt="Portfolio"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 
@@ -180,14 +226,22 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
                             key={index}
                             onClick={() => onDotButtonClick(index)}
                             className={"embla__dot".concat(
-                                index === selectedIndex ? " embla__dot--selected" : ""
+                                index === selectedIndex
+                                    ? " embla__dot--selected"
+                                    : ""
                             )}
                         />
                     ))}
                 </div>
                 <div className="embla__buttons">
-                    <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-                    <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+                    <PrevButton
+                        onClick={onPrevButtonClick}
+                        disabled={prevBtnDisabled}
+                    />
+                    <NextButton
+                        onClick={onNextButtonClick}
+                        disabled={nextBtnDisabled}
+                    />
                 </div>
             </div>
         </div>
