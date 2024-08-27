@@ -182,6 +182,15 @@ const Calculator = () => {
     setResult(null);
   };
 
+  let userName: string = "사용자";
+
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    userName = JSON.parse(userData).name;
+  } else {
+    console.log("유저 정보 없음");
+  }
+
   return result ? (
     <div
       style={{
@@ -205,7 +214,7 @@ const Calculator = () => {
       <TitleContainer>
         <img src={Img} alt="앵무새가 컴퓨터 보는 이미지" />
         <span style={{ fontSize: "20px" }}>
-          만약 <User>스껄</User>님이 이 때 샀다면?
+          만약 <User>{userName}</User>님이 이 때 샀다면?
         </span>
       </TitleContainer>
       <div style={{ marginBottom: "0.5rem" }}>
