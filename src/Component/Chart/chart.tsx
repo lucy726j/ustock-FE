@@ -14,7 +14,7 @@ interface CandleData {
 }
 const Chart = ({ data }: CandleData) => {
   const chartRef = useRef<HTMLDivElement>(null);
-  console.log("chart : ", data);
+  // console.log("chart : ", data);
   const [click, setClick] = useState(false);
 
   const handlerClick = () => {
@@ -32,7 +32,7 @@ const Chart = ({ data }: CandleData) => {
   };
 
   useEffect(() => {
-    console.log("차트", data);
+    // console.log("차트", data);
     if (chartRef.current && data.length > 0) {
       const options = {
         series: [
@@ -57,8 +57,8 @@ const Chart = ({ data }: CandleData) => {
             // },
             click: function (event: any, chartContext: any, opts: any) {
               var newsHtml = "";
-              console.log("차트컨텍스트", chartContext);
-              console.log("데이터포인트", opts.dataPointIndex);
+              // console.log("차트컨텍스트", chartContext);
+              // console.log("데이터포인트", opts.dataPointIndex);
               const news = opts.globals.seriesZ[0][opts.dataPointIndex]; // 뉴스 데이터
               if (Array.isArray(news)) {
                 newsHtml = `<ul>`;
@@ -107,7 +107,7 @@ const Chart = ({ data }: CandleData) => {
         },
         tooltip: {
           custom: function ({ seriesIndex, dataPointIndex, w }: any) {
-            console.log("뉴스는 과연 어디에 뜰까?? : ", w.globals);
+            // console.log("뉴스는 과연 어디에 뜰까?? : ", w.globals);
 
             const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex]; // Close
             const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex]; // Low

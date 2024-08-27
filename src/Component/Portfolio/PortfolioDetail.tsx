@@ -7,8 +7,8 @@ import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const PortfolioDetail = () => {
-    const location = useLocation();
-    const id = Number(location.pathname.split("/")[2]);
+  const location = useLocation();
+  const id = Number(location.pathname.split("/")[2]);
 
   const setPortfolio = usePortfolioStore((state) => state.setPortfolio);
   const setFinancialData = usePortfolioStore((state) => state.setFinancialData);
@@ -34,6 +34,7 @@ const PortfolioDetail = () => {
       .then((res) => {
         if (res.status === 200) {
           // console.log("개별 포트폴리오 조회", res);
+
           setPortfolio(res.data.name, res.data, res.data.stocks);
           setFinancialData(
             res.data.budget,
@@ -53,39 +54,36 @@ const PortfolioDetail = () => {
       });
   }, [setPortfolio, setFinancialData, changeStatus]);
 
+  if (!data) {
+    return <div>포트폴리오를 찾을 수 없습니다.</div>;
+  }
 
-    if (!data) {
-        return <div>포트폴리오를 찾을 수 없습니다.</div>;
-    }
-
-    return (
-        <div
-            style={{
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-            }}
-        >
-            <div
-                style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                }}
-            >
-                {/* <h2 style={{ marginLeft: "-200px", marginBottom: "30px" }}> */}
-                <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>
-                    {pfName}
-                </h2>
-            </div>
-            <PfCard />
-            <PieChart stockData={stockData} />
-            <Swipe portfolioId={id} />
-        </div>
-    );
+  return (
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+        }}
+      >
+        {/* <h2 style={{ marginLeft: "-200px", marginBottom: "30px" }}> */}
+        <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>{pfName}</h2>
+      </div>
+      <PfCard />
+      <PieChart stockData={stockData} />
+      <Swipe portfolioId={id} />
+    </div>
+  );
 };
 
 export default PortfolioDetail;
