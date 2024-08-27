@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import 추가
 import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
@@ -6,6 +6,9 @@ import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrow
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import { formatPrice, formatROR, getGrowthColor } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
+import axios from "axios";
+import {usePortfolioStore} from "../../store/usePortfolioStore";
+import state from "sweetalert/typings/modules/state";
 
 const TWEEN_FACTOR_BASE = 0.52;
 
@@ -24,8 +27,12 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
     const tweenNodes = useRef<HTMLElement[]>([]);
     const navigate = useNavigate(); // useNavigate hook 사용
     //console.log(data)
+    const [useless, setUseless] = useState(false);
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
+
+    const change = usePortfolioStore((state)=> state.change)
+    const setChange = usePortfolioStore((state)=> state.setChange)
 
     const {
         prevBtnDisabled,
@@ -127,17 +134,30 @@ const EmblaCarousel: React.FC<PropType> = ({ data, options, portfolioName}) => {
         navigate(`/portfolio/${id}`); // ID를 사용하여 라우팅
     };
 
+    const deleteCarousel = async (id: number) => {
+        const res = await axios.delete(`${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`, {
+            withCredentials: true,
+        });
+        if (res.status === 200) {
+            setChange(!change);
+        }
+    };
+
     return (
         <div className="embla">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
                     {data.map((item) => (
                         <div 
-                            className="embla__slide" 
+                            className="embla__slide"
                             key={item.id} 
-                            onClick={() => handleSlideClick(item.id)} // 클릭 이벤트 추가
+                            //onClick={() => handleSlideClick(item.id)} // 클릭 이벤트 추가
                             style={{ cursor: 'pointer' }} // 커서 스타일 추가
                         >
+                            <div
+                                className="embla_delete"
+                                onClick={() => deleteCarousel(item.id)}
+                            >삭제이미지넣어주세요</div>
                             <div className="embla__slide__number">
                                 <div className="embla__slide__info">
                                     <h3>{item.name}</h3>
