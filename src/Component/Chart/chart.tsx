@@ -65,10 +65,14 @@ const Chart = ({ data }: CandleData) => {
               // newsHtml = `<ul>`;
 
               news.forEach((newItem) => {
-                newsHtml += `<li><a href=${newItem.url} target="_blank" rel="noopener noreferrer nofollow">${newItem.title}</a></li>`;
+                newsHtml += `<li style="padding-top:1rem; padding-bottom:0.5rem; padding-left:0.5rem; list-style:none; border-bottom:1px solid rgba(209, 209, 214, 0.3);" onmouseover="this.style.backgroundColor='#E6E5FF';"
+                onmouseout="this.style.backgroundColor='';"><a href=${newItem.url} target="_blank" rel="noopener noreferrer nofollow" 
+                style="text-decoration:none; color: black; font-size:15px; font-family:SCDream2;  transition: background-color 0.3s ease;">
+                
+                ${newItem.title}</a></li>`;
               });
 
-              newsHtml += `</ul>`;
+              // newsHtml += `</ul>`;
             }
 
             setNewsHtml(newsHtml);
@@ -126,9 +130,19 @@ const Chart = ({ data }: CandleData) => {
           onRequestClose={onRequestClose}
           confirmLabel="확인"
         >
-          <p>
-            그땐 그랬지 뉴-우스
-            <span style={{ paddingLeft: "1rem", color: `${Colors.main}` }}>
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+            }}
+          >
+            뉴스-껄
+            <span
+              style={{
+                paddingLeft: "1rem",
+                fontSize: "15px",
+              }}
+            >
               <div dangerouslySetInnerHTML={{ __html: newsHtml }} />
             </span>
           </p>
