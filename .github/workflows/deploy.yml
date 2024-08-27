@@ -64,7 +64,7 @@ jobs:
       - name: Build Project for Production
         if: github.ref == 'refs/heads/main'
         run: |
-          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_PROD }}
+          echo "Building project with API URL: ${{ secrets.REACT_APP_API_URL_PROD }}"
           CI=false npm run build:prod
 
       - name: Deploy to S3 for Production
