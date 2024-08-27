@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { PortfolioProps, StockProps } from '../constants/interface';
+import { create } from "zustand";
+import { PortfolioProps, StockProps } from "../constants/interface";
 
 interface PortfolioState {
   pfName: string;
@@ -9,30 +9,50 @@ interface PortfolioState {
   principal: number;
   ret: number;
   ror: number;
-  setPortfolio: (pfName: string, data: PortfolioProps, stockData: StockProps[]) => void;
+  change: boolean;
+  setChange: (change: boolean) => void;
+  setPortfolio: (
+    pfName: string,
+    data: PortfolioProps,
+    stockData: StockProps[]
+  ) => void;
   addStock: (newStock: StockProps) => void;
   updateStock: (updatedStock: StockProps) => void;
   deleteStock: (stockCode: string, stockValue: number) => void;
-  setFinancialData: (budget: number, principal: number, ret: number, ror: number) => void;
+  setFinancialData: (
+    budget: number,
+    principal: number,
+    ret: number,
+    ror: number
+  ) => void;
   updateBudget: (amount: number) => void;
   updatePrincipal: (amount: number) => void;
   updateProfitLoss: (amount: number) => void;
   calculateROR: () => void;
+
+  portfolioChange: boolean;
+  isPortfolio: (portfolioChange: boolean) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
-  pfName: '',
+  pfName: "",
   data: null,
   stockData: [],
   budget: 0,
   principal: 0,
   ret: 0,
   ror: 0,
-  
+  change: false,
+  portfolioChange: false,
+
+  isPortfolio: (portfolioChange) => set({ portfolioChange }),
+
+  setChange: (change) => set({ change }),
+
   setPortfolio: (pfName, data, stockData) => set({ pfName, data, stockData }),
 
   // 주식을 추가하는 함수
-  addStock: (newStock) => 
+  addStock: (newStock) =>
     set((state) => {
       const newStockValue = newStock.quantity * newStock.average;
       return {
@@ -44,9 +64,11 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
     }),
 
   // 주식을 수정하는 함수
-  updateStock: (updatedStock) => 
+  updateStock: (updatedStock) =>
     set((state) => {
-      const oldStock = state.stockData.find((stock) => stock.code === updatedStock.code);
+      const oldStock = state.stockData.find(
+        (stock) => stock.code === updatedStock.code
+      );
       if (!oldStock) return state;
 
       const oldStockValue = oldStock.quantity * oldStock.average;
@@ -78,21 +100,30 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
   // 재무 데이터 업데이트 함수
   updateBudget: (amount: number) =>
     set((state) => ({ budget: state.budget + amount })),
-  
+
   updatePrincipal: (amount: number) =>
     set((state) => ({ principal: state.principal + amount })),
-  
+
   updateProfitLoss: (amount: number) =>
     set((state) => ({ ret: state.ret + amount })),
-  
-  updateROR: (newROR: number) =>
-        set((state) => ({ ror: newROR })),
-  
+
+  updateROR: (newROR: number) => set((state) => ({ ror: newROR })),
+
   calculateROR: () =>
     set((state) => {
-      const totalInvestment = state.stockData.reduce((acc, stock) => acc + stock.quantity * stock.average, 0);
-      const totalCurrentValue = state.stockData.reduce((acc, stock) => acc + stock.quantity * stock.average * (1 + stock.ror / 100), 0);
-      const newROR = totalInvestment > 0 ? ((totalCurrentValue - totalInvestment) / totalInvestment) * 100 : 0;
+      const totalInvestment = state.stockData.reduce(
+        (acc, stock) => acc + stock.quantity * stock.average,
+        0
+      );
+      const totalCurrentValue = state.stockData.reduce(
+        (acc, stock) =>
+          acc + stock.quantity * stock.average * (1 + stock.ror / 100),
+        0
+      );
+      const newROR =
+        totalInvestment > 0
+          ? ((totalCurrentValue - totalInvestment) / totalInvestment) * 100
+          : 0;
 
       return { ror: newROR };
     }),

@@ -147,11 +147,19 @@ const Calculator = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
+    if (value.includes("-")) {
+      setError("음수 값은 입력 불가합니다");
+      setIsValid(false);
+      return;
+    }
+
     setPrice(e.target.value);
+
     if (e.target.value) {
       setIsValid(true);
     }
-    if (value === "") {
+    if (value === "" || parseInt(value) === 0) {
       setError("금액을 입력해주세요");
       setIsValid(false);
     } else if (isNaN(Number(value))) {
@@ -182,6 +190,16 @@ const Calculator = () => {
     setResult(null);
   };
 
+  // 사용자 이름 적용
+  let userName: string = "사용자";
+
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    userName = JSON.parse(userData).name;
+  } else {
+    console.log("유저 정보 없음");
+  }
+
   return result ? (
     <div
       style={{
@@ -205,7 +223,7 @@ const Calculator = () => {
       <TitleContainer>
         <img src={Img} alt="앵무새가 컴퓨터 보는 이미지" />
         <span style={{ fontSize: "20px" }}>
-          만약 <User>스껄</User>님이 이 때 샀다면?
+          만약 <User>{userName}</User>님이 이 때 샀다면?
         </span>
       </TitleContainer>
       <div style={{ marginBottom: "0.5rem" }}>
@@ -228,6 +246,7 @@ const Calculator = () => {
             value={price}
             onChange={handleInputChange}
             isValid={isValid}
+            maxLength={13}
           />
         </div>
       </div>

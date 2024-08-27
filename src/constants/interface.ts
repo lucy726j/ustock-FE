@@ -24,6 +24,7 @@ export interface inputProps extends InputStyleProps {
   icon?: React.ReactNode;
   isValid: boolean;
   errorMessage: string;
+  maxLength?: number;
 }
 
 export interface ModalProps {
@@ -70,11 +71,11 @@ export interface SearchBarProps {
 }
 
 export interface NewsProps {
-  id: number;
+  code: string;
   title: string;
   publisher: string;
   date: string;
-  img: string;
+  name: string;
   url: string;
 }
 
@@ -170,5 +171,8 @@ export interface ChartProps {
 
 export interface CandleData {
   data: { x: string; y: [number, number, number, number] }[];
+}
 
+export interface UserProps {
+  name: string;
 }

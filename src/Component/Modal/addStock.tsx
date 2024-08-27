@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ModalOpen from "./modal";
 import { Input } from "../Input/input";
 import * as M from "../List/modalStyle";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import swal from "sweetalert";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 interface AddOrEditModalProps {
   isOpen: boolean;
@@ -33,22 +34,25 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   const location = useLocation();
   const id = location.pathname.split("/")[2];
 
+  const changeStatus = usePortfolioStore((state) => state.change);
+  const changeCheck = usePortfolioStore((state) => state.setChange);
+
   const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setQuantity(isNaN(value) ? 0 : value);
     setIsValidQuantity(true);
   };
 
-  const handelChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setPrice(isNaN(value) ? 0 : value);
     setIsValidPrice(true);
   };
 
   const handleConfirm = () => {
-    if (!quantity || !price) {
-      setIsValidQuantity(!quantity);
-      setIsValidPrice(!price);
+    if (quantity <= 0 || price <= 0) {
+      setIsValidQuantity(quantity > 0);
+      setIsValidPrice(price > 0);
       swal({
         title: "입력 오류",
         text: "수량과 가격을 정확히 입력해주세요!",
@@ -57,7 +61,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
       return;
     }
 
-    if (selectedStock && quantity > 0 && price > 0) {
+    if (selectedStock) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}/holding/${selectedStock.code}`,
@@ -66,8 +70,6 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
         )
         .then((res) => {
           if (res.status === 200) {
-            const newStock = { ...selectedStock, quantity, price };
-            // onUpdateStocks(newStock);
             swal({
               title: "자산 추가가 되었습니다.",
               text: "성공적으로 완료되었습니다",
@@ -75,6 +77,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
             });
             onConfirm(quantity, price);
             onClose();
+            changeCheck(!changeStatus);
           }
         })
         .catch((error) => {
@@ -137,27 +140,29 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
         </M.Box>
         <M.Container>
           <div>
-            <M.Div>수량</M.Div>
+            <M.Div>수량 (최대 99,999주)</M.Div>
             <Input
               placeholder="수량"
               size="medium"
               colorType="fillType"
               errorMessage="수량을 입력해주세요"
-              isValid={isValidQuantity || !!quantity}
+              isValid={isValidQuantity || quantity > 0}
               value={quantity.toString()}
               onChange={handleChangeQuantity}
+              maxLength={5}
             />
           </div>
           <div style={{ marginTop: "1rem" }}>
-            <M.Div>평균 단가</M.Div>
+            <M.Div>평균 단가 (최대 9,999,999,999원)</M.Div>
             <Input
               placeholder="단가"
               size="medium"
               colorType="fillType"
               errorMessage="단가를 입력해주세요"
-              isValid={isValidPrice || !!price}
+              isValid={isValidPrice || price > 0}
               value={price.toString()}
-              onChange={handelChangePrice}
+              onChange={handleChangePrice}
+              maxLength={10}
             />
           </div>
         </M.Container>

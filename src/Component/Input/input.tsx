@@ -5,7 +5,8 @@ import { inputSize, inputType } from "../../Styles/input";
 
 const InputContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -18,6 +19,7 @@ const IconWrapper = styled.span`
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  padding-left: 1rem;
 `;
 
 const InputStyle = styled.input<InputStyleProps & { hasIcon: boolean }>`
@@ -45,6 +47,7 @@ export const Input = forwardRef<HTMLInputElement, inputProps>(
       icon,
       isValid = true,
       errorMessage,
+      maxLength,
       ...styleProps
     },
     ref
@@ -63,6 +66,7 @@ export const Input = forwardRef<HTMLInputElement, inputProps>(
             name={name}
             disabled={styleProps.disabled}
             hasIcon={!!icon}
+            maxLength={maxLength}
             style={{
               border: isValid ? "1px solid #ccc" : "1px solid red",
               paddingRight: isValid ? "0.5rem" : "2rem",

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
-import { ChartStyle, ChartDate } from "./chartStyle";
+import { ChartStyle } from "./chartStyle"; // Assuming you have the styles defined in this file
 import { formatPrice } from "../../util/util";
-import { Info } from "../../Pages/home";
+import ModalOpen from "../Modal/modal";
+import { Colors } from "../../Styles/Colors";
 
 interface CandleData {
   data: {
@@ -14,10 +15,14 @@ interface CandleData {
 
 const Chart = ({ data }: CandleData) => {
   const chartRef = useRef<HTMLDivElement>(null);
-  console.log("chart : ", data);
+  const [isOpen, setIsOpen] = useState(false);
+  const [newsHtml, setNewsHtml] = useState<string>("");
+
+  const onRequestClose = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
-    console.log("차트", data);
     if (chartRef.current && data.length > 0) {
       const options = {
         series: [
@@ -29,6 +34,17 @@ const Chart = ({ data }: CandleData) => {
         chart: {
           type: "candlestick",
           height: 350,
+          events: {
+            // Apply click event only to candlestick data points
+            dataPointSelection: function (
+              event: any,
+              chartContext: any,
+              opts: any
+            ) {
+              // Update state to show modal when a candlestick is clicked
+              setIsOpen(true);
+            },
+          },
         },
         xaxis: {
           type: "datetime",
@@ -36,39 +52,37 @@ const Chart = ({ data }: CandleData) => {
             datetimeFormatter: {
               year: "yyyy년",
               month: "M월",
-              day: "d월",
+              day: "dd일",
               hour: "HH:mm",
             },
-          }, // 차트를 좀 더 널널하게 보여줘야함.. zoom 속성 알아보기
+          },
         },
         tooltip: {
           custom: function ({ seriesIndex, dataPointIndex, w }: any) {
-            console.log("뉴스는 과연 어디에 뜰까?? : ", w.globals);
-
-            const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex]; // Close
-            const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex]; // Low
-            const open = w.globals.seriesCandleO[seriesIndex][dataPointIndex]; // Open
-            const high = w.globals.seriesCandleH[seriesIndex][dataPointIndex]; // High
-            const news = w.globals.seriesZ[seriesIndex][dataPointIndex]; // 뉴스 데이터
+            const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
+            const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
+            const open = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
+            const high = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
+            const news = w.globals.seriesZ[seriesIndex][dataPointIndex];
             var newsHtml = "";
 
             if (Array.isArray(news)) {
-              newsHtml = `<ul>`;
-              news.forEach((newItem, index) => {
-                newsHtml += `<li><a href=${newItem.url} target="_blank">${newItem.title}</a></li>`;
+              news.forEach((newItem) => {
+                newsHtml += `<li style="padding-top:1rem; padding-bottom:0.5rem; padding-left:0.5rem; list-style:none; border-bottom:1px solid rgba(209, 209, 214, 0.3);" onmouseover="this.style.backgroundColor='#E6E5FF';"
+                onmouseout="this.style.backgroundColor='';"><a href=${newItem.url} target="_blank" rel="noopener noreferrer nofollow" 
+                style="text-decoration:none; color: black; font-size:15px; font-family:SCDream2;  transition: background-color 0.3s ease;">
+                
+                ${newItem.title}</a></li>`;
               });
-              newsHtml += "</ul>";
-            } else {
-              console.error();
             }
+
+            setNewsHtml(newsHtml);
 
             const xLabel = new Date(
               w.globals.seriesX[seriesIndex][dataPointIndex]
             ).toLocaleDateString("ko-KR");
 
             const color = close > open ? "#FF5759" : "#615EFC";
-
-            // <p>관련 뉴스: <span style="padding-left : 1rem; color : ${color}">${newsHtml}</span></p>
 
             return `
             <div style="padding: 5px; font-size: 12px; width: 200px; height: 200px;text-align : center">
@@ -87,13 +101,12 @@ const Chart = ({ data }: CandleData) => {
             <p>종가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
               close
             )}</span></p>
-            </div>
-            `;
+            </div>`;
           },
         },
       };
 
-      var chart = new ApexCharts(chartRef.current, options);
+      const chart = new ApexCharts(chartRef.current, options);
       chart.render();
 
       return () => {
@@ -102,16 +115,40 @@ const Chart = ({ data }: CandleData) => {
     }
   }, [data]);
 
-  const [isOpen, setIsOpen] = useState(true);
-
   const handleConfirm = () => {
-    // Logic to add the asset
     setIsOpen(false);
   };
 
   return (
     <>
       <ChartStyle id="chart" ref={chartRef}></ChartStyle>
+      {isOpen && (
+        <ModalOpen
+          isOpen={isOpen}
+          showConfirmButton="확인"
+          showCancelButton={false}
+          onConfirm={handleConfirm}
+          onRequestClose={onRequestClose}
+          confirmLabel="확인"
+        >
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+            }}
+          >
+            뉴스-껄
+            <span
+              style={{
+                paddingLeft: "1rem",
+                fontSize: "15px",
+              }}
+            >
+              <div dangerouslySetInnerHTML={{ __html: newsHtml }} />
+            </span>
+          </p>
+        </ModalOpen>
+      )}
     </>
   );
 };
