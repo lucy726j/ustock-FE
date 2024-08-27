@@ -71,11 +71,11 @@ export interface SearchBarProps {
 }
 
 export interface NewsProps {
-  id: number;
+  code: string;
   title: string;
   publisher: string;
   date: string;
-  img: string;
+  name: string;
   url: string;
 }
 
