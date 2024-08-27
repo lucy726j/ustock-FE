@@ -13,7 +13,7 @@ import NoUserPage from "./Pages/404/noUser";
 import LoginPage from "./Pages/404/loginPage";
 
 const Router = () => {
-    const { user } = useAuth();
+  const { user } = useAuth();
 
   return (
     <BrowserRouter>
@@ -26,7 +26,6 @@ const Router = () => {
           {user ? (
             <>
               <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/no" element={<PortfolioNo />} />
               <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
             </>
           ) : (
@@ -38,7 +37,6 @@ const Router = () => {
       </Layout>
     </BrowserRouter>
   );
-
 };
 
 export default Router;

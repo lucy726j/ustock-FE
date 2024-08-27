@@ -5,6 +5,7 @@ import Button from "../Button/button";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const Box = styled.div`
   display: flex;
@@ -48,6 +49,8 @@ const PfCreateDescription = styled.p`
 const PfCreate: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [portfolioName, setPortfolioName] = useState("");
+  const isPortfolio = usePortfolioStore((state) => state.isPortfolio);
+  const portfolioChange = usePortfolioStore((state) => state.portfolioChange);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -75,8 +78,10 @@ const PfCreate: React.FC = () => {
             title: "포트폴리오를 생성했습니다.",
             icon: "success",
           });
+          isPortfolio(!portfolioChange);
         } else {
           console.log("error status code : ", response.status);
+          isPortfolio(portfolioChange);
         }
       })
       .catch((error) => {

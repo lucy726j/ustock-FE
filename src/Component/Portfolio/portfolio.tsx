@@ -141,11 +141,13 @@ const Portfolio = () => {
         <p>모든 포트폴리오 자산의 총 합입니다.</p>
         <div className="asset-value">
           <div className="total-value">
-            <HyperText
-              text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
-              duration={1200} // 애니메이션 지속 시간
-              className="text-xl font-bold" // 필요한 클래스명 추가
-            />
+            <div>
+              <HyperText
+                text={`₩  ${formatPrice(totalAsset)}`} // 적용할 텍스트
+                duration={1200} // 애니메이션 지속 시간
+                className="text-xl font-bold" // 필요한 클래스명 추가
+              />
+            </div>
             <div
               className="total-growth"
               style={{
