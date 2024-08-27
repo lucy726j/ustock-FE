@@ -34,6 +34,7 @@ const Portfolio = () => {
   const change = usePortfolioStore((state) => state.change);
 
   const openModal = () => {
+    setPortfolioName("");
     setIsModalOpen(true);
   };
 
@@ -147,8 +148,11 @@ const Portfolio = () => {
             />
             <div
               className="total-growth"
-              style={{ color: getGrowthColor(totalROR) }}
-            >{`${formatROR(totalROR)} %`}</div>
+              style={{
+                color: formatROR(totalROR).color,
+                fontSize: "15px",
+              }}
+            >{`${formatROR(totalROR).value} %`}</div>
           </div>
         </div>
         <div className="my-portfolio">
