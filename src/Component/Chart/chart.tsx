@@ -35,8 +35,13 @@ const Chart = ({ data }: CandleData) => {
           type: "candlestick",
           height: 350,
           events: {
-            click: function (event: any, chartContext: any, opts: any) {
-              // Update state to show modal when chart is clicked
+            // Apply click event only to candlestick data points
+            dataPointSelection: function (
+              event: any,
+              chartContext: any,
+              opts: any
+            ) {
+              // Update state to show modal when a candlestick is clicked
               setIsOpen(true);
             },
           },
@@ -62,8 +67,6 @@ const Chart = ({ data }: CandleData) => {
             var newsHtml = "";
 
             if (Array.isArray(news)) {
-              // newsHtml = `<ul>`;
-
               news.forEach((newItem) => {
                 newsHtml += `<li style="padding-top:1rem; padding-bottom:0.5rem; padding-left:0.5rem; list-style:none; border-bottom:1px solid rgba(209, 209, 214, 0.3);" onmouseover="this.style.backgroundColor='#E6E5FF';"
                 onmouseout="this.style.backgroundColor='';"><a href=${newItem.url} target="_blank" rel="noopener noreferrer nofollow" 
@@ -71,8 +74,6 @@ const Chart = ({ data }: CandleData) => {
                 
                 ${newItem.title}</a></li>`;
               });
-
-              // newsHtml += `</ul>`;
             }
 
             setNewsHtml(newsHtml);
