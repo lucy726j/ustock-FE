@@ -1,25 +1,25 @@
-.PfCard{
+.PfCard {
     width: 388px;
-    height: 238px;
+    height: 260px;
     border-radius: 20px;
     background-color: #615efc;
     padding: 37px 17px;
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.35);
 }
 
-.PfCard h3{
+.PfCard h3 {
     font-size: 20px;
     color: #e0e0e0;
     margin-bottom: 14px;
 }
 
-.PfCard p{
+.PfCard p {
     font-size: 25px;
     color: #ffffff;
     font-weight: 700;
 }
 
-.detail-section{
+.detail-section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -29,28 +29,35 @@
     width: 100%;
 }
 
-.total-value, .gain-and-loss{
+.total-value,
+.gain-and-loss {
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-.title-area{
+.title-area {
     flex: 1;
     color: #cbcbcb;
     font-size: 15px;
 }
 
-.value-area{
+.value-area {
     font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
 }
 
-.total-value .value-area{
-    color: #ffffff
+.total-value .value-area {
+    color: #ffffff;
 }
 
-.gain-and-loss .value-area{
+.gain-and-loss .value-area {
     color: red;
 }
 
-
+.value-area > p {
+    font-size: 19px;
+}
