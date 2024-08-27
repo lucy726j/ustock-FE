@@ -17,6 +17,10 @@ const Chart = ({ data }: CandleData) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [newsHtml, setNewsHtml] = useState<string>("");
+  const latestDate = new Date(data[data.length - 1].x).getTime();
+  const initialZoomMin = new Date(
+    latestDate - 90 * 24 * 60 * 60 * 1000
+  ).getTime();
 
   const onRequestClose = () => {
     setIsOpen(!isOpen);
@@ -45,6 +49,15 @@ const Chart = ({ data }: CandleData) => {
               setIsOpen(true);
             },
           },
+          zoom: function () {},
+        },
+        plotOptions: {
+          candlestick: {
+            colors: {
+              upward: "#FF5759", // Green color for rising candles
+              downward: "#28a745", // Red color for falling candles
+            },
+          },
         },
         xaxis: {
           type: "datetime",
@@ -56,7 +69,10 @@ const Chart = ({ data }: CandleData) => {
               hour: "HH:mm",
             },
           },
+          min: initialZoomMin,
+          max: latestDate,
         },
+
         tooltip: {
           custom: function ({ seriesIndex, dataPointIndex, w }: any) {
             const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
