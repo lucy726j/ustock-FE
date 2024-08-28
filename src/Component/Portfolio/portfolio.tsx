@@ -7,7 +7,7 @@ import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useAsyncError, useNavigate } from "react-router-dom";
-import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
+import { formatPrice, formatROR } from "../../util/util";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
@@ -116,10 +116,13 @@ const Portfolio = () => {
         }
       })
       .catch((e) => {
-        navigate("/error");
+        if (e.response && e.response.status === 404) {
+          navigate("/portfolio");
+        }
       });
   }, [add]);
 
+  //console.log(formatPrice(totalAsset));
   const text = formatPrice(totalAsset);
 
   return (

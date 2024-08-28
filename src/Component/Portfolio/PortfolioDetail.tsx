@@ -7,6 +7,7 @@ import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import swal from "sweetalert";
+import DeleteButton from "../Button/DeleteButton";
 
 const PortfolioDetail = () => {
   const location = useLocation();
@@ -30,21 +31,28 @@ const PortfolioDetail = () => {
 
   // const changeCheck = usePortfolioStore((state) => state.setChange);
   const deletePortfolio = async (id: number) => {
-    const res = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`,
-      {
-        withCredentials: true,
+    try {
+      const res = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/v1/portfolio/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.status === 200) {
+        setChange(!change);
+        swal({
+          title: "삭제 완료!",
+          icon: "success",
+        }).then(() => {
+          nav("/portfolio");
+        });
+        setIsDeleteOpen(false);
       }
-    );
-    if (res.status === 200) {
-      setChange(!change);
-      swal({
-        title: "삭제 완료!",
-        icon: "success",
-      }).then(() => {
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
         nav("/portfolio");
-      });
-      setIsDeleteOpen(false);
+      }
     }
   };
 
@@ -70,9 +78,8 @@ const PortfolioDetail = () => {
           alert("401");
         }
       })
-      // 확인 필요 ( 포트폴리오를 삭제했을때 어떻게 되는지 )
       .catch((e) => {
-        nav("/error");
+        // alert(e);
       });
   }, [setPortfolio, setFinancialData, changeStatus]);
 
@@ -100,18 +107,7 @@ const PortfolioDetail = () => {
         }}
       >
         <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>{pfName}</h2>
-        <button
-          className="embla_delete"
-          onClick={() => setIsDeleteOpen(true)}
-          style={{
-            position: "absolute",
-            zIndex: "10",
-            top: "6px",
-            left: "400px",
-          }}
-        >
-          삭제
-        </button>
+        <DeleteButton onClick={() => setIsDeleteOpen(true)} />
         {isDeleteOpen && (
           <DeleteConfirmationModal
             isOpen={isDeleteOpen}
