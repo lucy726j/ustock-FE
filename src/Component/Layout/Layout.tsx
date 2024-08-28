@@ -8,6 +8,11 @@ const Main = styled.main`
   width: 500px;
   padding-top: 20px;
   padding-bottom: 60px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 60px;
+  }
 `;
 
 const Container = styled.div`
@@ -15,6 +20,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+    padding-left: 0;
+  }
 `;
 
 const Layout = (props: { children: React.ReactNode }) => {

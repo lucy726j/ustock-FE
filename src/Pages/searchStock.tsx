@@ -39,7 +39,6 @@ const SearchStock = () => {
   // 리스트에서 종목 클릭시
   const handleSelectStock = (stockId: number) => {
     setSelectedStockId(stockId);
-    console.log("Selected stock code:", stockId);
   };
 
   // 카테고리 set
@@ -70,7 +69,7 @@ const SearchStock = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, [selectedCategory]);
 

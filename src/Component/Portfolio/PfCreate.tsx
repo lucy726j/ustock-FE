@@ -61,7 +61,6 @@ const PfCreate: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    console.log("handleConfirm called. create : ", portfolioName);
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/v1/portfolio`,
@@ -69,10 +68,7 @@ const PfCreate: React.FC = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response);
-        console.log(response.data);
         if (response.status === 200) {
-          console.log("포트폴리오가 만들어졌음:", response);
           closeModal();
           swal({
             title: "포트폴리오를 생성했습니다.",
@@ -80,18 +76,15 @@ const PfCreate: React.FC = () => {
           });
           isPortfolio(!portfolioChange);
         } else {
-          console.log("error status code : ", response.status);
           isPortfolio(portfolioChange);
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
         swal({
           title: "포트폴리오 생성에 실패하셨습니다.",
           text: "다시 시도해주세요!",
           icon: "error",
         });
-        console.log(error);
       });
   };
 
