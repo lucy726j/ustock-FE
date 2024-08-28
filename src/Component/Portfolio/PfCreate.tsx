@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import portfolioImg from "../../img/portfolioImg.png";
 import styled from "styled-components";
 import Button from "../Button/button";
@@ -6,6 +6,7 @@ import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
+import { useNavigate } from "react-router-dom";
 
 const Box = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const PfCreate: React.FC = () => {
   const [portfolioName, setPortfolioName] = useState("");
   const isPortfolio = usePortfolioStore((state) => state.isPortfolio);
   const portfolioChange = usePortfolioStore((state) => state.portfolioChange);
+  const nav = useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -79,12 +81,8 @@ const PfCreate: React.FC = () => {
           isPortfolio(portfolioChange);
         }
       })
-      .catch((error) => {
-        swal({
-          title: "포트폴리오 생성에 실패하셨습니다.",
-          text: "다시 시도해주세요!",
-          icon: "error",
-        });
+      .catch((e) => {
+        nav("/error");
       });
   };
 

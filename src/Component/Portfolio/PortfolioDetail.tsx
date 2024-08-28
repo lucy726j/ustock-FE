@@ -70,6 +70,7 @@ const PortfolioDetail = () => {
           alert("401");
         }
       })
+      // 확인 필요 ( 포트폴리오를 삭제했을때 어떻게 되는지 )
       .catch((e) => {
         nav("/error");
       });
