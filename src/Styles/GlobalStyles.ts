@@ -7,6 +7,8 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "SCDream5", "Noto Sans";
     box-sizing: border-box;
 }
+
+
 body{
 }
 `;

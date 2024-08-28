@@ -4,10 +4,12 @@ import axios from "axios";
 import { useState } from "react";
 import Portfolio from "../Component/Portfolio/portfolio";
 import "../Component/Carousel/embla.css";
+import { useNavigate } from "react-router-dom";
 
 const PortfolioPage = () => {
   const isProfile = usePortfolioStore((state) => state.isPortfolio);
   const portfolioChange = usePortfolioStore((state) => state.portfolioChange);
+  const nav = useNavigate();
 
   axios
     .get(`${process.env.REACT_APP_API_URL}/v1/portfolio/check`, {
@@ -19,6 +21,9 @@ const PortfolioPage = () => {
       } else {
         isProfile(false);
       }
+    })
+    .catch((e) => {
+      nav("/error");
     });
 
   return <>{portfolioChange ? <Portfolio /> : <PortfolioNo />}</>;

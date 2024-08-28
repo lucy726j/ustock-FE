@@ -10,6 +10,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import CalculResult from "./calculResult";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -48,6 +49,8 @@ const Label = styled.div`
 `;
 
 const Calculator = () => {
+  const nav = useNavigate();
+
   // CHECK API 연결할 떄,, 현재 시점 보다 미래의 날짜를 했을 때, 검색 불가하게 막기 필요
   //       없는 날짜를 검색하면 검색 불가하게 막기 필요
   const year = [
@@ -135,11 +138,7 @@ const Calculator = () => {
         setError("해당 주식이 상장되지 않은 날짜입니다.");
       })
       .catch((error) => {
-        setIsValid(false);
-        swal({
-          title: "서버에러발생...",
-          icon: "error",
-        });
+        nav("/error");
       });
   };
 

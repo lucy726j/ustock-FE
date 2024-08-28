@@ -11,6 +11,7 @@ import SkrrrGamePage from "./Pages/skrrrGame";
 import { useAuth } from "./contexts/authContext";
 import NoUserPage from "./Pages/404/noUser";
 import LoginPage from "./Pages/404/loginPage";
+import ErrorPage from "./Pages/404/errorPage";
 
 const Router = () => {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ const Router = () => {
           )}
           <Route path="/game" element={<SkrrrGamePage />} />
           <Route path="/auth/callback" element={<CallBackPage />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

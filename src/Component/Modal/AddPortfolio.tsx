@@ -40,6 +40,9 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
     if (!portfolioName) {
       setIsValid(false);
       return;
+    } else if (portfolioName.trim() === "") {
+      setIsValid(false);
+      return;
     }
     setIsValid(true);
     onConfirm();
@@ -71,17 +74,19 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
         <Title>새 포트폴리오 추가</Title>
       </div>
       <Div>이름</Div>
-      <Input
-        icon={<img src={Icon} />}
-        placeholder="포트폴리오 이름을 입력해주세요 (최대 18글자)"
-        size="medium"
-        colorType="strokeType"
-        value={portfolioName}
-        onChange={handleInputChange}
-        isValid={isValid}
-        errorMessage="포트폴리오 이름을 입력해주세요"
-        maxLength={18}
-      />
+      <div>
+        <Input
+          icon={<img src={Icon} />}
+          placeholder="포트폴리오 이름을 입력해주세요 (최대 15글자)"
+          size="medium"
+          colorType="strokeType"
+          value={portfolioName}
+          onChange={handleInputChange}
+          isValid={isValid}
+          errorMessage="포트폴리오 이름을 입력해주세요"
+          maxLength={15}
+        />
+      </div>
     </ModalOpen>
   );
 };

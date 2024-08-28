@@ -38,6 +38,9 @@ const Chart = ({ data }: CandleData) => {
         chart: {
           type: "candlestick",
           height: 350,
+          toolbar: {
+            show: true,
+          },
           events: {
             // Apply click event only to candlestick data points
             dataPointSelection: function (
@@ -49,7 +52,6 @@ const Chart = ({ data }: CandleData) => {
               setIsOpen(true);
             },
           },
-          zoom: function () {},
         },
         plotOptions: {
           candlestick: {
@@ -72,8 +74,17 @@ const Chart = ({ data }: CandleData) => {
           min: initialZoomMin,
           max: latestDate,
         },
-
         tooltip: {
+          x: {
+            formatter: function (val: any) {
+              return "";
+            },
+          },
+          y: {
+            formatter: function (val: any) {
+              return `${val}`;
+            },
+          },
           custom: function ({ seriesIndex, dataPointIndex, w }: any) {
             const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
             const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
@@ -101,7 +112,9 @@ const Chart = ({ data }: CandleData) => {
             const color = close > open ? "#FF5759" : "#615EFC";
 
             return `
-            <div style="padding: 5px; font-size: 12px; width: 200px; height: 200px;text-align : center">
+            <div style="margin-top : 1rem; text-align: center; margin-bottom: 1rem; font-size: 12px; color: #ADA9BB"><p>👀 캔들을 클릭해서 </p><p>그날의 뉴스를 확인해보세요!</p></div>
+            </div>
+            <div style="padding: 5px; font-size: 12px; width: 200px; height: 130px;text-align : center">
             <p style="font-family: 'SCDream7';">${xLabel}</p>
             <hr style="margin-bottom : 0.5rem;margin-top : 0.2rem;"/>
             <div style="display: flex; flex-direction: column; gap: 5px;">
@@ -116,8 +129,7 @@ const Chart = ({ data }: CandleData) => {
             )}</span></p>
             <p>종가: <span style="padding-left : 1rem; color : ${color}">${formatPrice(
               close
-            )}</span></p>
-            </div>`;
+            )}</span></p>`;
           },
         },
       };

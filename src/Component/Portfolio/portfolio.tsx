@@ -7,7 +7,7 @@ import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
 import { useAsyncError, useNavigate } from "react-router-dom";
-import { formatPrice, getGrowthColor, formatROR } from "../../util/util";
+import { formatPrice, formatROR } from "../../util/util";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
@@ -88,11 +88,11 @@ const Portfolio = () => {
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
         } else if (res.status === 401) {
-          alert("error : 401");
+          navigate("/error");
         }
       })
       .catch((e) => {
-        alert(e);
+        navigate("/error");
       });
   }, [add, change]);
 
@@ -116,10 +116,13 @@ const Portfolio = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        if (e.response && e.response.status === 404) {
+          navigate("/portfolio");
+        }
       });
   }, [add]);
 
+  //console.log(formatPrice(totalAsset));
   const text = formatPrice(totalAsset);
 
   return (
