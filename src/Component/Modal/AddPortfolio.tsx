@@ -40,6 +40,9 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
     if (!portfolioName) {
       setIsValid(false);
       return;
+    } else if (portfolioName.trim() === "") {
+      setIsValid(false);
+      return;
     }
     setIsValid(true);
     onConfirm();
