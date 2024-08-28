@@ -7,6 +7,7 @@ import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import swal from "sweetalert";
+import DeleteButton from "../Button/DeleteButton";
 
 const PortfolioDetail = () => {
   const location = useLocation();
@@ -109,22 +110,35 @@ const PortfolioDetail = () => {
             left: "400px",
           }}
         >
-          삭제
-        </button>
-        {isDeleteOpen && (
-          <DeleteConfirmationModal
-            isOpen={isDeleteOpen}
-            onConfirm={() => deletePortfolio(id)} // 삭제 함수 호출
-            onRequestClose={() => setIsDeleteOpen(false)} // 모달 닫기
-            showCancelButton={true}
-          />
-        )}
-      </div>
-      <PfCard />
-      <PieChart stockData={stockData} />
-      <Swipe portfolioId={id} />
-    </div>
-  );
+
+            <div
+                style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "start",
+                    alignItems: "center",
+                    position: "relative",
+                }}
+            >
+                <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>
+                    {pfName}
+                </h2>
+                <DeleteButton onClick={() => setIsDeleteOpen(true)} />
+                {isDeleteOpen && (
+                    <DeleteConfirmationModal
+                        isOpen={isDeleteOpen}
+                        onConfirm={() => deletePortfolio(id)} // 삭제 함수 호출
+                        onRequestClose={() => setIsDeleteOpen(false)} // 모달 닫기
+                        showCancelButton={true}
+                    />
+                )}
+            </div>
+            <PfCard />
+            <PieChart stockData={stockData} />
+            <Swipe portfolioId={id} />
+        </div>
+    );
+
 };
 
 export default PortfolioDetail;
