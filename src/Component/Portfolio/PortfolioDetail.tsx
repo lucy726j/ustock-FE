@@ -90,7 +90,6 @@ const PortfolioDetail = () => {
   return (
     <div
       style={{
-        height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -101,12 +100,13 @@ const PortfolioDetail = () => {
         style={{
           width: "100%",
           display: "flex",
-          justifyContent: "start",
           alignItems: "center",
           position: "relative",
+          justifyContent: "space-between",
+          padding: "0 20px",
         }}
       >
-        <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>{pfName}</h2>
+        <h2 style={{ marginBottom: "15px" }}>{pfName}</h2>
         <DeleteButton onClick={() => setIsDeleteOpen(true)} />
         {isDeleteOpen && (
           <DeleteConfirmationModal
