@@ -40,7 +40,6 @@ const StockDetail: React.FC = () => {
   const handleClick = (view: ViewList) => {
     setSelectedView(view);
     const viewInt = convertViewListToInt(view);
-    console.log(viewInt);
   };
 
   // 주식 상세 정보 불러오기 API 연결
@@ -56,14 +55,13 @@ const StockDetail: React.FC = () => {
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log(JSON.stringify(res.data));
             const result = res.data;
             setStockData(result);
           } else if (res.status === 400) {
             nav("/login");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
   }, []);
 
   // 쿼리스트링으로 보낼 때, 시작/종료 날짜 보내야하는지 확인
@@ -78,7 +76,6 @@ const StockDetail: React.FC = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log("차트 데이터: ", res.data);
           const formattedData = res.data.map((chart: ChartProps) => ({
             x: chart.date,
             y: [
@@ -94,12 +91,11 @@ const StockDetail: React.FC = () => {
               };
             }),
           }));
-          console.log(res.data);
           setChartData(formattedData);
         }
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   }, [setSelectedView, stockCode, selectedView]);
 

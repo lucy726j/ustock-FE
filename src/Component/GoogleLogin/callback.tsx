@@ -28,16 +28,12 @@ const CallBackPage = () => {
           const { name, profile } = res.data;
           login({ name, profile });
           handleHome();
-        } else if (res.status === 401) {
-          console.log("망할망할 ~~~~");
         } else {
           throw new Error(`status code: ${res.status}`);
         }
       } catch (error) {
         alert("로그인에 실패했습니다!");
-        console.log("Login error : ", error);
       } finally {
-        console.log("로그인 왜 안되냐 진짜 짜증나게 하지마셈;;;;");
         setLoading(false);
       }
     };

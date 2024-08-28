@@ -16,7 +16,7 @@ const NavContainer = styled.div`
   box-shadow: 0px -2px 5px -2px #ada9bb;
   padding: 12px;
   background-color: white;
-  z-index: 2
+  z-index: 2;
 `;
 
 const NavBoxStyle = styled.div`
@@ -45,7 +45,6 @@ const NavBar = () => {
   const nav = useNavigate();
 
   const handleClick = (id: string) => {
-    console.log(id);
     nav(id);
   };
 

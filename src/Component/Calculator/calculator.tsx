@@ -130,13 +130,11 @@ const Calculator = () => {
         }&price=${price}`
       )
       .then((res) => {
-        console.log("계신기 값 : ", res.data);
         const data = res.data;
         setResult(data);
         setError("해당 주식이 상장되지 않은 날짜입니다.");
       })
       .catch((error) => {
-        console.log(error);
         setIsValid(false);
         swal({
           title: "서버에러발생...",
@@ -196,8 +194,6 @@ const Calculator = () => {
   const userData = localStorage.getItem("user");
   if (userData) {
     userName = JSON.parse(userData).name;
-  } else {
-    console.log("유저 정보 없음");
   }
 
   return result ? (
