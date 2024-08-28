@@ -21,7 +21,7 @@ const Text = styled.div`
 const NoNews = () => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav("/portfolio/no");
+    nav("/portfolio");
   };
 
   return (

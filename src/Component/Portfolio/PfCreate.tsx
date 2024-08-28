@@ -35,14 +35,14 @@ const PfCreateImage = styled.img`
 `;
 
 const PfCreateTitle = styled.h3`
-  font-size: 23px;
+  font-size: 17px;
   margin-top: 16px;
   margin-bottom: 20px;
   color: #555555;
 `;
 
 const PfCreateDescription = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   color: #888888;
 `;
@@ -90,10 +90,12 @@ const PfCreate: React.FC = () => {
     <Box>
       <PfCreateContainer>
         <PfCreateImage src={portfolioImg} alt="Portfolio" />
-        <PfCreateTitle>투자내역을 관리하세요</PfCreateTitle>
+        <PfCreateTitle>나만의 포트폴리오를 만들어보세요!</PfCreateTitle>
         <PfCreateDescription>
-          수익과 배당 확인, 백테스팅을 통한 <br />
-          수익률 분석까지
+          내가 원하는 종목과 금액으로 <br />
+          나만의 포트폴리오를 구성하고
+          <br />
+          수익률을 확인해보세요.
         </PfCreateDescription>
       </PfCreateContainer>
       <div>
