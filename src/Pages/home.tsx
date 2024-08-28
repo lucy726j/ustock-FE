@@ -11,12 +11,11 @@ import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 25px;
 `;
 
 const MarketContainer = styled.div`
-  width: 95%;
+  width: 100%;
   height: 80px;
   box-shadow: 0px 4px 7px -2px #ada9bb;
   border-radius: 10px;
@@ -26,6 +25,10 @@ const MarketContainer = styled.div`
   justify-content: center;
   gap: 12px;
   margin: 20px 0px 25px;
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 12px;
+  }
 `;
 
 const Kospi = styled.div`
@@ -53,7 +56,7 @@ const ListContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-right: auto;
+  /* margin-right: auto; */
 `;
 
 const Title = styled.div`
@@ -115,7 +118,6 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log("인기종목리스트API" + JSON.stringify(res.data.stock));
           const stockData = res.data.stock;
           setList(stockData);
         } else if (res.status === 401) {
@@ -169,8 +171,8 @@ const Home: React.FC = () => {
           )}
         </Kosdaq>
       </MarketContainer>
+      <Title>오늘의 인기 종목</Title>
       <ListContainer>
-        <Title>오늘의 인기 종목</Title>
         <StockWrapper>
           {list ? <StockDataList data={list} /> : <div>로딩중</div>}
         </StockWrapper>

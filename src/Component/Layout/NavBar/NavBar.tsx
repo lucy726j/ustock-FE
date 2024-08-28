@@ -13,10 +13,16 @@ const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  box-shadow: 0px -2px 5px -2px #ada9bb;
+  border-top: 1px solid rgba(200, 200, 200, 0.5);
   padding: 12px;
   background-color: white;
   z-index: 2;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+  }
 `;
 
 const NavBoxStyle = styled.div`

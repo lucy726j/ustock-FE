@@ -11,6 +11,10 @@ export const SearchBarStyle = styled.div`
   gap: 20px;
   margin-bottom: 1rem;
   position: relative;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+  }
 `;
 
 export const SearchImg = styled.img`
