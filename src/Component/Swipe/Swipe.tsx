@@ -13,7 +13,7 @@ interface SwipeProps {
 }
 
 const MAX_HEIGHT_PERCENT = 80; // 80%
-const MIN_HEIGHT_PERCENT = 10; // 10%
+const MIN_HEIGHT_PERCENT = 8; // 10%
 
 const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
   const stockData = usePortfolioStore((state) => state.stockData);

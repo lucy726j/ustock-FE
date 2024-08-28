@@ -7,7 +7,7 @@ interface AnimatedButtonProps {
 
 const DeleteButton: React.FC<AnimatedButtonProps> = ({ onClick }) => {
   return (
-    <button
+    <div
       className="delete"
       onClick={onClick}
       style={{
@@ -18,7 +18,7 @@ const DeleteButton: React.FC<AnimatedButtonProps> = ({ onClick }) => {
     >
       <div className="top"></div>
       <div className="bottom"></div>
-    </button>
+    </div>
   );
 };
 

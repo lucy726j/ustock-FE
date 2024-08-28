@@ -14,9 +14,7 @@ import {
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import { formatPrice, formatROR } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
-import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
-import state from "sweetalert/typings/modules/state";
 
 const TWEEN_FACTOR_BASE = 0.52;
 

@@ -24,7 +24,7 @@ const PieChart: React.FC<PieChartProps> = ({ stockData }) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
+            width: 450,
           },
         },
       },
@@ -32,7 +32,7 @@ const PieChart: React.FC<PieChartProps> = ({ stockData }) => {
   };
 
   return (
-    <div id="chart" style={{ marginTop: "6rem", marginBottom: "10rem" }}>
+    <div id="chart" style={{ marginTop: "4rem", marginBottom: "10rem" }}>
       <ReactApexChart options={options} series={series} type="donut" />
     </div>
   );
