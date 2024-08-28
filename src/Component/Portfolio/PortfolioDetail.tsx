@@ -7,6 +7,7 @@ import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import swal from "sweetalert";
+import DeleteButton from "../Button/DeleteButton";
 
 const PortfolioDetail = () => {
     const location = useLocation();
@@ -108,18 +109,7 @@ const PortfolioDetail = () => {
                 <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>
                     {pfName}
                 </h2>
-                <button
-                    className="embla_delete"
-                    onClick={() => setIsDeleteOpen(true)}
-                    style={{
-                        position: "absolute",
-                        zIndex: "10",
-                        top: "6px",
-                        left: "400px",
-                    }}
-                >
-                    삭제
-                </button>
+                <DeleteButton onClick={() => setIsDeleteOpen(true)} />
                 {isDeleteOpen && (
                     <DeleteConfirmationModal
                         isOpen={isDeleteOpen}
