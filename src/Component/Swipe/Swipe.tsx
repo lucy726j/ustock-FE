@@ -25,7 +25,6 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
   const [modalAction, setModalAction] = useState<"add" | null>(null);
 
   const handleSelectStock = (stockData: ListProps) => {
-    //console.log("stock 값들 : ", stockData);
     setSelectedStock(stockData);
     setIsSearchOpen(false);
     setIsFormOpen(true);
@@ -70,7 +69,6 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
         : MIN_HEIGHT_PERCENT
     );
   };
-  //console.log(stockData);
 
   return (
     <div style={{ width: "100%", position: "absolute", bottom: "70px" }}>

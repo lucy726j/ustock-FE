@@ -45,11 +45,9 @@ const NewsList: React.FC = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert("error : " + e);
       });
   }, [location]);
-
-  console.log(news);
 
   return (
     <div>

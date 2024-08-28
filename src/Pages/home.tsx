@@ -93,16 +93,14 @@ const Home: React.FC = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log("증시데이터API", res.data);
           const marketData = res.data;
           setMarket(marketData);
-          // console.log(market);
         } else if (res.status === 401) {
           nav("/login");
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, []);
 
@@ -125,7 +123,7 @@ const Home: React.FC = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, []);
 

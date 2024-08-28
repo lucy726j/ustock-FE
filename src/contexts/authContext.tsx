@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 
   const login = (user: { name: string; profile: string }) => {
-    console.log(user);
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
   };
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       )
       .then((res) => {
-        console.log(res);
         setUser(null);
         localStorage.removeItem("user");
       });

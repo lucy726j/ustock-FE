@@ -38,7 +38,6 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           const result = res.data;
           setList(result);
         } else if (res.status === 401) {
@@ -46,12 +45,11 @@ const SearchBar: React.FC<SearchBarProps> = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, [keyword]);
 
   const handleSelectStock = (event: StockDataProps) => {
-    console.log(event.code);
     nav(`/stocks/${event.code}`);
   };
 
