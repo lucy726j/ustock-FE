@@ -44,6 +44,10 @@ export const SearchResult = styled.div`
   max-height: 300px;
   overflow: scroll;
   scrollbar-width: none;
+  @media (max-width: 768px) {
+    width: 93%;
+    margin-top: 1rem;
+  }
 `;
 
 export const StockItemContainer = styled.li`
