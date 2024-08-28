@@ -45,7 +45,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        nav("/error");
       });
   }, [keyword]);
 

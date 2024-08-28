@@ -40,6 +40,9 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
     if (!portfolioName) {
       setIsValid(false);
       return;
+    } else if (portfolioName.trim() === "") {
+      setIsValid(false);
+      return;
     }
     setIsValid(true);
     onConfirm();
@@ -53,38 +56,39 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
     }
   };
 
-    return (
-        <ModalOpen
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            showConfirmButton="확인"
-            showCancelButton={true}
-            icon={newPortfolio}
-            onConfirm={handleConfirm}
-            confirmLabel="확인"
-        >
-            <div
-                style={{
-                    marginBottom: "30px",
-                }}
-            >
-                <Title>새 포트폴리오 추가</Title>
-            </div>
-            <Div>이름</Div>
-            <Input
-                icon={<img src={Icon} />}
-                placeholder="포트폴리오 이름을 입력해주세요 (최대 15글자)"
-                size="medium"
-                colorType="strokeType"
-                value={portfolioName}
-                onChange={handleInputChange}
-                isValid={isValid}
-                errorMessage="포트폴리오 이름을 입력해주세요"
-                maxLength={15}
-            />
-        </ModalOpen>
-    );
-
+  return (
+    <ModalOpen
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      showConfirmButton="확인"
+      showCancelButton={true}
+      icon={newPortfolio}
+      onConfirm={handleConfirm}
+      confirmLabel="확인"
+    >
+      <div
+        style={{
+          marginBottom: "30px",
+        }}
+      >
+        <Title>새 포트폴리오 추가</Title>
+      </div>
+      <Div>이름</Div>
+      <div>
+        <Input
+          icon={<img src={Icon} />}
+          placeholder="포트폴리오 이름을 입력해주세요 (최대 15글자)"
+          size="medium"
+          colorType="strokeType"
+          value={portfolioName}
+          onChange={handleInputChange}
+          isValid={isValid}
+          errorMessage="포트폴리오 이름을 입력해주세요"
+          maxLength={15}
+        />
+      </div>
+    </ModalOpen>
+  );
 };
 
 export default AddPortfolioModal;

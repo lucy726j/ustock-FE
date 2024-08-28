@@ -103,7 +103,7 @@ const Home: React.FC = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        nav("/error");
       });
   }, []);
 
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        nav("/error");
       });
   }, []);
 

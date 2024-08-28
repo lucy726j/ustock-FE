@@ -15,6 +15,7 @@ import {
 } from "./modalStyle";
 import Search from "../../img/search.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface StockSearchProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
   const [hoveredStock, setHoveredStock] = useState<string | null>(null); // 현재 호버 중인 종목을 추적하는 상태
   const [isValid, setIsValid] = useState(true);
   const [stockList, setStockList] = useState<ListProps[]>([]);
+  const nav = useNavigate();
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -56,7 +58,7 @@ const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
         setSearchResults(res.data.stock);
       })
       .catch((error) => {
-        alert(error);
+        nav("/error");
       });
   }, []);
 

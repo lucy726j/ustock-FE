@@ -61,7 +61,7 @@ const StockDetail: React.FC = () => {
             nav("/login");
           }
         })
-        .catch((err) => alert(err));
+        .catch((err) => nav("/error"));
   }, []);
 
   // 쿼리스트링으로 보낼 때, 시작/종료 날짜 보내야하는지 확인
@@ -95,7 +95,7 @@ const StockDetail: React.FC = () => {
         }
       })
       .catch((error) => {
-        alert(error);
+        nav("/error");
       });
   }, [setSelectedView, stockCode, selectedView]);
 
