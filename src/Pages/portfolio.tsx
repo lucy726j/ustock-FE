@@ -14,7 +14,6 @@ const PortfolioPage = () => {
       withCredentials: true,
     })
     .then((res) => {
-      console.log(res.data);
       if (res.data === true) {
         isProfile(true);
       } else {

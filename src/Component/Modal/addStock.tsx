@@ -81,7 +81,6 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
           }
         })
         .catch((error) => {
-          console.log(error);
           swal({
             title: "추가에 실패하셨습니다.",
             text: "다시 시도해주세요!",

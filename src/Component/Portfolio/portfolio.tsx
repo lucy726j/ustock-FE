@@ -44,7 +44,6 @@ const Portfolio = () => {
 
   // 포트폴리오 추가
   const handleConfirm = () => {
-    console.log("handleConfirm called", portfolioName);
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/v1/portfolio`,
@@ -63,18 +62,14 @@ const Portfolio = () => {
             icon: "success",
           });
           navigate("/portfolio");
-        } else {
-          console.log("error status code : ", response.status);
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
         swal({
           title: "포트폴리오 생성에 실패하셨습니다.",
           text: "다시 시도해주세요!",
           icon: "error",
         });
-        console.log(error);
       });
   };
 
@@ -92,20 +87,14 @@ const Portfolio = () => {
           setTotalAsset(res.data.budget);
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
-          // setPortfolioListLen(res.data.list.length); // 포트폴리오 리스트의 길이 업데이트
-          // console.log(res.data.list.length);
-          console.log(res.data);
         } else if (res.status === 401) {
-          console.log(res);
+          alert("error : 401");
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, [add, change]);
-
-  // console.log(formatPrice(totalAsset));
-  // const text = formatPrice(totalAsset);
 
   // 포트폴리오 전체 조회
   useEffect(() => {
@@ -123,15 +112,14 @@ const Portfolio = () => {
           setTotalROR(res.data.ror);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
         } else if (res.status === 401) {
-          console.log(res);
+          alert("401");
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e);
       });
   }, [add]);
 
-  //console.log(formatPrice(totalAsset));
   const text = formatPrice(totalAsset);
 
   return (

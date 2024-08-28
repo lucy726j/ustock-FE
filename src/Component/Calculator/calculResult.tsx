@@ -111,8 +111,6 @@ const CalculResult: React.FC<CalculResultProps> = ({
   const userData = localStorage.getItem("user");
   if (userData) {
     userName = JSON.parse(userData).name;
-  } else {
-    console.log("유저 정보 없음");
   }
 
   return (
