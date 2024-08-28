@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/button";
 import styled from "styled-components";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const NoNews = () => {
       <Div>❌ 아직 보유하신 종목이 없어요 ❌ </Div>
       <Text>내 포트폴리오를 생성하고, 종목을 추가해보세요 !</Text>
       <Button
-        children={"내 포트폴리오 생성하러 가기"}
+        children={"나만의 뉴스 만들러가기"}
         state="normal"
         size="plusBtn"
         colorType="main"
