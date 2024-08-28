@@ -71,7 +71,7 @@ const PortfolioDetail = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        nav("/error");
       });
   }, [setPortfolio, setFinancialData, changeStatus]);
 

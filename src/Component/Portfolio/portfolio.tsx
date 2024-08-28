@@ -92,7 +92,7 @@ const Portfolio = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        navigate("/error");
       });
   }, [add, change]);
 
@@ -116,7 +116,7 @@ const Portfolio = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        navigate("/error");
       });
   }, [add]);
 

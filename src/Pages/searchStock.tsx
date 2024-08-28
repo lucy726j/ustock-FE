@@ -69,7 +69,7 @@ const SearchStock = () => {
         }
       })
       .catch((e) => {
-        alert(e);
+        nav("/error");
       });
   }, [selectedCategory]);
 

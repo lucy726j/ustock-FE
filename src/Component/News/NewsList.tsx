@@ -22,7 +22,7 @@ const NewsList: React.FC = () => {
   const [news, setNews] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const nav = useNavigate();
   // const change = usePortfolioStore((state) => state.change);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const NewsList: React.FC = () => {
         }
       })
       .catch((e) => {
-        alert("error : " + e);
+        nav("/error");
       });
   }, [location]);
 
