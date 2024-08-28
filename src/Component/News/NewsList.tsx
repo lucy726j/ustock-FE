@@ -43,9 +43,6 @@ const NewsList: React.FC = () => {
         } else if (res.status === 401) {
           navigate("/login");
         }
-      })
-      .catch((e) => {
-        nav("/error");
       });
   }, [location]);
 
