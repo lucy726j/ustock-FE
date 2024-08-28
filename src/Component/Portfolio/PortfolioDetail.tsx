@@ -8,6 +8,19 @@ import { usePortfolioStore } from "../../store/usePortfolioStore";
 import DeleteConfirmationModal from "../Modal/deleteProtfolio";
 import swal from "sweetalert";
 import DeleteButton from "../Button/DeleteButton";
+import styled from "styled-components";
+
+const TitleDiv = styled.div`
+  width: 60%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-right: 1rem;
+  }
+`;
 
 const PortfolioDetail = () => {
   const location = useLocation();
@@ -90,23 +103,14 @@ const PortfolioDetail = () => {
   return (
     <div
       style={{
-        height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
       }}
     >
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "start",
-          alignItems: "center",
-          position: "relative",
-        }}
-      >
-        <h2 style={{ marginLeft: "60px", marginBottom: "15px" }}>{pfName}</h2>
+      <TitleDiv>
+        <h2 style={{ marginBottom: "15px" }}>{pfName}</h2>
         <DeleteButton onClick={() => setIsDeleteOpen(true)} />
         {isDeleteOpen && (
           <DeleteConfirmationModal
@@ -116,7 +120,7 @@ const PortfolioDetail = () => {
             showCancelButton={true}
           />
         )}
-      </div>
+      </TitleDiv>
       <PfCard />
       <PieChart stockData={stockData} />
       <Swipe portfolioId={id} />
