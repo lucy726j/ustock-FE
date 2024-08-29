@@ -145,7 +145,7 @@ const Home: React.FC = () => {
                 )}
                 {Math.abs(market.kospi.change)}
               </span>
-              <span>{market.kospi.changeRate}</span>
+              <span>{market.kospi.changeRate}%</span>
             </Info>
           ) : (
             <div>로딩중</div>
@@ -164,7 +164,7 @@ const Home: React.FC = () => {
                 )}
                 {Math.abs(market.kosdaq.change)}
               </span>
-              <span>{market.kosdaq.changeRate}</span>
+              <span>{market.kosdaq.changeRate}%</span>
             </Info>
           ) : (
             <div>로딩중</div>
