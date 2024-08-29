@@ -50,10 +50,6 @@ jobs:
         if: github.ref == 'refs/heads/dev'
         run: aws s3 sync build s3://ustock-dev-bucket/react/ --delete
 
-      - name: Invalidate CloudFront Cache for Develop
-        if: github.ref == 'refs/heads/dev'
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} --paths "/*"
-
       - name: Set environment variables for Production
         if: github.ref == 'refs/heads/main'
         run: |
@@ -70,7 +66,3 @@ jobs:
       - name: Deploy to S3 for Production
         if: github.ref == 'refs/heads/main'
         run: aws s3 sync build s3://ustock-bucket/react/ --delete
-
-      - name: Invalidate CloudFront Cache for Production
-        if: github.ref == 'refs/heads/main'
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} --paths "/*"
