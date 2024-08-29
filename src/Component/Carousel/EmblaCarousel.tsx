@@ -188,6 +188,8 @@ const EmblaCarousel: React.FC<PropType> = ({
                       ₩ {formatPrice(item.budget)}
                     </p>
                     <p style={{ color: color }}> {value}%</p>
+                  </div>
+                  <div className="img__container">
                     <img src={myPortfolioImg} alt="Portfolio" />
                   </div>
                 </div>
