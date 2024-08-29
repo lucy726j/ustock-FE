@@ -25,11 +25,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-content: space-between;
 }
 
 .total-growth {
   font-size: 12px;
-  margin-left: 4rem;
+  padding-left: 2rem;
 }
 
 .my-portfolio {

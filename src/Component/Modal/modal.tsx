@@ -52,9 +52,9 @@ const ModalOpen: React.FC<ModalProps> = ({
           {onConfirm && (
             <Button
               onClick={onConfirm}
-              size="plusBtn"
-              colorType="main"
-              state="normal"
+              $size="plusBtn"
+              $colorType="main"
+              $state="normal"
             >
               {text}
             </Button>
@@ -73,9 +73,9 @@ const ModalOpen: React.FC<ModalProps> = ({
             <div style={{ marginRight: "0.5rem" }}>
               <Button
                 onClick={onRequestClose}
-                size="small"
-                colorType="cancel"
-                state="normal"
+                $size="small"
+                $colorType="cancel"
+                $state="normal"
               >
                 {cancelLabel}
               </Button>
@@ -84,9 +84,9 @@ const ModalOpen: React.FC<ModalProps> = ({
           {showConfirmButton && onConfirm && (
             <Button
               onClick={onConfirm}
-              size="small"
-              colorType="main"
-              state="normal"
+              $size="small"
+              $colorType="main"
+              $state="normal"
             >
               {confirmLabel}
             </Button>

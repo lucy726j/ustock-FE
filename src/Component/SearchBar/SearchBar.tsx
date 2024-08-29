@@ -44,9 +44,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
           nav("/login");
         }
       })
-      .catch((e) => {
-        nav("/error");
-      });
+      .catch((error) => {});
   }, [keyword]);
 
   const handleSelectStock = (event: StockDataProps) => {

@@ -5,7 +5,7 @@ interface AnimatedButtonProps {
     onClick: () => void;
 }
 
-const DeleteButton: React.FC<AnimatedButtonProps> = ({ onClick }) => {
+const DeleteButton2: React.FC<AnimatedButtonProps> = ({ onClick }) => {
     return (
         <div
             className="delete"
@@ -22,4 +22,4 @@ const DeleteButton: React.FC<AnimatedButtonProps> = ({ onClick }) => {
     );
 };
 
-export default DeleteButton;
+export default DeleteButton2;

@@ -44,7 +44,7 @@ const Kosdaq = styled.div`
 `;
 
 export const Info = styled.div<ValueProps>`
-  color: ${(props) => (props.isNegative ? "#615EFC" : "#FF5759")};
+  color: ${(props) => (props.$isNegative ? "#615EFC" : "#FF5759")};
 
   display: flex;
   flex-direction: row;
@@ -135,7 +135,7 @@ const Home: React.FC = () => {
         <Kospi>
           <span>KOSPI</span>
           {market ? (
-            <Info isNegative={market.kospi.changeRate < 0}>
+            <Info $isNegative={market.kospi.changeRate < 0}>
               <span>{market.kospi.price}</span>
               <span>
                 {market.kospi.change < 0 ? (
@@ -145,7 +145,7 @@ const Home: React.FC = () => {
                 )}
                 {Math.abs(market.kospi.change)}
               </span>
-              <span>{market.kospi.changeRate}</span>
+              <span>{market.kospi.changeRate}%</span>
             </Info>
           ) : (
             <div>로딩중</div>
@@ -154,7 +154,7 @@ const Home: React.FC = () => {
         <Kosdaq>
           <span>KOSDAQ</span>
           {market ? (
-            <Info isNegative={market.kosdaq.changeRate < 0}>
+            <Info $isNegative={market.kosdaq.changeRate < 0}>
               <span>{market.kosdaq.price}</span>
               <span>
                 {market.kosdaq.change < 0 ? (
@@ -164,7 +164,7 @@ const Home: React.FC = () => {
                 )}
                 {Math.abs(market.kosdaq.change)}
               </span>
-              <span>{market.kosdaq.changeRate}</span>
+              <span>{market.kosdaq.changeRate}%</span>
             </Info>
           ) : (
             <div>로딩중</div>

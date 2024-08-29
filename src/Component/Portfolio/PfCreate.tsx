@@ -101,9 +101,9 @@ const PfCreate: React.FC = () => {
       <div>
         <Button
           onClick={openModal}
-          size="large"
-          colorType="main"
-          state="normal"
+          $size="large"
+          $colorType="main"
+          $state="normal"
         >
           포트폴리오 만들기
         </Button>
