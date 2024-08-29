@@ -5,7 +5,7 @@ import { FaCaretDown } from "react-icons/fa";
 
 interface SlidingDivProps {
   isSliding: boolean;
-  isNegative: boolean;
+  $isNegative: boolean;
 }
 
 const slideUp = keyframes`
@@ -48,7 +48,7 @@ const SlidingDiv = styled.div<SlidingDivProps>`
   padding: 16px;
   animation: ${({ isSliding }) => (isSliding ? slideUp : slideDown)} 0.5s
     forwards;
-  color: ${({ isNegative }) => (isNegative ? "#615EFC" : "#FF5759")};
+  color: ${({ $isNegative }) => ($isNegative ? "#615EFC" : "#FF5759")};
 `;
 
 const InfoText = styled.div`
@@ -139,7 +139,7 @@ const RotationAnimation: React.FC<MarketDataProps> = ({ kospi, kosdaq }) => {
     <Container isExpanded={isExpanded}>
       <SlidingDiv
         isSliding={isSliding}
-        isNegative={currentMarket.changeRate < 0}
+        $isNegative={currentMarket.changeRate < 0}
       >
         <InfoText>{label}:</InfoText>
         <PriceText>{currentMarket.price}</PriceText>

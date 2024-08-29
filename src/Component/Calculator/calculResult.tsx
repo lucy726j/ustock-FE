@@ -51,7 +51,7 @@ const SpanContainer = styled.div`
 `;
 const SpanStyle = styled.div<ValueProps>`
   font-weight: bold;
-  color: ${(props) => (props.isNegative ? "#615EFC" : "#FF5759")};
+  color: ${(props) => (props.$isNegative ? "#615EFC" : "#FF5759")};
 `;
 
 const SkrrrBird = styled.img`
@@ -118,9 +118,9 @@ const CalculResult: React.FC<CalculResultProps> = ({
       {price !== 0 ? (
         <Container>
           <SpanContainer>
-            <SpanStyle isNegative={true}>{userName}</SpanStyle>
+            <SpanStyle $isNegative={true}>{userName}</SpanStyle>
             님은
-            <SpanStyle isNegative={price < 0}>
+            <SpanStyle $isNegative={price < 0}>
               {formatPrice(Math.abs(price))}
             </SpanStyle>
             원을 <span>{price >= 0 ? "벌었습니다." : "잃었습니다.."}</span>
@@ -130,31 +130,33 @@ const CalculResult: React.FC<CalculResultProps> = ({
               <ImgStyle src={Salary} alt="" />
               <SpanContainer>
                 2024년 최저시급 기준{" "}
-                <SpanStyle isNegative={price < 0}>{slave}</SpanStyle>시간
+                <SpanStyle $isNegative={price < 0}>{slave}</SpanStyle>시간
               </SpanContainer>
             </DivContainer>
             <DivContainer>
               <ImgStyle src={Candy} alt="" />
               <SpanContainer>
-                새콤달콤 <SpanStyle isNegative={price < 0}>{candy}</SpanStyle>개
+                새콤달콤 <SpanStyle $isNegative={price < 0}>{candy}</SpanStyle>
+                개
               </SpanContainer>
             </DivContainer>
             <DivContainer>
               <ImgStyle src={Soul} alt="" />
               <SpanContainer>
-                국밥<SpanStyle isNegative={price < 0}>{soul}</SpanStyle>그릇
+                국밥<SpanStyle $isNegative={price < 0}>{soul}</SpanStyle>그릇
               </SpanContainer>
             </DivContainer>
             <DivContainer>
               <ImgStyle src={Chicken} alt="" />
               <SpanContainer>
-                치킨 <SpanStyle isNegative={price < 0}>{chicken}</SpanStyle>마리
+                치킨 <SpanStyle $isNegative={price < 0}>{chicken}</SpanStyle>
+                마리
               </SpanContainer>
             </DivContainer>
             <DivContainer>
               <ImgStyle src={Iphone} alt="" />
               <SpanContainer>
-                아이폰 <SpanStyle isNegative={price < 0}>{iphone}</SpanStyle>대
+                아이폰 <SpanStyle $isNegative={price < 0}>{iphone}</SpanStyle>대
               </SpanContainer>
             </DivContainer>
             <SkrrrBird src={Skrrr} alt="" />

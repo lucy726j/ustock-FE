@@ -1,7 +1,7 @@
 export type ButtonStyleProps = {
-  state: "normal";
-  size: "small" | "medium" | "large" | "plusBtn" | "gradientBtn";
-  colorType: "main" | "gradient" | "cancel";
+  $state: "normal";
+  $size: "small" | "medium" | "large" | "plusBtn" | "gradientBtn";
+  $colorType: "main" | "gradient" | "cancel";
 };
 
 export interface ButtonProps extends ButtonStyleProps {
@@ -80,7 +80,7 @@ export interface NewsProps {
 }
 
 export interface ValueProps {
-  isNegative: boolean;
+  $isNegative: boolean;
 }
 
 export interface ViewSelectProps {

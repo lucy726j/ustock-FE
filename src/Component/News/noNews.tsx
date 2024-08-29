@@ -31,9 +31,9 @@ const NoNews = () => {
       <Text>내 포트폴리오를 생성하고, 종목을 추가해보세요 !</Text>
       <Button
         children={"나만의 뉴스 만들러가기"}
-        state="normal"
-        size="plusBtn"
-        colorType="main"
+        $state="normal"
+        $size="plusBtn"
+        $colorType="main"
         onClick={handleClick}
       />
     </Container>
