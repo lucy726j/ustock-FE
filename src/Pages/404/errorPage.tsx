@@ -29,10 +29,10 @@ const ErrorPage = () => {
       </div>
       <div style={{ marginTop: "1rem" }}>
         <Button
-          colorType="main"
+          $colorType="main"
           onClick={userFeedback}
-          state="normal"
-          size="small"
+          $state="normal"
+          $size="small"
         >
           문의하기
         </Button>

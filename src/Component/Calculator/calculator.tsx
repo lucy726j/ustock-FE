@@ -207,9 +207,9 @@ const Calculator = () => {
       <CalculResult {...result} />
       <Button
         children={"다시 계산하기"}
-        state="normal"
-        size="gradientBtn"
-        colorType="gradient"
+        $state="normal"
+        $size="gradientBtn"
+        $colorType="gradient"
         onClick={handleRetry}
       />
     </div>
@@ -247,9 +247,9 @@ const Calculator = () => {
       </div>
       <Button
         children={"결과 확인하기"}
-        state="normal"
-        size="gradientBtn"
-        colorType="gradient"
+        $state="normal"
+        $size="gradientBtn"
+        $colorType="gradient"
         onClick={ConfirmHandler}
       />
     </Container>
