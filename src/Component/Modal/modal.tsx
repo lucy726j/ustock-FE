@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button/button";
 import { ButtonStyle, ModalBody, ModalHeader, ModalStyles } from "./modalStyle";
 import { ModalProps } from "../../constants/interface";
-import ReactModal from "react-modal";
+import ReactModal, { Styles } from "react-modal";
+
+const getModalStyles = (isSmallScreen: boolean): Styles => {
+  return {
+    overlay: {
+      backgroundColor: "rgb(255 255 255 / 60%)",
+      width: "90%",
+      height: "100%",
+      zIndex: 100,
+      top: "0",
+      left: "0",
+    },
+    content: {
+      width: isSmallScreen ? "85%" : "400px",
+      height: isSmallScreen ? "auto" : "450px",
+      zIndex: "11",
+      position: "fixed" as const,
+      scrollbarWidth: "none",
+      marginLeft: "-15px",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      overflow: "auto",
+      padding: isSmallScreen ? "20px" : "40px",
+    },
+  };
+};
 
 const ModalOpen: React.FC<ModalProps> = ({
   title,
@@ -18,6 +44,35 @@ const ModalOpen: React.FC<ModalProps> = ({
   children,
   icon,
 }) => {
+  const [isSmallScreen, setIsSamllScreen] = useState(
+    window.matchMedia("(max-width: 768px)").matches
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSamllScreen(window.matchMedia("(max-width: 768px)").matches);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  const modalStyles = getModalStyles(isSmallScreen);
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -25,7 +80,7 @@ const ModalOpen: React.FC<ModalProps> = ({
       ariaHideApp={false}
       contentLabel={title || "모달창"}
       shouldCloseOnOverlayClick={false}
-      style={ModalStyles}
+      style={modalStyles}
     >
       <ModalHeader>
         {icon ? (
@@ -66,7 +121,7 @@ const ModalOpen: React.FC<ModalProps> = ({
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "50px",
+            marginTop: isSmallScreen ? "20px" : "50px",
           }}
         >
           {showCancelButton && (
@@ -98,28 +153,3 @@ const ModalOpen: React.FC<ModalProps> = ({
 };
 
 export default ModalOpen;
-
-// 모달 사용 예시
-{
-  /* <ModalOpen
-                title="자산 추가"
-                isOpen={isOpen}
-                onRequestClose={() => setIsOpen(false)}
-                showOneConfirmBtn={true}
-                text="자산 추가"
-                onConfirm={handleConfirm}
-                >
-                    <div>
-                        <div>
-                            <h3>APS</h3>
-                            <p>05462</p>
-                        </div>
-                        <div>
-                            <div>수량</div>
-                            <Input placeholder="수량" size="medium" colorType="fillType"/>
-                            <div>단가</div>
-                            <Input placeholder="단가" size="medium" colorType="fillType"/>
-                        </div>
-                    </div>
-            </ModalOpen> */
-}

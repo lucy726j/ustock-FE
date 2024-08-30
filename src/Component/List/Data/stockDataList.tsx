@@ -17,7 +17,7 @@ const ListWrapper = styled.div`
 
 const StockDataList: React.FC<StockDataPropList> = ({ data }) => {
   return (
-    <div>
+    <div style={{ paddingBottom: "1rem" }}>
       <ListWrapper>
         {data.map((item) => (
           <StockData key={item.code} {...item} />
