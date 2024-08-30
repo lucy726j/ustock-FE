@@ -56,12 +56,12 @@ const PortfolioDetail = () => {
             );
 
             if (res.status === 200) {
-                setChange(!change);
                 swal({
                     title: "삭제 완료!",
                     icon: "success",
                 }).then(() => {
                     nav("/portfolio");
+                    setChange(!change);
                 });
                 setIsDeleteOpen(false);
             }
