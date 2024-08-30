@@ -15,6 +15,7 @@ export const ModalStyles: ReactModal.Styles = {
     height: "450px",
     zIndex: "11",
     position: "fixed",
+    scrollbarWidth: "none",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
@@ -28,6 +29,10 @@ export const ModalHeader = styled.div`
   align-items: center;
   padding-bottom: 10px;
   margin-bottom: 20px;
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
   h2 {
     margin: 0;

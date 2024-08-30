@@ -15,6 +15,13 @@
   z-index: 1;
 }
 
+@media screen and (max-width: 768px) {
+  .swipeableContainer {
+    width: 90%;
+    left: 47%;
+  }
+}
+
 .swipeHandle {
   display: flex;
   flex-direction: row;

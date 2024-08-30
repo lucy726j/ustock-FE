@@ -1,10 +1,16 @@
 .PfCard {
-  width: 100%;
+  width: 90%;
   height: 260px;
   border-radius: 20px;
   background-color: #615efc;
   padding: 37px 17px;
   box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.35);
+}
+
+@media screen and (max-width: 768px) {
+  .PfCard {
+    width: 100%;
+  }
 }
 
 .PfCard h3 {
