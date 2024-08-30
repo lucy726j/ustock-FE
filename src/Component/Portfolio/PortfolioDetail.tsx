@@ -114,6 +114,7 @@ const PortfolioDetail = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
+                width: "100%",
             }}
         >
             <TitleDiv>
