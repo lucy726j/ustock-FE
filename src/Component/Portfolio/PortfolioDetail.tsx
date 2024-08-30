@@ -5,9 +5,10 @@ import PfCard from "./PfCard";
 import PieChart from "../Chart/PieChart";
 import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
-import DeleteConfirmationModal from "../Modal/deleteProtfolio";
+import DeleteConfirmationModal from "../Modal/deletePortfolio";
 import swal from "sweetalert";
 import DeleteButton from "../Button/DeleteButton";
+import DeleteButton2 from "../Button/DeleteButton2";
 import styled from "styled-components";
 
 const TitleDiv = styled.div`
