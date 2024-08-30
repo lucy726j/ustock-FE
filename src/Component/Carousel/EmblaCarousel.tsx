@@ -183,6 +183,7 @@ const EmblaCarousel: React.FC<PropType> = ({
                       style={{
                         fontSize: "20px",
                         color: "black",
+                        wordWrap: "break-word",
                       }}
                     >
                       ₩ {formatPrice(item.budget)}
