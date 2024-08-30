@@ -8,7 +8,7 @@ const getModalStyles = (isSmallScreen: boolean): Styles => {
   return {
     overlay: {
       backgroundColor: "rgb(255 255 255 / 60%)",
-      width: "90%",
+      width: isSmallScreen ? "100%" : "90%",
       height: "100%",
       zIndex: 100,
       top: "0",
@@ -16,7 +16,7 @@ const getModalStyles = (isSmallScreen: boolean): Styles => {
     },
     content: {
       width: isSmallScreen ? "85%" : "400px",
-      height: isSmallScreen ? "auto" : "450px",
+      height: isSmallScreen ? "400px" : "450px",
       zIndex: "11",
       position: "fixed" as const,
       scrollbarWidth: "none",
