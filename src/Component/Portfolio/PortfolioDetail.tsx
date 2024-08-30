@@ -20,7 +20,6 @@ const TitleDiv = styled.div`
   justify-content: space-between;
   @media (max-width: 768px) {
     width: 100%;
-    padding-right: 2rem;
   }
 `;
 
@@ -55,12 +54,12 @@ const PortfolioDetail = () => {
       );
 
       if (res.status === 200) {
-        setChange(!change);
         swal({
           title: "삭제 완료!",
           icon: "success",
         }).then(() => {
           nav("/portfolio");
+          setChange(!change);
         });
         setIsDeleteOpen(false);
       }
@@ -102,6 +101,9 @@ const PortfolioDetail = () => {
     return <div>포트폴리오를 찾을 수 없습니다.</div>;
   }
 
+  const openDeleteModal = () => {
+    setIsDeleteOpen(true);
+  };
   return (
     <div
       style={{
@@ -113,19 +115,17 @@ const PortfolioDetail = () => {
     >
       <TitleDiv>
         <h2 style={{ marginBottom: "15px" }}>{pfName}</h2>
-        <DeleteButton onClick={() => setIsDeleteOpen(true)} />
-        {isDeleteOpen && (
-          <DeleteConfirmationModal
-            isOpen={isDeleteOpen}
-            onConfirm={() => deletePortfolio(id)} // 삭제 함수 호출
-            onRequestClose={() => setIsDeleteOpen(false)} // 모달 닫기
-            showCancelButton={true}
-          />
-        )}
+        <DeleteButton2 onClick={openDeleteModal} />
       </TitleDiv>
       <PfCard />
       <PieChart stockData={stockData} />
       <Swipe portfolioId={id} />
+      <DeleteConfirmationModal
+        isOpen={isDeleteOpen}
+        onConfirm={() => deletePortfolio(id)} // 삭제 함수 호출
+        onRequestClose={() => setIsDeleteOpen(false)} // 모달 닫기
+        showCancelButton={true}
+      />
     </div>
   );
 };
