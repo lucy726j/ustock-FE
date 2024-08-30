@@ -77,7 +77,7 @@ const AddPortfolioModal: React.FC<NewPortfolioModalProps> = ({
       <div>
         <Input
           icon={<img src={Icon} />}
-          placeholder="포트폴리오 이름을 입력해주세요 (최대 15글자)"
+          placeholder="이름을 입력해주세요 (최대 15글자)"
           size="medium"
           colorType="strokeType"
           value={portfolioName}
