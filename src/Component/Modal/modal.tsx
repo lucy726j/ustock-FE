@@ -66,7 +66,10 @@ const ModalOpen: React.FC<ModalProps> = ({
     } else {
       document.body.style.overflow = "auto";
     }
-  });
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   const modalStyles = getModalStyles(isSmallScreen);
 
