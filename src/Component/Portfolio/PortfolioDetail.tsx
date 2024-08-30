@@ -12,15 +12,16 @@ import DeleteButton2 from "../Button/DeleteButton2";
 import styled from "styled-components";
 
 const TitleDiv = styled.div`
-    width: 60%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    justify-content: space-between;
-    @media (max-width: 768px) {
-        width: 100%;
-        padding-right: 1rem;
-    }
+  width: 95%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 1rem;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-right: 2rem;
+  }
 `;
 
 const PortfolioDetail = () => {
