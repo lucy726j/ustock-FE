@@ -71,7 +71,7 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
   };
 
   return (
-    <div style={{ width: "100%", position: "absolute", bottom: "70px" }}>
+    <div style={{ width: "90%", position: "absolute", bottom: "70px" }}>
       <div
         className="swipeableContainer"
         style={{

@@ -11,10 +11,11 @@ import DeleteButton from "../Button/DeleteButton";
 import styled from "styled-components";
 
 const TitleDiv = styled.div`
-  width: 60%;
+  width: 95%;
   display: flex;
   align-items: center;
   position: relative;
+  margin-left: 1rem;
   justify-content: space-between;
   @media (max-width: 768px) {
     width: 100%;
