@@ -64,6 +64,7 @@ export interface NavBoxProps {
   id: string;
   onClick: (id: string) => void;
   children: React.ReactNode;
+  $isActive: boolean;
 }
 
 export interface SearchBarProps {
@@ -178,5 +179,7 @@ export interface UserProps {
 }
 
 export interface IconWrapperProps {
-  IconComponent: any; // Type for react-icons components
+  IconComponent: any;
+  $isActive: boolean;
+  // Type for react-icons components
 }

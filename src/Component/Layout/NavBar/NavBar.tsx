@@ -30,20 +30,20 @@ const NavContainer = styled.div`
 `;
 
 // Style for icons
-const ImgStyle = styled.div<{ active?: boolean }>`
+const ImgStyle = styled.div<{ $active?: boolean }>`
   width: 25px;
   height: 25px;
-  color: ${({ active }) => (active ? Colors.main : "#ada9bb")};
+  color: ${({ $active }) => ($active ? Colors.main : "#ada9bb")};
 `;
 
 // Style for text
-const TextStyle = styled.div<{ active?: boolean }>`
+const TextStyle = styled.div<{ $active?: boolean }>`
   font-size: 12px;
-  color: ${({ active }) => (active ? Colors.main : "#ada9bb")};
+  color: ${({ $active }) => ($active ? Colors.main : "#ada9bb")};
 `;
 
 // Style for each nav box
-const NavBoxStyle = styled.div<{ active?: boolean }>`
+const NavBoxStyle = styled.div<{ $isActive?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,24 +56,24 @@ const NavBoxStyle = styled.div<{ active?: boolean }>`
 `;
 
 // NavBox Component
-const NavBox: React.FC<NavBoxProps & { isActive?: boolean }> = ({
+const NavBox: React.FC<NavBoxProps> = ({
   id,
   onClick,
   children,
-  isActive,
+  $isActive,
 }) => {
   return (
-    <NavBoxStyle onClick={() => onClick(id)} active={isActive}>
+    <NavBoxStyle onClick={() => onClick(id)} $isActive={$isActive}>
       {children}
     </NavBoxStyle>
   );
 };
 
 // IconWrapper Component
-const IconWrapper: React.FC<IconWrapperProps & { isActive?: boolean }> = ({
+const IconWrapper: React.FC<IconWrapperProps> = ({
   IconComponent,
-  isActive,
-}) => <ImgStyle as={IconComponent} active={isActive} />;
+  $isActive,
+}) => <ImgStyle as={IconComponent} $active={$isActive} />;
 
 // NavBar Component
 const NavBar: React.FC = () => {
@@ -87,35 +87,42 @@ const NavBar: React.FC = () => {
 
   return (
     <NavContainer>
-      <NavBox id="/" onClick={handleClick} isActive={current === "/"}>
-        <IconWrapper IconComponent={HiOutlineHome} isActive={current === "/"} />
-        <TextStyle active={current === "/"}>홈</TextStyle>
+      <NavBox id="/" onClick={handleClick} $isActive={current === "/"}>
+        <IconWrapper
+          IconComponent={HiOutlineHome}
+          $isActive={current === "/"}
+        />
+        <TextStyle $active={current === "/"}>홈</TextStyle>
       </NavBox>
-      <NavBox id="stocks" onClick={handleClick} isActive={current === "stocks"}>
+      <NavBox
+        id="stocks"
+        onClick={handleClick}
+        $isActive={current === "stocks"}
+      >
         <IconWrapper
           IconComponent={BiLineChart}
-          isActive={current === "stocks"}
+          $isActive={current === "stocks"}
         />
-        <TextStyle active={current === "stocks"}>종목 조회</TextStyle>
+        <TextStyle $active={current === "stocks"}>종목 조회</TextStyle>
       </NavBox>
       <NavBox
         id="portfolio"
         onClick={handleClick}
-        isActive={current === "portfolio"}
+        $isActive={current === "portfolio"}
       >
         <IconWrapper
           IconComponent={SlPieChart}
-          isActive={current === "portfolio"}
+          $isActive={current === "portfolio"}
         />
-        <TextStyle active={current === "portfolio"}>포트폴리오</TextStyle>
+        <TextStyle $active={current === "portfolio"}>포트폴리오</TextStyle>
       </NavBox>
-      <NavBox id="game" onClick={handleClick} isActive={current === "game"}>
+      <NavBox id="game" onClick={handleClick} $isActive={current === "game"}>
         <img
           src={SkrrrGame}
           alt="스껄게임 버튼 이미지"
           style={{ width: "25px", height: "25px" }}
         />
-        <TextStyle active={current === "game"}>스껄 게임</TextStyle>
+        <TextStyle $active={current === "game"}>스껄 게임</TextStyle>
       </NavBox>
     </NavContainer>
   );
