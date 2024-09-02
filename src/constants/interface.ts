@@ -176,3 +176,7 @@ export interface CandleData {
 export interface UserProps {
   name: string;
 }
+
+export interface IconWrapperProps {
+  IconComponent: any; // Type for react-icons components
+}
