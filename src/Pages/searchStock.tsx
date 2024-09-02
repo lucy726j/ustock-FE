@@ -62,7 +62,7 @@ const SearchStock = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          const stockData = res.data.stock;
+          const stockData = res.data;
           setList(stockData);
         } else if (res.status === 401) {
           nav("/login");
