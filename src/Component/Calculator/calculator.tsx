@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Dropdown from "../Dropdown/Dropdown";
 import Button from "../Button/button";
-import Img from "../../img/calcul.png";
+import Img from "../../img/SkerrImg.png";
 import { Colors } from "../../Styles/Colors";
 import { useState } from "react";
 import { CalculResultProps } from "../../constants/interface";
@@ -216,7 +216,11 @@ const Calculator = () => {
   ) : (
     <Container>
       <TitleContainer>
-        <img src={Img} alt="앵무새가 컴퓨터 보는 이미지" />
+        <img
+          src={Img}
+          alt="앵무새가 컴퓨터 보는 이미지"
+          style={{ width: "45px", height: "30px" }}
+        />
         <span style={{ fontSize: "20px" }}>
           만약 <User>{userName}</User>님이 이 때 샀다면?
         </span>
