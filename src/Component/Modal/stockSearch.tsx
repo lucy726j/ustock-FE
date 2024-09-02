@@ -50,12 +50,11 @@ const StockSearch: React.FC<StockSearchProps> = ({ onSelect, onClose }) => {
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/v1/stocks?order=capital`, {
-        //.get(`http://localhost:8080/v1/stocks?order=capital`, {
         withCredentials: true,
       })
       .then((res) => {
-        setStockList(res.data.stock);
-        setSearchResults(res.data.stock);
+        setStockList(res.data);
+        setSearchResults(res.data);
       })
       .catch((error) => {
         nav("/error");

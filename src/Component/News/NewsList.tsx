@@ -40,7 +40,7 @@ const NewsList: React.FC = () => {
       .then((res) => {
         if (res.status === 200) {
           setNews(res.data);
-        } else if (res.status === 404) {
+        } else if (res.status === 204) {
           setNews([]);
         } else if (res.status === 401) {
           navigate("/noLogin");

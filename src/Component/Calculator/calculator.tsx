@@ -120,7 +120,7 @@ const Calculator = () => {
   const [selectedMonth, setSelectedMonth] = useState("01");
   const [selectedDay, setSelectedDay] = useState("01");
   const [result, setResult] = useState<CalculResultProps | null>(null);
-  const [error, setError] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const location = useLocation();
   const code = location.pathname.split("/")[2];
@@ -133,12 +133,19 @@ const Calculator = () => {
         }&price=${price}`
       )
       .then((res) => {
-        const data = res.data;
-        setResult(data);
-        setError("해당 주식이 상장되지 않은 날짜입니다.");
+        if (res.status === 200) {
+          const data = res.data;
+          setResult(data);
+        }
       })
       .catch((error) => {
-        nav("/error");
+        if (error.response && error.response.data.status === 400) {
+          const message = error.response.data.message;
+          setErrorMsg(message);
+          setIsValid(false);
+        } else {
+          nav("/error");
+        }
       });
   };
 
@@ -146,7 +153,7 @@ const Calculator = () => {
     const value = e.target.value;
 
     if (value.includes("-")) {
-      setError("음수 값은 입력 불가합니다");
+      setErrorMsg("음수 값은 입력 불가합니다");
       setIsValid(false);
       return;
     }
@@ -157,10 +164,10 @@ const Calculator = () => {
       setIsValid(true);
     }
     if (value === "" || parseInt(value) === 0) {
-      setError("금액을 입력해주세요");
+      setErrorMsg("금액을 입력해주세요");
       setIsValid(false);
     } else if (isNaN(Number(value))) {
-      setError("숫자를 입력해주세요");
+      setErrorMsg("숫자를 입력해주세요");
       setIsValid(false);
     }
   };
@@ -241,7 +248,7 @@ const Calculator = () => {
             placeholder="금액"
             size="small"
             colorType="strokeType"
-            errorMessage={error}
+            errorMessage={errorMsg}
             value={price}
             onChange={handleInputChange}
             isValid={isValid}
