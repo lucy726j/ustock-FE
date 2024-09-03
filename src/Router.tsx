@@ -40,8 +40,7 @@ const Router = () => {
           )}
           <Route path="/auth/callback" element={<CallBackPage />} />
           <Route path="/error" element={<ErrorPage />} />
-        </Routes>
-        <Routes>
+
           <Route path="/game" element={<SkrrrGamePage />} />
           <Route path="/play/:year" element={<PlayPage />} />
           <Route path="/info/:year" element={<InfoPage />} />
@@ -50,6 +49,7 @@ const Router = () => {
           <Route path="/gameStocks" element={<GameStocks />} />
           <Route path="/rank" element={<Rank />} />
         </Routes>
+        {/* <Routes></Routes> */}
       </Layout>
     </BrowserRouter>
   );
