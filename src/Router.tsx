@@ -42,12 +42,12 @@ const Router = () => {
           <Route path="/error" element={<ErrorPage />} />
 
           <Route path="/game" element={<SkrrrGamePage />} />
-          <Route path="/play/:year" element={<PlayPage />} />
-          <Route path="/info/:year" element={<InfoPage />} />
-          <Route path="/result/:year" element={<PlayResult />} />
-          <Route path="/result/total" element={<TotalResult />} />
-          <Route path="/gameStocks" element={<GameStocks />} />
-          <Route path="/rank" element={<Rank />} />
+          <Route path="/game/play/:year" element={<PlayPage />} />
+          <Route path="/game/info/:year" element={<InfoPage />} />
+          <Route path="/game/result/:year" element={<PlayResult />} />
+          <Route path="/game/result/total" element={<TotalResult />} />
+          <Route path="/game/gameStocks" element={<GameStocks />} />
+          <Route path="/game/rank" element={<Rank />} />
         </Routes>
         {/* <Routes></Routes> */}
       </Layout>

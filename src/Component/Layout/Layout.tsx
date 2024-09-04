@@ -30,12 +30,13 @@ const Container = styled.div`
 const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/nologin";
+  const isGame = location.pathname.includes("/game");
 
   return (
     <Container className="Layout">
-      {!isLoginPage && <Header />}
+      {!isLoginPage && !isGame && <Header />}
       <Main style={{ height: "100%" }}>{props.children}</Main>
-      {!isLoginPage && <NavBar />}
+      {!isLoginPage && !isGame && <NavBar />}
     </Container>
   );
 };
