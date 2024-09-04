@@ -183,3 +183,7 @@ export interface IconWrapperProps {
   $isActive: boolean;
   // Type for react-icons components
 }
+
+export interface GameHeaderProp {
+  text: String;
+}
