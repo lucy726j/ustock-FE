@@ -1,0 +1,45 @@
+.GameButtonsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.GameButton {
+    width: 100px;
+    height: 120px;
+    background-color: #615efc;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 5px solid rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    transform: 1s ease;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.GameButton img {
+    width: 50px;
+    margin-top: -30px;
+}
+
+.GameButton span {
+    position: absolute;
+    bottom: 10px;
+    color: white;
+}
+
+.GameButton:active {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* 눌렀을 때 그림자가 작아짐 */
+    transform: translateY(4px); /* 버튼이 살짝 눌리는 효과 */
+}
+
+/* 클릭 후 원래 크기로 돌아오는 애니메이션 */
+.GameButton {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
