@@ -4,10 +4,15 @@ import pass from "../../img/GameButton/passImg.png";
 import "./GameButtonsStyle.css";
 import { useNavigate, useParams } from "react-router-dom";
 
-const GameButtons = () => {
+interface GameButtonsProps {
+    openTradeModal: () => void;
+}
+
+const GameButtons = ({ openTradeModal }: GameButtonsProps) => {
     const nav = useNavigate();
     const { year } = useParams<{ year: string }>();
 
+    // 정보 거래소로 이동
     const goToInfoPage = () => {
         if (year) {
             nav(`/game/info/${year}`);
@@ -20,7 +25,7 @@ const GameButtons = () => {
                 <img src={info}></img>
                 <span>정보거래소</span>
             </div>
-            <div className="GameButton">
+            <div className="GameButton" onClick={openTradeModal}>
                 <img src={trade}></img>
                 <span>거래하기</span>
             </div>
