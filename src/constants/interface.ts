@@ -197,7 +197,7 @@ export interface RankDataProps {
   nickname: String;
   budget: number;
   rate: number;
-  playerType: String;
+  playerType?: String;
   index?: number;
 }
 
