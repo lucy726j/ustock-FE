@@ -187,3 +187,20 @@ export interface IconWrapperProps {
 export interface GameHeaderProp {
   text: String;
 }
+
+export interface SaySkrrProps {
+  rank: number;
+  money: number;
+}
+
+export interface RankDataProps {
+  nickname: String;
+  budget: number;
+  rate: number;
+  playerType: String;
+  index?: number;
+}
+
+export interface RankListProps {
+  data: Array<RankDataProps>;
+}
