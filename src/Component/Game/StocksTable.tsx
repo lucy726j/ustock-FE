@@ -1,34 +1,34 @@
-import { StocksData } from "../../constants/interface";
+// StocksTable.tsx
+import React, { useEffect, useState } from "react";
+import { Stock, StocksTableProps } from "../../constants/interface";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
-import data from "../../data/data.json";
 import "./StocksTableStyle.css";
 
-const StocksTable: React.FC = () => {
-    const stocks: StocksData = {
-        header: ["번호", "종목", "전년", "올해", "등락"],
-        data: data,
-    };
+const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
+    const header = ["번호", "종목", "전년", "올해", "등락"];
 
     return (
         <div className="StocksTable">
             <table>
                 <thead>
                     <tr>
-                        {stocks.header.map((item, index) => (
+                        {header.map((item, index) => (
                             <th key={index}>{item}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {stocks.data.map((stock) => (
+                    {stocks.map((stock) => (
                         <tr
-                            key={stock.id}
+                            key={stock.stockId}
                             style={{
                                 background:
-                                    stock.id % 2 === 1 ? "#ededed" : "white",
+                                    stock.stockId % 2 === 1
+                                        ? "#ededed"
+                                        : "white",
                             }}
                         >
-                            <td>{stock.id}</td>
+                            <td>{stock.stockId}</td>
                             <td>{stock.name}</td>
                             <td>{formatPrice(stock.prev)}</td>
                             <td
@@ -41,7 +41,7 @@ const StocksTable: React.FC = () => {
                                             : "black",
                                 }}
                             >
-                                {formatPrice(stock.price)}
+                                {formatPrice(stock.current)}
                             </td>
                             <td
                                 style={{

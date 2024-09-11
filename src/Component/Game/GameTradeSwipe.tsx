@@ -63,7 +63,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
             // 서버로 데이터 전송
             // try {
             //     const res = await axios.post(
-            //         `${process.env.REACT_APP_API_URL}/v1/game/stock`,
+            //         `${process.env.REACT_APP_API_URL}/v1/game/stock?nickname=veronica`,
             //         {
             //             withCredentials: true,
             //         }
@@ -115,7 +115,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
         <div className="GameTradeSwipe">
             <div
                 className={`swipeModal ${show ? "open" : "closed"}`}
-                style={{ width: "90%", position: "absolute", bottom: "0" }}
+                style={{ width: "90%", position: "fixed", bottom: "0" }}
             >
                 <div className="swipeContainer">
                     <div style={{ display: "flex", justifyContent: "center" }}>

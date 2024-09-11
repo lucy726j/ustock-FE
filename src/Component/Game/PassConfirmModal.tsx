@@ -5,20 +5,13 @@ interface TradeConfirmModalProps {
     isOpen: boolean;
     onConfirm: () => void;
     onRequestClose: () => void;
-    stock: string;
-    quantity: number;
-    acting: "BUY" | "SELL";
 }
 
-const TradeConfirmModal: React.FC<TradeConfirmModalProps> = ({
+const PassConfirmModal: React.FC<TradeConfirmModalProps> = ({
     isOpen,
     onConfirm,
     onRequestClose,
-    stock,
-    quantity,
-    acting,
 }) => {
-    const actionText = acting === "BUY" ? "구매" : "판매";
     return (
         <div
             style={{
@@ -28,10 +21,10 @@ const TradeConfirmModal: React.FC<TradeConfirmModalProps> = ({
             }}
         >
             <ModalOpen
-                title="거래 확인"
+                title="넘어가기"
                 isOpen={isOpen}
                 showOneConfirmBtn={false}
-                text="거래 확인"
+                text="넘어가기"
                 onConfirm={onConfirm}
                 onRequestClose={onRequestClose}
                 showConfirmButton="true"
@@ -47,8 +40,7 @@ const TradeConfirmModal: React.FC<TradeConfirmModalProps> = ({
                     }}
                 >
                     <p>
-                        {stock} {quantity}주를 {actionText}합니다. <br />
-                        거래를 진행할까요?
+                        거래를 종료하고 <br /> 다음 년도로 넘어가시겠습니까?
                     </p>
                 </div>
             </ModalOpen>
@@ -56,4 +48,4 @@ const TradeConfirmModal: React.FC<TradeConfirmModalProps> = ({
     );
 };
 
-export default TradeConfirmModal;
+export default PassConfirmModal;

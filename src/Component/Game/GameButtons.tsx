@@ -3,12 +3,14 @@ import trade from "../../img/GameButton/tradeImg.png";
 import pass from "../../img/GameButton/passImg.png";
 import "./GameButtonsStyle.css";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 interface GameButtonsProps {
     openTradeModal: () => void;
+    openPassModal: () => void;
 }
 
-const GameButtons = ({ openTradeModal }: GameButtonsProps) => {
+const GameButtons = ({ openTradeModal, openPassModal }: GameButtonsProps) => {
     const nav = useNavigate();
     const { year } = useParams<{ year: string }>();
 
@@ -29,7 +31,7 @@ const GameButtons = ({ openTradeModal }: GameButtonsProps) => {
                 <img src={trade}></img>
                 <span>거래하기</span>
             </div>
-            <div className="GameButton">
+            <div className="GameButton" onClick={openPassModal}>
                 <img src={pass}></img>
                 <span>넘어가기</span>
             </div>
