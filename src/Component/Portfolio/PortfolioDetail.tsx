@@ -52,7 +52,7 @@ const PortfolioDetail = () => {
           withCredentials: true,
         }
       );
-
+      console.log(res);
       if (res.status === 200) {
         swal({
           title: "삭제 완료!",

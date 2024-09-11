@@ -18,6 +18,7 @@ import {
 
 Sentry.init({
   dsn: "https://9ebd886018c37c250bd7e9536b0c8157@o4507837261021184.ingest.us.sentry.io/4507837311942656",
+  environment: "production",
   integrations: [
     Sentry.reactRouterV6BrowserTracingIntegration({
       useEffect,
