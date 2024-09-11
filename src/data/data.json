@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "A IT",
+        "prev": 40000,
+        "price": 48000,
+        "changeRate": 20
+    },
+    {
+        "id": 2,
+        "name": "B IT",
+        "prev": 22000,
+        "price": 27000,
+        "changeRate": 23
+    },
+    {
+        "id": 3,
+        "name": "C 자동차",
+        "prev": 11000,
+        "price": 9900,
+        "changeRate": -10
+    },
+    {
+        "id": 4,
+        "name": "D 자동차",
+        "prev": 44000,
+        "price": 66000,
+        "changeRate": 20
+    },
+    {
+        "id": 5,
+        "name": "E 바이오",
+        "prev": 20000,
+        "price": 100000,
+        "changeRate": 20
+    },
+    {
+        "id": 6,
+        "name": "F 바이오",
+        "prev": 55000,
+        "price": 33000,
+        "changeRate": -10
+    },
+    {
+        "id": 7,
+        "name": "G 패션",
+        "prev": 16500,
+        "price": 33000,
+        "changeRate": 20
+    },
+    {
+        "id": 8,
+        "name": "H 스포츠",
+        "prev": 33000,
+        "price": 16500,
+        "changeRate": -10
+    },
+    {
+        "id": 9,
+        "name": "I 미디어",
+        "prev": 88000,
+        "price": 176000,
+        "changeRate": 20
+    },
+    {
+        "id": 10,
+        "name": "J 항공",
+        "prev": 28000,
+        "price": 56000,
+        "changeRate": 20
+    }
+]
