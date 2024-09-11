@@ -51,12 +51,12 @@ const GameMoney = () => {
             </GameMoneyTitle>
             <GameMoneyBalance>
                 <BalanceTitle>거래가능금액</BalanceTitle>
-                <div className="BalanceValue">{formatPrice(total)} 원</div>
+                <div className="BalanceValue">{formatPrice(budget)} 원</div>
             </GameMoneyBalance>
             <hr />
             <GameMoneyBalance>
                 <BalanceTitle>총 평가금액</BalanceTitle>
-                <div className="BalanceValue">{formatPrice(budget)} 원</div>
+                <div className="BalanceValue">{formatPrice(total)} 원</div>
             </GameMoneyBalance>
             <GameMoneyBalance>
                 <BalanceTitle>작년 대비</BalanceTitle>
@@ -85,9 +85,7 @@ const GameMoney = () => {
                                 key={index}
                                 style={{
                                     background:
-                                        holding.stockId % 2 === 0
-                                            ? "#ededed"
-                                            : "white",
+                                        index % 2 === 0 ? "#ededed" : "white",
                                 }}
                             >
                                 <td>{holding.stockName}</td>
@@ -131,10 +129,10 @@ const GameMoney = () => {
 
 const GameMoneyContainer = styled.div`
     width: 85%;
-    height: 350px;
+    height: 500px;
     border-radius: 20px;
     box-shadow: 3px 3px 3px rgb(213, 213, 213);
-    padding: 20px 40px;
+    padding: 20px 20px;
     position: relative;
     margin-top: 20px;
     margin-bottom: 20px;

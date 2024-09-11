@@ -8,15 +8,14 @@ import GameTradeSwipe from "../../Component/Game/GameTradeSwipe";
 import { useEffect, useState } from "react";
 import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
-import { Stock } from "../../constants/interface";
-
+import { StockYearProps } from "../../constants/interface";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 `;
 
 const PlayPage = () => {
@@ -25,7 +24,9 @@ const PlayPage = () => {
     const yearValue = year || "2014";
     const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
     const [isPassModalVisible, setIsPassModalVisible] = useState(false);
-    const [stockListData, setStockListData] = useState<Stock[] | null>(null);
+    const [stockListData, setStockListData] = useState<StockYearProps[] | null>(
+        null
+    );
 
     // 거래하기 모달 핸들러
     const openTradeModal = () => {
@@ -58,17 +59,19 @@ const PlayPage = () => {
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
-                setStockListData(response.data.stockList);
+                const updatedStockList = response.data.stockList;
+                console.log(updatedStockList);
 
                 localStorage.setItem(
                     "stockListData",
-                    JSON.stringify(response.data.stockList)
+                    JSON.stringify(updatedStockList)
                 );
+                setStockListData(updatedStockList);
 
                 // 다음년도 이동하면서 데이터 전달
                 const nextYear = (parseInt(yearValue, 10) + 1).toString();
                 nav(`/game/play/${nextYear}`);
+                window.location.reload();
             }
         } catch (error) {
             console.error(error);
@@ -82,6 +85,11 @@ const PlayPage = () => {
         const savedData = localStorage.getItem("stockListData");
         if (savedData) {
             setStockListData(JSON.parse(savedData));
+        } else if (yearValue === "2014") {
+            const stock2014 = localStorage.getItem("stock2014");
+            if (stock2014) {
+                setStockListData(JSON.parse(stock2014));
+            }
         }
     }, []);
 
