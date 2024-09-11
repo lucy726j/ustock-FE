@@ -189,14 +189,38 @@ export interface GameHeaderProp {
 }
 
 export interface Stock {
-  id: number;
-  name: string;
-  prev: number;
-  price: number;
-  changeRate: number;
+    stockId: number;
+    name: string;
+    prev: number;
+    current: number;
+    change: number;
+    changeRate: number;
 }
 
 export interface StocksData {
   header: string[];
   data: Stock[];
+}
+
+export interface GameMoneyProps {
+    budget: number;
+    nickname: string;
+    total: number;
+    changeFromLast: number;
+    changeFromStart: number;
+    changeRateFromLast: number;
+    changeRateFromStart: number;
+}
+
+export interface StocksTableProps {
+    stocks: Stock[];
+}
+
+export interface holding {
+    stockId: number;
+    stockName: string;
+    average: number;
+    price: number;
+    quantity: number;
+    ror: number;
 }
