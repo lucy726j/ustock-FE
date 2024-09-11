@@ -22,6 +22,10 @@ export const buttonSize = {
     width: 264px;
     height: 52px;
   `,
+  stroke: css`
+    width: 273px;
+    height: 53px;
+  `,
 };
 
 export const mainColorBtn = {
@@ -50,9 +54,19 @@ export const cancelBtnStyle = {
     font-size: 14px;
   `,
 };
+export const strokeStyle = {
+  normal: css`
+    background: none;
+    border: 1px solid ${Colors.main};
+    font-size: 14px;
+    color: ${Colors.main};
+    font-weight: 700;
+  `,
+};
 
 export const buttonType = {
   main: mainColorBtn,
   gradient: gradientBtnStyle,
   cancel: cancelBtnStyle,
+  stroke: strokeStyle,
 };
