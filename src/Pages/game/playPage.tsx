@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
@@ -8,15 +8,15 @@ import GameTradeSwipe from "../../Component/Game/GameTradeSwipe";
 import { useEffect, useState } from "react";
 import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
-import { Stock } from "../../constants/interface";
-
+import { StockYearProps } from "../../constants/interface";
+import HappyNewYearModal from "./HappyNewYearModal";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 `;
 
 const PlayPage = () => {
@@ -25,7 +25,10 @@ const PlayPage = () => {
     const yearValue = year || "2014";
     const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
     const [isPassModalVisible, setIsPassModalVisible] = useState(false);
-    const [stockListData, setStockListData] = useState<Stock[] | null>(null);
+    const [stockListData, setStockListData] = useState<StockYearProps[] | null>(
+        null
+    );
+    const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
 
     // 거래하기 모달 핸들러
     const openTradeModal = () => {
@@ -45,7 +48,6 @@ const PlayPage = () => {
         setIsPassModalVisible(false);
     };
 
-    // 넘어가기 버튼 누르면 중간결과 호출
     const handleConfirmPass = async () => {
         try {
             const response = await axios.get(
@@ -58,17 +60,26 @@ const PlayPage = () => {
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
-                setStockListData(response.data.stockList);
+                const updatedStockList = response.data.stockList;
+                console.log(updatedStockList);
 
+                // 중간 결과를 로컬 스토리지에 저장
                 localStorage.setItem(
                     "stockListData",
-                    JSON.stringify(response.data.stockList)
+                    JSON.stringify(updatedStockList)
                 );
+                setStockListData(updatedStockList);
 
-                // 다음년도 이동하면서 데이터 전달
-                const nextYear = (parseInt(yearValue, 10) + 1).toString();
-                nav(`/game/play/${nextYear}`);
+                // 새해 모달을 먼저 보여줌
+                setIsHappyNewYearModal(true);
+
+                // 4초 후 페이지를 이동
+                setTimeout(() => {
+                    const nextYear = (parseInt(yearValue, 10) + 1).toString();
+                    nav(`/game/play/${nextYear}`);
+                    setIsHappyNewYearModal(false);
+                    window.location.reload();
+                }, 4000); // 4초 동안 모달을 보여줌
             }
         } catch (error) {
             console.error(error);
@@ -82,6 +93,16 @@ const PlayPage = () => {
         const savedData = localStorage.getItem("stockListData");
         if (savedData) {
             setStockListData(JSON.parse(savedData));
+        } else if (yearValue === "2014") {
+            const stock2014 = localStorage.getItem("stock2014");
+            if (stock2014) {
+                setStockListData(JSON.parse(stock2014));
+            }
+
+            setIsHappyNewYearModal(true);
+            setTimeout(() => {
+                setIsHappyNewYearModal(false);
+            }, 4000);
         }
     }, []);
 
@@ -104,6 +125,7 @@ const PlayPage = () => {
                 onRequestClose={closePassModal}
                 onConfirm={handleConfirmPass}
             />
+            <HappyNewYearModal isVisible={isHappyNewYearModal} />
         </Container>
     );
 };

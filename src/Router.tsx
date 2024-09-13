@@ -20,7 +20,7 @@ import Rank from "./Pages/game/rank";
 import { StockProvider } from "./store/stockContext";
 
 const Router = () => {
-  const { user } = useAuth();
+    const { user } = useAuth();
 
   return (
     <BrowserRouter>
@@ -46,7 +46,6 @@ const Router = () => {
             <Route path="/game" element={<SkrrrGamePage />} />
             <Route path="/game/play/:year" element={<PlayPage />} />
             <Route path="/game/info/:year" element={<InfoPage />} />
-            <Route path="/game/result/:year" element={<PlayResult />} />
             <Route path="/game/result/total" element={<TotalResult />} />
             <Route path="/game/gameStocks" element={<GameStocks />} />
             <Route path="/game/rank" element={<Rank />} />
