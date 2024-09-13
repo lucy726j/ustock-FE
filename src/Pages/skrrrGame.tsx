@@ -1,12 +1,10 @@
-import GameLoding from "../img/GameLoadingPage.png";
+import GameMain from "../Game/Main/gameStart";
 
 const SkrrrGame = () => {
   return (
-    <div
-      style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}
-    >
-      <img src={GameLoding} />
-    </div>
+    <>
+      <GameMain />
+    </>
   );
 };
 
