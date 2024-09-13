@@ -1,7 +1,7 @@
 export type ButtonStyleProps = {
   $state: "normal";
   $size: "small" | "medium" | "large" | "plusBtn" | "gradientBtn";
-  $colorType: "main" | "gradient" | "cancel";
+  $colorType: "main" | "gradient" | "cancel" | "stroke";
 };
 
 export interface ButtonProps extends ButtonStyleProps {
@@ -10,7 +10,7 @@ export interface ButtonProps extends ButtonStyleProps {
 }
 
 export type InputStyleProps = {
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "nickname";
   colorType: "fillType" | "strokeType";
   disabled?: boolean;
 };
@@ -186,6 +186,43 @@ export interface IconWrapperProps {
 
 export interface GameHeaderProp {
   text: String;
+}
+
+export interface Stock {
+    stockId: number;
+    name: string;
+    prev: number;
+    current: number;
+    change: number;
+    changeRate: number;
+}
+
+export interface StocksData {
+  header: string[];
+  data: Stock[];
+}
+
+export interface GameMoneyProps {
+    budget: number;
+    nickname: string;
+    total: number;
+    changeFromLast: number;
+    changeFromStart: number;
+    changeRateFromLast: number;
+    changeRateFromStart: number;
+}
+
+export interface StocksTableProps {
+    stocks: Stock[];
+}
+
+export interface holding {
+    stockId: number;
+    stockName: string;
+    average: number;
+    price: number;
+    quantity: number;
+    ror: number;
 }
 
 export interface SaySkrrProps {

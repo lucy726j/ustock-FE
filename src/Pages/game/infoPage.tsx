@@ -1,5 +1,15 @@
+import { useParams } from "react-router-dom";
+import ExchangeStoreMain from "../../Game/exchangeStoreMain";
+import GameHeader from "../../Component/Game/GameHeader";
+
 const InfoPage = () => {
-  return <div>정보거래소 페이지</div>;
+  const { year } = useParams<{ year: string }>();
+  return (
+    <div>
+      <GameHeader text="정보거래소" />
+      <ExchangeStoreMain />
+    </div>
+  );
 };
 
 export default InfoPage;
