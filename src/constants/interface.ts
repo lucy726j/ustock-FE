@@ -222,5 +222,5 @@ export interface holding {
     average: number;
     price: number;
     quantity: number;
-    ror: number;
+    profitRate: number;
 }

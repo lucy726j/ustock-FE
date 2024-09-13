@@ -17,7 +17,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
         stockId: number;
         name: string;
     } | null>(null); // 선택된 종목 상태
-    const [quantity, setQuantity] = useState(0); // 수량 상태
+    const [quantity, setQuantity] = useState(1); // 수량 상태
     const [acting, setActing] = useState<"BUY" | "SELL">(); // 거래 액션 상태
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [stockOptions, setStockOptions] = useState<
@@ -48,7 +48,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 
     // 수량 선택 핸들러
     const handleQuantityChange = (direction: "left" | "right") => {
-        if (direction === "left" && quantity > 0) {
+        if (direction === "left" && quantity > 1) {
             setQuantity(quantity - 1);
         } else if (direction === "right") {
             setQuantity(quantity + 1);
@@ -87,7 +87,46 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
                     });
                 }
             } catch (error: any) {
-                console.error(error);
+                // console.error(error);
+                // console.error(error.response.data.message);
+                // catch 블록에서 에러 메시지 출력
+                if (
+                    error.response &&
+                    error.response.status === 400 &&
+                    error.response.data.message ===
+                        "종목을 보유하고 있지 않습니다."
+                ) {
+                    swal({
+                        title: "거래 오류",
+                        text: error.response.data.message,
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                } else if (
+                    error.response &&
+                    error.response.status === 400 &&
+                    error.response.data.message === "잔액이 부족합니다."
+                ) {
+                    swal({
+                        title: "잔액 부족",
+                        text: error.response.data.message,
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                } else {
+                    swal({
+                        title: "거래 실패",
+                        text: "서버 오류가 발생했습니다. 다시 시도해주세요.",
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                }
             }
         };
         handleTrade();

@@ -20,44 +20,61 @@ import Rank from "./Pages/game/rank";
 import { StockProvider } from "./store/stockContext";
 
 const Router = () => {
-  const { user } = useAuth();
+    const { user } = useAuth();
 
-  return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/nologin" element={<LoginPage />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/stocks" element={<SearchStock />} />
-          <Route path="/stocks/:id" element={<StockDetail />} />
-          {user ? (
-            <>
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
-            </>
-          ) : (
-            <Route path="/*" element={<NoUserPage />} />
-          )}
-          <Route path="/auth/callback" element={<CallBackPage />} />
-          <Route path="/error" element={<ErrorPage />} />
-        </Routes>
+    return (
+        <BrowserRouter>
+            <Layout>
+                <StockProvider>
+                    <Routes>
+                        <Route path="/nologin" element={<LoginPage />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/stocks" element={<SearchStock />} />
+                        <Route path="/stocks/:id" element={<StockDetail />} />
+                        {user ? (
+                            <>
+                                <Route
+                                    path="/portfolio"
+                                    element={<PortfolioPage />}
+                                />
+                                <Route
+                                    path="/portfolio/:id"
+                                    element={<PortfolioDetailPage />}
+                                />
+                            </>
+                        ) : (
+                            <Route path="/*" element={<NoUserPage />} />
+                        )}
+                        <Route
+                            path="/auth/callback"
+                            element={<CallBackPage />}
+                        />
+                        <Route path="/error" element={<ErrorPage />} />
 
-        {/* 게임 관련 라우트만 감싸용  */}
-        <StockProvider>
-          <Routes>
-            <Route path="/game" element={<SkrrrGamePage />} />
-            <Route path="/game/play/:year" element={<PlayPage />} />
-            <Route path="/game/info/:year" element={<InfoPage />} />
-            <Route path="/game/result/:year" element={<PlayResult />} />
-            <Route path="/game/result/total" element={<TotalResult />} />
-            <Route path="/game/gameStocks" element={<GameStocks />} />
-            <Route path="/game/rank" element={<Rank />} />
-          </Routes>
-        </StockProvider>
-        {/* <Routes></Routes> */}
-      </Layout>
-    </BrowserRouter>
-  );
+                        {/* 게임 관련 라우트만 감싸용  */}
+                        <Route path="/game" element={<SkrrrGamePage />} />
+                        <Route path="/game/play/:year" element={<PlayPage />} />
+                        <Route path="/game/info/:year" element={<InfoPage />} />
+                        <Route
+                            path="/game/result/:year"
+                            element={<PlayResult />}
+                        />
+                        <Route
+                            path="/game/result/total"
+                            element={<TotalResult />}
+                        />
+                        <Route
+                            path="/game/gameStocks"
+                            element={<GameStocks />}
+                        />
+                        <Route path="/game/rank" element={<Rank />} />
+                    </Routes>
+                </StockProvider>
+
+                {/* <Routes></Routes> */}
+            </Layout>
+        </BrowserRouter>
+    );
 };
 
 export default Router;

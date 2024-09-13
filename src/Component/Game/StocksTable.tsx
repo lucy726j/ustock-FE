@@ -1,9 +1,8 @@
-// StocksTable.tsx
-import React, { useEffect, useState } from "react";
-import { StockYearProps, StocksTableProps } from "../../constants/interface";
+import React from "react";
+import { StocksTableProps } from "../../constants/interface";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
 import "./StocksTableStyle.css";
-import { useStock } from "../../store/stockContext";
+import styled, { keyframes } from "styled-components";
 
 const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
     const header = ["번호", "종목", "전년", "올해", "등락"];
@@ -20,9 +19,10 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                 </thead>
                 <tbody>
                     {stocks &&
-                        stocks.map((stock) => (
-                            <tr
+                        stocks.map((stock, index) => (
+                            <TableRow
                                 key={stock.stockId}
+                                index={index} // index를 전달
                                 style={{
                                     background:
                                         stock.stockId % 2 === 1
@@ -32,7 +32,9 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                             >
                                 <td>{stock.stockId}</td>
                                 <td>{stock.name}</td>
-                                <td>{formatPrice(stock.prev)}</td>
+                                <td style={{ textAlign: "right" }}>
+                                    {formatPrice(stock.prev)}
+                                </td>
                                 <td
                                     style={{
                                         color:
@@ -41,6 +43,7 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                                                 : stock.changeRate < 0
                                                 ? "blue"
                                                 : "black",
+                                        textAlign: "right",
                                     }}
                                 >
                                     {formatPrice(stock.current)}
@@ -57,12 +60,30 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                                 >
                                     {formatChangeRate(stock.changeRate)}
                                 </td>
-                            </tr>
+                            </TableRow>
                         ))}
                 </tbody>
             </table>
         </div>
     );
 };
+
+// 부드럽게 나타나는 애니메이션 정의
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
+const TableRow = styled.tr<{ index: number }>`
+    animation: ${fadeIn} 0.5s ease-out forwards;
+    animation-delay: ${({ index }) => index * 0.1}s;
+    opacity: 0;
+`;
 
 export default StocksTable;
