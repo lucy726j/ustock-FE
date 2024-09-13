@@ -204,3 +204,14 @@ export interface RankDataProps {
 export interface RankListProps {
   data: Array<RankDataProps>;
 }
+
+export interface GameNewsProps {
+  title: string;
+  url: string;
+  publisher: string;
+  date: string;
+}
+
+export interface GameNewsListProps {
+  data: Array<GameNewsProps>;
+}

@@ -46,7 +46,7 @@ const Router = () => {
           <Route path="/game/info/:year" element={<InfoPage />} />
           <Route path="/game/result/:year" element={<PlayResult />} />
           <Route path="/game/result/total" element={<TotalResult />} />
-          <Route path="/game/gameStocks" element={<GameStocks />} />
+          <Route path="/game/gameStocks/*" element={<GameStocks />} />
           <Route path="/game/rank" element={<Rank />} />
         </Routes>
         {/* <Routes></Routes> */}
