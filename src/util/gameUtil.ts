@@ -13,7 +13,7 @@ export const formatChangeRate = (changeRate: number): string => {
         return "-";
     }
 
-    const formattedRate = `${Math.abs(changeRate).toFixed(2)}%`; // 소수점 2자리까지 표시
+    const formattedRate = `${Math.abs(changeRate).toFixed()}%`; // 소수점 2자리까지 표시
     if (changeRate > 0) {
         return `▲ + ${formattedRate}`;
     } else if (changeRate < 0) {

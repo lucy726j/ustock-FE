@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./GameTradeSwipeStyle.css";
 import TradeChoice from "./TradeChoice";
-import TradeConfirmModal from "./TradeConfirmModal"; // 모달 컴포넌트 불러오기
+import TradeConfirmModal from "./TradeConfirmModal";
 import axios from "axios";
 import swal from "sweetalert";
 
@@ -13,12 +13,16 @@ interface GameTradeSwipeProps {
 
 const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
     const [show, setShow] = useState(isVisible);
-    const [selectedStock, setSelectedStock] = useState("A뷰티");
-    const [quantity, setQuantity] = useState(0);
-    const [acting, setActing] = useState<"BUY" | "SELL">();
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
-
-    const stockOptions = ["A뷰티", "B전기", "C전자", "D건설"];
+    const [selectedStock, setSelectedStock] = useState<{
+        stockId: number;
+        name: string;
+    } | null>(null); // 선택된 종목 상태
+    const [quantity, setQuantity] = useState(1); // 수량 상태
+    const [acting, setActing] = useState<"BUY" | "SELL">(); // 거래 액션 상태
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [stockOptions, setStockOptions] = useState<
+        { stockId: number; name: string }[]
+    >([]); // 종목 리스트 상태
 
     useEffect(() => {
         setShow(isVisible);
@@ -26,7 +30,11 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 
     // 종목 선택 핸들러
     const handleStockChange = (direction: "left" | "right") => {
-        const currentIndex = stockOptions.indexOf(selectedStock);
+        if (!selectedStock || stockOptions.length === 0) return;
+
+        const currentIndex = stockOptions.findIndex(
+            (stock) => stock.name === selectedStock.name
+        );
 
         if (direction === "left") {
             const newIndex =
@@ -40,58 +48,86 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 
     // 수량 선택 핸들러
     const handleQuantityChange = (direction: "left" | "right") => {
-        if (direction === "left" && quantity > 0) {
+        if (direction === "left" && quantity > 1) {
             setQuantity(quantity - 1);
         } else if (direction === "right") {
             setQuantity(quantity + 1);
         }
     };
 
+    // 선택한 종목의 stockId 찾기
+    const getSelectedStockId = () => {
+        return selectedStock ? selectedStock.stockId : 0;
+    };
+
     // 모달에서 확인 버튼 클릭 시 거래 처리
     const handleTradeConfirm = () => {
-        // 데이터 전송하기
         const handleTrade = async () => {
             const data = {
-                year: year,
-                gameId: 0,
-                stockId: 0, // stockId로 stock 전달해야함. 수정 필요
-                stock: selectedStock,
+                stockId: getSelectedStockId(),
                 quantity: quantity,
                 acting: acting, // 팔기 : SELL, 사기 : BUY
             };
 
-            // 서버로 데이터 전송
-            // try {
-            //     const res = await axios.post(
-            //         `${process.env.REACT_APP_API_URL}/v1/game/stock?nickname=veronica`,
-            //         {
-            //             withCredentials: true,
-            //         }
-            //     );
-            //     console.log(res);
+            try {
+                const res = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/v1/game/stock`,
+                    data,
+                    {
+                        withCredentials: true,
+                    }
+                );
 
-            //     if (res.status === 200) {
-            //         swal({
-            //             title: "거래 성공",
-            //             icon: "success",
-            //         }).then(() => {
-            //             window.location.reload();
-            //         });
-            //     }
-            // } catch (error: any) {
-            //     console.error(error);
-            // }
-            swal({
-                title: "거래 성공",
-                icon: "success",
-            }).then(() => {
-                handleClose();
-            });
-
-            console.log("선택한 년도 : ", year);
-            console.log("선택한 종목 : ", selectedStock);
-            console.log("선택한 수량 : ", quantity);
-            console.log("선택한 acting : ", acting);
+                if (res.status === 200) {
+                    swal({
+                        title: "거래 성공",
+                        icon: "success",
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            } catch (error: any) {
+                // console.error(error);
+                // console.error(error.response.data.message);
+                // catch 블록에서 에러 메시지 출력
+                if (
+                    error.response &&
+                    error.response.status === 400 &&
+                    error.response.data.message ===
+                        "종목을 보유하고 있지 않습니다."
+                ) {
+                    swal({
+                        title: "거래 오류",
+                        text: error.response.data.message,
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                } else if (
+                    error.response &&
+                    error.response.status === 400 &&
+                    error.response.data.message === "잔액이 부족합니다."
+                ) {
+                    swal({
+                        title: "잔액 부족",
+                        text: error.response.data.message,
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                } else {
+                    swal({
+                        title: "거래 실패",
+                        text: "서버 오류가 발생했습니다. 다시 시도해주세요.",
+                        icon: "error",
+                    }).then(() => {
+                        setShow(false);
+                        onClose();
+                    });
+                }
+            }
         };
         handleTrade();
         setIsModalOpen(false); // 모달 닫기
@@ -111,6 +147,28 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
         }, 700);
     };
 
+    // 로컬스토리지에서 종목 갖고오기
+    useEffect(() => {
+        const stock2014 = localStorage.getItem("stock2014");
+        const stockListData = localStorage.getItem("stockListData");
+
+        if (stock2014) {
+            const parsedStock2014 = JSON.parse(stock2014);
+            setStockOptions(parsedStock2014);
+            if (!selectedStock) {
+                setSelectedStock(parsedStock2014[0]); // 첫 번째 종목을 기본값으로 설정
+            }
+        } else if (stockListData) {
+            const parsedStockListData = JSON.parse(stockListData);
+            setStockOptions(parsedStockListData);
+            if (!selectedStock) {
+                setSelectedStock(parsedStockListData[0]); // 첫 번째 종목을 기본값으로 설정
+            }
+        } else {
+            console.log("로컬 스토리지에서 주식 데이터를 찾을 수 없습니다.");
+        }
+    }, []);
+
     return (
         <div className="GameTradeSwipe">
             <div
@@ -126,7 +184,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
                         title="종목"
                         choiceLeft="←"
                         choiceRight="→"
-                        selectedOption={selectedStock}
+                        selectedOption={selectedStock?.name || ""}
                         onLeftClick={() => handleStockChange("left")}
                         onRightClick={() => handleStockChange("right")}
                     />
@@ -154,7 +212,7 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
                 isOpen={isModalOpen}
                 onConfirm={handleTradeConfirm}
                 onRequestClose={() => setIsModalOpen(false)}
-                stock={selectedStock}
+                stock={selectedStock?.name || ""}
                 quantity={quantity}
                 acting={acting!} // acting 값 전달 (BUY or SELL)
             />
