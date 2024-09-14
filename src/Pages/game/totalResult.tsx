@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { RankListProps, RankDataProps } from "../../constants/interface";
 import RankList from "../../Component/Game/Rank/rankList";
+import { useNavigate } from "react-router-dom";
 
 const dataList: RankListProps = {
   data: [
@@ -59,6 +60,7 @@ const TextStyle = styled.div`
 `;
 
 const TotalResult = () => {
+  const nav = useNavigate();
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
   const [userRank, setUserRank] = useState<number>(0);
   const [userMoney, setUserMoney] = useState<number>(0);
@@ -114,7 +116,7 @@ const TotalResult = () => {
         $colorType="main"
         $size="plusBtn"
         onClick={() => {
-          // 거래한 주식 정보 확인 페이지로 이동
+          nav("/game/gameStocks");
         }}
       />
     </Container>

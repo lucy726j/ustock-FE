@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import GameChart from "./gameChart";
 import GameNewsList from "./gameNewsList";
@@ -30,7 +31,7 @@ const CarouselItem = ({ data }: any) => {
   // console.log(data.news);
   return (
     <Container>
-      <TitleStyle> 
+      <TitleStyle>
         내가 거래한 <ColoredText>{data.fakeName}</ColoredText>의 정체
       </TitleStyle>
       <NameStyle>{data.realName}</NameStyle>

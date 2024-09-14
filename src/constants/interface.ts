@@ -125,7 +125,7 @@ export interface StockProps {
   name: string;
   quantity: number;
   average: number;
-  ror: number;
+  profitRate: number;
   logo?: string;
 }
 
@@ -133,8 +133,8 @@ export interface PortfolioProps {
   name: string;
   budget: number;
   principal: number;
-  ret: number;
-  ror: number;
+  profit: number;
+  profitRate: number;
   stocks: StockProps[];
 }
 
@@ -188,43 +188,6 @@ export interface GameHeaderProp {
   text: String;
 }
 
-export interface Stock {
-    stockId: number;
-    name: string;
-    prev: number;
-    current: number;
-    change: number;
-    changeRate: number;
-}
-
-export interface StocksData {
-  header: string[];
-  data: Stock[];
-}
-
-export interface GameMoneyProps {
-    budget: number;
-    nickname: string;
-    total: number;
-    changeFromLast: number;
-    changeFromStart: number;
-    changeRateFromLast: number;
-    changeRateFromStart: number;
-}
-
-export interface StocksTableProps {
-    stocks: Stock[];
-}
-
-export interface holding {
-    stockId: number;
-    stockName: string;
-    average: number;
-    price: number;
-    quantity: number;
-    ror: number;
-}
-
 export interface SaySkrrProps {
   rank: number;
   money: number;
@@ -251,4 +214,50 @@ export interface GameNewsProps {
 
 export interface GameNewsListProps {
   data: Array<GameNewsProps>;
+}
+
+export interface Stock {
+  stockId: number;
+  name: string;
+  prev: number;
+  current: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StockYearProps {
+  stockId: number;
+  name: string;
+  prev: number;
+  current: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StocksData {
+  header: string[];
+  data: StockYearProps[];
+}
+
+export interface GameMoneyProps {
+  budget: number;
+  nickname: string;
+  total: number;
+  changeFromLast: number;
+  changeFromStart: number;
+  changeRateFromLast: number;
+  changeRateFromStart: number;
+}
+
+export interface StocksTableProps {
+  stocks: StockYearProps[];
+}
+
+export interface holding {
+  stockId: number;
+  stockName: string;
+  average: number;
+  price: number;
+  quantity: number;
+  profitRate: number;
 }

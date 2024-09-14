@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/home";
 import Layout from "./Component/Layout/Layout";
@@ -13,7 +14,6 @@ import LoginPage from "./Pages/404/loginPage";
 import ErrorPage from "./Pages/404/errorPage";
 import PlayPage from "./Pages/game/playPage";
 import InfoPage from "./Pages/game/infoPage";
-import PlayResult from "./Pages/game/playResult";
 import TotalResult from "./Pages/game/totalResult";
 import GameStocks from "./Pages/game/gameStocks";
 import Rank from "./Pages/game/rank";
@@ -48,7 +48,6 @@ const Router = () => {
             <Route path="/game" element={<SkrrrGamePage />} />
             <Route path="/game/play/:year" element={<PlayPage />} />
             <Route path="/game/info/:year" element={<InfoPage />} />
-            <Route path="/game/result/:year" element={<PlayResult />} />
             <Route path="/game/result/total" element={<TotalResult />} />
             <Route path="/game/gameStocks" element={<GameStocks />} />
             <Route path="/game/rank" element={<Rank />} />

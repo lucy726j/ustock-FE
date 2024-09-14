@@ -35,8 +35,8 @@ const PortfolioDetail = () => {
   const stockData = usePortfolioStore((state) => state.stockData);
   const budget = usePortfolioStore((state) => state.budget);
   const principal = usePortfolioStore((state) => state.principal);
-  const ret = usePortfolioStore((state) => state.ret);
-  const ror = usePortfolioStore((state) => state.ror);
+  const profit = usePortfolioStore((state) => state.profit);
+  const profitRate = usePortfolioStore((state) => state.profitRate);
   const changeStatus = usePortfolioStore((state) => state.change);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -85,8 +85,8 @@ const PortfolioDetail = () => {
           setFinancialData(
             res.data.budget,
             res.data.principal,
-            res.data.ret,
-            res.data.ror
+            res.data.profit,
+            res.data.profitRate
           );
         } else if (res.status === 401) {
           alert("401");

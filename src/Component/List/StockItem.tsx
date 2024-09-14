@@ -10,7 +10,7 @@ const StockItem: React.FC<StockProps> = ({
   name,
   logo,
   code,
-  ror,
+  profitRate,
   average,
 }) => {
   const nav = useNavigate();
@@ -31,8 +31,8 @@ const StockItem: React.FC<StockProps> = ({
         <p>{code}</p>
       </div>
       <div className="price">{formatPrice(average)}원</div>
-      <div className="growth" style={{ color: getGrowthColor(ror) }}>
-        {ror}%
+      <div className="growth" style={{ color: getGrowthColor(profitRate) }}>
+        {profitRate}%
       </div>
     </div>
   );

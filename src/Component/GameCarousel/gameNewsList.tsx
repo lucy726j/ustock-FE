@@ -1,3 +1,4 @@
+import React from "react";
 import GameNews from "./gameNews";
 import { GameNewsListProps } from "../../constants/interface";
 import styled from "styled-components";

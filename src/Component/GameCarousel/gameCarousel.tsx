@@ -1,3 +1,4 @@
+import React from "react";
 import { useSpringCarousel } from "react-spring-carousel";
 import CarouselItem from "./carouselItem";
 import styled from "styled-components";
