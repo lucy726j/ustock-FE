@@ -80,22 +80,30 @@ const TotalResult = () => {
 
   // // 랭킹 리스트 요청 api
   // useEffect(() => {
-  //   axios.get(`${process.env.REACT_APP_API_URL}/v1/game/result`).then((res) => {
-  //     if (res.status === 200) {
-  //       const list = res.data;
-  //       setRankList(list);
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}/v1/game/result`, {
+  //       withCredentials: true,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.status === 200) {
+  //         const list = res.data;
+  //         setRankList(list);
 
-  //       // 사용자 순위 저장
-  //       const userIndex = list.findIndex(
-  //         (item: any) => item.playerType === "USER"
-  //       );
-  //       setUserRank(userIndex + 1);
+  //         // 사용자 순위 저장
+  //         const userIndex = list.findIndex(
+  //           (item: any) => item.playerType === "USER"
+  //         );
+  //         setUserRank(userIndex + 1);
 
-  //       // 사용자 최종 수익금 저장
-  //       const userBudget = list[userIndex].budget;
-  //       setUserMoney(userBudget);
-  //     }
-  //   });
+  //         // 사용자 최종 수익금 저장
+  //         const userBudget = list[userIndex].budget;
+  //         setUserMoney(userBudget);
+  //       }
+  //     });
   // }, []);
 
   return (

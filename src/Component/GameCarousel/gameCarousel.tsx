@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSpringCarousel } from "react-spring-carousel";
 import CarouselItem from "./carouselItem";
 import styled from "styled-components";
 import { Colors } from "../../Styles/Colors";
+import axios from "axios";
 
 const Data = [
   {
@@ -141,6 +142,23 @@ const ChartStyle = styled.div`
 `;
 
 const GameCarousel = () => {
+  //   const [data, setData] = useState([]);
+  //   useEffect(() => {
+  //     axios
+  //       .get(`${process.env.REACT_APP_API_URL}/v1/game/result`, {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //         if (res.status === 200) {
+  //           setData(res.data);
+  //         }
+  //       });
+  //   }, []);
+
   const { carouselFragment, slideToPrevItem, slideToNextItem } =
     useSpringCarousel({
       items: Data.map((item, index) => ({

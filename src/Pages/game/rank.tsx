@@ -72,7 +72,7 @@ const Rank = () => {
     setRankList(dataList.data);
   });
 
-  // 랭킹리스트 불러오는 api
+  // // 랭킹리스트 불러오는 api
   // useEffect(() => {
   //   axios
   //     .get(`${process.env.REACT_APP_API_URL}/v1/game/ranking`, {
@@ -82,6 +82,7 @@ const Rank = () => {
   //       },
   //     })
   //     .then((res) => {
+  //       console.log(res);
   //       if (res.status === 200) {
   //         const list = res.data;
   //         setRankList(list);
@@ -92,7 +93,6 @@ const Rank = () => {
   return (
     <div>
       <GameHeader text={"명예의 전당"} />
-
       <RankList data={rankList} />
     </div>
   );
