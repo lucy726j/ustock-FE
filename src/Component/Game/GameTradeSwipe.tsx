@@ -9,9 +9,15 @@ interface GameTradeSwipeProps {
     onClose: () => void;
     isVisible: boolean;
     year: string;
+    budget: number;
 }
 
-const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
+const GameTradeSwipe = ({
+    onClose,
+    isVisible,
+    year,
+    budget,
+}: GameTradeSwipeProps) => {
     const [show, setShow] = useState(isVisible);
     const [selectedStock, setSelectedStock] = useState<{
         stockId: number;
@@ -21,8 +27,9 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
     const [acting, setActing] = useState<"BUY" | "SELL">(); // 거래 액션 상태
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [stockOptions, setStockOptions] = useState<
-        { stockId: number; name: string }[]
-    >([]); // 종목 리스트 상태
+        { stockId: number; name: string; current: number }[]
+    >([]); // 종목 리스트 상태\
+    const [currentPrice, setCurrentPrice] = useState<number | null>(null);
 
     useEffect(() => {
         setShow(isVisible);
@@ -58,6 +65,16 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
     // 선택한 종목의 stockId 찾기
     const getSelectedStockId = () => {
         return selectedStock ? selectedStock.stockId : 0;
+    };
+
+    // 선택된 종목의 가격 가지고 오기
+    const updateCurrentPrice = () => {
+        if (selectedStock) {
+            const selected = stockOptions.find(
+                (stock) => stock.name === selectedStock.name
+            );
+            setCurrentPrice(selected?.current || null);
+        }
     };
 
     // 모달에서 확인 버튼 클릭 시 거래 처리
@@ -149,14 +166,16 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 
     // 로컬스토리지에서 종목 갖고오기
     useEffect(() => {
-        const stock2014 = localStorage.getItem("stock2014");
         const stockListData = localStorage.getItem("stockListData");
 
-        if (stock2014) {
-            const parsedStock2014 = JSON.parse(stock2014);
-            setStockOptions(parsedStock2014);
-            if (!selectedStock) {
-                setSelectedStock(parsedStock2014[0]); // 첫 번째 종목을 기본값으로 설정
+        if (year === "2014") {
+            const stock2014 = localStorage.getItem("stock2014");
+            if (stock2014) {
+                const parsedStock2014 = JSON.parse(stock2014);
+                setStockOptions(parsedStock2014);
+                if (!selectedStock) {
+                    setSelectedStock(parsedStock2014[0]); // 첫 번째 종목을 기본값으로 설정
+                }
             }
         } else if (stockListData) {
             const parsedStockListData = JSON.parse(stockListData);
@@ -167,7 +186,12 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
         } else {
             console.log("로컬 스토리지에서 주식 데이터를 찾을 수 없습니다.");
         }
-    }, []);
+    }, [year]);
+
+    // 선택된 종목이 변경될 때마다 가격을 업데이트
+    useEffect(() => {
+        updateCurrentPrice();
+    }, [selectedStock]);
 
     return (
         <div className="GameTradeSwipe">
@@ -180,6 +204,14 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
                         <button onClick={handleClose}></button>
                     </div>
                     <span>주식 거래하기</span>
+                    <div>가진 돈 : {budget}</div>
+                    <div>
+                        구매하면 남는 돈 :
+                        {currentPrice && quantity
+                            ? budget - currentPrice * quantity
+                            : 0}
+                    </div>
+
                     <TradeChoice
                         title="종목"
                         choiceLeft="←"
@@ -188,6 +220,14 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
                         onLeftClick={() => handleStockChange("left")}
                         onRightClick={() => handleStockChange("right")}
                     />
+                    <div>
+                        현재 가격:{" "}
+                        {currentPrice !== null
+                            ? `${currentPrice}원`
+                            : "가격 정보 없음"}
+                    </div>
+                    <div>선택 수량 : {quantity}</div>
+
                     <TradeChoice
                         title="수량"
                         choiceLeft="-"
