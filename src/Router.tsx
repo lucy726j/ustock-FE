@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import Home from "./Pages/home";
 import Layout from "./Component/Layout/Layout";
 import SearchStock from "./Pages/searchStock";
@@ -18,10 +24,12 @@ import TotalResult from "./Pages/game/totalResult";
 import GameStocks from "./Pages/game/gameStocks";
 import Rank from "./Pages/game/rank";
 import { StockProvider } from "./store/stockContext";
+import PreventNavigation from "./Game/Navigation/prevent";
+import PreventBackNavigation from "./Game/Navigation/preventBack";
+import { useEffect } from "react";
 
 const Router = () => {
   const { user } = useAuth();
-
   return (
     <BrowserRouter>
       <Layout>
@@ -34,6 +42,7 @@ const Router = () => {
             <>
               <Route path="/portfolio" element={<PortfolioPage />} />
               <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
+              <Route path="/game/*" element={<GameRoutes />} />
             </>
           ) : (
             <Route path="/*" element={<NoUserPage />} />
@@ -41,22 +50,35 @@ const Router = () => {
           <Route path="/auth/callback" element={<CallBackPage />} />
           <Route path="/error" element={<ErrorPage />} />
         </Routes>
-
-        {/* 게임 관련 라우트만 감싸용  */}
-        <StockProvider>
-          <Routes>
-            <Route path="/game" element={<SkrrrGamePage />} />
-            <Route path="/game/play/:year" element={<PlayPage />} />
-            <Route path="/game/info/:year" element={<InfoPage />} />
-            <Route path="/game/result/:year" element={<PlayResult />} />
-            <Route path="/game/result/total" element={<TotalResult />} />
-            <Route path="/game/gameStocks" element={<GameStocks />} />
-            <Route path="/game/rank" element={<Rank />} />
-          </Routes>
-        </StockProvider>
-        {/* <Routes></Routes> */}
       </Layout>
     </BrowserRouter>
+  );
+};
+
+// 게임 라우터
+const GameRoutes = () => {
+  const location = useLocation(); // 경로 가져오기
+
+  useEffect(() => {
+    if (location.pathname.startsWith("/game")) {
+      console.log("game route"); // 게임 경로가 아니면 아무것도 렌더링하지 않음
+    }
+  }, [location.pathname]);
+
+  return (
+    <StockProvider>
+      <PreventNavigation />
+      <PreventBackNavigation />
+      <Routes>
+        <Route path="/" element={<SkrrrGamePage />} />
+        <Route path="play/:year" element={<PlayPage />} />
+        <Route path="info/:year" element={<InfoPage />} />
+        <Route path="result/:year" element={<PlayResult />} />
+        <Route path="result/total" element={<TotalResult />} />
+        <Route path="gameStocks" element={<GameStocks />} />
+        <Route path="rank" element={<Rank />} />
+      </Routes>
+    </StockProvider>
   );
 };
 

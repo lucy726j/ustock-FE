@@ -28,6 +28,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.26.0",
     "react-scripts": "^5.0.1",
+    "sass": "^1.78.0",
     "styled-components": "^6.1.12",
     "sweetalert": "^2.1.2",
     "tree": "^0.1.3",

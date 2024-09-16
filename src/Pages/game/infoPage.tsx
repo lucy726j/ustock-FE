@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import ExchangeStoreMain from "../../Game/exchangeStoreMain";
+import ExchangeStoreMain from "../../Game/Shop/exchangeStoreMain";
 import GameHeader from "../../Component/Game/GameHeader";
 
 const InfoPage = () => {
