@@ -166,31 +166,34 @@ const GameTradeSwipe = ({
     }, 700);
   };
 
+  useEffect(() => {
+    // stockData가 변경될 때 stockOptions를 업데이트
+    if (stockData) {
+      const options = stockData.map((stock) => ({
+        stockId: stock.stockId,
+        name: stock.name,
+      }));
+      setStockOptions(options);
+
+      // selectedStock 설정
+      if (!selectedStock && options.length > 0) {
+        setSelectedStock(options[0]);
+        setCurrentPrice(stockData[0].current);
+      }
+    }
+
+    // selectedStock이 변경될 때마다 가격 업데이트
+    if (selectedStock && stockData) {
+      const selectedStockData = stockData.find(
+        (stock) => stock.stockId === selectedStock.stockId
+      );
+      setCurrentPrice(selectedStockData?.current || null);
+    }
+  }, [stockData, selectedStock]);
+
   const selectedStockName = stockData?.find(
     (stock) => stock.stockId === selectedStock?.stockId
   );
-
-  // 로컬스토리지에서 종목 갖고오기
-  useEffect(() => {
-    const stock2014 = localStorage.getItem("stock2014");
-    const stockListData = localStorage.getItem("stockListData");
-
-    if (stock2014) {
-      const parsedStock2014 = JSON.parse(stock2014);
-      setStockOptions(parsedStock2014);
-      if (!selectedStock) {
-        setSelectedStock(parsedStock2014[0]); // 첫 번째 종목을 기본값으로 설정
-      }
-    } else if (stockListData) {
-      const parsedStockListData = JSON.parse(stockListData);
-      setStockOptions(parsedStockListData);
-      if (!selectedStock) {
-        setSelectedStock(parsedStockListData[0]); // 첫 번째 종목을 기본값으로 설정
-      }
-    } else {
-      console.log("로컬 스토리지에서 주식 데이터를 찾을 수 없습니다.");
-    }
-  }, []);
 
   return (
     <div className="GameTradeSwipe">
