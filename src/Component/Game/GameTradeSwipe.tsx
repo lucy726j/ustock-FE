@@ -4,6 +4,7 @@ import TradeChoice from "./TradeChoice";
 import TradeConfirmModal from "./TradeConfirmModal";
 import axios from "axios";
 import swal from "sweetalert";
+import { formatPrice } from "../../util/gameUtil";
 
 interface GameTradeSwipeProps {
     onClose: () => void;
@@ -204,11 +205,11 @@ const GameTradeSwipe = ({
                         <button onClick={handleClose}></button>
                     </div>
                     <span>주식 거래하기</span>
-                    <div>가진 돈 : {budget}</div>
+                    <div>거래가능금액 : {formatPrice(budget)}</div>
                     <div>
-                        구매하면 남는 돈 :
+                        총 합계 :
                         {currentPrice && quantity
-                            ? budget - currentPrice * quantity
+                            ? formatPrice(currentPrice * quantity)
                             : 0}
                     </div>
 
@@ -223,10 +224,10 @@ const GameTradeSwipe = ({
                     <div>
                         현재 가격:{" "}
                         {currentPrice !== null
-                            ? `${currentPrice}원`
+                            ? `${formatPrice(currentPrice)}원`
                             : "가격 정보 없음"}
                     </div>
-                    <div>선택 수량 : {quantity}</div>
+                    {/* <div>선택 수량 : {quantity}</div> */}
 
                     <TradeChoice
                         title="수량"

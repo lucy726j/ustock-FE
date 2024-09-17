@@ -114,6 +114,8 @@ const PlayPage = () => {
             <GameMoney setBudget={setBudget} budget={budget} />
             <StocksTable stocks={stockListData || []} />
             <GameButtons
+                setBudget={setBudget}
+                budget={budget}
                 openTradeModal={openTradeModal}
                 openPassModal={openPassModal}
             />

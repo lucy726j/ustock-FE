@@ -8,16 +8,23 @@ import axios from "axios";
 interface GameButtonsProps {
     openTradeModal: () => void;
     openPassModal: () => void;
+    setBudget: (budget: number) => void;
+    budget: number;
 }
 
-const GameButtons = ({ openTradeModal, openPassModal }: GameButtonsProps) => {
+const GameButtons = ({
+    openTradeModal,
+    openPassModal,
+    setBudget,
+    budget,
+}: GameButtonsProps) => {
     const nav = useNavigate();
     const { year } = useParams<{ year: string }>();
 
     // 정보 거래소로 이동
     const goToInfoPage = () => {
         if (year) {
-            nav(`/game/info/${year}`);
+            nav(`/game/info/${year}`, { state: { budget } });
         }
     };
 
