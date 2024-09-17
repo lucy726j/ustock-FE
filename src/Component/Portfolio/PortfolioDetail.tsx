@@ -43,7 +43,6 @@ const PortfolioDetail = () => {
   const change = usePortfolioStore((state) => state.change);
   const setChange = usePortfolioStore((state) => state.setChange);
 
-  // const changeCheck = usePortfolioStore((state) => state.setChange);
   const deletePortfolio = async (id: number) => {
     try {
       const res = await axios.delete(
@@ -52,7 +51,6 @@ const PortfolioDetail = () => {
           withCredentials: true,
         }
       );
-      console.log(res);
       if (res.status === 200) {
         swal({
           title: "삭제 완료!",

@@ -35,7 +35,6 @@ const GameMain2: React.FC = () => {
             .then((res) => {
                 if (res.status == 200) {
                     const stock2014 = res.data;
-                    // console.log("Navigating to /game with data:", stock2014);
 
                     localStorage.setItem(
                         "stock2014",

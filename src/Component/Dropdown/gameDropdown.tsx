@@ -39,12 +39,6 @@ const StockItem: React.FC<StockItemProps> = ({ onSelectStock }) => {
     onSelectStock(item.stockId);
   };
 
-  useEffect(() => {
-    if (stockData) {
-      console.log("Stock Data : ", stockData);
-    }
-  });
-
   return (
     <div>
       <div

@@ -32,6 +32,9 @@ interface PortfolioState {
 
   portfolioChange: boolean;
   isPortfolio: (portfolioChange: boolean) => void;
+
+  check: boolean;
+  setCheck: (change: boolean) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
@@ -44,10 +47,12 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
   profitRate: 0,
   change: false,
   portfolioChange: false,
+  check: false,
 
   isPortfolio: (portfolioChange) => set({ portfolioChange }),
 
   setChange: (change) => set({ change }),
+  setCheck: (check) => set({ check }),
 
   setPortfolio: (pfName, data, stockData) => set({ pfName, data, stockData }),
 

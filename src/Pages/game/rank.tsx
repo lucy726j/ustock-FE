@@ -17,7 +17,6 @@ const Rank = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           const list = res.data;
           setRankList(list);

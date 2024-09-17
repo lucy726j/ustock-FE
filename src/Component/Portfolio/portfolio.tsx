@@ -83,7 +83,6 @@ const Portfolio = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
           setTotalROR(res.data.ror);
@@ -96,34 +95,6 @@ const Portfolio = () => {
         navigate("/error");
       });
   }, [add, change]);
-
-  // // 포트폴리오 전체 조회
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/v1/portfolio`, {
-  //       withCredentials: true,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setTotalAsset(res.data.budget);
-  //         setTotalROR(res.data.ror);
-  //         setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
-  //       } else if (res.status === 401) {
-  //         alert("401");
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       if (e.response && e.response.status === 404) {
-  //         navigate("/portfolio");
-  //       }
-  //     });
-  // }, [add, change]);
-
-  //console.log(formatPrice(totalAsset));
-  const text = formatPrice(totalAsset);
 
   return (
     <div className="Portfolio">
