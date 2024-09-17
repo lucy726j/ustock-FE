@@ -4,11 +4,17 @@ import { GameMoneyProps, holding } from "../../constants/interface";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const GameMoney = () => {
+const GameMoney = ({
+    setBudget,
+    budget,
+}: {
+    setBudget: (budget: number) => void;
+    budget: number;
+}) => {
     const header = ["종목명", "평균단가", "주식수", " 현재금액", "수익률"];
 
     const [nickname, setNickname] = useState(""); // 닉네임
-    const [budget, setBudget] = useState(0); // 거래 가능 금액
+    // const [budget, setBudget] = useState(0); // 거래 가능 금액
     const [total, setTotal] = useState(0); // 총 평가금액
     const [changeFromLast, setChangeFromLast] = useState(0); // 작년 대비 금액
     const [changeFromStart, setChangeFromStart] = useState(0); // 전체 대비 금액
@@ -43,7 +49,7 @@ const GameMoney = () => {
             .catch((e) => {
                 //console.log(e);
             });
-    }, []);
+    }, [setBudget]);
 
     const handleShowTable = () => {
         setShowTable((prev) => !prev);

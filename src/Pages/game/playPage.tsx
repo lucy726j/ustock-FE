@@ -29,6 +29,7 @@ const PlayPage = () => {
         null
     );
     const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
+    const [budget, setBudget] = useState(0); // 사용가능한 돈
 
     // 거래하기 모달 핸들러
     const openTradeModal = () => {
@@ -62,6 +63,7 @@ const PlayPage = () => {
             if (response.status === 200) {
                 const updatedStockList = response.data.stockList;
                 console.log(updatedStockList);
+                console.log(response);
 
                 // 중간 결과를 로컬 스토리지에 저장
                 localStorage.setItem(
@@ -97,19 +99,19 @@ const PlayPage = () => {
             const stock2014 = localStorage.getItem("stock2014");
             if (stock2014) {
                 setStockListData(JSON.parse(stock2014));
+            } else {
+                setIsHappyNewYearModal(true);
+                setTimeout(() => {
+                    setIsHappyNewYearModal(false);
+                }, 4000);
             }
-
-            setIsHappyNewYearModal(true);
-            setTimeout(() => {
-                setIsHappyNewYearModal(false);
-            }, 4000);
         }
     }, []);
 
     return (
         <Container>
             <GameHeader text={year || "Default"} />
-            <GameMoney />
+            <GameMoney setBudget={setBudget} budget={budget} />
             <StocksTable stocks={stockListData || []} />
             <GameButtons
                 openTradeModal={openTradeModal}
@@ -119,6 +121,7 @@ const PlayPage = () => {
                 isVisible={isTradeModalVisible}
                 onClose={closeTradeModal}
                 year={yearValue.toString()}
+                budget={budget}
             />
             <PassConfirmModal
                 isOpen={isPassModalVisible}
