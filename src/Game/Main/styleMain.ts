@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const ButtonDiv = styled.div`
   display: flex;
   margin-top: 2rem;
+  margin-left: 2rem;
 `;
 
 export const GameTitle = styled.p`
