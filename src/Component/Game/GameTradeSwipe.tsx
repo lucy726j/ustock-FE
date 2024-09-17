@@ -6,14 +6,21 @@ import axios from "axios";
 import swal from "sweetalert";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import { useStock } from "../../store/stockContext";
+import { formatPrice } from "../../util/gameUtil";
 
 interface GameTradeSwipeProps {
   onClose: () => void;
   isVisible: boolean;
   year: string;
+  budget: number;
 }
 
-const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
+const GameTradeSwipe = ({
+  onClose,
+  isVisible,
+  year,
+  budget,
+}: GameTradeSwipeProps) => {
   const { stockData } = useStock();
 
   const [show, setShow] = useState(isVisible);
@@ -27,6 +34,8 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
   const [stockOptions, setStockOptions] = useState<
     { stockId: number; name: string }[]
   >([]); // 종목 리스트 상태
+
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
 
   const check = usePortfolioStore((state) => state.check);
   const setCheck = usePortfolioStore((state) => state.setCheck);
@@ -194,6 +203,13 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
             <button onClick={handleClose}></button>
           </div>
           <span>주식 거래하기</span>
+          <div>거래가능금액 : {formatPrice(budget)}</div>
+          <div>
+            총 합계 :
+            {currentPrice && quantity
+              ? formatPrice(currentPrice * quantity)
+              : 0}
+          </div>
           <TradeChoice
             title="종목"
             choiceLeft="←"
@@ -202,6 +218,12 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
             onLeftClick={() => handleStockChange("left")}
             onRightClick={() => handleStockChange("right")}
           />
+          <div>
+            현재 가격 :{" "}
+            {currentPrice !== null
+              ? `${formatPrice(currentPrice)}원`
+              : "가격 정보 없음"}
+          </div>
           <TradeChoice
             title="수량"
             choiceLeft="-"
@@ -231,4 +253,5 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 };
 
 export default GameTradeSwipe;
+
 

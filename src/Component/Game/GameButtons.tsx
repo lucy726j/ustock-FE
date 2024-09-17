@@ -5,6 +5,7 @@ import "./GameButtonsStyle.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface GameButtonsProps {
+
   openTradeModal: () => void;
   openPassModal: () => void;
   budget?: number;

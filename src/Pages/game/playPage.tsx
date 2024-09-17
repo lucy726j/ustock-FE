@@ -142,6 +142,7 @@ const PlayPage = () => {
         isVisible={isTradeModalVisible}
         onClose={closeTradeModal}
         year={yearValue.toString()}
+        budget={budget}
       />
       <PassConfirmModal
         isOpen={isPassModalVisible}
