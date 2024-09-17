@@ -28,7 +28,6 @@ const NameStyle = styled.div`
 `;
 
 const CarouselItem = ({ data }: any) => {
-  // console.log(data.news);
   return (
     <Container>
       <TitleStyle>

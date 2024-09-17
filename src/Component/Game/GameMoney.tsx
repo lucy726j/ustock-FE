@@ -43,7 +43,7 @@ const GameMoney = () => {
             .catch((e) => {
                 //console.log(e);
             });
-    }, []);
+    }, [budget,total, holdingList]);
 
     const handleShowTable = () => {
         setShowTable((prev) => !prev);

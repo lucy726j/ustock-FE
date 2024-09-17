@@ -7,8 +7,8 @@ import skrr from "../../../img/SkerrImg.png";
 
 const RankBox: React.FC<RankDataProps> = ({
   nickname,
-  budget,
-  rate,
+  total,
+  profitRate,
   index = 0,
 }) => {
   const rank = index + 1;
@@ -24,8 +24,8 @@ const RankBox: React.FC<RankDataProps> = ({
 
       <S.UserContainer>
         <S.Nickname>{nickname}</S.Nickname>
-        <S.Budget>{budget}</S.Budget>
-        <S.Rate>{rate} %</S.Rate>
+        <S.Budget>{total}</S.Budget>
+        <S.Rate>{profitRate} %</S.Rate>
       </S.UserContainer>
     </S.Container>
   );

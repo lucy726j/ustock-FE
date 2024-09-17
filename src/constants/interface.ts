@@ -195,8 +195,8 @@ export interface SaySkrrProps {
 
 export interface RankDataProps {
   nickname: String;
-  budget: number;
-  rate: number;
+  total: number;
+  profitRate: number;
   playerType?: String;
   index?: number;
 }
@@ -260,4 +260,12 @@ export interface holding {
   price: number;
   quantity: number;
   profitRate: number;
+}
+
+export interface GameStockProps {
+  stockId: number;
+  fakeName: string;
+  realName: string;
+  chart: { x: string; y: number }[];
+  news: { title: string; url: string; publisher: string; date: string }[];
 }
