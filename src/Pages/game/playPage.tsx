@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
@@ -8,7 +8,6 @@ import GameTradeSwipe from "../../Component/Game/GameTradeSwipe";
 import { useEffect, useState } from "react";
 import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
-import { Stock } from "../../constants/interface";
 import "./gameStyle.css";
 import ExSAm from "../../Game/Tutorial/ex";
 import { StockYearProps } from "../../constants/interface";
@@ -168,3 +167,4 @@ const PlayPage = () => {
 };
 
 export default PlayPage;
+

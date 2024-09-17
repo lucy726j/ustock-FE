@@ -231,3 +231,4 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
 };
 
 export default GameTradeSwipe;
+
