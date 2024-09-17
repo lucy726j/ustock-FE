@@ -43,7 +43,7 @@ const Swipe: React.FC<SwipeProps> = ({ portfolioId }) => {
         name: selectedStock.name,
         quantity: quantity,
         average: price,
-        ror: 0,
+        profitRate: 0,
         // 새로운 종목이 추가될 때 초기 수익률은 0으로 설정 //이게 뭔소리노
         portfolioId,
         logo: selectedStock.logo,

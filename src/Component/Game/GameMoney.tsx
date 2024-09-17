@@ -4,6 +4,7 @@ import { holding } from "../../constants/interface";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
+import { useNavigate } from "react-router-dom";
 
 const GameMoney = ({
   setBudget,
@@ -13,6 +14,8 @@ const GameMoney = ({
   budget: number;
 }) => {
   const header = ["종목명", "평균단가", "주식수", " 현재금액", "수익률"];
+
+  const nav = useNavigate();
 
   const [nickname, setNickname] = useState(""); // 닉네임
   const [total, setTotal] = useState(0); // 총 평가금액
@@ -35,7 +38,6 @@ const GameMoney = ({
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           setNickname(res.data.nickname);
           setBudget(res.data.budget);
           setTotal(res.data.total);
@@ -49,7 +51,7 @@ const GameMoney = ({
         }
       })
       .catch((e) => {
-        //console.log(e);
+        nav("/error");
       });
   }, [check]);
 
@@ -233,4 +235,3 @@ const Button = styled.button`
 `;
 
 export default GameMoney;
-

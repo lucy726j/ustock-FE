@@ -19,7 +19,6 @@ import LoginPage from "./Pages/404/loginPage";
 import ErrorPage from "./Pages/404/errorPage";
 import PlayPage from "./Pages/game/playPage";
 import InfoPage from "./Pages/game/infoPage";
-import PlayResult from "./Pages/game/playResult";
 import TotalResult from "./Pages/game/totalResult";
 import GameStocks from "./Pages/game/gameStocks";
 import Rank from "./Pages/game/rank";
@@ -62,13 +61,6 @@ const Router = () => {
 
 // 게임 라우터
 const GameRoutes = () => {
-  const location = useLocation(); // 경로 가져오기
-
-  useEffect(() => {
-    if (location.pathname.startsWith("/game")) {
-      console.log("game route"); // 게임 경로가 아니면 아무것도 렌더링하지 않음
-    }
-  }, [location.pathname]);
 
   return (
     <StockProvider>
@@ -78,7 +70,6 @@ const GameRoutes = () => {
         <Route path="/" element={<SkrrrGamePage />} />
         <Route path="play/:year" element={<PlayPage />} />
         <Route path="info/:year" element={<InfoPage />} />
-        <Route path="result/:year" element={<PlayResult />} />
         <Route path="result/total" element={<TotalResult />} />
         <Route path="gameStocks" element={<GameStocks />} />
         <Route path="rank" element={<Rank />} />

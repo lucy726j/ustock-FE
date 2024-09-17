@@ -48,8 +48,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
       });
       return;
     }
-    // console.log(selectedStock.id);
-    console.log(selectedTab.id);
+
     if (budget < parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)) {
       swal({
         icon: "error",
@@ -85,14 +84,11 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
             [selectedTab.level]: true,
           },
         }));
-        console.log("힌트는 ", res.data.hint);
       }
     } catch (error) {
       console.error("server Error : ", error);
     }
   };
-
-  console.log(selectedStock);
 
   return (
     <>

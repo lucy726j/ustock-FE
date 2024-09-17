@@ -87,8 +87,6 @@ const PlayPage = () => {
       );
       if (response.status === 200) {
         const updatedStockList = response.data.stockList;
-        console.log(updatedStockList);
-        console.log(response);
         setStockData(updatedStockList);
 
         // 새해 모달을 먼저 보여줌
@@ -151,4 +149,3 @@ const PlayPage = () => {
 };
 
 export default PlayPage;
-

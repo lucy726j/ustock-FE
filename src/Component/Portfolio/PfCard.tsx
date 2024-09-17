@@ -6,9 +6,9 @@ import { getGrowthColor, formatROR } from "../../util/util";
 const PfCard: React.FC = () => {
   const budget = usePortfolioStore((state) => state.budget);
   const principal = usePortfolioStore((state) => state.principal);
-  const profitLoss = usePortfolioStore((state) => state.ret);
-  const ror = usePortfolioStore((state) => state.ror);
-  const { value: formattedROR, color } = formatROR(ror);
+  const profitLoss = usePortfolioStore((state) => state.profit);
+  const profitRate = usePortfolioStore((state) => state.profitRate);
+  const { value: formattedROR, color } = formatROR(profitRate);
 
   return (
     <div className="PfCard">

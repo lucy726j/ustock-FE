@@ -102,9 +102,6 @@ const GameTradeSwipe = ({
           });
           setShow(false);
           onClose();
-          // .then(() => {
-          //     window.location.reload();
-          // });
         }
       } catch (error: any) {
         // console.error(error);
@@ -256,5 +253,3 @@ const GameTradeSwipe = ({
 };
 
 export default GameTradeSwipe;
-
-

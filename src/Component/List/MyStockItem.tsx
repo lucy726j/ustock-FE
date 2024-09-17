@@ -15,7 +15,7 @@ const MyStockItem: React.FC<StockProps> = ({
   name,
   quantity,
   average,
-  ror,
+  profitRate,
   portfolioId,
   logo,
 }) => {
@@ -62,7 +62,7 @@ const MyStockItem: React.FC<StockProps> = ({
               name,
               quantity: newQuantity,
               average: newPrice,
-              ror,
+              profitRate,
               portfolioId,
               logo,
             };
@@ -105,7 +105,7 @@ const MyStockItem: React.FC<StockProps> = ({
               name,
               quantity: newQuantity,
               average: newPrice,
-              ror,
+              profitRate,
               portfolioId,
               logo,
             };
@@ -194,7 +194,7 @@ const MyStockItem: React.FC<StockProps> = ({
       name,
       quantity,
       average,
-      ror,
+      profitRate,
       logo: selectedStock?.logo || logo,
     });
     if (action === "delete") {
@@ -246,15 +246,15 @@ const MyStockItem: React.FC<StockProps> = ({
           <h2>{name}</h2>
           <p>{code}</p>
         </div>
-        <div className="growth-section" style={{ color: formatROR(ror).color }}>
-          {`${formatROR(ror).value} %`}
+        <div className="growth-section" style={{ color: formatROR(profitRate).color }}>
+          {`${formatROR(profitRate).value} %`}
         </div>
         <div className="price-section">
           <p>수량 {formatPrice(quantity)}</p>
           <div>{formatPrice(average)}원</div>
           <p>
             {formatPrice(
-              quantity * average * (1 + ror / 100) - quantity * average
+              quantity * average * (1 + profitRate / 100) - quantity * average
             )}
             원
           </p>

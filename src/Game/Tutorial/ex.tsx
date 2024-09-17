@@ -29,7 +29,6 @@ const ExSAm: React.FC<TutorialProps> = ({
   };
 
   useEffect(() => {
-    console.log("useEffect 실행", currentStep);
     const tutorialSeen = localStorage.getItem("hasSeenTutorial");
     if (tutorialSeen === "true") {
       setHasSeenTutorial(true);
