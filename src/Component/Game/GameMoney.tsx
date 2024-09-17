@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
-import { GameMoneyProps, holding } from "../../constants/interface";
+import { holding } from "../../constants/interface";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { usePortfolioStore } from "../../store/usePortfolioStore";

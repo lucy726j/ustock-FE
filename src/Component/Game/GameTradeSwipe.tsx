@@ -6,14 +6,21 @@ import axios from "axios";
 import swal from "sweetalert";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import { useStock } from "../../store/stockContext";
+import { formatPrice } from "../../util/gameUtil";
 
 interface GameTradeSwipeProps {
   onClose: () => void;
   isVisible: boolean;
   year: string;
+  budget: number;
 }
 
-const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
+const GameTradeSwipe = ({
+  onClose,
+  isVisible,
+  year,
+  budget,
+}: GameTradeSwipeProps) => {
   const { stockData } = useStock();
 
   const [show, setShow] = useState(isVisible);
@@ -27,6 +34,8 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
   const [stockOptions, setStockOptions] = useState<
     { stockId: number; name: string }[]
   >([]); // 종목 리스트 상태
+
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
 
   const check = usePortfolioStore((state) => state.check);
   const setCheck = usePortfolioStore((state) => state.setCheck);
@@ -157,31 +166,34 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
     }, 700);
   };
 
+  useEffect(() => {
+    // stockData가 변경될 때 stockOptions를 업데이트
+    if (stockData) {
+      const options = stockData.map((stock) => ({
+        stockId: stock.stockId,
+        name: stock.name,
+      }));
+      setStockOptions(options);
+
+      // selectedStock 설정
+      if (!selectedStock && options.length > 0) {
+        setSelectedStock(options[0]);
+        setCurrentPrice(stockData[0].current);
+      }
+    }
+
+    // selectedStock이 변경될 때마다 가격 업데이트
+    if (selectedStock && stockData) {
+      const selectedStockData = stockData.find(
+        (stock) => stock.stockId === selectedStock.stockId
+      );
+      setCurrentPrice(selectedStockData?.current || null);
+    }
+  }, [stockData, selectedStock]);
+
   const selectedStockName = stockData?.find(
     (stock) => stock.stockId === selectedStock?.stockId
   );
-
-  // 로컬스토리지에서 종목 갖고오기
-  useEffect(() => {
-    const stock2014 = localStorage.getItem("stock2014");
-    const stockListData = localStorage.getItem("stockListData");
-
-    if (stock2014) {
-      const parsedStock2014 = JSON.parse(stock2014);
-      setStockOptions(parsedStock2014);
-      if (!selectedStock) {
-        setSelectedStock(parsedStock2014[0]); // 첫 번째 종목을 기본값으로 설정
-      }
-    } else if (stockListData) {
-      const parsedStockListData = JSON.parse(stockListData);
-      setStockOptions(parsedStockListData);
-      if (!selectedStock) {
-        setSelectedStock(parsedStockListData[0]); // 첫 번째 종목을 기본값으로 설정
-      }
-    } else {
-      console.log("로컬 스토리지에서 주식 데이터를 찾을 수 없습니다.");
-    }
-  }, []);
 
   return (
     <div className="GameTradeSwipe">
@@ -194,6 +206,13 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
             <button onClick={handleClose}></button>
           </div>
           <span>주식 거래하기</span>
+          <div>거래가능금액 : {formatPrice(budget)}</div>
+          <div>
+            총 합계 :
+            {currentPrice && quantity
+              ? formatPrice(currentPrice * quantity)
+              : 0}
+          </div>
           <TradeChoice
             title="종목"
             choiceLeft="←"
@@ -202,6 +221,12 @@ const GameTradeSwipe = ({ onClose, isVisible, year }: GameTradeSwipeProps) => {
             onLeftClick={() => handleStockChange("left")}
             onRightClick={() => handleStockChange("right")}
           />
+          <div>
+            현재 가격 :{" "}
+            {currentPrice !== null
+              ? `${formatPrice(currentPrice)}원`
+              : "가격 정보 없음"}
+          </div>
           <TradeChoice
             title="수량"
             choiceLeft="-"
