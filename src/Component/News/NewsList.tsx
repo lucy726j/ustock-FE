@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NoNews from "./\bnoNews";
-import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const ListWrapper = styled.div`
   display: flex;

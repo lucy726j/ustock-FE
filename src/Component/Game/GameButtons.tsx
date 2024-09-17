@@ -8,12 +8,14 @@ interface GameButtonsProps {
   openTradeModal: () => void;
   openPassModal: () => void;
   budget?: number;
+  setBudget?: (budget: number) => void;
 }
 
 const GameButtons = ({
   openTradeModal,
   openPassModal,
   budget,
+  setBudget,
 }: GameButtonsProps) => {
   const nav = useNavigate();
   const { year } = useParams<{ year: string }>();

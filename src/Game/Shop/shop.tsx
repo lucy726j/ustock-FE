@@ -11,6 +11,8 @@ import { useStock } from "../../store/stockContext";
 
 interface ShopProps {
   selectedStock: number | null;
+  budget: number;
+  setBudget: (newBudget: number) => void;
 }
 
 interface PurchaseHints {
@@ -19,7 +21,7 @@ interface PurchaseHints {
   };
 }
 
-const Shop: React.FC<ShopProps> = ({ selectedStock }) => {
+const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [hint, setHint] = useState<string | null>(null);
   const [purchaseComplete, setPurchaseComplete] = useState<PurchaseHints>({});
@@ -48,6 +50,14 @@ const Shop: React.FC<ShopProps> = ({ selectedStock }) => {
     }
     // console.log(selectedStock.id);
     console.log(selectedTab.id);
+    if (budget < parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)) {
+      swal({
+        icon: "error",
+        title: "잔액이 부족합니다.",
+      });
+      return;
+    }
+
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/v1/game/hint`,
@@ -65,6 +75,9 @@ const Shop: React.FC<ShopProps> = ({ selectedStock }) => {
           title: "구매가 되었습니다.",
         });
         setHint(res.data.hint);
+        setBudget(
+          budget - parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)
+        );
         setPurchaseComplete((prev) => ({
           ...prev,
           [selectedStock]: {

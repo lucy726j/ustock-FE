@@ -33,23 +33,28 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Layout>
-        <Routes>
-          <Route path="/nologin" element={<LoginPage />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/stocks" element={<SearchStock />} />
-          <Route path="/stocks/:id" element={<StockDetail />} />
-          {user ? (
-            <>
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
-              <Route path="/game/*" element={<GameRoutes />} />
-            </>
-          ) : (
-            <Route path="/*" element={<NoUserPage />} />
-          )}
-          <Route path="/auth/callback" element={<CallBackPage />} />
-          <Route path="/error" element={<ErrorPage />} />
-        </Routes>
+        <StockProvider>
+          <Routes>
+            <Route path="/nologin" element={<LoginPage />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/stocks" element={<SearchStock />} />
+            <Route path="/stocks/:id" element={<StockDetail />} />
+            {user ? (
+              <>
+                <Route path="/portfolio" element={<PortfolioPage />} />
+                <Route
+                  path="/portfolio/:id"
+                  element={<PortfolioDetailPage />}
+                />
+                <Route path="/game/*" element={<GameRoutes />} />
+              </>
+            ) : (
+              <Route path="/*" element={<NoUserPage />} />
+            )}
+            <Route path="/auth/callback" element={<CallBackPage />} />
+            <Route path="/error" element={<ErrorPage />} />
+          </Routes>
+        </StockProvider>
       </Layout>
     </BrowserRouter>
   );

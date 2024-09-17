@@ -1,5 +1,13 @@
+import GameHeader from "../../Component/Game/GameHeader";
+import GameCarousel from "../../Component/GameCarousel/gameCarousel";
+
 const GameStocks = () => {
-  return <div> 게임에 나온 주식들의 상세 정보를 확인 </div>;
+  return (
+    <div>
+      <GameHeader text={"주식의 정체 두-둥"} />
+      <GameCarousel />
+    </div>
+  );
 };
 
 export default GameStocks;

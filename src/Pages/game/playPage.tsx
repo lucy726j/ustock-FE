@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
@@ -11,6 +11,9 @@ import axios from "axios";
 import { Stock } from "../../constants/interface";
 import "./gameStyle.css";
 import ExSAm from "../../Game/Tutorial/ex";
+import { StockYearProps } from "../../constants/interface";
+import HappyNewYearModal from "./HappyNewYearModal";
+import { useStock } from "../../store/stockContext";
 
 const Container = styled.div`
   display: flex;
@@ -22,11 +25,16 @@ const Container = styled.div`
 
 const PlayPage = () => {
   const { year } = useParams<{ year: string }>();
+  const { stockData, setStockData } = useStock();
   const nav = useNavigate();
   const yearValue = year || "2014";
   const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
   const [isPassModalVisible, setIsPassModalVisible] = useState(false);
-  const [stockListData, setStockListData] = useState<Stock[] | null>(null);
+  const [stockListData, setStockListData] = useState<StockYearProps[] | null>(
+    null
+  );
+  const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
+  const [budget, setBudget] = useState(0);
 
   // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
   const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
@@ -75,17 +83,25 @@ const PlayPage = () => {
         }
       );
       if (response.status === 200) {
-        console.log(response.data);
-        setStockListData(response.data.stockList);
+        const updatedStockList = response.data.stockList;
+        console.log(updatedStockList);
+        console.log(response);
+        setStockData(updatedStockList);
 
-        localStorage.setItem(
-          "stockListData",
-          JSON.stringify(response.data.stockList)
-        );
+        // 중간 결과를 로컬 스토리지에 저장
+        localStorage.setItem("stockListData", JSON.stringify(updatedStockList));
+        setStockListData(updatedStockList);
 
-        // 다음년도 이동하면서 데이터 전달
-        const nextYear = (parseInt(yearValue, 10) + 1).toString();
-        nav(`/game/play/${nextYear}`);
+        // 새해 모달을 먼저 보여줌
+        setIsHappyNewYearModal(true);
+
+        // 4초 후 페이지를 이동
+        setTimeout(() => {
+          const nextYear = (parseInt(yearValue, 10) + 1).toString();
+          nav(`/game/play/${nextYear}`);
+          setIsHappyNewYearModal(false);
+          // window.location.reload();
+        }, 4000); // 4초 동안 모달을 보여줌
       }
     } catch (error) {
       console.error(error);
@@ -99,17 +115,29 @@ const PlayPage = () => {
     const savedData = localStorage.getItem("stockListData");
     if (savedData) {
       setStockListData(JSON.parse(savedData));
+    } else if (yearValue === "2014") {
+      const stock2014 = localStorage.getItem("stock2014");
+      if (stock2014) {
+        setStockListData(JSON.parse(stock2014));
+      } else {
+        setIsHappyNewYearModal(true);
+        setTimeout(() => {
+          setIsHappyNewYearModal(false);
+        }, 4000);
+      }
     }
   }, []);
 
   return (
     <Container>
       <GameHeader text={year || "Default"} />
-      <GameMoney />
-      <StocksTable stocks={stockListData || []} />
+      <GameMoney setBudget={setBudget} budget={budget} />
+      <StocksTable stocks={stockData || []} />
       <GameButtons
         openTradeModal={openTradeModal}
         openPassModal={openPassModal}
+        setBudget={setBudget}
+        budget={budget}
       />
       <GameTradeSwipe
         isVisible={isTradeModalVisible}
@@ -121,6 +149,8 @@ const PlayPage = () => {
         onRequestClose={closePassModal}
         onConfirm={handleConfirmPass}
       />
+      <HappyNewYearModal isVisible={isHappyNewYearModal} />
+
       {/* 튜토리얼을 표시 */}
       {(fir || sec) && (
         <ExSAm

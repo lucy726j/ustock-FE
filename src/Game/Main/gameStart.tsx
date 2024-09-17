@@ -38,7 +38,7 @@ const GameMain: React.FC = () => {
         if (res.status == 200) {
           const stockData = res.data;
           console.log("Navigating to /game with data:", stockData, nickname);
-          navigate(`/game/play/2014`, { state: { nickname } });
+          navigate(`/game/play/2014`);
           setStockData(stockData);
         } else {
           swal({
