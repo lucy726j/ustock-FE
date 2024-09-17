@@ -163,6 +163,31 @@ const GameTradeSwipe = ({
     }, 700);
   };
 
+  useEffect(() => {
+    // stockData가 변경될 때 stockOptions를 업데이트
+    if (stockData) {
+      const options = stockData.map((stock) => ({
+        stockId: stock.stockId,
+        name: stock.name,
+      }));
+      setStockOptions(options);
+
+      // selectedStock 설정
+      if (!selectedStock && options.length > 0) {
+        setSelectedStock(options[0]);
+        setCurrentPrice(stockData[0].current);
+      }
+    }
+
+    // selectedStock이 변경될 때마다 가격 업데이트
+    if (selectedStock && stockData) {
+      const selectedStockData = stockData.find(
+        (stock) => stock.stockId === selectedStock.stockId
+      );
+      setCurrentPrice(selectedStockData?.current || null);
+    }
+  }, [stockData, selectedStock]);
+
   const selectedStockName = stockData?.find(
     (stock) => stock.stockId === selectedStock?.stockId
   );

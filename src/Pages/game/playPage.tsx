@@ -13,6 +13,7 @@ import ExSAm from "../../Game/Tutorial/ex";
 import { StockYearProps } from "../../constants/interface";
 import HappyNewYearModal from "./HappyNewYearModal";
 import { useStock } from "../../store/stockContext";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +35,9 @@ const PlayPage = () => {
   );
   const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
   const [budget, setBudget] = useState(0);
+
+  const check = usePortfolioStore((state) => state.check);
+  const setCheck = usePortfolioStore((state) => state.setCheck);
 
   // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
   const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
@@ -85,10 +89,6 @@ const PlayPage = () => {
         const updatedStockList = response.data.stockList;
         setStockData(updatedStockList);
 
-        // 중간 결과를 로컬 스토리지에 저장
-        localStorage.setItem("stockListData", JSON.stringify(updatedStockList));
-        setStockListData(updatedStockList);
-
         // 새해 모달을 먼저 보여줌
         setIsHappyNewYearModal(true);
 
@@ -97,8 +97,9 @@ const PlayPage = () => {
           const nextYear = (parseInt(yearValue, 10) + 1).toString();
           nav(`/game/play/${nextYear}`);
           setIsHappyNewYearModal(false);
+          setCheck(!check);
           // window.location.reload();
-        }, 4000); // 4초 동안 모달을 보여줌
+        }, 3000); // 4초 동안 모달을 보여줌
       }
     } catch (error) {
       console.error(error);
@@ -106,24 +107,6 @@ const PlayPage = () => {
       closePassModal();
     }
   };
-
-  // 새로고침하면 로컬스토리지에서 불러와지도록
-  useEffect(() => {
-    const savedData = localStorage.getItem("stockListData");
-    if (savedData) {
-      setStockListData(JSON.parse(savedData));
-    } else if (yearValue === "2014") {
-      const stock2014 = localStorage.getItem("stock2014");
-      if (stock2014) {
-        setStockListData(JSON.parse(stock2014));
-      } else {
-        setIsHappyNewYearModal(true);
-        setTimeout(() => {
-          setIsHappyNewYearModal(false);
-        }, 4000);
-      }
-    }
-  }, []);
 
   return (
     <Container>
