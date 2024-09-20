@@ -12,4 +12,5 @@ export const GameTitle = styled.p`
   justify-content: center;
   font-size: 25px;
   font-weight: 900;
+  margin-bottom: 1rem;
 `;

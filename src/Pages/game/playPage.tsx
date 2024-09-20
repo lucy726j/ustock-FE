@@ -21,6 +21,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative;
 `;
 
 const PlayPage = () => {
@@ -86,12 +87,12 @@ const PlayPage = () => {
         }
       );
       if (response.status === 200) {
-        const updatedStockList = response.data.stockList;
-        setStockData(updatedStockList);
-
-        // 새해 모달을 먼저 보여줌
+        // 새해 모달을 먼저 보여줌(7초동안 띄워야함)
         setIsHappyNewYearModal(true);
-
+        if (yearValue === response.data.year) {
+          const updatedStockList = response.data.stockList;
+          setStockData(updatedStockList);
+        }
         // 4초 후 페이지를 이동
         setTimeout(() => {
           const nextYear = (parseInt(yearValue, 10) + 1).toString();

@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { RankListProps, RankDataProps } from "../../constants/interface";
 import RankList from "../../Component/Game/Rank/rankList";
 import { useNavigate } from "react-router-dom";
+import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 const SkrrContainer = styled.div`
@@ -78,12 +80,13 @@ const TotalResult = () => {
       <Button
         children="🔎 주식 정체 확인하러 가기"
         $state="normal"
-        $colorType="main"
-        $size="plusBtn"
+        $colorType="gradient"
+        $size="gradientBtn"
         onClick={() => {
           nav("/game/gameStocks");
         }}
       />
+      <BentoBar />
     </Container>
   );
 };
