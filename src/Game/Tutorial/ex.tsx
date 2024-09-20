@@ -127,10 +127,11 @@ const ExSAm: React.FC<TutorialProps> = ({
               <div className="rowBox">
                 {/* // 강조할 부분 (뚫릴 부분) */}
                 <div className="mainIcon" />
-                <p>
+                <p className="text">
                   2014년부터 게임이 시작되고, <br />
                   게임 한 회당 1년단위로 진행됩니다!
                 </p>
+                {/* <button onClick={onNextStep}>다음</button> */}
               </div>
             </div>
           </div>
@@ -146,6 +147,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                 {/* // 강조할 부분 (뚫릴 부분) */}
                 <div className="mainIcon2" />
                 <p>게임 시작 시 50만원을 지급받습니다!</p>
+                {/* <button onClick={onNextStep}>다음</button> */}
               </div>
             </div>
           </div>
@@ -173,6 +175,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                   </em>
                   알 수 있습니다 😉
                 </p>
+                {/* <button onClick={onNextStep}>다음</button> */}
               </div>
             </div>
           </div>
@@ -212,6 +215,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                 </p>
               </div>
             </div>
+            {/* <button onClick={onNextStep}>다음</button> */}
           </div>
         )}
 
@@ -238,6 +242,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                   </em>{" "}
                   확인할 수 있습니다!
                 </p>
+                {/* <button onClick={onNextStep}>다음</button> */}
               </div>
             </div>
           </div>
@@ -252,6 +257,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                 {/* // 강조할 부분 (뚫릴 부분) */}
                 <div className="mainIcon6" />
                 <p>원하는 종목을 구매할 수 있습니다.</p>
+                {/* <button onClick={onNextStep}>다음</button> */}
               </div>
             </div>
           </div>

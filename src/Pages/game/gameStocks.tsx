@@ -3,6 +3,7 @@ import GameCarousel from "../../Component/GameCarousel/gameCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { GameStockProps } from "../../constants/interface";
+import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 
 const GameStocks = () => {
   const [stocks, setStocks] = useState<GameStockProps[]>([]);
@@ -27,13 +28,14 @@ const GameStocks = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <GameHeader text={"주식의 정체 두-둥"} />
       {stocks.length > 0 ? (
         <GameCarousel stocks={stocks} />
       ) : (
         <p>데이터가 없습니다.</p>
       )}
+      <BentoBar />
     </div>
   );
 };
