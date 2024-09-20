@@ -77,6 +77,9 @@ const PlayPage = () => {
   // 넘어가기 버튼 누르면 중간결과 호출
   const handleConfirmPass = async () => {
     try {
+      if (year === "2023") {
+        nav("/game/result/total");
+      }
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/v1/game/interim`,
         {
@@ -100,7 +103,7 @@ const PlayPage = () => {
           setIsHappyNewYearModal(false);
           setCheck(!check);
           // window.location.reload();
-        }, 3000); // 4초 동안 모달을 보여줌
+        }, 500); // 4초 동안 모달을 보여줌
       }
     } catch (error) {
       console.error(error);
