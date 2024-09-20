@@ -3,6 +3,7 @@ import GameHeader from "../../Component/Game/GameHeader";
 import { RankDataProps, RankListProps } from "../../constants/interface";
 import axios from "axios";
 import RankList from "../../Component/Game/Rank/rankList";
+import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 
 const Rank = () => {
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
@@ -25,9 +26,10 @@ const Rank = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <GameHeader text={"명예의 전당"} />
       <RankList data={rankList} />
+      <BentoBar />
     </div>
   );
 };

@@ -18,6 +18,7 @@ const GameMain: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
   const navigate = useNavigate();
   const [isValidQuantity, setIsValidQuantity] = useState(true);
+  const [isSkipped, setIsSkipped] = useState(false);
 
   const handleRank = () => {
     navigate("/game/rank");
@@ -68,35 +69,42 @@ const GameMain: React.FC = () => {
     setIsValidQuantity(true);
   };
 
+  const handleSkip = () => {
+    setIsSkipped(true);
+    setIsLoadingFinished(false);
+    setIsFlying(false);
+    setIsGame(true);
+  };
+
   useEffect(() => {
-    // Wait for the loading animation to finish (2s + 2s duration of the loading animation)
-    const timer = setTimeout(() => {
-      setIsLoadingFinished(true);
+    if (!isSkipped) {
+      const timer = setTimeout(() => {
+        setIsLoadingFinished(true);
 
-      const flyTimer = setTimeout(() => {
-        setIsFlying(true);
+        const flyTimer = setTimeout(() => {
+          setIsFlying(true);
 
-        const gameTimer = setTimeout(() => {
-          setIsGame(true);
+          const gameTimer = setTimeout(() => {
+            setIsGame(true);
+          }, 2000);
+
+          return () => clearTimeout(gameTimer);
         }, 2000);
 
-        return () => clearTimeout(gameTimer);
-      }, 2000);
+        return () => clearTimeout(flyTimer);
+      }, 5000);
 
-      return () => clearTimeout(flyTimer);
-    }, 5000);
-
-    return () => clearTimeout(timer); // Clean up the timer
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [isSkipped]);
 
   return (
     <div className="container">
-      {/* {isGame ? <div style={{ marginBottom: "0.5rem" }}>스껄게임</div> : ""} */}
       <div className="macbook">
         <div className="macbook__topBord">
           <div className="macbook__display">
             <div className="macbook__load"></div>
-            {isLoadingFinished && (
+            {isLoadingFinished && !isSkipped && (
               <img
                 style={{
                   width: "100px",
@@ -159,6 +167,25 @@ const GameMain: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* 스킵 버튼 */}
+      {!isGame && (
+        <button
+          onClick={handleSkip}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            backgroundColor: "#615EFC",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+        >
+          Skip
+        </button>
+      )}
       {isGame && (
         <>
           <div
@@ -169,7 +196,9 @@ const GameMain: React.FC = () => {
               flexDirection: "column",
             }}
           >
-            <GameTitle>Skrr 모의 투자 게임</GameTitle>
+            <GameTitle>
+              <b style={{ color: "#615EFC" }}>Skrrr &nbsp;</b>모의 투자 게임
+            </GameTitle>
             <Input
               colorType="strokeType"
               size="nickname"
