@@ -10,12 +10,16 @@ const TabContainer = styled.div`
   justify-content: space-around;
   margin-top: 2rem;
 `;
-const TabStyle = styled.div`
-  width: 120px;
+const TabStyle = styled.div<{ $isActive: boolean }>`
+  width: 100px;
   font-family: "SCDream7";
   text-align: center;
   padding-bottom: 0.2rem;
   border-bottom: 3px solid ${Colors.main};
+  border-bottom: ${(props) =>
+    props.$isActive ? `3px solid ${Colors.main}` : "none"};
+  color: ${(props) => (props.$isActive ? Colors.main : "black")};
+  cursor: pointer;
 `;
 
 const GameViewTab = ({ holdingList }: any) => {
@@ -32,8 +36,15 @@ const GameViewTab = ({ holdingList }: any) => {
   return (
     <div>
       <TabContainer>
-        <TabStyle onClick={clickHoldings}>보유주식</TabStyle>
-        <TabStyle onClick={clickCurrentResult}>실시간 랭킹</TabStyle>
+        <TabStyle onClick={clickHoldings} $isActive={tabView === "보유주식"}>
+          보유주식
+        </TabStyle>
+        <TabStyle
+          onClick={clickCurrentResult}
+          $isActive={tabView === "실시간 랭킹"}
+        >
+          실시간 랭킹
+        </TabStyle>
       </TabContainer>
 
       {tabView === "보유주식" ? (
