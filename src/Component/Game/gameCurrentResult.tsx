@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
 import { RankListProps } from "../../constants/interface";
-import { Colors } from "../../Styles/Colors";
 
 const fadeIn = keyframes`
     from{
@@ -34,7 +33,7 @@ const GameCurrentResult = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setRankResult(res.data);
       });
   }, []);
