@@ -14,6 +14,8 @@ import HappyNewYearModal from "./HappyNewYearModal";
 import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
+import RollModal from "../../Game/Tutorial/roll";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
