@@ -81,12 +81,16 @@ const TotalResult = () => {
   // 게임 결과 저장
   const handleRankBtn = () => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/v1/game/result/save`, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_API_URL}/v1/game/result/save`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           nav("/game/rank");
