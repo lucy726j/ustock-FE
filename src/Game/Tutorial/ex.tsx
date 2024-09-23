@@ -36,7 +36,7 @@ const ExSAm: React.FC<TutorialProps> = ({
       setHasSeenTutorial(false);
     }
     // 튜토리얼 중일때 스크롤 막기
-    if (sec) {
+    if (sec || fir) {
       document.body.style.overflow = "hidden";
 
       // 5일 때 자동 스크롤
@@ -66,12 +66,22 @@ const ExSAm: React.FC<TutorialProps> = ({
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [sec, currentStep, onNextStep]);
+  }, [sec, fir, currentStep, onNextStep]);
 
   const handleComlete = () => {
     // 튜토리얼 완료 시 로컬스토리지에 값 저장
     localStorage.setItem("hasSeenTutorial", "true");
     setHasSeenTutorial(true);
+    document.body.style.overflow = "auto";
+  };
+
+  const handleCloseTutorial = () => {
+    setFir(false);
+    setSec(false);
+    setHasSeenTutorial(true);
+    localStorage.setItem("hasSeenTutorial", "true");
+    document.body.style.overflow = "auto";
+    // tutorialClose();
   };
 
   if (hasSeenTutorial) {
@@ -95,7 +105,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                   <section id="bottomBox">
                     <button
                       type="button"
-                      onClick={tutorialClose}
+                      onClick={handleCloseTutorial}
                       style={{ color: "#919eab;" }}
                     >
                       그만 볼래요

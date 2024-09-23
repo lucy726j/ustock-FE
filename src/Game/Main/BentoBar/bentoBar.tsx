@@ -16,7 +16,7 @@ const BentoBar = () => {
     } else if (location === "rank") {
       navigate("/game/rank");
     } else {
-      navigate("/home");
+      navigate("/");
     }
   };
 
