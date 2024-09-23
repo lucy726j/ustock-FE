@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
 import { RankListProps } from "../../constants/interface";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const fadeIn = keyframes`
     from{
@@ -21,6 +22,7 @@ const TableContainer = styled.div`
 `;
 
 const GameCurrentResult = () => {
+  const check = usePortfolioStore((state) => state.check);
   const header = ["순위", "플레이어", " 현재금액", "수익률"];
   const [rankResult, setRankResult] = useState<RankListProps[]>([]);
 
@@ -36,7 +38,7 @@ const GameCurrentResult = () => {
         // console.log(res);
         setRankResult(res.data);
       });
-  }, []);
+  }, [check]);
 
   return (
     <TableContainer>
