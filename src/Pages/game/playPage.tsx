@@ -15,6 +15,8 @@ import HappyNewYearModal from "./HappyNewYearModal";
 import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
+import RollModal from "../../Game/Tutorial/roll";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,9 +33,7 @@ const PlayPage = () => {
   const yearValue = year || "2014";
   const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
   const [isPassModalVisible, setIsPassModalVisible] = useState(false);
-  const [stockListData, setStockListData] = useState<StockYearProps[] | null>(
-    null
-  );
+
   const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
   const [budget, setBudget] = useState(0);
 
@@ -112,6 +112,7 @@ const PlayPage = () => {
   return (
     <Container>
       <GameHeader text={year || "Default"} />
+      {/* <RollModal /> */}
       <GameMoney setBudget={setBudget} budget={budget} />
       <StocksTable stocks={stockData || []} />
       <GameButtons
