@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     EmblaCarouselType,
@@ -14,7 +14,6 @@ import {
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import { formatPrice, formatROR } from "../../util/util";
 import myPortfolioImg from "../../img/myPortfolioImg.png";
-import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const TWEEN_FACTOR_BASE = 0.52;
 
@@ -36,13 +35,9 @@ const EmblaCarousel: React.FC<PropType> = ({
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
     const navigate = useNavigate();
-    const [useless, setUseless] = useState(false);
 
     const { selectedIndex, scrollSnaps, onDotButtonClick } =
         useDotButton(emblaApi);
-
-    const change = usePortfolioStore((state) => state.change);
-    const setChange = usePortfolioStore((state) => state.setChange);
 
     const {
         prevBtnDisabled,
