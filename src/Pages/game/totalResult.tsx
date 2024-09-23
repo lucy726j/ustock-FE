@@ -5,10 +5,11 @@ import SkrrImg from "../../img/SkerrImg.png";
 import SaySkrr from "../../Component/Game/Rank/saySkrr";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { RankListProps, RankDataProps } from "../../constants/interface";
+import { RankDataProps } from "../../constants/interface";
 import RankList from "../../Component/Game/Rank/rankList";
 import { useNavigate } from "react-router-dom";
 import BentoBar from "../../Game/Main/BentoBar/bentoBar";
+import swal from "sweetalert";
 
 const Container = styled.div`
   display: flex;
@@ -30,6 +31,18 @@ const ImgStyle = styled.img`
 const TextStyle = styled.div`
   margin-top: 3rem;
   margin-bottom: 1rem;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+`;
+
+const BtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const TotalResult = () => {
@@ -65,6 +78,30 @@ const TotalResult = () => {
       });
   }, []);
 
+  // 게임 결과 저장
+  const handleRankBtn = () => {
+    axios
+      .put(`${process.env.REACT_APP_API_URL}/v1/game/result/save`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          nav("/game/rank");
+        } else {
+          {
+            swal({
+              title: "등록에 실패하셨습니다.",
+              text: "다시 시도해주세요!",
+              icon: "error",
+            });
+          }
+        }
+      });
+  };
+
   return (
     <Container>
       <GameHeader text={"최 종  결 과"} />
@@ -76,16 +113,32 @@ const TotalResult = () => {
 
       <RankList data={rankList} />
 
-      <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
-      <Button
-        children="🔎 주식 정체 확인하러 가기"
-        $state="normal"
-        $colorType="gradient"
-        $size="gradientBtn"
-        onClick={() => {
-          nav("/game/gameStocks");
-        }}
-      />
+      <BtnContainer>
+        <BtnBox>
+          <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
+          <Button
+            children="🔎 주식 정체 확인하러 가기"
+            $state="normal"
+            $colorType="gradient"
+            $size="gradientBtn"
+            onClick={() => {
+              nav("/game/gameStocks");
+            }}
+          />
+        </BtnBox>
+        <BtnBox>
+          <TextStyle>랭킹 등록</TextStyle>
+          <Button
+            children="내 랭킹 등록하기"
+            $state="normal"
+            $colorType="gradient"
+            $size="medium"
+            onClick={() => {
+              handleRankBtn();
+            }}
+          />
+        </BtnBox>
+      </BtnContainer>
       <BentoBar />
     </Container>
   );

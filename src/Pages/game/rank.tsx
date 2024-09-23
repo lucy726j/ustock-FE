@@ -4,6 +4,7 @@ import { RankDataProps, RankListProps } from "../../constants/interface";
 import axios from "axios";
 import RankList from "../../Component/Game/Rank/rankList";
 import BentoBar from "../../Game/Main/BentoBar/bentoBar";
+import swal from "sweetalert";
 
 const Rank = () => {
   const [rankList, setRankList] = useState<RankDataProps[]>([]);

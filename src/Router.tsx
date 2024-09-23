@@ -21,62 +21,53 @@ import PreventNavigation from "./Game/Navigation/prevent";
 import PreventBackNavigation from "./Game/Navigation/preventBack";
 
 const Router = () => {
-    const { user } = useAuth();
-    return (
-        <BrowserRouter>
-            <Layout>
-                <StockProvider>
-                    <Routes>
-                        <Route path="/nologin" element={<LoginPage />} />
-                        <Route path="/" element={<Home />} />
-                        <Route path="/stocks" element={<SearchStock />} />
-                        <Route path="/stocks/:id" element={<StockDetail />} />
-                        {user ? (
-                            <>
-                                <Route
-                                    path="/portfolio"
-                                    element={<PortfolioPage />}
-                                />
-                                <Route
-                                    path="/portfolio/:id"
-                                    element={<PortfolioDetailPage />}
-                                />
-                                <Route
-                                    path="/game/*"
-                                    element={<GameRoutes />}
-                                />
-                            </>
-                        ) : (
-                            <Route path="/*" element={<NoUserPage />} />
-                        )}
-                        <Route
-                            path="/auth/callback"
-                            element={<CallBackPage />}
-                        />
-                        <Route path="/error" element={<ErrorPage />} />
-                    </Routes>
-                </StockProvider>
-            </Layout>
-        </BrowserRouter>
-    );
+  const { user } = useAuth();
+  return (
+    <BrowserRouter>
+      <Layout>
+        <StockProvider>
+          <Routes>
+            <Route path="/nologin" element={<LoginPage />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/stocks" element={<SearchStock />} />
+            <Route path="/stocks/:id" element={<StockDetail />} />
+            {user ? (
+              <>
+                <Route path="/portfolio" element={<PortfolioPage />} />
+                <Route
+                  path="/portfolio/:id"
+                  element={<PortfolioDetailPage />}
+                />
+                <Route path="/game/*" element={<GameRoutes />} />
+              </>
+            ) : (
+              <Route path="/*" element={<NoUserPage />} />
+            )}
+            <Route path="/auth/callback" element={<CallBackPage />} />
+            <Route path="/error" element={<ErrorPage />} />
+          </Routes>
+        </StockProvider>
+      </Layout>
+    </BrowserRouter>
+  );
 };
 
 // 게임 라우터
 const GameRoutes = () => {
-    return (
-        <StockProvider>
-            <PreventNavigation />
-            <PreventBackNavigation />
-            <Routes>
-                <Route path="/" element={<SkrrrGamePage />} />
-                <Route path="play/:year" element={<PlayPage />} />
-                <Route path="info/:year" element={<InfoPage />} />
-                <Route path="result/total" element={<TotalResult />} />
-                <Route path="gameStocks" element={<GameStocks />} />
-                <Route path="rank" element={<Rank />} />
-            </Routes>
-        </StockProvider>
-    );
+  return (
+    <StockProvider>
+      <PreventNavigation />
+      <PreventBackNavigation />
+      <Routes>
+        <Route path="/" element={<SkrrrGamePage />} />
+        <Route path="play/:year" element={<PlayPage />} />
+        <Route path="info/:year" element={<InfoPage />} />
+        <Route path="result/total" element={<TotalResult />} />
+        <Route path="gameStocks" element={<GameStocks />} />
+        <Route path="rank" element={<Rank />} />
+      </Routes>
+    </StockProvider>
+  );
 };
 
 export default Router;
