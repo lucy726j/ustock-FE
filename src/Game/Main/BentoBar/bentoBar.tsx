@@ -15,8 +15,10 @@ const BentoBar = () => {
       localStorage.removeItem("hasSeenTutorial");
     } else if (location === "rank") {
       navigate("/game/rank");
+      localStorage.removeItem("hasSeenTutorial");
     } else {
       navigate("/");
+      localStorage.removeItem("hasSeenTutorial");
     }
   };
 
