@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
@@ -44,6 +44,15 @@ const PlayPage = () => {
   const [sec, setSec] = useState(false); // 두 번째 튜토리얼 단계를 위한 상태
   const [step, setStep] = useState(1); // 현재 튜토리얼 단계
 
+  // 컴포넌트가 마운트될 때 튜토리얼 상태를 로컬 스토리지에서 확인
+  useEffect(() => {
+    const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+    if (hasSeenTutorial === "true") {
+      setFir(false); // 이미 튜토리얼을 본 경우 튜토리얼을 표시하지 않음
+      setSec(false);
+    }
+  }, []);
+
   // 첫번째 튜토리얼을 닫는 함수
   const closeFirstTutorial = () => {
     setFir(false); // 첫 번째 튜토리얼을 닫음
@@ -55,12 +64,40 @@ const PlayPage = () => {
     setSec(false);
   };
 
-  // 튜토리얼이 완료되었는지 확인하고 스크롤을 허용
+  // 페이지가 마운트되거나 경로가 변경될 때마다 스크롤 상태를 초기화
   useEffect(() => {
+    const resetScroll = () => {
+      if (!fir && !sec) {
+        document.body.style.overflow = "auto"; // 스크롤 허용
+      } else {
+        document.body.style.overflow = "hidden"; // 튜토리얼 진행 중일 때 스크롤 차단
+      }
+    };
+
+    resetScroll(); // 처음 페이지가 마운트될 때 스크롤 설정
+
+    // 페이지가 떠날 때 스크롤을 auto로 리셋
+    return () => {
+      document.body.style.overflow = "auto"; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [fir, sec]); // fir, sec 상태가 변경될 때마다 실행
+
+  const location = useLocation();
+
+  // 페이지 이동 시 스크롤 상태 초기화
+  useEffect(() => {
+    document.body.style.overflow = "auto"; // 경로 변경 시 스크롤 초기화
+  }, [location.pathname]);
+
+  // 페이지 경로 변경 시 스크롤 상태를 확인하고 초기화
+  useEffect(() => {
+    // 페이지 경로가 바뀌었을 때 튜토리얼 상태에 따른 스크롤 초기화
     if (!fir && !sec) {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "auto"; // 튜토리얼이 완료되었으면 스크롤 허용
+    } else {
+      document.body.style.overflow = "hidden"; // 튜토리얼 중이면 스크롤 차단
     }
-  }, [fir, sec]);
+  }, [location.pathname, fir, sec]); // location.pathname, fir, sec이 변경될 때마다 실행
 
   // 거래하기 모달 핸들러
   const openTradeModal = () => {
