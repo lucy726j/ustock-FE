@@ -49,7 +49,7 @@ const TradeChoice = ({
     // input의 값이 직접 입력되면 호출되는 함수
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseInt(e.target.value, 10);
-        if (!isNaN(newValue) && onQuantityChange) {
+        if (!isNaN(newValue) && onQuantityChange && newValue > 0) {
             onQuantityChange(newValue);
         }
     };
