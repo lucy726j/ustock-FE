@@ -9,12 +9,12 @@ export interface Stock {
   changeRate: number;
 }
 
-export interface StcokContextProps {
+export interface StockContextProps {
   stockData: Stock[] | null;
   setStockData: (data: Stock[]) => void;
 }
 
-const StockContext = createContext<StcokContextProps | undefined>(undefined);
+const StockContext = createContext<StockContextProps | undefined>(undefined);
 
 export const useStock = () => {
   const context = useContext(StockContext);

@@ -1,24 +1,16 @@
 import { Variants, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Colors } from "../../Styles/Colors";
 import { Stock, useStock } from "../../store/stockContext";
-
-const dropdownVariants: Variants = {
-  open: {
-    opacity: 1,
-    height: "auto",
-    transition: {
-      duration: 0.3,
-    },
-  },
-  closed: {
-    opacity: 0,
-    height: 0,
-    transition: {
-      duration: 0.3,
-    },
-  },
-};
+import styled from "styled-components";
+import {
+  itemVariants,
+  dropdownVariants,
+  Ul,
+  Li,
+  Button,
+  Menu,
+} from "./gameStyle";
 
 export interface StockItemProps {
   onSelectStock: (stockId: number) => void;
@@ -40,47 +32,41 @@ const StockItem: React.FC<StockItemProps> = ({ onSelectStock }) => {
   };
 
   return (
-    <div>
-      <div
-        onClick={toggleDropdown}
-        style={{
-          cursor: "pointer",
-          display: "flex",
-          justifyContent: "center",
-          padding: "10px",
-          background: `${Colors.main}`,
-          borderRadius: "5px",
-          color: "#ffffff",
-          fontWeight: "700",
-        }}
-      >
-        {selectedStock || "종목 선택"}
-      </div>
-      <motion.ul
-        variants={dropdownVariants}
-        initial="closed"
-        animate={isOpen ? "open" : "closed"}
-        style={{
-          overflow: "hidden",
-          listStyle: "none",
-          textAlign: "center",
-          padding: "10px",
-          border: `1px solid ${Colors.main}`,
-          borderRadius: "10px",
-        }}
-      >
-        {stockData &&
-          stockData.map((item) => (
-            <li
-              key={item.stockId}
-              onClick={() => handleSelect(item)}
-              style={{ marginTop: "0.5rem" }}
-            >
-              <span>{item.name}</span>
-            </li>
-          ))}
-      </motion.ul>
-    </div>
+    <>
+      <Menu initial={false} animate={isOpen ? "open" : "closed"}>
+        <Button whileTap={{ scale: 0.97 }} onClick={toggleDropdown}>
+          {selectedStock || "종목 선택"}
+          <motion.div
+            variants={{
+              open: { rotate: 180 },
+              closed: { rotate: 0 },
+            }}
+            transition={{ duration: 0.2 }}
+            style={{ originY: 0.55 }}
+          >
+            <svg width="15" height="15" viewBox="0 0 20 20">
+              <path d="M0 7 L 20 7 L 10 16" />
+            </svg>
+          </motion.div>
+        </Button>
+        <Ul
+          variants={dropdownVariants}
+          style={{ pointerEvents: isOpen ? "auto" : "none" }}
+        >
+          {stockData &&
+            stockData.map((item) => (
+              <Li
+                variants={itemVariants}
+                key={item.stockId}
+                onClick={() => handleSelect(item)}
+                style={{ marginTop: "0.5rem" }}
+              >
+                <span>{item.name}</span>
+              </Li>
+            ))}
+        </Ul>
+      </Menu>
+    </>
   );
 };
 
