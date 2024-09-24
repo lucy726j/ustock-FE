@@ -1,11 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
 import StocksTable from "../../Component/Game/StocksTable";
 import styled from "styled-components";
 import GameTradeSwipe from "../../Component/Game/GameTradeSwipe";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
 import "./gameStyle.css";
@@ -82,41 +83,30 @@ const PlayPage = () => {
   // 넘어가기 버튼 누르면 중간결과 호출
   const handleConfirmPass = async () => {
     try {
-      if (year === "2023") {
-        console.log("게임 끝");
-        nav("/game/result/total");
-      } else {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/v1/game/interim`,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.status === 200) {
-          // 새해 모달을 먼저 보여줌(7초동안 띄워야함)
-
-          setIsHappyNewYearModal(true);
-          if (
-            (parseInt(yearValue, 10) + 1).toString() ===
-            response.data.year.toString()
-          ) {
-            console.log(response.data);
-            const updatedStockList = response.data.stockList;
-            setStockData(updatedStockList);
-          }
-          // 4초 후 페이지를 이동
-          setTimeout(() => {
-            const nextYear = (parseInt(yearValue, 10) + 1).toString();
-
-            nav(`/game/play/${nextYear}`);
-            setIsHappyNewYearModal(false);
-            setCheck(!check);
-            // window.location.reload();
-          }, 500); // 4초 동안 모달을 보여줌
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/v1/game/interim`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
+      if (response.status === 200) {
+        // 새해 모달을 먼저 보여줌(7초동안 띄워야함)
+        setIsHappyNewYearModal(true);
+        if (yearValue === response.data.year) {
+          const updatedStockList = response.data.stockList;
+          setStockData(updatedStockList);
+        }
+        // 4초 후 페이지를 이동
+        setTimeout(() => {
+          const nextYear = (parseInt(yearValue, 10) + 1).toString();
+          nav(`/game/play/${nextYear}`);
+          setIsHappyNewYearModal(false);
+          setCheck(!check);
+          // window.location.reload();
+        }, 3000); // 4초 동안 모달을 보여줌
       }
     } catch (error) {
       console.error(error);
