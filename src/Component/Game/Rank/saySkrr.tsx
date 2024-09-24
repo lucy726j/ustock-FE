@@ -2,33 +2,11 @@ import styled from "styled-components";
 import { SaySkrrProps } from "../../../constants/interface";
 import { Colors } from "../../../Styles/Colors";
 import SpeechBubbleImg from "../../../img/speechBubble.png";
+import { formatPrice } from "../../../util/util";
 
 const Say = styled.div`
   position: relative;
 `;
-//   /* 말풍선 모양.. */
-//   position: absolute;
-//   width: 230px;
-//   height: 100px;
-//   top: 20px;
-//   left: 10px;
-//   background: white;
-//   border: 1px solid #484848;
-//   color: ${Colors.main};
-//   border-radius: 80px;
-//   padding-left: 1.8rem;
-//   padding-top: 1.2rem;
-
-//   ::after {
-//     border-top: 30px solid #484848;
-//     border-left: 30px solid transparent;
-//     border-right: 1px solid transparent;
-//     border-bottom: 0px solid transparent;
-//     content: "";
-//     position: absolute;
-//     top: 98px;
-//     left: 160px;
-//   }
 
 const SpeechBubble = styled.img`
   width: 220px;
@@ -47,6 +25,7 @@ const TextBox = styled.div`
 
 const Colored = styled.span`
   color: ${Colors.main};
+  font-family: "SCDream6";
 `;
 
 const SaySkrr: React.FC<SaySkrrProps> = ({ rank, money }) => {
@@ -60,7 +39,7 @@ const SaySkrr: React.FC<SaySkrrProps> = ({ rank, money }) => {
             <br />
             10년 전에 투자했으면
             <br />
-            <Colored>{money}원</Colored>
+            <Colored>{formatPrice(money)}원</Colored>
             <br />
             벌었을텐데...
           </div>
