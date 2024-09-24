@@ -33,20 +33,30 @@ const TextStyle = styled.div`
   margin-bottom: 1rem;
 `;
 
-const BtnContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-`;
-
 const BtnBox = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: 2.5rem;
+`;
+
+const NickBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: 1px solid;
+  border-radius: 5px;
+  width: 260px;
+  height: 36px;
+  padding: 10px;
+  color: #858494;
 `;
 
 const TotalResult = () => {
   const nav = useNavigate();
+  const [user, setUser] = useState("");
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
   const [userRank, setUserRank] = useState<number>(0);
   const [userMoney, setUserMoney] = useState<number>(0);
@@ -74,6 +84,9 @@ const TotalResult = () => {
           // 사용자 최종 수익금 저장
           const userBudget = list[userIndex].total;
           setUserMoney(userBudget);
+
+          // 사용자 닉네임 저장
+          setUser(list[userIndex].nickname);
         }
       });
   }, []);
@@ -114,35 +127,34 @@ const TotalResult = () => {
         <SaySkrr rank={userRank} money={userMoney} />
         <ImgStyle src={SkrrImg} alt="껄무새 이미지" />
       </SkrrContainer>
+      <BtnBox>
+        <NickBox>
+          <p style={{ color: "black" }}>{user} </p>
+          <p>의 점수를</p>
+        </NickBox>
+        <Button
+          children="랭킹에 등록하기"
+          $state="normal"
+          $colorType="gradient"
+          $size="small"
+          onClick={() => {
+            handleRankBtn();
+          }}
+        />
+      </BtnBox>
 
       <RankList data={rankList} />
 
-      <BtnContainer>
-        <BtnBox>
-          <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
-          <Button
-            children="🔎 주식 정체 확인하러 가기"
-            $state="normal"
-            $colorType="gradient"
-            $size="gradientBtn"
-            onClick={() => {
-              nav("/game/gameStocks");
-            }}
-          />
-        </BtnBox>
-        <BtnBox>
-          <TextStyle>랭킹 등록</TextStyle>
-          <Button
-            children="내 랭킹 등록하기"
-            $state="normal"
-            $colorType="gradient"
-            $size="medium"
-            onClick={() => {
-              handleRankBtn();
-            }}
-          />
-        </BtnBox>
-      </BtnContainer>
+      <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
+      <Button
+        children="🔎 주식 정체 확인하러 가기"
+        $state="normal"
+        $colorType="gradient"
+        $size="gradientBtn"
+        onClick={() => {
+          nav("/game/gameStocks");
+        }}
+      />
       <BentoBar />
     </Container>
   );
