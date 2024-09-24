@@ -10,7 +10,7 @@ const RankList: React.FC<RankListProps> = ({ data }) => {
   return (
     <Container>
       {data.length < 1 ? (
-        <p>아직 등록된 랭킹이 없습니다!</p>
+        <p>게임 결과가 없습니다!</p>
       ) : (
         <>
           {data.map((item, index) => {
