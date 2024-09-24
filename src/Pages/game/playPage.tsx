@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
@@ -53,6 +54,13 @@ const PlayPage = () => {
   const closeSecTutorial = () => {
     setSec(false);
   };
+
+  // 튜토리얼이 완료되었는지 확인하고 스크롤을 허용
+  useEffect(() => {
+    if (!fir && !sec) {
+      document.body.style.overflow = "auto";
+    }
+  }, [fir, sec]);
 
   // 거래하기 모달 핸들러
   const openTradeModal = () => {

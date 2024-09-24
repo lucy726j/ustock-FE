@@ -5,13 +5,8 @@ const PreventBackNavigation: React.FC = () => {
 
   useEffect(() => {
     const handlePopState = () => {
-      // popstate 이벤트가 처음 발생했는지 확인
-      if (!isPopStateTriggered) {
-        window.history.pushState(null, "", window.location.href);
-        setIsPopStateTriggered(true); // 이벤트가 트리거된 후 상태 변경
-      } else {
-        setIsPopStateTriggered(false); // 무한 루프 방지
-      }
+      window.location.href = "/"; // 홈 화면으로 리다이렉트
+      localStorage.removeItem("hasSeenTutorial");
     };
 
     // 페이지가 처음 로드될 때 상태를 대체
@@ -24,7 +19,7 @@ const PreventBackNavigation: React.FC = () => {
       // 컴포넌트 언마운트 시 이벤트 리스너 제거
       window.removeEventListener("popstate", handlePopState);
     };
-  }, [isPopStateTriggered]);
+  }, []);
 
   return null;
 };
