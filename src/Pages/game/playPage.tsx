@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
@@ -18,151 +18,189 @@ import { usePortfolioStore } from "../../store/usePortfolioStore";
 import RollModal from "../../Game/Tutorial/roll";
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
 `;
 
 const PlayPage = () => {
-    const { year } = useParams<{ year: string }>();
-    const { stockData, setStockData } = useStock();
-    const nav = useNavigate();
-    const yearValue = year || "2014";
-    const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
-    const [isPassModalVisible, setIsPassModalVisible] = useState(false);
-    const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
-    const [budget, setBudget] = useState(0);
-    const [loading, setLoading] = useState(false);
+  const { year } = useParams<{ year: string }>();
+  const { stockData, setStockData } = useStock();
+  const nav = useNavigate();
+  const yearValue = year || "2014";
+  const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
+  const [isPassModalVisible, setIsPassModalVisible] = useState(false);
+  const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
+  const [budget, setBudget] = useState(0);
 
-    const check = usePortfolioStore((state) => state.check);
-    const setCheck = usePortfolioStore((state) => state.setCheck);
+  const check = usePortfolioStore((state) => state.check);
+  const setCheck = usePortfolioStore((state) => state.setCheck);
 
-    // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
-    const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
-    const [sec, setSec] = useState(false); // 두 번째 튜토리얼 단계를 위한 상태
-    const [step, setStep] = useState(1); // 현재 튜토리얼 단계
+  // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
+  const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
+  const [sec, setSec] = useState(false); // 두 번째 튜토리얼 단계를 위한 상태
+  const [step, setStep] = useState(1); // 현재 튜토리얼 단계
 
-    // 첫번째 튜토리얼을 닫는 함수
-    const closeFirstTutorial = () => {
-        setFir(false); // 첫 번째 튜토리얼을 닫음
-        setSec(true); // 두 번째 튜토리얼도 닫음
+  // 컴포넌트가 마운트될 때 튜토리얼 상태를 로컬 스토리지에서 확인
+  useEffect(() => {
+    const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+    if (hasSeenTutorial === "true") {
+      setFir(false); // 이미 튜토리얼을 본 경우 튜토리얼을 표시하지 않음
+      setSec(false);
+    }
+  }, []);
+
+  // 첫번째 튜토리얼을 닫는 함수
+  const closeFirstTutorial = () => {
+    setFir(false); // 첫 번째 튜토리얼을 닫음
+    setSec(true); // 두 번째 튜토리얼도 닫음
+  };
+
+  // 두번째 튜토리얼을 닫는 함수
+  const closeSecTutorial = () => {
+    setSec(false);
+  };
+
+  // 페이지가 마운트되거나 경로가 변경될 때마다 스크롤 상태를 초기화
+  useEffect(() => {
+    const resetScroll = () => {
+      if (!fir && !sec) {
+        document.body.style.overflow = "auto"; // 스크롤 허용
+      } else {
+        document.body.style.overflow = "hidden"; // 튜토리얼 진행 중일 때 스크롤 차단
+      }
     };
 
-    // 두번째 튜토리얼을 닫는 함수
-    const closeSecTutorial = () => {
-        setSec(false);
-    };
+    resetScroll(); // 처음 페이지가 마운트될 때 스크롤 설정
 
-    // 튜토리얼이 완료되었는지 확인하고 스크롤을 허용
-    useEffect(() => {
-        if (!fir && !sec) {
-            document.body.style.overflow = "auto";
+    // 페이지가 떠날 때 스크롤을 auto로 리셋
+    return () => {
+      document.body.style.overflow = "auto"; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [fir, sec]); // fir, sec 상태가 변경될 때마다 실행
+
+  const location = useLocation();
+
+  // 페이지 이동 시 스크롤 상태 초기화
+  useEffect(() => {
+    document.body.style.overflow = "auto"; // 경로 변경 시 스크롤 초기화
+  }, [location.pathname]);
+
+  // 페이지 경로 변경 시 스크롤 상태를 확인하고 초기화
+  useEffect(() => {
+    // 페이지 경로가 바뀌었을 때 튜토리얼 상태에 따른 스크롤 초기화
+    if (!fir && !sec) {
+      document.body.style.overflow = "auto"; // 튜토리얼이 완료되었으면 스크롤 허용
+    } else {
+      document.body.style.overflow = "hidden"; // 튜토리얼 중이면 스크롤 차단
+    }
+  }, [location.pathname, fir, sec]); // location.pathname, fir, sec이 변경될 때마다 실행
+
+  // 거래하기 모달 핸들러
+  const openTradeModal = () => {
+    setIsTradeModalVisible(true);
+  };
+
+  const closeTradeModal = () => {
+    setIsTradeModalVisible(false);
+  };
+
+  // 넘어가기 모달 핸들러
+  const openPassModal = () => {
+    setIsPassModalVisible(true);
+  };
+
+  const closePassModal = () => {
+    setIsPassModalVisible(false);
+  };
+
+  // 넘어가기 버튼 누르면 중간결과 호출
+  const handleConfirmPass = async () => {
+    try {
+      if (year === "2023") {
+        console.log("게임 끝");
+        nav("/game/result/total");
+      } else {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/v1/game/interim`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) {
+          // 새해 모달을 먼저 보여줌(7초동안 띄워야함)
+
+          setIsHappyNewYearModal(true);
+          if (
+            (parseInt(yearValue, 10) + 1).toString() ===
+            response.data.year.toString()
+          ) {
+            const updatedStockList = response.data.stockList;
+            setStockData(updatedStockList);
+          }
+          // 4초 후 페이지를 이동
+          setTimeout(() => {
+            const nextYear = (parseInt(yearValue, 10) + 1).toString();
+
+            nav(`/game/play/${nextYear}`);
+            setIsHappyNewYearModal(false);
+            setCheck(!check);
+            // window.location.reload();
+          }, 500); // 4초 동안 모달을 보여줌
         }
-    }, [fir, sec]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      closePassModal();
+    }
+  };
 
-    // 거래하기 모달 핸들러
-    const openTradeModal = () => {
-        setIsTradeModalVisible(true);
-    };
+  return (
+    <Container>
+      <GameHeader text={year || "Default"} />
+      <GameMoney setBudget={setBudget} budget={budget} />
+      <StocksTable stocks={stockData || []} />
+      <GameButtons
+        openTradeModal={openTradeModal}
+        openPassModal={openPassModal}
+        setBudget={setBudget}
+        budget={budget}
+      />
+      <GameTradeSwipe
+        isVisible={isTradeModalVisible}
+        onClose={closeTradeModal}
+        year={yearValue.toString()}
+        budget={budget}
+      />
+      <PassConfirmModal
+        isOpen={isPassModalVisible}
+        onRequestClose={closePassModal}
+        onConfirm={handleConfirmPass}
+      />
+      <HappyNewYearModal isVisible={isHappyNewYearModal} />
 
-    const closeTradeModal = () => {
-        setIsTradeModalVisible(false);
-    };
-
-    // 넘어가기 모달 핸들러
-    const openPassModal = () => {
-        setIsPassModalVisible(true);
-    };
-
-    const closePassModal = () => {
-        setIsPassModalVisible(false);
-    };
-
-    // 넘어가기 버튼 누르면 중간결과 호출
-    const handleConfirmPass = async () => {
-        try {
-            setLoading(true);
-            setIsHappyNewYearModal(true);
-            setIsPassModalVisible(false);
-
-            if (year === "2023") {
-                console.log("게임 끝");
-                nav("/game/result/total");
-            } else {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_API_URL}/v1/game/interim`,
-                    {
-                        withCredentials: true,
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                if (response.status === 200) {
-                    if (
-                        (parseInt(yearValue, 10) + 1).toString() ===
-                        response.data.year.toString()
-                    ) {
-                        const updatedStockList = response.data.stockList;
-                        setStockData(updatedStockList);
-                    }
-
-                    // API 완료 후 모달 닫고 페이지 이동
-                    setIsHappyNewYearModal(false);
-                    const nextYear = (parseInt(yearValue, 10) + 1).toString();
-                    nav(`/game/play/${nextYear}`);
-                    setCheck(!check);
-                }
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-            closePassModal();
-        }
-    };
-
-    return (
-        <Container>
-            <GameHeader text={year || "Default"} />
-            <GameMoney setBudget={setBudget} budget={budget} />
-            <StocksTable stocks={stockData || []} />
-            <GameButtons
-                openTradeModal={openTradeModal}
-                openPassModal={openPassModal}
-                setBudget={setBudget}
-                budget={budget}
-            />
-            <GameTradeSwipe
-                isVisible={isTradeModalVisible}
-                onClose={closeTradeModal}
-                year={yearValue.toString()}
-                budget={budget}
-            />
-            <PassConfirmModal
-                isOpen={isPassModalVisible}
-                onRequestClose={closePassModal}
-                onConfirm={handleConfirmPass}
-            />
-            <HappyNewYearModal isVisible={isHappyNewYearModal} />
-
-            {/* 튜토리얼을 표시 */}
-            {(fir || sec) && (
-                <ExSAm
-                    fir={fir}
-                    setFir={setFir}
-                    setSec={setSec}
-                    step={step}
-                    tutorialClose={closeFirstTutorial}
-                    sec={sec}
-                    closeSecondTutorial={closeSecTutorial}
-                />
-            )}
-        </Container>
-    );
+      {/* 튜토리얼을 표시 */}
+      {(fir || sec) && (
+        <ExSAm
+          fir={fir}
+          setFir={setFir}
+          setSec={setSec}
+          step={step}
+          tutorialClose={closeFirstTutorial}
+          sec={sec}
+          closeSecondTutorial={closeSecTutorial}
+        />
+      )}
+    </Container>
+  );
 };
 
 export default PlayPage;
+
