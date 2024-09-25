@@ -189,7 +189,6 @@ const PlayPage = () => {
           textAlign: "left",
         }}
       >
-        <p style={{ paddingLeft: "3.5rem", fontSize: "12px" }}>게임 진행도</p>
         <ProgressBar progress={progress} />
       </div>
 
