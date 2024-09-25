@@ -48,9 +48,15 @@ const TradeChoice = ({
 
     // input의 값이 직접 입력되면 호출되는 함수
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = parseInt(e.target.value, 10);
-        if (!isNaN(newValue) && onQuantityChange && newValue > 0) {
-            onQuantityChange(newValue);
+        const newValue = e.target.value;
+
+        if (newValue === "") {
+            onQuantityChange?.(0);
+        } else {
+            const parsedValue = parseInt(newValue, 10);
+            if (!isNaN(parsedValue) && parsedValue >= 0) {
+                onQuantityChange?.(parsedValue);
+            }
         }
     };
 
@@ -131,7 +137,7 @@ const TradeChoiceContainer = styled.div`
 
 const Title = styled.h2<{ isSelected: boolean }>`
     font-size: 15px;
-    color: ${(props) => (props.isSelected ? "#615EFC" : "#d3d3d3")};
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
     margin-left: -200px;
     margin-bottom: 8px;
 `;
@@ -154,14 +160,14 @@ const ChoiceButton = styled.div<{ isSelected: boolean }>`
     width: 30px;
     height: 30px;
     border-radius: 50px;
-    border: 2px solid ${(props) => (props.isSelected ? "#615EFC" : "#a8a8a8")};
+    border: 2.5px solid ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     font-size: 15px;
     font-weight: 700;
-    color: ${(props) => (props.isSelected ? "#615EFC" : "#a8a8a8")};
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
 `;
 
 // 수량을 입력받는 인풋 필드
@@ -170,20 +176,20 @@ const QuantityInput = styled.input<{ isSelected: boolean }>`
     text-align: center;
     border: none;
     font-size: 16px;
-    color: ${(props) => (props.isSelected ? "#615EFC" : "#a8a8a8")};
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
     background-color: transparent;
     outline: none;
 `;
 
 const SelectedOption = styled.h3<{ isSelected: boolean }>`
     width: 80px;
-    color: ${(props) => (props.isSelected ? "#615EFC" : "#a8a8a8")};
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
 `;
 
 const CurrentPrice = styled.div<{ isSelected: boolean }>`
     margin-top: -25px;
     font-size: 13px;
-    color: ${(props) => (props.isSelected ? "#615EFC" : "#a8a8a8")};
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
 `;
 
 export default TradeChoice;
