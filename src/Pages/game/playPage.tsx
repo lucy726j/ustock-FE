@@ -16,6 +16,7 @@ import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 import RollModal from "../../Game/Tutorial/roll";
+import ProgressBar from "../../Game/Loading/progressBar";
 
 const Container = styled.div`
   display: flex;
@@ -39,6 +40,9 @@ const PlayPage = () => {
 
   const check = usePortfolioStore((state) => state.check);
   const setCheck = usePortfolioStore((state) => state.setCheck);
+
+  const startYear = 2014;
+  const lastYear = 2023;
 
   // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
   const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
@@ -100,6 +104,15 @@ const PlayPage = () => {
     }
   }, [location.pathname, fir, sec]); // location.pathname, fir, sec이 변경될 때마다 실행
 
+  // 년도 진행률 표시
+  const calculateProgress = () => {
+    return (
+      ((parseInt(yearValue, 10) - startYear) / (lastYear - startYear)) * 100
+    );
+  };
+
+  const [progress, setProgress] = useState<number>(calculateProgress);
+
   // 거래하기 모달 핸들러
   const openTradeModal = () => {
     setIsTradeModalVisible(true);
@@ -152,6 +165,10 @@ const PlayPage = () => {
           const nextYear = (parseInt(yearValue, 10) + 1).toString();
           nav(`/game/play/${nextYear}`);
           setCheck(!check);
+          setProgress(
+            ((parseInt(nextYear, 10) - startYear) / (lastYear - startYear)) *
+              100
+          );
         }
       }
     } catch (error) {
@@ -165,6 +182,17 @@ const PlayPage = () => {
   return (
     <Container>
       <GameHeader text={year || "Default"} />
+      <div
+        style={{
+          width: "100%",
+          marginTop: "1rem",
+          textAlign: "left",
+        }}
+      >
+        <p style={{ paddingLeft: "3.5rem", fontSize: "12px" }}>게임 진행도</p>
+        <ProgressBar progress={progress} />
+      </div>
+
       <GameMoney setBudget={setBudget} budget={budget} />
       <StocksTable stocks={stockData || []} />
       <GameButtons
@@ -203,4 +231,3 @@ const PlayPage = () => {
 };
 
 export default PlayPage;
-

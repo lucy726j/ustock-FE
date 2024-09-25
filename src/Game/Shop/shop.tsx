@@ -71,7 +71,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
       if (res.status === 200) {
         swal({
           icon: "success",
-          title: "구매가 되었습니다.",
+          title: "구매가 완료되었습니다.",
         });
         setHint(res.data.hint);
         setBudget(
