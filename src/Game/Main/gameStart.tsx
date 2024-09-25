@@ -245,7 +245,7 @@ const GameMain: React.FC = () => {
                         placeholder="닉네임"
                         onChange={handleChangeQuantity}
                         value={nickname}
-                        maxLength={5}
+                        maxLength={8}
                       />
                     </div>
                     <ButtonDiv>
