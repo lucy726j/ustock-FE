@@ -3,7 +3,7 @@ import * as S from "./rankBoxStyle";
 import gold from "../../../img/goldMedal.png";
 import silver from "../../../img/silverMedal.png";
 import bronze from "../../../img/bronzeMedal.png";
-import skrr from "../../../img/SkerrImg.png";
+import { formatPrice, formatRate } from "../../../util/util";
 
 const RankBox: React.FC<RankDataProps> = ({
   nickname,
@@ -15,7 +15,6 @@ const RankBox: React.FC<RankDataProps> = ({
 
   return (
     <S.Container>
-      {/* 메달 or 순위 */}
       {rank >= 4 ? (
         <S.IndexBox>{rank}</S.IndexBox>
       ) : (
@@ -24,8 +23,8 @@ const RankBox: React.FC<RankDataProps> = ({
 
       <S.UserContainer>
         <S.Nickname>{nickname}</S.Nickname>
-        <S.Budget>{total}</S.Budget>
-        <S.Rate>{profitRate} %</S.Rate>
+        <S.Budget>{formatPrice(total)}</S.Budget>
+        <S.Rate>{formatRate(profitRate)} %</S.Rate>
       </S.UserContainer>
     </S.Container>
   );

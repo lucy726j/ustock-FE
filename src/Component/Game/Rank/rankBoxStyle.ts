@@ -34,18 +34,21 @@ export const UserContainer = styled.div`
 `;
 
 export const Nickname = styled.div`
-  width: 150px;
+  width: 120px;
 `;
 
-export const Budget = styled.span`
-  width: 120px;
+export const Budget = styled.div`
+  width: 130px;
   color: #858494;
   font-family: "SCDream3";
+  text-align: right;
 `;
 
-export const Rate = styled.span`
+export const Rate = styled.div`
   color: ${Colors.red};
   font-family: "SCDream3";
+  text-align: right;
+  width: 100px;
 `;
 
 export const Medal = styled.img`
