@@ -138,7 +138,7 @@ const GameMoneyBalance = styled.div`
 
 const BalanceDetailButton = styled.div`
     position: absolute;
-    top: 185px;
+    top: 118px;
     right: 20px;
 `;
 
