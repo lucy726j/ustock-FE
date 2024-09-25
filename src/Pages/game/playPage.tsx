@@ -35,6 +35,7 @@ const PlayPage = () => {
   const [isPassModalVisible, setIsPassModalVisible] = useState(false);
   const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
   const [budget, setBudget] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const check = usePortfolioStore((state) => state.check);
   const setCheck = usePortfolioStore((state) => state.setCheck);
@@ -120,6 +121,10 @@ const PlayPage = () => {
   // 넘어가기 버튼 누르면 중간결과 호출
   const handleConfirmPass = async () => {
     try {
+      setLoading(true);
+      setIsHappyNewYearModal(true);
+      setIsPassModalVisible(false);
+
       if (year === "2023") {
         console.log("게임 끝");
         nav("/game/result/total");
@@ -134,9 +139,6 @@ const PlayPage = () => {
           }
         );
         if (response.status === 200) {
-          // 새해 모달을 먼저 보여줌(7초동안 띄워야함)
-
-          setIsHappyNewYearModal(true);
           if (
             (parseInt(yearValue, 10) + 1).toString() ===
             response.data.year.toString()
@@ -144,20 +146,18 @@ const PlayPage = () => {
             const updatedStockList = response.data.stockList;
             setStockData(updatedStockList);
           }
-          // 4초 후 페이지를 이동
-          setTimeout(() => {
-            const nextYear = (parseInt(yearValue, 10) + 1).toString();
 
-            nav(`/game/play/${nextYear}`);
-            setIsHappyNewYearModal(false);
-            setCheck(!check);
-            // window.location.reload();
-          }, 500); // 4초 동안 모달을 보여줌
+          // API 완료 후 모달 닫고 페이지 이동
+          setIsHappyNewYearModal(false);
+          const nextYear = (parseInt(yearValue, 10) + 1).toString();
+          nav(`/game/play/${nextYear}`);
+          setCheck(!check);
         }
       }
     } catch (error) {
       console.error(error);
     } finally {
+      setLoading(false);
       closePassModal();
     }
   };
