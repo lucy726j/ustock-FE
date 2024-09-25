@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import Mario from "./mario.json";
-import { Player } from "@lottiefiles/react-lottie-player";
-import { useEffect, useRef } from "react";
 
 const Container = styled.div`
   width: 100%;
