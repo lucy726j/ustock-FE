@@ -71,6 +71,7 @@ const GameTradeSwipe = ({
             quantity,
             acting,
         };
+
         try {
             const res = await axios.post(
                 `${process.env.REACT_APP_API_URL}/v1/game/stock`,
@@ -82,6 +83,8 @@ const GameTradeSwipe = ({
                 swal({ title: "거래 성공", icon: "success" });
                 setShow(false);
                 setIsModalOpen(false);
+                setSelectedStock(stockOptions[0]);
+                setQuantity(1);
                 onClose();
             }
         } catch (error: any) {
@@ -93,7 +96,8 @@ const GameTradeSwipe = ({
                 icon: "error",
             }).then(() => {
                 setShow(false);
-                onClose();
+                setIsModalOpen(false);
+                // onClose();
             });
         }
     };
@@ -132,7 +136,13 @@ const GameTradeSwipe = ({
             <SwipeModal isOpen={show}>
                 <SwipeContainer>
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                        <CloseButton onClick={onClose}></CloseButton>
+                        <CloseButton
+                            onClick={() => {
+                                setSelectedStock(stockOptions[0]);
+                                setQuantity(1);
+                                onClose();
+                            }}
+                        ></CloseButton>
                     </div>
                     <Title>주식 거래하기</Title>
                     <TradeChoice
@@ -163,11 +173,13 @@ const GameTradeSwipe = ({
                     <TradeButtonGroup>
                         <TradeButton
                             onClick={() => openTradeConfirmModal("SELL")}
+                            disabled={quantity === 0} // 수량이 0이거나 빈 값일 때 비활성화
                         >
                             팔기
                         </TradeButton>
                         <TradeButton
                             onClick={() => openTradeConfirmModal("BUY")}
+                            disabled={quantity === 0} // 수량이 0이거나 빈 값일 때 비활성화
                         >
                             사기
                         </TradeButton>
@@ -241,7 +253,10 @@ const TradeButton = styled.button`
     width: 100px;
     height: 40px;
     border-radius: 15px;
-    background: radial-gradient(circle, #4834d4 0%, #686de0 100%);
+    background: ${({ disabled }) =>
+        disabled
+            ? "radial-gradient(circle, #cccccc 0%, #e0e0e0 100%)"
+            : "radial-gradient(circle, #4834d4 0%, #686de0 100%)"};
     color: #fff;
     border: none;
     font-size: 14px;
