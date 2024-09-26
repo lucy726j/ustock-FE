@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Colors } from "../../Styles/Colors";
 import { GameHeaderProp } from "../../constants/interface";
 import RuleModal from "../../Game/Tutorial/rule";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -18,10 +19,17 @@ const Container = styled.div`
 `;
 
 const GameHeader: React.FC<GameHeaderProp> = ({ text }) => {
+  const location = useLocation();
+  const rule = location.pathname.split("/")[2];
+
   return (
     <Container>
       <>{text}</>
-      <RuleModal />
+      {rule === "gameStocks" || rule === "total" || rule === "rank" ? (
+        <></>
+      ) : (
+        <RuleModal />
+      )}
     </Container>
   );
 };
