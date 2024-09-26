@@ -21,28 +21,37 @@
 
       // 년도
       & .rowBox {
-        display: flex-start;
+        display: flex;
         gap: 10px;
         position: absolute;
-        left: 755px;
+        left: 715px;
         // width: 100%;
         height: 100vh;
-        margin-top: -35px;
+        top: 28px;
         @media (max-width: 430px) {
-          display: flex-start;
           position: absolute;
-          left: 210px;
+          left: 165px;
           height: 100vh;
-          margin-top: -35px;
+        }
+        @media (max-width: 375px) {
+          position: absolute;
+          left: 135px;
+          height: 100vh;
+        }
+        @media (max-width: 390px) {
+          position: absolute;
+          left: 138px;
+          height: 100vh;
         }
         & .mainIcon {
           background-color: rgb(255 255 255);
-          // position: absolute;
-          // left: 50%;
-          transform: translateX(-50%);
           width: 85px;
           height: 44px;
           border-radius: 12px;
+
+          @media (max-width: 430px) {
+            width: 100px;
+          }
         }
         & .text {
           color: rgb(255 255 255);
@@ -54,6 +63,8 @@
           @media (max-width: 430px) {
             left: -40px;
             position: absolute;
+            font-size: 12px;
+            top: 48px;
           }
         }
       }
@@ -61,18 +72,24 @@
     // 거래 가능 금액
     & .rowBox2 {
       display: flex;
-      align-items: center;
-      margin-top: 96px;
-      position: relative;
+      top: 228px;
+      position: absolute;
       width: 100%;
       height: 100vh;
-      // flex-direction: column;
       @media (max-width: 430px) {
-        display: flex-start;
         position: absolute;
-        left: 210px;
+        left: 180px;
         height: 100vh;
-        margin-top: -35px;
+      }
+      @media (max-width: 375px) {
+        position: absolute;
+        left: 135px;
+        height: 100vh;
+      }
+      @media (max-width: 390px) {
+        position: absolute;
+        left: 138px;
+        height: 100vh;
       }
       color: rgb(255 255 255 / 80%);
       & .mainIcon2 {
@@ -84,6 +101,9 @@
         transform: translateX(-50%);
         width: 200px;
         height: 40px;
+        @media (max-width: 430px) {
+          width: 100px;
+        }
       }
       & p {
         color: rgb(255 255 255);

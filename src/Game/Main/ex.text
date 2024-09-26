@@ -1,4 +1,4 @@
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+mport { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
@@ -10,9 +10,11 @@ import { useState } from "react";
 import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
 import "./gameStyle.css";
+import ExSAm from "../../Game/Tutorial/ex";
 import HappyNewYearModal from "./HappyNewYearModal";
 import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
+// import RollModal from "../../Game/Tutorial/roll";
 import ProgressBar from "../../Game/Loading/progressBar";
 
 const Container = styled.div`
@@ -21,6 +23,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: relative;
 `;
 
 const PlayPage = () => {
@@ -39,6 +42,66 @@ const PlayPage = () => {
 
     const startYear = 2014;
     const lastYear = 2023;
+
+    // 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
+    const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
+    const [sec, setSec] = useState(false); // 두 번째 튜토리얼 단계를 위한 상태
+    const [step, setStep] = useState(1); // 현재 튜토리얼 단계
+
+    // 컴포넌트가 마운트될 때 튜토리얼 상태를 로컬 스토리지에서 확인
+    useEffect(() => {
+        const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+        if (hasSeenTutorial === "true") {
+            setFir(false); // 이미 튜토리얼을 본 경우 튜토리얼을 표시하지 않음
+            setSec(false);
+        }
+    }, []);
+
+    // 첫번째 튜토리얼을 닫는 함수
+    const closeFirstTutorial = () => {
+        setFir(false); // 첫 번째 튜토리얼을 닫음
+        setSec(true); // 두 번째 튜토리얼도 닫음
+    };
+
+    // 두번째 튜토리얼을 닫는 함수
+    const closeSecTutorial = () => {
+        setSec(false);
+    };
+
+    // 페이지가 마운트되거나 경로가 변경될 때마다 스크롤 상태를 초기화
+    useEffect(() => {
+        const resetScroll = () => {
+            if (!fir && !sec) {
+                document.body.style.overflow = "auto"; // 스크롤 허용
+            } else {
+                document.body.style.overflow = "hidden"; // 튜토리얼 진행 중일 때 스크롤 차단
+            }
+        };
+
+        resetScroll(); // 처음 페이지가 마운트될 때 스크롤 설정
+
+        // 페이지가 떠날 때 스크롤을 auto로 리셋
+        return () => {
+            document.body.style.overflow = "auto"; // 컴포넌트 언마운트 시 스크롤 허용
+        };
+    }, [fir, sec]); // fir, sec 상태가 변경될 때마다 실행
+
+    const location = useLocation();
+
+    // 페이지 이동 시 스크롤 상태 초기화
+    useEffect(() => {
+        document.body.style.overflow = "auto"; // 경로 변경 시 스크롤 초기화
+    }, [location.pathname]);
+
+    // 페이지 경로 변경 시 스크롤 상태를 확인하고 초기화
+    useEffect(() => {
+        // 페이지 경로가 바뀌었을 때 튜토리얼 상태에 따른 스크롤 초기화
+        if (!fir && !sec) {
+            document.body.style.overflow = "auto"; // 튜토리얼이 완료되었으면 스크롤 허용
+        } else {
+            document.body.style.overflow = "hidden"; // 튜토리얼 중이면 스크롤 차단
+        }
+    }, [location.pathname, fir, sec]); // location.pathname, fir, sec이 변경될 때마다 실행
 
     // 년도 진행률 표시
     const calculateProgress = () => {
@@ -102,11 +165,6 @@ const PlayPage = () => {
                     const nextYear = (parseInt(yearValue, 10) + 1).toString();
                     nav(`/game/play/${nextYear}`);
                     setCheck(!check);
-                    setProgress(
-                        ((parseInt(nextYear, 10) - startYear) /
-                            (lastYear - startYear)) *
-                            100
-                    );
                 }
             }
         } catch (error) {
@@ -120,29 +178,16 @@ const PlayPage = () => {
     return (
         <Container>
             <GameHeader text={year || "Default"} />
-
             <div
-                style={{
-                    width: "100%",
-                    marginTop: "1rem",
-                    textAlign: "left",
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-            >
-                <div>
-                    <p
-                        style={{
-                            paddingLeft: "3.5rem",
-                            fontSize: "12px",
-                            marginBottom: "0.5rem",
-                        }}
-                    >
-                        게임 진행도
-                    </p>
-                </div>
-                <ProgressBar progress={progress} />
-            </div>
+        style={{
+          width: "100%",
+          marginTop: "1rem",
+          textAlign: "left",
+        }}
+      >
+        <p style={{ paddingLeft: "3.5rem", fontSize: "12px" }}>게임 진행도</p>
+        <ProgressBar progress={progress} />
+      </div>
             <GameMoney setBudget={setBudget} budget={budget} />
             <StocksTable stocks={stockData || []} />
             <GameButtons
@@ -161,9 +206,21 @@ const PlayPage = () => {
                 isOpen={isPassModalVisible}
                 onRequestClose={closePassModal}
                 onConfirm={handleConfirmPass}
-                year={yearValue}
             />
             <HappyNewYearModal isVisible={isHappyNewYearModal} />
+
+            {/* 튜토리얼을 표시 */}
+            {(fir || sec) && (
+                <ExSAm
+                    fir={fir}
+                    setFir={setFir}
+                    setSec={setSec}
+                    step={step}
+                    tutorialClose={closeFirstTutorial}
+                    sec={sec}
+                    closeSecondTutorial={closeSecTutorial}
+                />
+            )}
         </Container>
     );
 };

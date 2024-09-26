@@ -3,17 +3,19 @@ import styled from "styled-components";
 const Container = styled.div`
   width: 100%;
   max-width: 400px;
-  margin: 10px auto;
+  margin: 15px auto;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   padding: 5px;
   display: flex;
+  align-items: center;
   border: 2px solid #ff79c6;
+  height: 30px;
 `;
 
 const Bar = styled.div`
   background: linear-gradient(90deg, #ff79c6, #8be9fd);
-  height: 30px;
+  height: 20px;
   border-radius: 50px;
   transition: width 0.4s ease;
   display: flex;
