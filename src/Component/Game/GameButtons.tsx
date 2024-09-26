@@ -27,13 +27,21 @@ const GameButtons = ({
         }
     };
 
+    const isDisabled = year === "2023";
+
     return (
         <div className="GameButtonsWrapper">
-            <div className="GameButton" onClick={goToInfoPage}>
+            <div
+                className={`GameButton ${isDisabled ? "disabled" : ""}`}
+                onClick={!isDisabled ? goToInfoPage : undefined}
+            >
                 <img src={info} alt="정보거래소"></img>
                 <span>정보거래소</span>
             </div>
-            <div className="GameButton" onClick={openTradeModal}>
+            <div
+                className={`GameButton ${isDisabled ? "disabled" : ""}`}
+                onClick={!isDisabled ? openTradeModal : undefined}
+            >
                 <img src={trade} alt="거래하기"></img>
                 <span>거래하기</span>
             </div>
