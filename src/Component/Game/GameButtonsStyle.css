@@ -23,6 +23,11 @@
     cursor: pointer;
 }
 
+.GameButton.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 .GameButton img {
     width: 30px;
     margin-top: -20px;
