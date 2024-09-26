@@ -28,45 +28,45 @@ const ExSAm: React.FC<TutorialProps> = ({
     setCurrentStep((prevStep) => prevStep + 1); // 단계 증가
   };
 
-  useEffect(() => {
-    const tutorialSeen = localStorage.getItem("hasSeenTutorial");
-    if (tutorialSeen === "true") {
-      setHasSeenTutorial(true);
-    } else {
-      setHasSeenTutorial(false);
-    }
-    // 튜토리얼 중일때 스크롤 막기
-    if (fir || sec) {
-      document.body.style.overflow = "hidden";
+  // useEffect(() => {
+  //   const tutorialSeen = localStorage.getItem("hasSeenTutorial");
+  //   if (tutorialSeen === "true") {
+  //     setHasSeenTutorial(true);
+  //   } else {
+  //     setHasSeenTutorial(false);
+  //   }
+  //   // 튜토리얼 중일때 스크롤 막기
+  //   if (fir || sec) {
+  //     document.body.style.overflow = "hidden";
 
-      // 5일 때 자동 스크롤
-      if (currentStep === 5) {
-        const scrollTimer = setTimeout(() => {
-          const element = document.querySelector(".stock");
-          if (element) {
-            element.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }
-        }); // DOM이 렌더링 된 후에 스크롤 실행
-      }
-      // step이 1~6일때 3초마다 다음 단계로 자동 진행
-      if (currentStep > 1 && currentStep < 8) {
-        const timer = setTimeout(() => {
-          onNextStep(); //  다음 단계로 넘어감
-        }, 3000);
-        return () => clearTimeout(timer); // 진행 타이머 정리
-      }
-    } else {
-      // 튜토리얼 종료 시 스크롤 허용
-      document.body.style.overflow = "auto";
-    }
-    // 컴포넌트 언마운트 시 스크롤 허용
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [sec, fir, currentStep, onNextStep]);
+  //     // 5일 때 자동 스크롤
+  //     if (currentStep === 5) {
+  //       const scrollTimer = setTimeout(() => {
+  //         const element = document.querySelector(".stock");
+  //         if (element) {
+  //           element.scrollIntoView({
+  //             behavior: "smooth",
+  //             block: "center",
+  //           });
+  //         }
+  //       }); // DOM이 렌더링 된 후에 스크롤 실행
+  //     }
+  //     // step이 1~6일때 3초마다 다음 단계로 자동 진행
+  //     if (currentStep > 1 && currentStep < 8) {
+  //       const timer = setTimeout(() => {
+  //         onNextStep(); //  다음 단계로 넘어감
+  //       }, 3000);
+  //       return () => clearTimeout(timer); // 진행 타이머 정리
+  //     }
+  //   } else {
+  //     // 튜토리얼 종료 시 스크롤 허용
+  //     document.body.style.overflow = "auto";
+  //   }
+  //   // 컴포넌트 언마운트 시 스크롤 허용
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [sec, fir, currentStep, onNextStep]);
 
   const handleComlete = () => {
     // 튜토리얼 완료 시 로컬스토리지에 값 저장
@@ -146,7 +146,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                   2014년부터 게임이 시작되고, <br />
                   게임 한 회당 1년단위로 진행됩니다!
                 </p>
-                {/* <button onClick={onNextStep}>다음</button> */}
+                <button onClick={onNextStep}>다음</button>
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@ const ExSAm: React.FC<TutorialProps> = ({
                   </em>
                   알 수 있습니다 😉
                 </p>
-                {/* <button onClick={onNextStep}>다음</button> */}
+                <button onClick={onNextStep}>다음</button>
               </div>
             </div>
           </div>
