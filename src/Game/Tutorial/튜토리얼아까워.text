@@ -1,0 +1,72 @@
+// 튜토리얼을 볼지 결정하는 상태 (첫 번째 튜토리얼 단계 관리)
+  const [fir, setFir] = useState(true); // 처음엔 true로 설정하여 튜토리얼 표시
+  const [sec, setSec] = useState(false); // 두 번째 튜토리얼 단계를 위한 상태
+  const [step, setStep] = useState(1); // 현재 튜토리얼 단계
+
+  // 컴포넌트가 마운트될 때 튜토리얼 상태를 로컬 스토리지에서 확인
+  useEffect(() => {
+    const hasSeenTutorial = localStorage.getItem("hasSeenTutorial");
+    if (hasSeenTutorial === "true") {
+      setFir(false); // 이미 튜토리얼을 본 경우 튜토리얼을 표시하지 않음
+      setSec(false);
+    }
+  }, []);
+
+  // 첫번째 튜토리얼을 닫는 함수
+  const closeFirstTutorial = () => {
+    setFir(false); // 첫 번째 튜토리얼을 닫음
+    setSec(true); // 두 번째 튜토리얼도 닫음
+  };
+
+  // 두번째 튜토리얼을 닫는 함수
+  const closeSecTutorial = () => {
+    setSec(false);
+  };
+
+  // 페이지가 마운트되거나 경로가 변경될 때마다 스크롤 상태를 초기화
+  useEffect(() => {
+    const resetScroll = () => {
+      if (!fir && !sec) {
+        document.body.style.overflow = "auto"; // 스크롤 허용
+      } else {
+        document.body.style.overflow = "hidden"; // 튜토리얼 진행 중일 때 스크롤 차단
+      }
+    };
+
+    resetScroll(); // 처음 페이지가 마운트될 때 스크롤 설정
+
+    // 페이지가 떠날 때 스크롤을 auto로 리셋
+    return () => {
+      document.body.style.overflow = "auto"; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [fir, sec]); // fir, sec 상태가 변경될 때마다 실행
+
+  const location = useLocation();
+
+  // 페이지 이동 시 스크롤 상태 초기화
+  useEffect(() => {
+    document.body.style.overflow = "auto"; // 경로 변경 시 스크롤 초기화
+  }, [location.pathname]);
+
+  // 페이지 경로 변경 시 스크롤 상태를 확인하고 초기화
+  useEffect(() => {
+    // 페이지 경로가 바뀌었을 때 튜토리얼 상태에 따른 스크롤 초기화
+    if (!fir && !sec) {
+      document.body.style.overflow = "auto"; // 튜토리얼이 완료되었으면 스크롤 허용
+    } else {
+      document.body.style.overflow = "hidden"; // 튜토리얼 중이면 스크롤 차단
+    }
+  }, [location.pathname, fir, sec]); // location.pathname, fir, sec이 변경될 때마다 실행
+
+  {/* 튜토리얼을 표시 */}
+      {/* {(fir || sec) && (
+        <ExSAm
+          fir={fir}
+          setFir={setFir}
+          setSec={setSec}
+          step={step}
+          tutorialClose={closeFirstTutorial}
+          sec={sec}
+          closeSecondTutorial={closeSecTutorial}
+        />
+      )} */}

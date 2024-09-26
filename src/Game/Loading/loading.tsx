@@ -1,6 +1,5 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import React, { useEffect, useRef } from "react";
-import animation from "./gameLoading.json";
 import Mario from "./mario.json";
 import styled from "styled-components";
 
