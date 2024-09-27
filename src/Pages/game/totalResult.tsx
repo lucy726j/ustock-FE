@@ -106,7 +106,13 @@ const TotalResult = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          nav("/game/rank");
+          {
+            swal({
+              title: "랭킹 등록 완료!",
+              text: "랭킹이 등록되었습니다.",
+              icon: "success",
+            });
+          }
         } else {
           {
             swal({
