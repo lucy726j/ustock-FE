@@ -4,7 +4,15 @@ import { RankDataProps, RankListProps } from "../../constants/interface";
 import axios from "axios";
 import RankList from "../../Component/Game/Rank/rankList";
 import BentoBar from "../../Game/Main/BentoBar/bentoBar";
-import swal from "sweetalert";
+import styled from "styled-components";
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.5rem;
+`;
 
 const Rank = () => {
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
@@ -29,6 +37,12 @@ const Rank = () => {
   return (
     <div style={{ position: "relative" }}>
       <GameHeader text={"명예의 전당"} />
+      <TitleContainer>
+        <p style={{ marginLeft: "1.7rem" }}>순위</p>
+        <p style={{ marginLeft: "1rem" }}>닉네임</p>
+        <p style={{ marginLeft: "11rem" }}>수익금</p>
+        <p style={{ marginLeft: "5rem" }}>수익률</p>
+      </TitleContainer>
       <RankList data={rankList} />
       <BentoBar />
     </div>
