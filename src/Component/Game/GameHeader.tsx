@@ -21,7 +21,7 @@ const GameHeader: React.FC<GameHeaderProp> = ({ text }) => {
   return (
     <Container>
       <>{text}</>
-      <RuleModal />
+      {text.length < 4 ? <RuleModal /> : <></>}
     </Container>
   );
 };
