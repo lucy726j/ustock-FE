@@ -3,7 +3,7 @@ import * as S from "./rankBoxStyle";
 import gold from "../../../img/goldMedal.png";
 import silver from "../../../img/silverMedal.png";
 import bronze from "../../../img/bronzeMedal.png";
-import { formatPrice, formatChangeRateFrom } from "../../../util/gameUtil";
+import { formatPrice, formatRateColor } from "../../../util/gameUtil";
 
 const RankBox: React.FC<RankDataProps> = ({
   nickname,
@@ -24,7 +24,7 @@ const RankBox: React.FC<RankDataProps> = ({
       <S.UserContainer>
         <S.Nickname>{nickname}</S.Nickname>
         <S.Budget>{formatPrice(total)}</S.Budget>
-        <S.Rate>{profitRate} %</S.Rate>
+        <S.Rate style={formatRateColor(profitRate)}>{profitRate} %</S.Rate>
       </S.UserContainer>
     </S.Container>
   );

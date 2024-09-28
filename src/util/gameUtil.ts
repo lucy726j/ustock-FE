@@ -1,4 +1,5 @@
 import React from "react";
+import { P } from "../Component/GoogleLogin/loginStyle";
 
 export const formatPrice = (num: number): string => {
   if (num === 0) {
@@ -42,6 +43,22 @@ export const formatChangeRateFrom = (changeRate: number): ChangeRateResult => {
   } else {
     return {
       format: "-",
+      color: "black",
+    };
+  }
+};
+
+export const formatRateColor = (profitRate: number) => {
+  if (profitRate > 0) {
+    return {
+      color: "red",
+    };
+  } else if (profitRate < 0) {
+    return {
+      color: "blue",
+    };
+  } else {
+    return {
       color: "black",
     };
   }
