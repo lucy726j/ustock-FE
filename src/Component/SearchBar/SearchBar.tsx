@@ -18,13 +18,20 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
+    let input = e.target.value;
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+    if (regExp.test(input)) {
+      input = input.replace(regExp, "");
+    }
+    // else {
     setKeyword(input);
+    // }
   };
 
   useEffect(() => {
     if (keyword.trim() === "") {
-      setList([]); // Clear the list if the keyword is empty
+      setList([]);
+      return;
     }
     axios
       .get(
@@ -60,6 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
           onChange={handleSearch}
           onFocus={searching}
           onBlur={searching}
+          value={keyword}
         />
       </S.SearchBarStyle>
       {isOpen && (

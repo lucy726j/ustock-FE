@@ -9,6 +9,17 @@ export const formatPrice = (num: number): string => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const formatPriceWithYear = (num: number, year: string): string => {
+    if (num === 0 && year !== "2014") {
+        return "상장폐지";
+    }
+    if (num === 0) {
+        return "-";
+    }
+
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 export const formatChangeRate = (changeRate: number): string => {
   if (changeRate === 0) {
     return "-";
