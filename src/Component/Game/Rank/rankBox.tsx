@@ -24,7 +24,9 @@ const RankBox: React.FC<RankDataProps> = ({
       <S.UserContainer>
         <S.Nickname>{nickname}</S.Nickname>
         <S.Budget>{formatPrice(total)}</S.Budget>
-        <S.Rate style={formatRateColor(profitRate)}>{profitRate} %</S.Rate>
+        <S.Rate style={formatRateColor(profitRate)}>
+          {profitRate.toFixed(1)} %
+        </S.Rate>
       </S.UserContainer>
     </S.Container>
   );

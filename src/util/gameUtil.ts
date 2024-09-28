@@ -1,23 +1,20 @@
-import React from "react";
-import { P } from "../Component/GoogleLogin/loginStyle";
-
 export const formatPrice = (num: number): string => {
   if (num === 0) {
-    return "-";
+    return "0";
   }
 
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const formatPriceWithYear = (num: number, year: string): string => {
-    if (num === 0 && year !== "2014") {
-        return "상장폐지";
-    }
-    if (num === 0) {
-        return "-";
-    }
+  if (num === 0 && year !== "2014") {
+    return "상장폐지";
+  }
+  if (num === 0) {
+    return "-";
+  }
 
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const formatChangeRate = (changeRate: number): string => {

@@ -26,7 +26,7 @@ const GameHeader: React.FC<GameHeaderProp> = ({ text }) => {
     <Container>
       <>{text}</>
       {rule === "gameStocks" ||
-      rule === "total" ||
+      rule === "result" ||
       rule === "rank" ||
       rule === "info" ? (
         <></>

@@ -40,7 +40,7 @@ const Rank = () => {
       <TitleContainer>
         <p style={{ marginLeft: "1.7rem" }}>순위</p>
         <p style={{ marginLeft: "2rem" }}>닉네임</p>
-        <p style={{ marginLeft: "10rem" }}>수익금</p>
+        <p style={{ marginLeft: "9rem" }}>수익금</p>
         <p style={{ marginLeft: "5rem" }}>수익률</p>
       </TitleContainer>
       <RankList data={rankList} />
