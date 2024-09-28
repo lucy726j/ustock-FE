@@ -1,5 +1,4 @@
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import GameButtons from "../../Component/Game/GameButtons";
 import GameHeader from "../../Component/Game/GameHeader";
 import GameMoney from "../../Component/Game/GameMoney";
@@ -13,7 +12,11 @@ import "./gameStyle.css";
 import HappyNewYearModal from "./HappyNewYearModal";
 import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
+import { useGameStore } from "../../store/useGameStore";
 import ProgressBar from "../../Game/Loading/progressBar";
+import { GoAlert } from "react-icons/go";
+import { Colors } from "../../Styles/Colors";
+import Button from "../../Component/Button/button";
 
 const Container = styled.div`
   display: flex;
@@ -24,16 +27,19 @@ const Container = styled.div`
 `;
 
 const PlayPage = () => {
-  const { year } = useParams<{ year: string }>();
+  const { year } = useParams<{ year?: string }>();
   const { stockData, setStockData } = useStock();
   const nav = useNavigate();
   const yearValue = year || "2014";
+  // 페이지 유효성 검사를 위한 변수
+  const yearNumber = parseInt(yearValue, 10);
   const [isTradeModalVisible, setIsTradeModalVisible] = useState(false);
   const [isPassModalVisible, setIsPassModalVisible] = useState(false);
   const [isHappyNewYearModal, setIsHappyNewYearModal] = useState(false);
   const [budget, setBudget] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const checkYear = useGameStore((state) => state.checkYear);
   const check = usePortfolioStore((state) => state.check);
   const setCheck = usePortfolioStore((state) => state.setCheck);
 
@@ -75,7 +81,6 @@ const PlayPage = () => {
       setIsPassModalVisible(false);
 
       if (year === "2023") {
-        console.log("게임 끝");
         nav("/game/result/total");
       } else {
         const response = await axios.get(
@@ -116,20 +121,49 @@ const PlayPage = () => {
   };
 
   return (
-    <Container>
-      <GameHeader text={year || "Default"} />
+    <>
+      {yearNumber !== checkYear ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "10rem",
+          }}
+        >
+          <GoAlert
+            style={{
+              fontSize: "100px",
+              color: Colors.main,
+              marginBottom: "1rem",
+            }}
+          />
+          <p style={{ marginBottom: "2rem" }}>정상적인 접근 경로가 아닙니다</p>
+          <Button
+            children="게임 홈으로 돌아가기"
+            $state="normal"
+            $colorType="gradient"
+            $size="medium"
+            onClick={() => {
+              nav("/game");
+            }}
+          />
+        </div>
+      ) : (
+        <Container>
+          <GameHeader text={year || "Default"} />
 
-      <div
-        style={{
-          width: "100%",
-          marginTop: "1rem",
-          textAlign: "left",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {/* <div> */}
-        {/* <p
+          <div
+            style={{
+              width: "100%",
+              marginTop: "1rem",
+              textAlign: "left",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* <div> */}
+            {/* <p
           style={{
             paddingLeft: "3.5rem",
             fontSize: "15px",
@@ -138,31 +172,33 @@ const PlayPage = () => {
         >
           게임 진행도
         </p> */}
-        {/* </div> */}
-        <ProgressBar progress={progress} />
-      </div>
-      <GameMoney setBudget={setBudget} budget={budget} />
-      <StocksTable stocks={stockData || []} year={yearValue} />
-      <GameButtons
-        openTradeModal={openTradeModal}
-        openPassModal={openPassModal}
-        setBudget={setBudget}
-        budget={budget}
-      />
-      <GameTradeSwipe
-        isVisible={isTradeModalVisible}
-        onClose={closeTradeModal}
-        year={yearValue.toString()}
-        budget={budget}
-      />
-      <PassConfirmModal
-        isOpen={isPassModalVisible}
-        onRequestClose={closePassModal}
-        onConfirm={handleConfirmPass}
-        year={yearValue}
-      />
-      <HappyNewYearModal isVisible={isHappyNewYearModal} />
-    </Container>
+            {/* </div> */}
+            <ProgressBar progress={progress} />
+          </div>
+          <GameMoney setBudget={setBudget} budget={budget} />
+          <StocksTable stocks={stockData || []} year={yearValue} />
+          <GameButtons
+            openTradeModal={openTradeModal}
+            openPassModal={openPassModal}
+            setBudget={setBudget}
+            budget={budget}
+          />
+          <GameTradeSwipe
+            isVisible={isTradeModalVisible}
+            onClose={closeTradeModal}
+            year={yearValue.toString()}
+            budget={budget}
+          />
+          <PassConfirmModal
+            isOpen={isPassModalVisible}
+            onRequestClose={closePassModal}
+            onConfirm={handleConfirmPass}
+            year={yearValue}
+          />
+          <HappyNewYearModal isVisible={isHappyNewYearModal} />
+        </Container>
+      )}
+    </>
   );
 };
 

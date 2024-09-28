@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { GoAlert } from "react-icons/go";
 import { Colors } from "../../Styles/Colors";
-import Header from "../../Component/Layout/Header/Header";
-import NavBar from "../../Component/Layout/NavBar/NavBar";
 
 const Box = styled.div`
   height: 60vh;
