@@ -51,7 +51,6 @@ const NewsList: React.FC = () => {
   }, [location, navigate]);
 
   return (
-    // <div>
     <ListWrapper>
       {news.length > 0 ? (
         news.map((news: NewsProps) => <NewsItem key={news.code} {...news} />)
@@ -59,7 +58,6 @@ const NewsList: React.FC = () => {
         <NoNews />
       )}
     </ListWrapper>
-    // </div>
   );
 };
 
