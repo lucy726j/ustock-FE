@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState, useRef } from "react";
 import TradeChoice from "./TradeChoice";
 import TradeConfirmModal from "./TradeConfirmModal";
 import axios from "axios";
@@ -7,6 +6,7 @@ import swal from "sweetalert";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import { useStock } from "../../store/stockContext";
 import { formatPrice } from "../../util/gameUtil";
+import styled from "styled-components";
 
 interface GameTradeSwipeProps {
     onClose: () => void;
@@ -22,7 +22,6 @@ const GameTradeSwipe = ({
     budget,
 }: GameTradeSwipeProps) => {
     const { stockData } = useStock();
-    const [show, setShow] = useState(isVisible);
     const [selectedStock, setSelectedStock] = useState<{
         stockId: number;
         name: string;
@@ -38,9 +37,25 @@ const GameTradeSwipe = ({
     const check = usePortfolioStore((state) => state.check);
     const setCheck = usePortfolioStore((state) => state.setCheck);
 
+    // 모달 외부 클릭 감지하기 위해 ref 생성
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    // 모달 외부 클릭 시 닫기 처리
     useEffect(() => {
-        setShow(isVisible);
-    }, [isVisible]);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                modalRef.current &&
+                !modalRef.current.contains(event.target as Node)
+            ) {
+                onClose();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [onClose]);
 
     const handleStockChange = (direction: "left" | "right") => {
         if (!selectedStock || stockOptions.length === 0) return;
@@ -81,7 +96,6 @@ const GameTradeSwipe = ({
             if (res.status === 200) {
                 setCheck(!check);
                 swal({ title: "거래 성공", icon: "success" });
-                setShow(false);
                 setIsModalOpen(false);
                 setSelectedStock(stockOptions[0]);
                 setQuantity(1);
@@ -95,9 +109,8 @@ const GameTradeSwipe = ({
                 text: errorMessage,
                 icon: "error",
             }).then(() => {
-                setShow(false);
                 setIsModalOpen(false);
-                // onClose();
+                // 모달을 닫지 않음, 에러 후 닫지 않는 로직 유지
             });
         }
     };
@@ -133,7 +146,7 @@ const GameTradeSwipe = ({
 
     return (
         <div className="GameTradeSwipe">
-            <SwipeModal isOpen={show}>
+            <SwipeModal isOpen={isVisible} ref={modalRef}>
                 <SwipeContainer>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <CloseButton
@@ -207,7 +220,7 @@ const SwipeModal = styled.div<{ isOpen: boolean }>`
     height: 70vh;
     max-width: 440px;
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-    transition: bottom 0.7s ease, max-height 0.7s ease;
+    transition: bottom 0.7 ease, max-height 0.7s ease;
     z-index: 1;
     overflow: hidden;
     border-top-left-radius: 20px;

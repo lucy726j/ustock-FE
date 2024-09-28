@@ -144,7 +144,7 @@ const PlayPage = () => {
                 <ProgressBar progress={progress} />
             </div>
             <GameMoney setBudget={setBudget} budget={budget} />
-            <StocksTable stocks={stockData || []} />
+            <StocksTable stocks={stockData || []} year={yearValue} />
             <GameButtons
                 openTradeModal={openTradeModal}
                 openPassModal={openPassModal}
