@@ -25,7 +25,10 @@ const GameHeader: React.FC<GameHeaderProp> = ({ text }) => {
   return (
     <Container>
       <>{text}</>
-      {rule === "gameStocks" || rule === "total" || rule === "rank" ? (
+      {rule === "gameStocks" ||
+      rule === "total" ||
+      rule === "rank" ||
+      rule === "info" ? (
         <></>
       ) : (
         <RuleModal />
