@@ -19,8 +19,17 @@ const TradeConfirmModal: React.FC<TradeConfirmModalProps> = ({
     acting,
 }) => {
     const actionText = acting === "BUY" ? "구매" : "판매";
+
+    // 이벤트 전파를 막기 위한 함수
+    const handleModalClick = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        e.stopPropagation(); // 클릭 이벤트가 상위로 전파되지 않도록 처리
+    };
+
     return (
         <div
+            onClick={handleModalClick} // 모달 내에서 클릭한 이벤트가 상위로 전파되지 않도록 처리
             style={{
                 display: "flex",
                 flexDirection: "column",

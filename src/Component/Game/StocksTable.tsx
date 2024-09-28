@@ -1,10 +1,14 @@
 import React from "react";
 import { StocksTableProps } from "../../constants/interface";
-import { formatPrice, formatChangeRate } from "../../util/gameUtil";
+import {
+    formatPrice,
+    formatChangeRate,
+    formatPriceWithYear,
+} from "../../util/gameUtil";
 import "./StocksTableStyle.css";
 import styled, { keyframes } from "styled-components";
 
-const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
+const StocksTable: React.FC<StocksTableProps> = ({ stocks, year }) => {
     const header = ["번호", "종목", "전년", "올해", "등락"];
 
     return (
@@ -25,15 +29,13 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                                 index={index} // index를 전달
                                 style={{
                                     background:
-                                        stock.stockId % 2 === 1
-                                            ? "#ededed"
-                                            : "white",
+                                        index % 2 === 1 ? "#ededed" : "white",
                                 }}
                             >
-                                <td>{stock.stockId}</td>
+                                <td>{index + 1}</td>
                                 <td>{stock.name}</td>
                                 <td style={{ textAlign: "right" }}>
-                                    {formatPrice(stock.prev)}
+                                    {formatPriceWithYear(stock.prev, year)}
                                 </td>
                                 <td
                                     style={{
@@ -46,7 +48,7 @@ const StocksTable: React.FC<StocksTableProps> = ({ stocks }) => {
                                         textAlign: "right",
                                     }}
                                 >
-                                    {formatPrice(stock.current)}
+                                    {formatPriceWithYear(stock.current, year)}
                                 </td>
                                 <td
                                     style={{
