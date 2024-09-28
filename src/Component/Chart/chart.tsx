@@ -3,6 +3,7 @@ import ApexCharts from "apexcharts";
 import { ChartStyle } from "./chartStyle"; // Assuming you have the styles defined in this file
 import { formatPrice } from "../../util/util";
 import ModalOpen from "../Modal/modal";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
@@ -178,9 +179,7 @@ const Chart = ({ data }: CandleData) => {
                 fontSize: "15px",
               }}
             >
-              <div dangerouslySetInnerHTML={{ __html: newsHtml }}>
-                {/* <HiOutlineArrowTopRightOnSquare /> */}
-              </div>
+              <div dangerouslySetInnerHTML={{ __html: newsHtml }}></div>
             </span>
           </p>
         </ModalOpen>
