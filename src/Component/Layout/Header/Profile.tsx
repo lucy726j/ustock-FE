@@ -10,6 +10,7 @@ const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
 `;
 
 const ImgStyle = styled.img`
@@ -17,6 +18,7 @@ const ImgStyle = styled.img`
   height: 35px;
   border: #615efc 1px solid;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const LogoutBox = styled.div`
@@ -31,6 +33,7 @@ const LogoutBox = styled.div`
   position: absolute;
   top: 40px;
   right: 40px;
+  cursor: pointer;
 `;
 
 const Profile = () => {

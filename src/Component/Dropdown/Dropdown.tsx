@@ -4,78 +4,78 @@ import { useState } from "react";
 import { DropdownProps } from "../../constants/interface";
 
 const DropdownContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const DropdownBox = styled.option`
-    width: 75px;
-    font-size: 10px;
-    color: black;
-    text-align: start;
-    padding: 8px;
+  width: 75px;
+  font-size: 10px;
+  color: black;
+  text-align: start;
+  padding: 8px;
 
-    &:hover {
-        color: ${Colors.main};
-        background-color: #f5f4fb;
-    }
+  &:hover {
+    color: ${Colors.main};
+    background-color: #f5f4fb;
+  }
 `;
 
 const DropdownListBox = styled.select`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid ${Colors.main};
-    border-radius: 5px;
-    background-color: white;
-    top: 35px;
-    z-index: 1;
-    padding: 10px 5px;
-    height: 35px;
-    width: 85px;
-    text-align: center;
-    text-justify: center;
-    margin-bottom: 1rem;
-    font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid ${Colors.main};
+  border-radius: 5px;
+  background-color: white;
+  top: 35px;
+  z-index: 1;
+  padding: 10px 5px;
+  height: 35px;
+  width: 85px;
+  text-align: center;
+  text-justify: center;
+  margin-bottom: 1rem;
+  font-size: 12px;
+  cursor: pointer;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Dropdown: React.FC<DropdownProps> = ({ dropList, onSelect }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [value, setValue] = useState(dropList[0]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState(dropList[0]);
 
-    // const handleToggle = () => {
-    //     setIsOpen((prev) => !prev);
-    // };
+  // const handleToggle = () => {
+  //     setIsOpen((prev) => !prev);
+  // };
 
-    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = event.target.value;
-        setValue(selectedValue);
-        setIsOpen(false);
-        onSelect(selectedValue);
-    };
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    setValue(selectedValue);
+    setIsOpen(false);
+    onSelect(selectedValue);
+  };
 
-    return (
-        <DropdownContainer>
-            <DropdownListBox onChange={handleSelect}>
-                {dropList.map((el) => (
-                    <DropdownBox key={el} value={el}>
-                        {el === "capital"
-                            ? "시가총액순"
-                            : el === "trade"
-                            ? "거래량순"
-                            : el === "change"
-                            ? "등락율순"
-                            : el}
-                    </DropdownBox>
-                ))}
-            </DropdownListBox>
-        </DropdownContainer>
-    );
+  return (
+    <DropdownContainer>
+      <DropdownListBox onChange={handleSelect}>
+        {dropList.map((el) => (
+          <DropdownBox key={el} value={el}>
+            {el === "capital"
+              ? "시가총액순"
+              : el === "trade"
+              ? "거래량순"
+              : el === "change"
+              ? "등락율순"
+              : el}
+          </DropdownBox>
+        ))}
+      </DropdownListBox>
+    </DropdownContainer>
+  );
 };
 
 export default Dropdown;

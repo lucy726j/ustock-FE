@@ -174,39 +174,54 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
                       </div>
                     </div>
                   ) : (
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "100%",
+                        padding: "0px",
+                        gap: "3rem",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "center",
                           alignItems: "center",
+                          width: "100%",
                         }}
                       >
                         <h2 style={{ fontSize: "34px" }}>Skrr News</h2>
                         <hr
                           style={{
-                            width: "100%",
+                            width: "90%",
                             borderTop: "2px solid #000000",
                           }}
                         />
                         <hr
                           style={{
-                            width: "100%",
+                            width: "90%",
                             borderTop: "1px solid #000000",
                             marginBottom: "1rem",
                           }}
                         />
                         <div
                           style={{
-                            width: "100%",
+                            width: "90%",
                             display: "flex",
                             justifyContent: "space-between",
                             fontSize: "15px",
                             marginBottom: "2rem",
                           }}
                         >
-                          <p style={{ color: "red", fontWeight: "600" }}>
+                          <p
+                            style={{
+                              color: "red",
+                              fontWeight: "600",
+                            }}
+                          >
                             {selectedStockData ? selectedStockData.name : ""}{" "}
                             {""}
                             {selectedTab.level}
@@ -216,7 +231,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
                           </p>
                         </div>
                         <div
-                          style={{ width: "100%", border: "2px solid #000000" }}
+                          style={{ width: "90%", border: "2px solid #000000" }}
                         >
                           <p
                             style={{
