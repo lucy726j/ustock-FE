@@ -4,6 +4,7 @@ import styled from "styled-components";
 import StockItem from "../../Component/Dropdown/gameDropdown";
 import { useLocation } from "react-router-dom";
 import { formatPrice } from "../../util/gameUtil";
+import HintShop from "./hintshop";
 
 const Container = styled.div`
   width: 500px;

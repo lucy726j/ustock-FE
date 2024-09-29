@@ -8,8 +8,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Ingredient } from "./ingredient";
 import swal from "sweetalert";
 import { useStock } from "../../store/stockContext";
+import { useHintStore, usePurchaseStore } from "../../store/hintStore";
+import ModalOpen from "../../Component/Modal/modal";
 
-interface ShopProps {
+export interface ShopProps {
   selectedStock: number | null;
   budget: number;
   setBudget: (newBudget: number) => void;
@@ -25,6 +27,10 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [hint, setHint] = useState<string | null>(null);
   const [purchaseComplete, setPurchaseComplete] = useState<PurchaseHints>({});
+
+  const purchaseHints = useHintStore((state) => state.purchaseHints); // 단계별 구매 상태
+  const setPurchaseHints = useHintStore((state) => state.setPurchaseHints);
+
   const location = useLocation();
   const year = location.pathname.split("/")[3];
   const { stockData } = useStock();
@@ -35,9 +41,39 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
     (stock) => stock.stockId === selectedStock
   );
 
-  function handleGame() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
+  const handleConfirm = () => {
+    setIsOpen(false);
     navigate(`/game/play/${year}`);
-  }
+  };
+
+  const handleGame = () => {
+    setIsOpen(true);
+  };
+
+  useEffect(() => {
+    if (
+      selectedStock !== null &&
+      purchaseHints[selectedStock] &&
+      purchaseHints[selectedStock][selectedTab.level]
+    ) {
+      // 힌트 상태를 설정
+      // 이미 구매한 힌트 정보를 보여줌 (로컬 저장소 또는 Zustand에서 불러온 힌트 데이터 사용)
+      const savedHint =
+        purchaseHints[selectedStock][selectedTab.level]?.hintData;
+
+      if (savedHint) {
+        setHint(savedHint); // 힌트 데이터를 설정
+      } else {
+        setHint("힌트 데이터를 찾을 수 없습니다."); // 힌트 데이터가 없을 경우 처리
+      }
+    }
+  }, [purchaseHints, selectedStock, selectedTab.level]);
 
   //구매 요청 처리
   const onSubmitHandler = async (data: Ingredient) => {
@@ -73,10 +109,14 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
           icon: "success",
           title: "구매가 완료되었습니다.",
         });
-        setHint(res.data.hint);
+        const hintData = res.data.hint;
+        setHint(hintData);
         setBudget(
           budget - parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)
         );
+        useHintStore
+          .getState()
+          .setPurchaseHints(selectedStock, selectedTab.level, hintData);
         setPurchaseComplete((prev) => ({
           ...prev,
           [selectedStock]: {
@@ -86,7 +126,23 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
         }));
       }
     } catch (error) {
-      console.error("server Error : ", error);
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.status === 400) {
+          swal({
+            icon: "error",
+            title: "해당 단계의 힌트는 이미 구매하였습니다.",
+          });
+        } else {
+          console.error("server Error : ", error);
+        }
+      } else {
+        // 예상치 못한 에러 처리
+        console.error("Unknown Error:", error);
+        swal({
+          icon: "error",
+          title: "알 수 없는 에러가 발생했습니다.",
+        });
+      }
     }
   };
 
@@ -258,6 +314,32 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
               )}
             </motion.div>
           </AnimatePresence>
+          <ModalOpen
+            title="정보거래소"
+            isOpen={isOpen}
+            showCancelButton={true}
+            showOneConfirmBtn={false}
+            onConfirm={handleConfirm}
+            onRequestClose={handleCancel}
+            confirmLabel="돌아가기"
+            cancelLabel="취소"
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p style={{ marginBottom: "0.5rem", textAlign: "center" }}>
+                정보거래소를 나가면 구매한 해당 뉴스를
+                <br /> 다시 볼 수 없습니다.
+              </p>
+              <p> 괜찮으십니까? </p>
+            </div>
+          </ModalOpen>
         </S.Main>
       </S.Window>
     </>
