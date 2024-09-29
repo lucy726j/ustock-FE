@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 100%;
+  width: 70%;
   max-width: 400px;
-  margin: 15px auto;
+  /* margin: 15px auto; */
+  margin: 0.1rem 1rem 1rem 0.5rem;
+
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   padding: 5px;
@@ -28,6 +30,7 @@ const Text = styled.span`
   font-weight: bold;
   z-index: 1;
   font-size: 12px;
+  margin-left: 0%.8;
 `;
 
 interface ProgressBarProps {

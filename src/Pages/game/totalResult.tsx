@@ -22,6 +22,7 @@ const SkrrContainer = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
+  margin-top: 1.5rem;
 `;
 
 const ImgStyle = styled.img`
@@ -38,9 +39,9 @@ const BtnBox = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 1rem;
-  margin-top: 0.5rem;
   margin-left: auto;
   margin-right: 2.5rem;
+  margin-top: 1rem;
 `;
 
 const NickBox = styled.div`
@@ -106,7 +107,13 @@ const TotalResult = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          nav("/game/rank");
+          {
+            swal({
+              title: "랭킹 등록 완료!",
+              text: "랭킹이 등록되었습니다.",
+              icon: "success",
+            });
+          }
         } else {
           {
             swal({
@@ -128,10 +135,7 @@ const TotalResult = () => {
         <ImgStyle src={SkrrImg} alt="껄무새 이미지" />
       </SkrrContainer>
       <BtnBox>
-        <NickBox>
-          <p style={{ color: "black" }}>{user} </p>
-          <p>의 점수를</p>
-        </NickBox>
+        <NickBox>{user}</NickBox>
         <Button
           children="랭킹에 등록하기"
           $state="normal"

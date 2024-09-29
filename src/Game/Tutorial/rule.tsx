@@ -10,7 +10,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8); /* 반투명한 검정색 배경 */
+  background-color: rgba(163, 152, 152, 0.8); /* 반투명한 검정색 배경 */
   z-index: 10; /* 모달 뒤에 위치, 모달보다 낮은 z-index */
 `;
 
@@ -67,10 +67,20 @@ const RuleModal = () => {
 
   return (
     <ModalContainer onClick={() => setOnModal(true)}>
-      <p style={{ color: "black", fontSize: "12px", marginRight: "0.6rem" }}>
+      <p
+        style={{
+          color: "black",
+          fontSize: "15px",
+          marginRight: "0.6rem",
+          marginTop: "1rem",
+        }}
+      >
         룰 설명
       </p>
-      <img src={Role} style={{ width: "50px", height: "50px" }} />
+      <img
+        src={Role}
+        style={{ width: "50px", height: "50px", cursor: "pointer" }}
+      />
       {onModal && (
         <Overlay onClick={handleClickOutside}>
           <Container>

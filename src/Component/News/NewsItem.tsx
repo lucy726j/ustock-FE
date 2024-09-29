@@ -1,4 +1,5 @@
 import { NewsProps } from "../../constants/interface";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 const NewsItem: React.FC<NewsProps> = ({
   code,
@@ -30,6 +31,7 @@ const NewsItem: React.FC<NewsProps> = ({
           <p>{date}</p>
         </div>
       </div>
+      <HiOutlineExternalLink />
     </a>
   );
 };

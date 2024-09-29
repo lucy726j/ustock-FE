@@ -4,20 +4,21 @@ import { buttonSize, buttonType } from "../../Styles/button";
 import { ButtonStyleProps, ButtonProps } from "../../constants/interface";
 
 const ButtonStyle = styled.button<ButtonStyleProps>`
-    border-radius: 10px;
+  border-radius: 10px;
+  cursor: pointer;
 
-    ${(props) => buttonSize[props.$size]}
-    ${(props) => buttonType[props.$colorType]?.[props.$state]}
+  ${(props) => buttonSize[props.$size]}
+  ${(props) => buttonType[props.$colorType]?.[props.$state]}
 `;
 
 const Button = ({ onClick, children, ...styleprops }: ButtonProps) => {
-    return (
-        <>
-            <ButtonStyle {...styleprops} onClick={onClick}>
-                {children}
-            </ButtonStyle>
-        </>
-    );
+  return (
+    <>
+      <ButtonStyle {...styleprops} onClick={onClick}>
+        {children}
+      </ButtonStyle>
+    </>
+  );
 };
 
 export default Button;

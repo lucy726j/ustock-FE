@@ -35,4 +35,5 @@ export const Description = styled.p`
 export const Button = styled.button`
   border: none;
   background: none;
+  cursor: pointer;
 `;

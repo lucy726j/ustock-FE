@@ -49,6 +49,7 @@ const NavBoxStyle = styled.div<{ $isActive?: boolean }>`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 
   &:hover ${ImgStyle}, &:hover ${TextStyle} {
     color: ${Colors.main}; /* Change both icon and text color on hover */

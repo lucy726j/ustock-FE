@@ -1,84 +1,12 @@
 import React, { useEffect, useState } from "react";
 import NewsList from "../Component/News/NewsList";
-import styled from "styled-components";
-import { MarketDataProps, ValueProps } from "../constants/interface";
+import { MarketDataProps } from "../constants/interface";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import * as S from "./homeStyle";
 import StockDataList from "../Component/List/Data/stockDataList";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-`;
-
-const MarketContainer = styled.div`
-  width: 100%;
-  height: 80px;
-  box-shadow: 0px 4px 7px -2px #ada9bb;
-  border-radius: 10px;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  margin: 20px 0px 25px;
-  @media (max-width: 768px) {
-    width: 100%;
-    font-size: 12px;
-  }
-`;
-
-const Kospi = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
-const Kosdaq = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
-export const Info = styled.div<ValueProps>`
-  color: ${(props) => (props.$isNegative ? "#615EFC" : "#FF5759")};
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 50px;
-`;
-
-const ListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  /* margin-right: auto; */
-`;
-
-const Title = styled.div`
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  margin-left: 10px;
-`;
-
-const StockWrapper = styled.div`
-  width: 100%;
-  height: 325px;
-  overflow: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  margin-bottom: 23px;
-`;
-
-const NewsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import { Colors } from "../Styles/Colors";
 
 const Home: React.FC = () => {
   const nav = useNavigate();
@@ -130,12 +58,13 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <MarketContainer>
-        <Kospi>
+    <S.Container>
+      <S.Title>오늘의 증시</S.Title>
+      <S.MarketContainer>
+        <S.Kospi>
           <span>KOSPI</span>
           {market ? (
-            <Info $isNegative={market.kospi.changeRate < 0}>
+            <S.Info $isNegative={market.kospi.changeRate < 0}>
               <span>{market.kospi.price}</span>
               <span>
                 {market.kospi.change < 0 ? (
@@ -146,15 +75,15 @@ const Home: React.FC = () => {
                 {Math.abs(market.kospi.change)}
               </span>
               <span>{market.kospi.changeRate}%</span>
-            </Info>
+            </S.Info>
           ) : (
             <div>로딩중</div>
           )}
-        </Kospi>
-        <Kosdaq>
+        </S.Kospi>
+        <S.Kosdaq>
           <span>KOSDAQ</span>
           {market ? (
-            <Info $isNegative={market.kosdaq.changeRate < 0}>
+            <S.Info $isNegative={market.kosdaq.changeRate < 0}>
               <span>{market.kosdaq.price}</span>
               <span>
                 {market.kosdaq.change < 0 ? (
@@ -165,23 +94,29 @@ const Home: React.FC = () => {
                 {Math.abs(market.kosdaq.change)}
               </span>
               <span>{market.kosdaq.changeRate}%</span>
-            </Info>
+            </S.Info>
           ) : (
             <div>로딩중</div>
           )}
-        </Kosdaq>
-      </MarketContainer>
-      <Title>오늘의 인기 종목</Title>
-      <ListContainer>
-        <StockWrapper>
+        </S.Kosdaq>
+      </S.MarketContainer>
+      <hr style={{ marginBottom: "1.5rem" }} />
+      <S.Title>오늘의 인기 종목</S.Title>
+      <S.SubTitle>🏆 오늘 가장 거래가 많은 종목을 확인해보세요 !</S.SubTitle>
+      <S.ListContainer>
+        <S.StockWrapper>
           {list ? <StockDataList data={list} /> : <div>로딩중</div>}
-        </StockWrapper>
-      </ListContainer>
-      <NewsContainer>
-        <Title>나만의 뉴스</Title>
+        </S.StockWrapper>
+      </S.ListContainer>
+      <hr style={{ marginBottom: "1.5rem" }} />
+      <S.NewsContainer>
+        <S.Title>나만의 뉴스</S.Title>
+        <S.SubTitle>
+          👀 내 포트폴리오에 등록된 종목들의 뉴스만 모아서 확인할 수 있어요 !
+        </S.SubTitle>
         <NewsList />
-      </NewsContainer>
-    </Container>
+      </S.NewsContainer>
+    </S.Container>
   );
 };
 
