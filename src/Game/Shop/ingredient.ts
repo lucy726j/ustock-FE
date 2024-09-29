@@ -14,21 +14,21 @@ export const allIngredients: Ingredient[] = [
     icon: "🔑",
     label: "추측",
     level: "1단계",
-    price: formatPrice(100000),
+    price: formatPrice(50000),
   },
   {
     id: "TWO",
     icon: "🔑🔑",
     label: "의심",
     level: "2단계",
-    price: formatPrice(300000),
+    price: formatPrice(100000),
   },
   {
     id: "THREE",
     icon: "🔑🔑🔑",
     label: "확신",
     level: "3단계",
-    price: formatPrice(500000),
+    price: formatPrice(200000),
   },
 ];
 
