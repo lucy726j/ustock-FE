@@ -1,10 +1,6 @@
 import React from "react";
 import { StocksTableProps } from "../../constants/interface";
-import {
-    formatPrice,
-    formatChangeRate,
-    formatPriceWithYear,
-} from "../../util/gameUtil";
+import { formatChangeRate, formatPriceWithYear } from "../../util/gameUtil";
 import "./StocksTableStyle.css";
 import styled, { keyframes } from "styled-components";
 
