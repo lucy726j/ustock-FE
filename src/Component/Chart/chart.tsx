@@ -44,14 +44,34 @@ const Chart = ({ data }: CandleData) => {
             show: true,
           },
           events: {
-            // Apply click event only to candlestick data points
             dataPointSelection: function (
               event: any,
               chartContext: any,
               opts: any
             ) {
-              // Update state to show modal when a candlestick is clicked
-              setIsOpen(true);
+              const { seriesIndex, dataPointIndex } = opts;
+
+              // 클릭한 데이터 포인트의 뉴스 데이터 가져오기
+              const news =
+                chartContext.w.config.series[seriesIndex].data[dataPointIndex]
+                  .z;
+              let newsHtml = "";
+
+              // 뉴스 데이터를 기반으로 HTML 생성
+              if (Array.isArray(news) && news.length > 0) {
+                news.forEach((newItem) => {
+                  newsHtml += `<li style="padding-top:1rem; padding-bottom:0.5rem; padding-left:0.5rem; list-style:none; border-bottom:1px solid rgba(209, 209, 214, 0.3);" onmouseover="this.style.backgroundColor='#E6E5FF';"
+                  onmouseout="this.style.backgroundColor='';"><a href=${newItem.url} target="_blank" rel="noopener noreferrer nofollow" 
+                  style="text-decoration:none; color: black; font-size:15px; font-family:SCDream2; transition: background-color 0.3s ease;">
+                  
+                  ${newItem.title}</a></li>`;
+                });
+                setNewsHtml(newsHtml); // 뉴스가 있는 경우 HTML을 설정
+                setIsOpen(true); // 뉴스가 있을 때 모달을 열기
+              } else {
+                setNewsHtml(""); // 뉴스가 없으면 빈 문자열로 설정
+                setIsOpen(false); // 뉴스가 없으면 모달을 닫기
+              }
             },
           },
         },
