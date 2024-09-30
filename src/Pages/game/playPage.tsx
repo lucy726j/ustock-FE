@@ -17,6 +17,7 @@ import ProgressBar from "../../Game/Loading/progressBar";
 import { GoAlert } from "react-icons/go";
 import { Colors } from "../../Styles/Colors";
 import Button from "../../Component/Button/button";
+import { useHintStore } from "../../store/hintStore";
 
 const Container = styled.div`
   display: flex;
@@ -110,6 +111,10 @@ const PlayPage = () => {
             ((parseInt(nextYear, 10) - startYear) / (lastYear - startYear)) *
               100
           );
+          // 로컬 스토리지에서 삭제
+          localStorage.removeItem("hint-storage");
+          // 주스탠드 스토어 상태 초기화
+          useHintStore.getState().resetPurchaseHints();
         }
       }
     } catch (error) {

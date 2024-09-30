@@ -21,7 +21,7 @@ const Chart = ({ data }: CandleData) => {
   const [newsHtml, setNewsHtml] = useState<string>("");
   const latestDate = new Date(data[data.length - 1].x).getTime();
   const initialZoomMin = new Date(
-    latestDate - 90 * 24 * 60 * 60 * 1000
+    latestDate - 60 * 24 * 60 * 60 * 1000
   ).getTime();
 
   const onRequestClose = () => {

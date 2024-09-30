@@ -9,7 +9,6 @@ import { Ingredient } from "./ingredient";
 import swal from "sweetalert";
 import { useStock } from "../../store/stockContext";
 import { useHintStore, usePurchaseStore } from "../../store/hintStore";
-import ModalOpen from "../../Component/Modal/modal";
 
 export interface ShopProps {
   selectedStock: number | null;
@@ -28,8 +27,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
   const [hint, setHint] = useState<string | null>(null);
   const [purchaseComplete, setPurchaseComplete] = useState<PurchaseHints>({});
 
-  const purchaseHints = useHintStore((state) => state.purchaseHints); // 단계별 구매 상태
-  const setPurchaseHints = useHintStore((state) => state.setPurchaseHints);
+  const { purchaseHints, setPurchaseHints } = useHintStore();
 
   const location = useLocation();
   const year = location.pathname.split("/")[3];
@@ -41,24 +39,15 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
     (stock) => stock.stockId === selectedStock
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
-
-  const handleConfirm = () => {
-    setIsOpen(false);
+  const handleGame = () => {
+    // setIsOpen(true);
     navigate(`/game/play/${year}`);
   };
 
-  const handleGame = () => {
-    setIsOpen(true);
-  };
-
   useEffect(() => {
+    // 선택한 종목과 선택한 레벨에 맞는 힌트 데이터 불러오기
     if (
-      selectedStock !== null &&
+      selectedStock &&
       purchaseHints[selectedStock] &&
       purchaseHints[selectedStock][selectedTab.level]
     ) {
@@ -67,13 +56,18 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
       const savedHint =
         purchaseHints[selectedStock][selectedTab.level]?.hintData;
 
+      // 해당 종목과 레벨에 맞는 힌트만 표시
+      // if (purchaseComplete[selectedStock]?.[selectedTab.level]) {
       if (savedHint) {
         setHint(savedHint); // 힌트 데이터를 설정
       } else {
-        setHint("힌트 데이터를 찾을 수 없습니다."); // 힌트 데이터가 없을 경우 처리
+        setHint(null); // 힌트 데이터가 없을 경우 처리
       }
+    } else {
+      setHint(null); // 힌트 데이터가 없을 경우 처리
     }
-  }, [purchaseHints, selectedStock, selectedTab.level]);
+    // }
+  }, [purchaseHints, selectedStock, selectedTab.level, purchaseComplete]);
 
   //구매 요청 처리
   const onSubmitHandler = async (data: Ingredient) => {
@@ -114,23 +108,28 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
         setBudget(
           budget - parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)
         );
-        useHintStore
-          .getState()
-          .setPurchaseHints(selectedStock, selectedTab.level, hintData);
+
+        // 사용자가 선택한 종목과 레벨만 구매 완료로 업데이트
         setPurchaseComplete((prev) => ({
           ...prev,
           [selectedStock]: {
             ...prev[selectedStock],
-            [selectedTab.level]: true,
+            [selectedTab.level]: true, // 구매 완료 상태 설정
           },
         }));
+
+        // 상태 저장
+        useHintStore
+          .getState()
+          .setPurchaseHints(selectedStock, selectedTab.level, hintData);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 400) {
           swal({
             icon: "error",
-            title: "해당 단계의 힌트는 이미 구매하였습니다.",
+            title: "Oops...",
+            text: "해당 단계의 힌트는 이미 구매하였습니다.",
           });
         } else {
           console.error("server Error : ", error);
@@ -176,8 +175,10 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
             >
               {selectedTab && (
                 <>
+                  {/* 종목이 선택되지 않았거나, 해당 종목 및 레벨에서 구매가 완료되지 않은 경우 */}
                   {selectedStock === null ||
-                  !purchaseComplete[selectedStock]?.[selectedTab.level] ? (
+                  // (!purchaseComplete[selectedStock]?.[selectedTab.level] &&
+                  !hint ? (
                     <div
                       style={{
                         display: "flex",
@@ -314,7 +315,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
               )}
             </motion.div>
           </AnimatePresence>
-          <ModalOpen
+          {/* <ModalOpen
             title="정보거래소"
             isOpen={isOpen}
             showCancelButton={true}
@@ -339,7 +340,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
               </p>
               <p> 괜찮으십니까? </p>
             </div>
-          </ModalOpen>
+          </ModalOpen> */}
         </S.Main>
       </S.Window>
     </>

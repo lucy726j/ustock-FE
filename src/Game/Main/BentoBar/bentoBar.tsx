@@ -48,14 +48,17 @@ const BentoBar = () => {
   }, [outsideRef]);
 
   return (
-    <>
+    <div style={{ width: "500px", position: "fixed", bottom: "0px" }}>
       <IconDiv
         ref={iconRef}
         style={{
-          position: "absolute",
-          top: "750px",
-          left: "420px",
+          // position: "absolute",
+          // top: "750px",
+          // left: "420px",
+
+          left: "430px",
           minWidth: "25px",
+          bottom: "30px",
         }}
         onClick={toggleSlide}
       >
@@ -71,7 +74,7 @@ const BentoBar = () => {
           <></>
         )}
       </IconDiv>
-    </>
+    </div>
   );
 };
 

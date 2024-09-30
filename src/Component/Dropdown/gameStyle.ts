@@ -51,6 +51,9 @@ export const Li = styled(motion.li)`
   color: #6600ff;
   display: block;
   z-index: 3000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const dropdownVariants: Variants = {
