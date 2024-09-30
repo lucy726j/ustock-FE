@@ -33,7 +33,7 @@ const TradeChoice = ({
     const handleClick = () => {
         setIsSelected(true);
     };
-    console.log(currentPrice);
+    // console.log(currentPrice);
 
     const handleOutsideClick = (e: MouseEvent) => {
         if (
@@ -107,15 +107,6 @@ const TradeChoice = ({
                                 {choiceRight}
                             </ChoiceButton>
                         </ChoiceSection>
-
-                        {/* 가격 정보 표시 */}
-                        {/* {currentPrice ? (
-                            <CurrentPrice isSelected={isSelected}>
-                                {formatPrice(currentPrice)}원
-                            </CurrentPrice>
-                        ) : (
-                            <div>가격 정보 없음</div> // 혹은 기본값으로 처리
-                        )} */}
                     </div>
                 </>
             )}
@@ -263,6 +254,7 @@ const MaxPurchaseBtn = styled.button<{ isSelected: boolean }>`
         props.isSelected ? "2.5px solid #615EFC" : "1px solid #f0f0f0"};
     background-color: ${(props) => (props.isSelected ? "#615EFC" : "#f0f0f0")};
     color: ${(props) => (props.isSelected ? "white" : "black")};
+    border: 2px solid #615efc;
 `;
 
 export default TradeChoice;
