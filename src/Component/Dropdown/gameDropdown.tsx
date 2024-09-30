@@ -11,6 +11,7 @@ import {
   Button,
   Menu,
 } from "./gameStyle";
+import { useHintStore } from "../../store/hintStore";
 
 export interface StockItemProps {
   onSelectStock: (stockId: number) => void;
@@ -20,6 +21,7 @@ const StockItem: React.FC<StockItemProps> = ({ onSelectStock }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const { stockData } = useStock();
+  const { purchaseHints, setPurchaseHints } = useHintStore();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -54,16 +56,40 @@ const StockItem: React.FC<StockItemProps> = ({ onSelectStock }) => {
           style={{ pointerEvents: isOpen ? "auto" : "none" }}
         >
           {stockData &&
-            stockData.map((item) => (
-              <Li
-                variants={itemVariants}
-                key={item.stockId}
-                onClick={() => handleSelect(item)}
-                style={{ marginTop: "0.5rem" }}
-              >
-                <span>{item.name}</span>
-              </Li>
-            ))}
+            stockData.map((item) => {
+              // 해당 종목에서 구매한 단계들 찾기
+              const purchasedLevels = purchaseHints[item.stockId]
+                ? Object.keys(purchaseHints[item.stockId])
+                    .filter(
+                      (level) => purchaseHints[item.stockId][level].purchased
+                    ) // 구매된 단계만 필터링
+                    // .map((level) => "🔑".repeat(parseInt(level)))
+                    .join(", ") // 구매된 단계들을 문자열로 합침
+                : null;
+
+              return (
+                <Li
+                  variants={itemVariants}
+                  key={item.stockId}
+                  onClick={() => handleSelect(item)}
+                  style={{ marginTop: "0.5rem" }}
+                >
+                  <span>{item.name}</span>
+                  {purchaseHints[item.stockId] && (
+                    <span
+                      style={{
+                        marginLeft: "8px",
+                        color: "black",
+                        fontSize: "12px",
+                        textAlign: "right",
+                      }}
+                    >
+                      {purchasedLevels} ✅
+                    </span>
+                  )}
+                </Li>
+              );
+            })}
         </Ul>
       </Menu>
     </>

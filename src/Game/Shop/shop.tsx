@@ -9,7 +9,6 @@ import { Ingredient } from "./ingredient";
 import swal from "sweetalert";
 import { useStock } from "../../store/stockContext";
 import { useHintStore, usePurchaseStore } from "../../store/hintStore";
-import ModalOpen from "../../Component/Modal/modal";
 
 export interface ShopProps {
   selectedStock: number | null;
@@ -40,17 +39,6 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
     (stock) => stock.stockId === selectedStock
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
-
-  const handleConfirm = () => {
-    setIsOpen(false);
-    navigate(`/game/play/${year}`);
-  };
-
   const handleGame = () => {
     // setIsOpen(true);
     navigate(`/game/play/${year}`);
@@ -68,15 +56,6 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
       const savedHint =
         purchaseHints[selectedStock][selectedTab.level]?.hintData;
 
-      // console.log(
-      //   "Saved Hint for Stock",
-      //   selectedStock,
-      //   "Level",
-      //   selectedTab.level,
-      //   ":",
-      //   savedHint
-      // );
-
       // 해당 종목과 레벨에 맞는 힌트만 표시
       // if (purchaseComplete[selectedStock]?.[selectedTab.level]) {
       if (savedHint) {
@@ -89,10 +68,6 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
     }
     // }
   }, [purchaseHints, selectedStock, selectedTab.level, purchaseComplete]);
-
-  // useEffect(() => {
-  //   console.log("current hint state: ", hint);
-  // }, [hint]);
 
   //구매 요청 처리
   const onSubmitHandler = async (data: Ingredient) => {
@@ -153,7 +128,8 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
         if (error.response && error.response.status === 400) {
           swal({
             icon: "error",
-            title: "해당 단계의 힌트는 이미 구매하였습니다.",
+            title: "Oops...",
+            text: "해당 단계의 힌트는 이미 구매하였습니다.",
           });
         } else {
           console.error("server Error : ", error);

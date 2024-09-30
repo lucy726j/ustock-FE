@@ -159,7 +159,7 @@ const TotalResult = () => {
           nav("/game/gameStocks");
         }}
       />
-      <BentoBar />
+      {/* <BentoBar /> */}
     </Container>
   );
 };
