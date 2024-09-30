@@ -36,6 +36,9 @@ const CarouselItem = ({ data }: any) => {
       <NameStyle>{data.realName}</NameStyle>
       <GameChart data={data.chart} />
       <TitleStyle>해당 종목의 뉴스 히스토리</TitleStyle>
+      <p style={{ marginTop: "0.4rem", fontSize: "13px" }}>
+      ❗️게임 속 제공되던 정보는 여기서 나왔어요{" "}
+      </p>
       <GameNewsList data={data.news} />
     </Container>
   );

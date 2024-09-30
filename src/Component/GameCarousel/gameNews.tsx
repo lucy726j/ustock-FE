@@ -30,10 +30,14 @@ const NewsInfo = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 17px;
 `;
-const Publisher = styled.p``;
-const Date = styled.p``;
+const Publisher = styled.p`
+  font-size: 15px;
+`;
+const Date = styled.p`
+  font-size: 15px;
+`;
 
 const GameNews: React.FC<GameNewsProps> = ({ title, url, publisher, date }) => {
   return (

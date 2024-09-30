@@ -25,7 +25,10 @@ const GameChart = ({ data }: LineChartData) => {
           type: "area",
           height: 400,
           toolbar: {
-            show: true,
+            show: false,
+          },
+          zoom: {
+            enabled: false,
           },
         },
         xaxis: {

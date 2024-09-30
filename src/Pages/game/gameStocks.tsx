@@ -3,10 +3,14 @@ import GameCarousel from "../../Component/GameCarousel/gameCarousel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { GameStockProps } from "../../constants/interface";
-import BentoBar from "../../Game/Main/BentoBar/bentoBar";
+import { GoAlert } from "react-icons/go";
+import { Colors } from "../../Styles/Colors";
+import Button from "../../Component/Button/button";
+import { useNavigate } from "react-router-dom";
 
 const GameStocks = () => {
   const [stocks, setStocks] = useState<GameStockProps[]>([]);
+  const nav = useNavigate();
 
   useEffect(() => {
     axios
@@ -33,9 +37,33 @@ const GameStocks = () => {
       {stocks.length > 0 ? (
         <GameCarousel stocks={stocks} />
       ) : (
-        <p>데이터가 없습니다.</p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "10rem",
+          }}
+        >
+          <GoAlert
+            style={{
+              fontSize: "100px",
+              color: Colors.main,
+              marginBottom: "1rem",
+            }}
+          />
+          <p style={{ marginBottom: "2rem" }}>정상적인 접근 경로가 아닙니다</p>
+          <Button
+            children="게임 홈으로 돌아가기"
+            $state="normal"
+            $colorType="gradient"
+            $size="medium"
+            onClick={() => {
+              nav("/game");
+            }}
+          />
+        </div>
       )}
-      {/* <BentoBar /> */}
     </div>
   );
 };
