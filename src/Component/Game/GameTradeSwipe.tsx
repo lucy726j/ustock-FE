@@ -190,16 +190,6 @@ const GameTradeSwipe = ({
             <SwipeModal isOpen={isVisible} ref={modalRef}>
                 <SwipeContainer>
                     <div style={{ position: "relative", paddingTop: "20px" }}>
-                        <CloseButton
-                            onClick={() => {
-                                setSelectedStock(stockOptions[0]);
-                                setQuantity(0);
-                                onClose();
-                            }}
-                        >
-                            X
-                        </CloseButton>
-
                         {/* <Title>주식 거래하기</Title> */}
                         <TradeChoice
                             title="종목"
@@ -268,8 +258,8 @@ const SwipeModal = styled.div<{ isOpen: boolean }>`
     position: fixed;
     left: 50%;
     bottom: ${(props) => (props.isOpen ? "0" : "-100%")};
-    max-height: ${(props) => (props.isOpen ? "65vh" : "0")};
-    height: 65vh;
+    max-height: ${(props) => (props.isOpen ? "60vh" : "0")};
+    height: 60vh;
     max-width: 426px;
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
     transition: bottom 0.7s ease, max-height 0.7s ease;
@@ -299,9 +289,10 @@ const CloseButton = styled.button`
     position: absolute;
     font-size: 20px;
     top: 0;
-    right: 0;
+    right: -28px;
     border: none;
     background-color: transparent;
+    z-index: 999;
 `;
 
 // const Title = styled.span`
@@ -315,8 +306,9 @@ const TradeButtonGroup = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     margin: 20px 0;
+    width: 250px;
 `;
 
 const TradeButton = styled.button`
