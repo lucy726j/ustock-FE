@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import { RankDataProps } from "../../constants/interface";
 import RankList from "../../Component/Game/Rank/rankList";
 import { useNavigate } from "react-router-dom";
-import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 import swal from "sweetalert";
+import { useGameStore } from "../../store/useGameStore";
 
 const Container = styled.div`
   display: flex;
@@ -61,6 +61,11 @@ const TotalResult = () => {
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
   const [userRank, setUserRank] = useState<number>(0);
   const [userMoney, setUserMoney] = useState<number>(0);
+
+  const { checkGameDone, setCheckGameDone } = useGameStore((state) => ({
+    checkGameDone: state.checkGameDone,
+    setCheckGameDone: state.setCheckGameDone,
+  }));
 
   // 랭킹 리스트 요청 api
   useEffect(() => {
@@ -127,40 +132,44 @@ const TotalResult = () => {
   };
 
   return (
-    <Container>
-      <GameHeader text={"최 종  결 과"} />
+    <>
+      {checkGameDone ? (
+        <Container>
+          <GameHeader text={"최 종  결 과"} />
+          <SkrrContainer>
+            <SaySkrr rank={userRank} money={userMoney} />
+            <ImgStyle src={SkrrImg} alt="껄무새 이미지" />
+          </SkrrContainer>
+          <BtnBox>
+            <NickBox>{user}</NickBox>
+            <Button
+              children="랭킹에 등록하기"
+              $state="normal"
+              $colorType="gradient"
+              $size="small"
+              onClick={() => {
+                handleRankBtn();
+              }}
+            />
+          </BtnBox>
 
-      <SkrrContainer>
-        <SaySkrr rank={userRank} money={userMoney} />
-        <ImgStyle src={SkrrImg} alt="껄무새 이미지" />
-      </SkrrContainer>
-      <BtnBox>
-        <NickBox>{user}</NickBox>
-        <Button
-          children="랭킹에 등록하기"
-          $state="normal"
-          $colorType="gradient"
-          $size="small"
-          onClick={() => {
-            handleRankBtn();
-          }}
-        />
-      </BtnBox>
+          <RankList data={rankList} />
 
-      <RankList data={rankList} />
-
-      <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
-      <Button
-        children="🔎 주식 정체 확인하러 가기"
-        $state="normal"
-        $colorType="gradient"
-        $size="gradientBtn"
-        onClick={() => {
-          nav("/game/gameStocks");
-        }}
-      />
-      {/* <BentoBar /> */}
-    </Container>
+          <TextStyle>내가 거래한 주식의 정체는?</TextStyle>
+          <Button
+            children="🔎 주식 정체 확인하러 가기"
+            $state="normal"
+            $colorType="gradient"
+            $size="gradientBtn"
+            onClick={() => {
+              nav("/game/gameStocks");
+            }}
+          />
+        </Container>
+      ) : (
+        <p>게임을 끝내지 않으셨네요! </p>
+      )}
+    </>
   );
 };
 

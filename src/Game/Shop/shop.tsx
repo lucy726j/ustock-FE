@@ -26,6 +26,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [hint, setHint] = useState<string | null>(null);
   const [purchaseComplete, setPurchaseComplete] = useState<PurchaseHints>({});
+  const [disabled, setDisabled] = useState(true);
 
   const { purchaseHints, setPurchaseHints } = useHintStore();
 
@@ -43,6 +44,14 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
     // setIsOpen(true);
     navigate(`/game/play/${year}`);
   };
+
+  useEffect(() => {
+    if (!selectedStock) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [selectedStock]);
 
   useEffect(() => {
     // 선택한 종목과 선택한 레벨에 맞는 힌트 데이터 불러오기
@@ -72,13 +81,8 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
   //구매 요청 처리
   const onSubmitHandler = async (data: Ingredient) => {
     if (!selectedStock) {
-      swal({
-        icon: "error",
-        title: "종목을 선택해주세요!",
-      });
       return;
     }
-
     if (budget < parseInt(selectedTab.price.replace(/[^\d]/g, ""), 10)) {
       swal({
         icon: "error",
@@ -225,6 +229,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
                           $size="small"
                           $colorType="main"
                           onClick={() => onSubmitHandler(selectedTab)}
+                          disabled={disabled}
                         >
                           구매
                         </Button>
@@ -315,32 +320,6 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
               )}
             </motion.div>
           </AnimatePresence>
-          {/* <ModalOpen
-            title="정보거래소"
-            isOpen={isOpen}
-            showCancelButton={true}
-            showOneConfirmBtn={false}
-            onConfirm={handleConfirm}
-            onRequestClose={handleCancel}
-            confirmLabel="돌아가기"
-            cancelLabel="취소"
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "50px",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ marginBottom: "0.5rem", textAlign: "center" }}>
-                정보거래소를 나가면 구매한 해당 뉴스를
-                <br /> 다시 볼 수 없습니다.
-              </p>
-              <p> 괜찮으십니까? </p>
-            </div>
-          </ModalOpen> */}
         </S.Main>
       </S.Window>
     </>

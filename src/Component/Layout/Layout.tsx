@@ -32,9 +32,10 @@ const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/nologin";
   const isGame = location.pathname.includes("/game");
-  const GameNav = location.pathname.includes(
-    "/rank" || "/result" || "gameStocks"
-  );
+  const GameNav =
+    location.pathname.includes("/game/rank") ||
+    location.pathname.includes("/game/result/total") ||
+    location.pathname.includes("/game/gameStocks");
 
   return (
     <Container className="Layout">

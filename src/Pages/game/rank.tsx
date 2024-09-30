@@ -3,7 +3,6 @@ import GameHeader from "../../Component/Game/GameHeader";
 import { RankDataProps, RankListProps } from "../../constants/interface";
 import axios from "axios";
 import RankList from "../../Component/Game/Rank/rankList";
-import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 import styled from "styled-components";
 
 const TitleContainer = styled.div`
@@ -44,7 +43,6 @@ const Rank = () => {
         <p style={{ marginLeft: "5rem" }}>수익률</p>
       </TitleContainer>
       <RankList data={rankList} />
-      {/* <BentoBar /> */}
     </div>
   );
 };
