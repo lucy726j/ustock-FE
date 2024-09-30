@@ -44,7 +44,7 @@ const Rank = () => {
         <p style={{ marginLeft: "5rem" }}>수익률</p>
       </TitleContainer>
       <RankList data={rankList} />
-      <BentoBar />
+      {/* <BentoBar /> */}
     </div>
   );
 };
