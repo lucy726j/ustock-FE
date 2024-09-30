@@ -153,7 +153,8 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
         if (error.response && error.response.status === 400) {
           swal({
             icon: "error",
-            title: "해당 단계의 힌트는 이미 구매하였습니다.",
+            title: "Oops...",
+            text: "해당 단계의 힌트는 이미 구매하였습니다.",
           });
         } else {
           console.error("server Error : ", error);
