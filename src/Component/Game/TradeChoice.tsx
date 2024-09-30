@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { formatPrice } from "../../util/gameUtil";
+import { useSwipeStore } from "../../store/useSwipeStore";
 
 interface TradeChoiceProps {
     title: string;
@@ -11,6 +12,7 @@ interface TradeChoiceProps {
     onRightClick: () => void;
     currentPrice?: number | null;
     onQuantityChange?: (value: number) => void; // 수량 변경 핸들러 추가
+    handleMaxPurchaseQuantity: () => void;
 }
 
 const TradeChoice = ({
@@ -22,13 +24,16 @@ const TradeChoice = ({
     onRightClick,
     currentPrice,
     onQuantityChange, // 수량 변경 핸들러
+    handleMaxPurchaseQuantity,
 }: TradeChoiceProps) => {
     const [isSelected, setIsSelected] = useState(false);
     const choiceSectionRef = useRef<HTMLDivElement>(null);
+    const { holdingList } = useSwipeStore();
 
     const handleClick = () => {
         setIsSelected(true);
     };
+    console.log(currentPrice);
 
     const handleOutsideClick = (e: MouseEvent) => {
         if (
@@ -62,83 +67,133 @@ const TradeChoice = ({
 
     return (
         <TradeChoiceContainer>
-            <Title isSelected={isSelected}>{title}</Title>
-
+            {/* 종목 부분 */}
             {title === "종목" && (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <ChoiceSection
-                        ref={choiceSectionRef}
-                        onClick={handleClick}
-                        isSelected={isSelected}
+                <>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            width: "250px",
+                        }}
                     >
-                        <ChoiceButton
+                        <Title isSelected={isSelected}>종목 선택</Title>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <ChoiceSection
+                            ref={choiceSectionRef}
+                            onClick={handleClick}
                             isSelected={isSelected}
-                            onClick={onLeftClick}
                         >
-                            {choiceLeft}
-                        </ChoiceButton>
-                        <SelectedOption isSelected={isSelected}>
-                            {selectedOption}
-                        </SelectedOption>
-                        <ChoiceButton
-                            isSelected={isSelected}
-                            onClick={onRightClick}
-                        >
-                            {choiceRight}
-                        </ChoiceButton>
-                    </ChoiceSection>
-                    {/* 가격 정보 표시 */}
-                    {currentPrice !== undefined && (
-                        <CurrentPrice isSelected={isSelected}>
-                            {currentPrice !== null
-                                ? `${formatPrice(currentPrice)}원`
-                                : "가격 정보 없음"}
-                        </CurrentPrice>
-                    )}
-                </div>
+                            <ChoiceButton
+                                isSelected={isSelected}
+                                onClick={onLeftClick}
+                            >
+                                {choiceLeft}
+                            </ChoiceButton>
+                            <SelectedOption isSelected={isSelected}>
+                                {selectedOption}
+                                {currentPrice && (
+                                    <CurrentPrice isSelected={isSelected}>
+                                        {formatPrice(currentPrice)} 원
+                                    </CurrentPrice>
+                                )}
+                            </SelectedOption>
+
+                            <ChoiceButton
+                                isSelected={isSelected}
+                                onClick={onRightClick}
+                            >
+                                {choiceRight}
+                            </ChoiceButton>
+                        </ChoiceSection>
+
+                        {/* 가격 정보 표시 */}
+                        {/* {currentPrice ? (
+                            <CurrentPrice isSelected={isSelected}>
+                                {formatPrice(currentPrice)}원
+                            </CurrentPrice>
+                        ) : (
+                            <div>가격 정보 없음</div> // 혹은 기본값으로 처리
+                        )} */}
+                    </div>
+                </>
             )}
 
+            {/* 수량 부분 */}
             {title === "수량" && (
-                <ChoiceSection
-                    ref={choiceSectionRef}
-                    onClick={handleClick}
-                    isSelected={isSelected}
-                >
-                    <ChoiceButton isSelected={isSelected} onClick={onLeftClick}>
-                        {choiceLeft}
-                    </ChoiceButton>
-                    <QuantityInput
-                        type="number"
-                        value={selectedOption}
-                        onChange={handleInputChange}
-                        min={0}
-                        isSelected={isSelected}
-                    />
-                    <ChoiceButton
-                        isSelected={isSelected}
-                        onClick={onRightClick}
+                <>
+                    <div
+                        style={{
+                            width: "250px",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}
                     >
-                        {choiceRight}
-                    </ChoiceButton>
-                </ChoiceSection>
+                        <Title isSelected={isSelected}>수량 선택</Title>
+                        <CurrentQuantity isSelected={isSelected}>
+                            보유수량 : {selectedOption}주
+                        </CurrentQuantity>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <ChoiceSection
+                            ref={choiceSectionRef}
+                            onClick={handleClick}
+                            isSelected={isSelected}
+                        >
+                            <ChoiceButton
+                                isSelected={isSelected}
+                                onClick={onLeftClick}
+                            >
+                                {choiceLeft}
+                            </ChoiceButton>
+                            <QuantityInput
+                                type="number"
+                                value={selectedOption}
+                                onChange={handleInputChange}
+                                min={0}
+                                isSelected={isSelected}
+                            />
+                            <ChoiceButton
+                                isSelected={isSelected}
+                                onClick={onRightClick}
+                            >
+                                {choiceRight}
+                            </ChoiceButton>
+                        </ChoiceSection>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            width: "250px",
+                        }}
+                    >
+                        <MaxPurchaseBtn
+                            isSelected={isSelected}
+                            onClick={handleMaxPurchaseQuantity}
+                        >
+                            최대로 구매하기
+                        </MaxPurchaseBtn>
+                    </div>
+                </>
             )}
         </TradeChoiceContainer>
     );
 };
-
 const TradeChoiceContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin: 30px 0;
+    margin-bottom: 40px;
 `;
 
 const Title = styled.h2<{ isSelected: boolean }>`
     font-size: 15px;
     color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
-    margin-left: -200px;
     margin-bottom: 8px;
 `;
 
@@ -154,6 +209,7 @@ const ChoiceSection = styled.div<{ isSelected: boolean }>`
     gap: 20px;
     border: ${(props) => (props.isSelected ? "3px solid #615EFC" : "none")};
     font-size: 13px;
+    position: relative;
 `;
 
 const ChoiceButton = styled.div<{ isSelected: boolean }>`
@@ -187,9 +243,26 @@ const SelectedOption = styled.h3<{ isSelected: boolean }>`
 `;
 
 const CurrentPrice = styled.div<{ isSelected: boolean }>`
-    margin-top: -25px;
+    margin-top: 5px;
     font-size: 13px;
     color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
+`;
+
+const CurrentQuantity = styled.div<{ isSelected: boolean }>`
+    font-size: 13px;
+    color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
+`;
+
+const MaxPurchaseBtn = styled.button<{ isSelected: boolean }>`
+    width: 110px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: ${(props) =>
+        props.isSelected ? "2.5px solid #615EFC" : "1px solid #f0f0f0"};
+    background-color: ${(props) => (props.isSelected ? "#615EFC" : "#f0f0f0")};
+    color: ${(props) => (props.isSelected ? "white" : "black")};
 `;
 
 export default TradeChoice;
