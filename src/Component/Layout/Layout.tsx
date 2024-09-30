@@ -33,7 +33,7 @@ const Layout = (props: { children: React.ReactNode }) => {
   const isLoginPage = location.pathname === "/nologin";
   const isGame = location.pathname.includes("/game");
   const GameNav = location.pathname.includes(
-    "/rank" || "/total" || "gameStocks"
+    "/rank" || "/result" || "gameStocks"
   );
 
   return (
