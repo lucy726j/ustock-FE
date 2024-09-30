@@ -282,19 +282,6 @@ const SwipeContainer = styled.div`
     flex-direction: column;
 `;
 
-const CloseButton = styled.button`
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    position: absolute;
-    font-size: 20px;
-    top: 0;
-    right: -28px;
-    border: none;
-    background-color: transparent;
-    z-index: 999;
-`;
-
 // const Title = styled.span`
 //     font-size: 25px;
 //     font-weight: 700;
