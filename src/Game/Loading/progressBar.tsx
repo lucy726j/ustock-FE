@@ -30,7 +30,7 @@ const Text = styled.span`
   font-weight: bold;
   z-index: 1;
   font-size: 12px;
-  margin-left: 0%.8;
+  margin-left: 7px;
 `;
 
 interface ProgressBarProps {
