@@ -126,7 +126,7 @@ const GameMoneyContainer = styled.div`
   width: 85%;
   height: auto;
   border-radius: 20px;
-  box-shadow: 3px 3px 3px rgb(213, 213, 213);
+  box-shadow: 0px 0px 17px rgb(213, 213, 213);
   padding: 20px 10px;
   position: relative;
   margin-top: 20px;
