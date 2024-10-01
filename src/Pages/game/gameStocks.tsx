@@ -6,11 +6,12 @@ import { GameStockProps } from "../../constants/interface";
 import { GoAlert } from "react-icons/go";
 import { Colors } from "../../Styles/Colors";
 import Button from "../../Component/Button/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const GameStocks = () => {
   const [stocks, setStocks] = useState<GameStockProps[]>([]);
   const nav = useNavigate();
+
 
   useEffect(() => {
     axios
@@ -31,11 +32,15 @@ const GameStocks = () => {
       });
   }, []);
 
+
+
   return (
-    <div style={{ position: "relative" }}>
-      <GameHeader text={"주식의 정체 두-둥"} />
+    <>
       {stocks.length > 0 ? (
-        <GameCarousel stocks={stocks} />
+        <div style={{ position: "relative" }}>
+          <GameHeader text={"주식의 정체 두-둥"} />
+          <GameCarousel stocks={stocks} />
+        </div>
       ) : (
         <div
           style={{
@@ -64,7 +69,7 @@ const GameStocks = () => {
           />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
