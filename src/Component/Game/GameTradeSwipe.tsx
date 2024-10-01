@@ -254,7 +254,7 @@ const GameTradeSwipe = ({
 };
 
 const SwipeModal = styled.div<{ isOpen: boolean }>`
-    width: 90%;
+    width: 100%;
     position: fixed;
     left: 50%;
     bottom: ${(props) => (props.isOpen ? "0" : "-100%")};
@@ -280,6 +280,7 @@ const SwipeContainer = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+    scrollbar-width: none;
 `;
 
 // const Title = styled.span`
