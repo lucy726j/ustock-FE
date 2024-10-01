@@ -174,17 +174,6 @@ const PlayPage = () => {
               flexDirection: "column",
             }}
           >
-            {/* <div> */}
-            {/* <p
-          style={{
-            paddingLeft: "3.5rem",
-            fontSize: "15px",
-            marginBottom: "0.5rem",
-          }}
-        >
-          게임 진행도
-        </p> */}
-            {/* </div> */}
             <ProgressBar progress={progress} />
           </div>
           <GameMoney setBudget={setBudget} budget={budget} />

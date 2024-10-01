@@ -135,7 +135,6 @@ const GameTradeSwipe = ({
   const handleQuantityInputChange = (value: number) => {
     setQuantity(value);
   };
-
   // 최대구매수량 계산 함수
   const handleMaxPurchaseQuantity = () => {
     if (currentPrice && budget) {
@@ -143,26 +142,7 @@ const GameTradeSwipe = ({
       setQuantity(maxQuantity > 0 ? maxQuantity : 0);
     }
   };
-
-  // useEffect(() => {
-  //     if (stockData) {
-  //         const options = stockData.map((stock) => ({
-  //             stockId: stock.stockId,
-  //             name: stock.name,
-  //         }));
-  //         setStockOptions(options);
-  //         if (!selectedStock && options.length > 0) {
-  //             setSelectedStock(options[0]);
-  //             setCurrentPrice(stockData[0].current);
-  //         }
-  //     }
-  //     if (selectedStock && stockData) {
-  //         const selectedStockData = stockData.find(
-  //             (stock) => stock.stockId === selectedStock.stockId
-  //         );
-  //         setCurrentPrice(selectedStockData?.current || null);
-  //     }
-  // }, [stockData, selectedStock]);
+  
   useEffect(() => {
     if (stockData && stockData.length > 0) {
       const options = stockData.map((stock) => ({
@@ -254,8 +234,8 @@ const SwipeModal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   left: 50%;
   bottom: ${(props) => (props.isOpen ? "0" : "-100%")};
-  max-height: ${(props) => (props.isOpen ? "60vh" : "0")};
-  height: 60vh;
+  max-height: ${(props) => (props.isOpen ? "64vh" : "0")};
+  height: 64vh;
   max-width: 426px;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   transition: bottom 0.7s ease, max-height 0.7s ease;
@@ -270,20 +250,14 @@ const SwipeModal = styled.div<{ isOpen: boolean }>`
 `;
 
 const SwipeContainer = styled.div`
-  padding: 20px;
-  background-color: #f7f7f7;
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    padding: 20px;
+    background-color: #f7f7f7;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
 `;
-
-// const Title = styled.span`
-//     font-size: 25px;
-//     font-weight: 700;
-//     color: #615efc;
-//     margin-top: 30px;
-// `;
 
 const TradeButtonGroup = styled.div`
   display: flex;

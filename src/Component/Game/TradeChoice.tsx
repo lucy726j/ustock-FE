@@ -65,6 +65,11 @@ const TradeChoice = ({
         }
     };
 
+    const handleMaxPurchaseQuantityClick = () => {
+        handleMaxPurchaseQuantity();
+        setIsSelected(true); // 수량 선택 상태 유지
+    };
+
     return (
         <TradeChoiceContainer>
             {/* 종목 부분 */}
@@ -163,7 +168,7 @@ const TradeChoice = ({
                     >
                         <MaxPurchaseBtn
                             isSelected={isSelected}
-                            onClick={handleMaxPurchaseQuantity}
+                            onClick={handleMaxPurchaseQuantityClick}
                         >
                             최대로 구매하기
                         </MaxPurchaseBtn>
@@ -242,6 +247,7 @@ const CurrentPrice = styled.div<{ isSelected: boolean }>`
 const CurrentQuantity = styled.div<{ isSelected: boolean }>`
     font-size: 13px;
     color: ${(props) => (props.isSelected ? "#615EFC" : "#656565")};
+    margin-right: 10px;
 `;
 
 const MaxPurchaseBtn = styled.button<{ isSelected: boolean }>`

@@ -7,9 +7,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { RankDataProps } from "../../constants/interface";
 import RankList from "../../Component/Game/Rank/rankList";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import swal from "sweetalert";
 import { useGameStore } from "../../store/useGameStore";
+import { debounce } from "lodash";
 
 const Container = styled.div`
   display: flex;
@@ -57,6 +58,7 @@ const NickBox = styled.div`
 
 const TotalResult = () => {
   const nav = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState("");
   const [rankList, setRankList] = useState<RankDataProps[]>([]);
   const [userRank, setUserRank] = useState<number>(0);
@@ -66,6 +68,8 @@ const TotalResult = () => {
     checkGameDone: state.checkGameDone,
     setCheckGameDone: state.setCheckGameDone,
   }));
+
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   // 랭킹 리스트 요청 api
   useEffect(() => {
@@ -98,7 +102,7 @@ const TotalResult = () => {
   }, []);
 
   // 게임 결과 저장
-  const handleRankBtn = () => {
+  const handleRankClick = debounce(() => {
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/v1/game/result/save`,
@@ -113,11 +117,13 @@ const TotalResult = () => {
       .then((res) => {
         if (res.status === 200) {
           {
+            console.log("랭킹등록!!");
             swal({
               title: "랭킹 등록 완료!",
               text: "랭킹이 등록되었습니다.",
               icon: "success",
             });
+            setBtnDisabled(true);
           }
         } else {
           {
@@ -129,7 +135,49 @@ const TotalResult = () => {
           }
         }
       });
-  };
+  }, 1000);
+
+  // const handleRankBtn = () => {
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_API_URL}/v1/game/result/save`,
+  //       {},
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         {
+  //           console.log("랭킹등록!!");
+  //           swal({
+  //             title: "랭킹 등록 완료!",
+  //             text: "랭킹이 등록되었습니다.",
+  //             icon: "success",
+  //           });
+  //         }
+  //       } else {
+  //         {
+  //           swal({
+  //             title: "등록에 실패하셨습니다.",
+  //             text: "다시 시도해주세요!",
+  //             icon: "error",
+  //           });
+  //         }
+  //       }
+  //     });
+  // };
+
+  // 랭킹 저장 여부 확인
+  useEffect(() => {
+    if (location.state?.btnDisabled) {
+      console.log("다시 잘 넘어와?", location.state.btnDisabled);
+      setBtnDisabled(location.state.btnDisabled);
+    }
+  }, [location.state]);
 
   return (
     <>
@@ -147,8 +195,10 @@ const TotalResult = () => {
               $state="normal"
               $colorType="gradient"
               $size="small"
+              disabled={btnDisabled}
               onClick={() => {
-                handleRankBtn();
+                // handleRankBtn();
+                handleRankClick();
               }}
             />
           </BtnBox>
@@ -162,7 +212,7 @@ const TotalResult = () => {
             $colorType="gradient"
             $size="gradientBtn"
             onClick={() => {
-              nav("/game/gameStocks");
+              nav("/game/gameStocks", { state: { btnDisabled: btnDisabled } });
             }}
           />
         </Container>
