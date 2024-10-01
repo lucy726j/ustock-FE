@@ -171,19 +171,38 @@ const GameTradeSwipe = ({
       }));
       setStockOptions(options);
 
-      // selectedStock이 없으면 첫 번째 종목을 선택
-      if (!selectedStock && options.length > 0) {
-        setSelectedStock(options[0]);
-        setCurrentPrice(stockData[0].current || 0); // 초기값을 0으로 설정
-      } else if (selectedStock) {
-        // 선택한 종목에 맞는 가격을 설정
-        const selectedStockData = stockData.find(
-          (stock) => stock.stockId === selectedStock.stockId
-        );
-        setCurrentPrice(selectedStockData?.current || 0); // undefined 방지
-      }
-    }
-  }, [stockData, selectedStock]);
+            // selectedStock이 없으면 첫 번째 종목을 선택
+            if (!selectedStock && options.length > 0) {
+                setSelectedStock(options[0]);
+                setCurrentPrice(stockData[0].current || 0); // 초기값을 0으로 설정
+
+                // 첫번째 종목이 보유 주식에 있으면 수량 설정
+                const holdingStock = holdingList.find(
+                    (holding) => holding.stockId === options[0].stockId
+                );
+                if (holdingStock) {
+                    setQuantity(holdingStock.quantity);
+                } else {
+                    setQuantity(0);
+                }
+            } else if (selectedStock) {
+                // 선택한 종목에 맞는 가격을 설정
+                const selectedStockData = stockData.find(
+                    (stock) => stock.stockId === selectedStock.stockId
+                );
+                setCurrentPrice(selectedStockData?.current || 0); // undefined 방지
+                // 선택된 종목이 보유 주식에 있으면 수량 설정
+                const holdingStock = holdingList.find(
+                    (holding) => holding.stockId === selectedStock.stockId
+                );
+                if (holdingStock) {
+                    setQuantity(holdingStock.quantity); // 보유한 수량으로 설정
+                } else {
+                    setQuantity(0); // 보유하지 않은 경우 0으로 설정
+                }
+            }
+        }
+    }, [stockData, selectedStock]);
 
   return (
     <div className="GameTradeSwipe">
@@ -270,12 +289,13 @@ const SwipeModal = styled.div<{ isOpen: boolean }>`
 `;
 
 const SwipeContainer = styled.div`
-  padding: 20px;
-  background-color: #f7f7f7;
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    padding: 20px;
+    background-color: #f7f7f7;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
 `;
 
 // const Title = styled.span`
