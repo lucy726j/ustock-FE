@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import Header from "./Header/Header";
 import NavBar from "./NavBar/NavBar";
 import styled from "styled-components";
-import { useAuth } from "../../contexts/authContext";
 import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 
 const Main = styled.main`
