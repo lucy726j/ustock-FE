@@ -4,7 +4,9 @@ const PreventBackNavigation: React.FC = () => {
   useEffect(() => {
     // 현재 페이지 상태를 푸시하여 뒤로가기를 막음
     const pushCurrentState = () => {
-      window.history.pushState(null, "", window.location.href);
+      if (window.location.pathname !== "/game") {
+        window.history.pushState(null, "", window.location.href);
+      }
     };
 
     const handlePopState = () => {

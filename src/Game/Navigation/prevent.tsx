@@ -7,7 +7,11 @@ export const PreventNavigation: React.FC = () => {
     ) as PerformanceNavigationTiming[];
 
     // 페이지가 새로고침되었는지 확인
-    if (navigationEntries[0] && navigationEntries[0].type === "reload") {
+    if (
+      navigationEntries[0] &&
+      navigationEntries[0].type === "reload" &&
+      window.location.pathname !== "/game"
+    ) {
       // 새로고침이 발생한 경우 리다이렉트하지 않고 경고만 표시
       window.location.href = "/";
       console.log("Page was reloaded.");
