@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./mainStyle.css";
 import Parrot from "../../img/parrot.png";
 import FlyParrot from "../../img/fly_parrot.png";
@@ -10,6 +10,7 @@ import swal from "sweetalert";
 import { ButtonDiv, GameTitle } from "./styleMain";
 import Loading from "../Loading/loading";
 import { StocksStore } from "../../store/stockContext";
+import audioFile from "../../audio/Lucy_skrrr.m4a";
 
 const GameMain: React.FC = () => {
   const { setStockData } = StocksStore();
@@ -21,6 +22,24 @@ const GameMain: React.FC = () => {
   const navigate = useNavigate();
   const [isValidQuantity, setIsValidQuantity] = useState(true);
   const [isSkipped, setIsSkipped] = useState(false);
+
+  // Lucy Audio
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(new Audio(audioFile));
+
+  const playMusic = () => {
+    const audio = audioRef.current;
+
+    if (audio.paused) {
+      audio.play().catch((error) => {
+        console.log("오디오 재생에 실패했습니다. : ", error);
+      });
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const handleRank = () => {
     navigate("/game/rank");
@@ -105,6 +124,12 @@ const GameMain: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [isSkipped]);
+
+  useEffect(() => {
+    if (isFlying && !isSkipped) {
+      playMusic();
+    }
+  }, [isFlying, isSkipped]);
 
   return (
     <>
