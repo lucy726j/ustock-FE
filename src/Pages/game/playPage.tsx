@@ -10,7 +10,6 @@ import PassConfirmModal from "../../Component/Game/PassConfirmModal";
 import axios from "axios";
 import "./gameStyle.css";
 import HappyNewYearModal from "./HappyNewYearModal";
-import { useStock } from "../../store/stockContext";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 import { useGameStore } from "../../store/useGameStore";
 import ProgressBar from "../../Game/Loading/progressBar";
@@ -18,6 +17,7 @@ import { GoAlert } from "react-icons/go";
 import { Colors } from "../../Styles/Colors";
 import Button from "../../Component/Button/button";
 import { useHintStore } from "../../store/hintStore";
+import { StocksStore } from "../../store/stockContext";
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Container = styled.div`
 
 const PlayPage = () => {
   const { year } = useParams<{ year?: string }>();
-  const { stockData, setStockData } = useStock();
+  const { stockData, setStockData } = StocksStore();
   const nav = useNavigate();
   const yearValue = year || "2014";
   // 페이지 유효성 검사를 위한 변수

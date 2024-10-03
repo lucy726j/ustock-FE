@@ -4,7 +4,7 @@ import TradeConfirmModal from "./TradeConfirmModal";
 import axios from "axios";
 import swal from "sweetalert";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
-import { useStock } from "../../store/stockContext";
+import { StocksStore, useStock } from "../../store/stockContext";
 import { formatPrice } from "../../util/gameUtil";
 import styled from "styled-components";
 import { useSwipeStore } from "../../store/useSwipeStore";
@@ -22,7 +22,7 @@ const GameTradeSwipe = ({
   year,
   budget,
 }: GameTradeSwipeProps) => {
-  const { stockData } = useStock();
+  const { stockData } = StocksStore();
   const [selectedStock, setSelectedStock] = useState<{
     stockId: number;
     name: string;
@@ -135,7 +135,6 @@ const GameTradeSwipe = ({
   const handleQuantityInputChange = (value: number) => {
     setQuantity(value);
   };
-
   // 최대구매수량 계산 함수
   const handleMaxPurchaseQuantity = () => {
     if (currentPrice && budget) {
@@ -143,26 +142,7 @@ const GameTradeSwipe = ({
       setQuantity(maxQuantity > 0 ? maxQuantity : 0);
     }
   };
-
-  // useEffect(() => {
-  //     if (stockData) {
-  //         const options = stockData.map((stock) => ({
-  //             stockId: stock.stockId,
-  //             name: stock.name,
-  //         }));
-  //         setStockOptions(options);
-  //         if (!selectedStock && options.length > 0) {
-  //             setSelectedStock(options[0]);
-  //             setCurrentPrice(stockData[0].current);
-  //         }
-  //     }
-  //     if (selectedStock && stockData) {
-  //         const selectedStockData = stockData.find(
-  //             (stock) => stock.stockId === selectedStock.stockId
-  //         );
-  //         setCurrentPrice(selectedStockData?.current || null);
-  //     }
-  // }, [stockData, selectedStock]);
+  
   useEffect(() => {
     if (stockData && stockData.length > 0) {
       const options = stockData.map((stock) => ({
@@ -171,38 +151,19 @@ const GameTradeSwipe = ({
       }));
       setStockOptions(options);
 
-            // selectedStock이 없으면 첫 번째 종목을 선택
-            if (!selectedStock && options.length > 0) {
-                setSelectedStock(options[0]);
-                setCurrentPrice(stockData[0].current || 0); // 초기값을 0으로 설정
-
-                // 첫번째 종목이 보유 주식에 있으면 수량 설정
-                const holdingStock = holdingList.find(
-                    (holding) => holding.stockId === options[0].stockId
-                );
-                if (holdingStock) {
-                    setQuantity(holdingStock.quantity);
-                } else {
-                    setQuantity(0);
-                }
-            } else if (selectedStock) {
-                // 선택한 종목에 맞는 가격을 설정
-                const selectedStockData = stockData.find(
-                    (stock) => stock.stockId === selectedStock.stockId
-                );
-                setCurrentPrice(selectedStockData?.current || 0); // undefined 방지
-                // 선택된 종목이 보유 주식에 있으면 수량 설정
-                const holdingStock = holdingList.find(
-                    (holding) => holding.stockId === selectedStock.stockId
-                );
-                if (holdingStock) {
-                    setQuantity(holdingStock.quantity); // 보유한 수량으로 설정
-                } else {
-                    setQuantity(0); // 보유하지 않은 경우 0으로 설정
-                }
-            }
-        }
-    }, [stockData, selectedStock]);
+      // selectedStock이 없으면 첫 번째 종목을 선택
+      if (!selectedStock && options.length > 0) {
+        setSelectedStock(options[0]);
+        setCurrentPrice(stockData[0].current || 0); // 초기값을 0으로 설정
+      } else if (selectedStock) {
+        // 선택한 종목에 맞는 가격을 설정
+        const selectedStockData = stockData.find(
+          (stock) => stock.stockId === selectedStock.stockId
+        );
+        setCurrentPrice(selectedStockData?.current || 0); // undefined 방지
+      }
+    }
+  }, [stockData, selectedStock]);
 
   return (
     <div className="GameTradeSwipe">
@@ -297,13 +258,6 @@ const SwipeContainer = styled.div`
     flex-direction: column;
     scrollbar-width: none;
 `;
-
-// const Title = styled.span`
-//     font-size: 25px;
-//     font-weight: 700;
-//     color: #615efc;
-//     margin-top: 30px;
-// `;
 
 const TradeButtonGroup = styled.div`
   display: flex;
