@@ -85,7 +85,7 @@ const Portfolio = () => {
       .then((res) => {
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
-          setTotalROR(res.data.ror);
+          setTotalROR(res.data.profitRate);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
         } else if (res.status === 401) {
           navigate("/error");
