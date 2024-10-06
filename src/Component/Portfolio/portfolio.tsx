@@ -17,7 +17,7 @@ interface Portfolio {
   id: number;
   name: string;
   budget: number;
-  ror: number;
+  profitRate: number;
   average: number;
 }
 

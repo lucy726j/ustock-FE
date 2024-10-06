@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
 import { RankListProps } from "../../constants/interface";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
+import { useGameStore } from "../../store/useGameStore";
 
 const fadeIn = keyframes`
     from{
@@ -26,6 +27,16 @@ const GameCurrentResult = () => {
   const header = ["순위", "플레이어", " 현재금액", "수익률"];
   const [rankResult, setRankResult] = useState<RankListProps[]>([]);
 
+  const { currentRank, setCurrentRank, fetchRank } = useGameStore((state) => ({
+    currentRank: state.currentRank,
+    setCurrentRank: state.setCurrentRank,
+    fetchRank: state.fetchRank,
+  }));
+
+  useEffect(() => {
+    fetchRank();
+  }, []);
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/v1/game/result`, {
@@ -35,10 +46,15 @@ const GameCurrentResult = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
         setRankResult(res.data);
+
+        // // 사용자 순위 저장
+        // const userIndex = res.data.findIndex(
+        //   (item: any) => item.playerType === "USER"
+        // );
+        // setCurrentRank(userIndex + 1);
       });
-  }, [check]);
+  }, [check, currentRank]);
 
   return (
     <TableContainer>

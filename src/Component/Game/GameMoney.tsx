@@ -33,6 +33,10 @@ const GameMoney = ({
   // 페이지 유효성 검사
   const setCheckYear = useGameStore((state) => state.setCheckYear);
 
+  const { currentRank } = useGameStore((state) => ({
+    currentRank: state.currentRank,
+  }));
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/v1/game/user`, {
@@ -59,11 +63,19 @@ const GameMoney = ({
       .catch((e) => {
         nav("/error");
       });
-  }, [check]);
+  }, [check, currentRank]);
 
   const handleShowTable = () => {
     setShowTable((prev) => !prev);
   };
+
+  const { fetchRank } = useGameStore((state) => ({
+    fetchRank: state.fetchRank,
+  }));
+
+  useEffect(() => {
+    fetchRank();
+  }, []);
 
   return (
     <GameMoneyContainer>
@@ -116,7 +128,7 @@ const GameMoney = ({
           {showTable ? "닫기" : "더보기"}
         </Button>
       </BalanceDetailButton>
-
+      <div style={{ marginTop: "2rem" }}>나는 현재 {currentRank} 등!</div>
       {showTable && <GameViewTab holdingList={holdingList} />}
     </GameMoneyContainer>
   );
