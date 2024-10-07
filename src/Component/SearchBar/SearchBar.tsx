@@ -62,6 +62,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
     [handelDebounce]
   );
 
+  // # Debounce 적용 전 ver
   // useEffect(() => {
   //   if (keyword.trim() === "") {
   //     setList([]);

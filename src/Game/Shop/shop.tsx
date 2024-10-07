@@ -7,8 +7,9 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Ingredient } from "./ingredient";
 import swal from "sweetalert";
-import { useStock } from "../../store/stockContext";
+// import { useStock } from "../../store/stockContext";
 import { useHintStore, usePurchaseStore } from "../../store/hintStore";
+import { StocksStore } from "../../store/stockContext";
 
 export interface ShopProps {
   selectedStock: number | null;
@@ -32,8 +33,7 @@ const Shop: React.FC<ShopProps> = ({ selectedStock, budget, setBudget }) => {
 
   const location = useLocation();
   const year = location.pathname.split("/")[3];
-  const { stockData } = useStock();
-  // const numberYear = Number(year);
+  const { stockData } = StocksStore();
   const navigate = useNavigate();
 
   const selectedStockData = stockData?.find(

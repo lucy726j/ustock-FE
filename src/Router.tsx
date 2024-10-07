@@ -17,7 +17,7 @@ import TotalResult from "./Pages/game/totalResult";
 import GameStocks from "./Pages/game/gameStocks";
 import Rank from "./Pages/game/rank";
 import { StockProvider } from "./store/stockContext";
-import PreventNavigation from "./Game/Navigation/prevent";
+import { PreventNavigation } from "./Game/Navigation/prevent";
 import PreventBackNavigation from "./Game/Navigation/preventBack";
 
 const Router = () => {

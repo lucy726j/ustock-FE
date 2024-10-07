@@ -40,22 +40,29 @@ const CalculResult: React.FC<CalculResultProps> = ({
               <S.ImgStyle src={Salary} alt="" />
               <S.SpanContainer>
                 2024년 최저시급 기준{" "}
-                <S.SpanStyle $isNegative={price < 0}>{slave}</S.SpanStyle>
+                <S.SpanStyle $isNegative={price < 0}>
+                  {formatPrice(parseInt(slave))}
+                </S.SpanStyle>
                 시간
               </S.SpanContainer>
             </S.DivContainer>
             <S.DivContainer>
               <S.ImgStyle src={Candy} alt="" />
               <S.SpanContainer>
-                새콤달콤{" "}
-                <S.SpanStyle $isNegative={price < 0}>{candy}</S.SpanStyle>개
+                새콤달콤
+                <S.SpanStyle $isNegative={price < 0}>
+                  {formatPrice(parseInt(candy))}
+                </S.SpanStyle>
+                개
               </S.SpanContainer>
             </S.DivContainer>
             <S.DivContainer>
               <S.ImgStyle src={Soul} alt="" />
               <S.SpanContainer>
                 국밥
-                <S.SpanStyle $isNegative={price < 0}>{soul}</S.SpanStyle>
+                <S.SpanStyle $isNegative={price < 0}>
+                  {formatPrice(parseInt(soul))}
+                </S.SpanStyle>
                 그릇
               </S.SpanContainer>
             </S.DivContainer>
@@ -63,15 +70,20 @@ const CalculResult: React.FC<CalculResultProps> = ({
               <S.ImgStyle src={Chicken} alt="" />
               <S.SpanContainer>
                 치킨{" "}
-                <S.SpanStyle $isNegative={price < 0}>{chicken}</S.SpanStyle>
+                <S.SpanStyle $isNegative={price < 0}>
+                  {formatPrice(parseInt(chicken))}
+                </S.SpanStyle>
                 마리
               </S.SpanContainer>
             </S.DivContainer>
             <S.DivContainer>
               <S.ImgStyle src={Iphone} alt="" />
               <S.SpanContainer>
-                아이폰{" "}
-                <S.SpanStyle $isNegative={price < 0}>{iphone}</S.SpanStyle>대
+                아이폰
+                <S.SpanStyle $isNegative={price < 0}>
+                  {formatPrice(parseInt(iphone))}
+                </S.SpanStyle>
+                대
               </S.SpanContainer>
             </S.DivContainer>
             <S.SkrrrBird src={Skrrr} alt="" />

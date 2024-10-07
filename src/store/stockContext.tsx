@@ -1,6 +1,7 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import { create } from "zustand";
 
-export interface Stock {
+interface Stock {
   stockId: number;
   name: string;
   current: number;
@@ -14,6 +15,13 @@ export interface StockContextProps {
   setStockData: (data: Stock[]) => void;
 }
 
+// 쥬스탠드 사용
+export const StocksStore = create<StockContextProps>((set) => ({
+  stockData: [],
+  setStockData: (data: Stock[]) => set({ stockData: data }),
+}));
+
+// useContext 사용
 const StockContext = createContext<StockContextProps | undefined>(undefined);
 
 export const useStock = () => {
@@ -36,3 +44,14 @@ export const StockProvider: React.FC<StockProviderProps> = ({ children }) => {
     </StockContext.Provider>
   );
 };
+
+// const StocksStore = create((set) => ({
+//   stockList : {},
+//   setStockList : ((state) => ({
+//     stockList: ((state) => {
+//       set((state) => ({
+//         stockList: [...stockId, name, current]
+//       }))
+//     })
+//   }))
+// }))

@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/authContext";
+import { useAuthStore } from "../../contexts/authContext";
 
 const CallBackPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  // const { login } = useAuth();
+  const { login } = useAuthStore();
   const hasFetchedRef = useRef(false);
 
   const handleHome = () => {

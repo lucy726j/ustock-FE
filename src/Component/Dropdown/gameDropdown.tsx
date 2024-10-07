@@ -1,7 +1,7 @@
 import { Variants, motion } from "framer-motion";
 import { useState } from "react";
 import { Colors } from "../../Styles/Colors";
-import { Stock, useStock } from "../../store/stockContext";
+import { StocksStore, useStock } from "../../store/stockContext";
 import styled from "styled-components";
 import {
   itemVariants,
@@ -17,10 +17,19 @@ export interface StockItemProps {
   onSelectStock: (stockId: number) => void;
 }
 
+interface Stock {
+  stockId: number;
+  name: string;
+  current: number;
+  prev: number;
+  change: number;
+  changeRate: number;
+}
+
 const StockItem: React.FC<StockItemProps> = ({ onSelectStock }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
-  const { stockData } = useStock();
+  const { stockData, setStockData } = StocksStore();
   const { purchaseHints, setPurchaseHints } = useHintStore();
 
   const toggleDropdown = () => {

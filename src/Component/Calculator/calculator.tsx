@@ -50,7 +50,16 @@ const Calculator = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+
+    // 공백, 특수문자 입력 아예 안되게 막기
+    if (regExp.test(value)) {
+      value = value.replace(regExp, "");
+      setErrorMsg("공백 및 특수 문자는 입력 불가합니다");
+      setIsValid(false);
+      return;
+    }
 
     if (value.includes("-")) {
       setErrorMsg("음수 값은 입력 불가합니다");
