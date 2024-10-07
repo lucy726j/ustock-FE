@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { formatPrice, formatChangeRate } from "../../util/gameUtil";
-import { holding } from "../../constants/interface";
 
 const fadeIn = keyframes`
     from{
