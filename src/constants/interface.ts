@@ -271,3 +271,10 @@ export interface GameStockProps {
   chart: { x: string; y: number }[];
   news: { title: string; url: string; publisher: string; date: string }[];
 }
+
+export interface LineChartData {
+  data: {
+    x: string;
+    y: number;
+  }[];
+}

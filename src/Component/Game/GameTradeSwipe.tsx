@@ -138,49 +138,49 @@ const GameTradeSwipe = ({
         }
     };
 
-    const openTradeConfirmModal = (action: "BUY" | "SELL") => {
-        setActing(action);
-        setIsModalOpen(true);
-    };
+  const openTradeConfirmModal = (action: "BUY" | "SELL") => {
+    setActing(action);
+    setIsModalOpen(true);
+  };
 
-    const handleQuantityInputChange = (value: number) => {
-        setQuantity(value);
-    };
+  const handleQuantityInputChange = (value: number) => {
+    setQuantity(value);
+  };
 
-    // 최대구매수량 계산 함수
-    const handleMaxPurchaseQuantity = () => {
-        if (currentPrice && budget) {
-            const maxQuantity = Math.floor(budget / currentPrice);
-            setQuantity(maxQuantity > 0 ? maxQuantity : 0);
-        }
-    };
+  // 최대구매수량 계산 함수
+  const handleMaxPurchaseQuantity = () => {
+    if (currentPrice && budget) {
+      const maxQuantity = Math.floor(budget / currentPrice);
+      setQuantity(maxQuantity > 0 ? maxQuantity : 0);
+    }
+  };
 
-    // useEffect(() => {
-    //     if (stockData) {
-    //         const options = stockData.map((stock) => ({
-    //             stockId: stock.stockId,
-    //             name: stock.name,
-    //         }));
-    //         setStockOptions(options);
-    //         if (!selectedStock && options.length > 0) {
-    //             setSelectedStock(options[0]);
-    //             setCurrentPrice(stockData[0].current);
-    //         }
-    //     }
-    //     if (selectedStock && stockData) {
-    //         const selectedStockData = stockData.find(
-    //             (stock) => stock.stockId === selectedStock.stockId
-    //         );
-    //         setCurrentPrice(selectedStockData?.current || null);
-    //     }
-    // }, [stockData, selectedStock]);
-    useEffect(() => {
-        if (stockData && stockData.length > 0) {
-            const options = stockData.map((stock) => ({
-                stockId: stock.stockId,
-                name: stock.name,
-            }));
-            setStockOptions(options);
+  // useEffect(() => {
+  //     if (stockData) {
+  //         const options = stockData.map((stock) => ({
+  //             stockId: stock.stockId,
+  //             name: stock.name,
+  //         }));
+  //         setStockOptions(options);
+  //         if (!selectedStock && options.length > 0) {
+  //             setSelectedStock(options[0]);
+  //             setCurrentPrice(stockData[0].current);
+  //         }
+  //     }
+  //     if (selectedStock && stockData) {
+  //         const selectedStockData = stockData.find(
+  //             (stock) => stock.stockId === selectedStock.stockId
+  //         );
+  //         setCurrentPrice(selectedStockData?.current || null);
+  //     }
+  // }, [stockData, selectedStock]);
+  useEffect(() => {
+    if (stockData && stockData.length > 0) {
+      const options = stockData.map((stock) => ({
+        stockId: stock.stockId,
+        name: stock.name,
+      }));
+      setStockOptions(options);
 
             // selectedStock이 없으면 첫 번째 종목을 선택
             if (!selectedStock && options.length > 0) {

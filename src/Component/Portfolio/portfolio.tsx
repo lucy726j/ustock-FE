@@ -6,7 +6,7 @@ import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatPrice, formatROR } from "../../util/util";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 
@@ -17,7 +17,7 @@ interface Portfolio {
   id: number;
   name: string;
   budget: number;
-  ror: number;
+  profitRate: number;
   average: number;
 }
 
@@ -85,7 +85,7 @@ const Portfolio = () => {
       .then((res) => {
         if (res.status === 200) {
           setTotalAsset(res.data.budget);
-          setTotalROR(res.data.ror);
+          setTotalROR(res.data.profitRate);
           setPortfolioData(res.data.list); // 포트폴리오 리스트 업데이트
         } else if (res.status === 401) {
           navigate("/error");
