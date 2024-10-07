@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   // debounce 함수 : 1000ms 디바운스를 걸고, 마지막 keyword로만 api 요청
   const handelDebounce = useCallback(
     debounce((input: string) => {
-      if (keyword.trim() === "") {
+      if (input.trim() === "") {
         setList([]);
         return;
       }
