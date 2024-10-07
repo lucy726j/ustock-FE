@@ -98,10 +98,16 @@ const TradeChoice = ({
                             </ChoiceButton>
                             <SelectedOption isSelected={isSelected}>
                                 {selectedOption}
-                                {currentPrice && (
+                                {currentPrice === 0 ? (
                                     <CurrentPrice isSelected={isSelected}>
-                                        {formatPrice(currentPrice)} 원
+                                        가격정보없음
                                     </CurrentPrice>
+                                ) : (
+                                    currentPrice && (
+                                        <CurrentPrice isSelected={isSelected}>
+                                            {formatPrice(currentPrice)} 원
+                                        </CurrentPrice>
+                                    )
                                 )}
                             </SelectedOption>
 
