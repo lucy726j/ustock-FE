@@ -6,7 +6,7 @@ import "./pfStyle.css";
 import AddPortfolioModal from "../Modal/AddPortfolio";
 import axios from "axios";
 import swal from "sweetalert";
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatPrice, formatROR } from "../../util/util";
 import { usePortfolioStore } from "../../store/usePortfolioStore";
 

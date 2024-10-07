@@ -23,9 +23,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
     if (regExp.test(input)) {
       input = input.replace(regExp, "");
     }
-    // else {
     setKeyword(input);
-    // }
   };
 
   useEffect(() => {
@@ -72,7 +70,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       </S.SearchBarStyle>
       {isOpen && (
         <S.SearchResult>
-          {list.length == 0 || keyword == ""
+          {list.length === 0 || keyword === ""
             ? "일치하는 검색결과가 없습니다"
             : list.map((el) => (
                 <S.StockItemContainer
@@ -80,35 +78,9 @@ const SearchBar: React.FC<SearchBarProps> = () => {
                   onMouseDown={() => handleSelectStock(el)}
                 >
                   {el.logo ? (
-                    <S.Img
-                      src={el.logo}
-                      alt={`${el.name} logo`}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        marginRight: "20px",
-                        marginLeft: "1rem",
-                        borderRadius: "10px",
-                      }}
-                    />
+                    <S.Img src={el.logo} alt={`${el.name} logo`} />
                   ) : (
-                    <div
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        marginRight: "20px",
-                        borderRadius: "10px",
-                        textAlign: "center",
-                        alignItems: "center",
-                        display: "flex",
-                        justifyContent: "center",
-                        color: "#fff",
-                        background: "#615EFC",
-                        marginLeft: "1rem",
-                      }}
-                    >
-                      {el.name.charAt(0)}
-                    </div>
+                    <S.NoImg>{el.name.charAt(0)}</S.NoImg>
                   )}
                   <S.InfoSection>
                     <S.Name>{el.name}</S.Name>

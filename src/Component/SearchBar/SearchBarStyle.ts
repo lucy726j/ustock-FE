@@ -79,9 +79,25 @@ export const StockName = styled.div`
 `;
 
 export const Img = styled.img`
-  width: 22px;
-  height: 22px;
-  margin: 0 20px;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  margin-left: 1rem;
+  border-radius: 10px;
+`;
+
+export const NoImg = styled.div`
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  background: #615efc;
+  margin-left: 1rem;
 `;
 
 export const InfoSection = styled.div`

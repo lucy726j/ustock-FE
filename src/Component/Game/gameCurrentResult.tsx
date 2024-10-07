@@ -27,9 +27,8 @@ const GameCurrentResult = () => {
   const header = ["순위", "플레이어", " 현재금액", "수익률"];
   const [rankResult, setRankResult] = useState<RankListProps[]>([]);
 
-  const { currentRank, setCurrentRank, fetchRank } = useGameStore((state) => ({
+  const { currentRank, fetchRank } = useGameStore((state) => ({
     currentRank: state.currentRank,
-    setCurrentRank: state.setCurrentRank,
     fetchRank: state.fetchRank,
   }));
 
@@ -47,12 +46,6 @@ const GameCurrentResult = () => {
       })
       .then((res) => {
         setRankResult(res.data);
-
-        // // 사용자 순위 저장
-        // const userIndex = res.data.findIndex(
-        //   (item: any) => item.playerType === "USER"
-        // );
-        // setCurrentRank(userIndex + 1);
       });
   }, [check, currentRank]);
 
