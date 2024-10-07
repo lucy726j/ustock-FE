@@ -1,56 +1,92 @@
 import searchImg from "../../img/search.png";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { StockDataProps } from "../../constants/interface";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { SearchBarProps } from "../../constants/interface";
 import * as S from "./SearchBarStyle";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { debounce } from "lodash";
 
 const SearchBar: React.FC<SearchBarProps> = () => {
   const [list, setList] = useState<StockDataProps[]>([]);
-  const [keyword, setKeyword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [keyword, setKeyword] = useState("");
   const nav = useNavigate();
 
   const searching = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let input = e.target.value;
-    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-    if (regExp.test(input)) {
-      input = input.replace(regExp, "");
-    }
-    setKeyword(input);
-  };
+  // debounce 함수 : 1000ms 디바운스를 걸고, 마지막 keyword로만 api 요청
+  const handelDebounce = useCallback(
+    debounce((input: string) => {
+      if (keyword.trim() === "") {
+        setList([]);
+        return;
+      }
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${input}`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            const result = res.data;
+            setList(result);
+          } else if (res.status === 401) {
+            nav("/login");
+          }
+        })
+        .catch((error) => {});
+    }, 300),
+    []
+  );
 
-  useEffect(() => {
-    if (keyword.trim() === "") {
-      setList([]);
-      return;
-    }
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          const result = res.data;
-          setList(result);
-        } else if (res.status === 401) {
-          nav("/login");
-        }
-      })
-      .catch((error) => {});
-  }, [keyword]);
+  // input 태그에 입력되는 값으로 keyword 업데이트, debounce 함수에 keyword 전달
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let input = e.target.value;
+      const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+      if (regExp.test(input)) {
+        input = input.replace(regExp, "");
+      }
+      setKeyword(input);
+      handelDebounce(input);
+    },
+    [handelDebounce]
+  );
+
+  // useEffect(() => {
+  //   if (keyword.trim() === "") {
+  //     setList([]);
+  //     return;
+  //   }
+  //   axios
+  //     .get(
+  //       `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         const result = res.data;
+  //         setList(result);
+  //       } else if (res.status === 401) {
+  //         nav("/login");
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // }, [keyword]);
 
   const handleSelectStock = (event: StockDataProps) => {
     nav(`/stocks/${event.code}`);
