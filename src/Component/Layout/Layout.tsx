@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import Header from "./Header/Header";
 import NavBar from "./NavBar/NavBar";
 import styled from "styled-components";
-import { useAuth } from "../../contexts/authContext";
+import BentoBar from "../../Game/Main/BentoBar/bentoBar";
 
 const Main = styled.main`
   width: 500px;
@@ -30,12 +30,17 @@ const Container = styled.div`
 const Layout = (props: { children: React.ReactNode }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/nologin";
+  const isGame = location.pathname.includes("/game");
+  const GameNav =
+    location.pathname.includes("/game/rank") ||
+    location.pathname.includes("/game/result/total") ||
+    location.pathname.includes("/game/gameStocks");
 
   return (
     <Container className="Layout">
-      {!isLoginPage && <Header />}
+      {!isLoginPage && !isGame && <Header />}
       <Main style={{ height: "100%" }}>{props.children}</Main>
-      {!isLoginPage && <NavBar />}
+      {!isLoginPage && !isGame ? <NavBar /> : GameNav ? <BentoBar /> : ""}
     </Container>
   );
 };

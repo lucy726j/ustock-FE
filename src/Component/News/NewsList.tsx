@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NoNews from "./\bnoNews";
-import { usePortfolioStore } from "../../store/usePortfolioStore";
 
 const ListWrapper = styled.div`
   display: flex;
@@ -15,6 +14,9 @@ const ListWrapper = styled.div`
   align-items: center;
   padding: 20px;
   gap: 10px;
+  height: 400px;
+  overflow: scroll;
+  scrollbar-width: none;
 `;
 
 const NewsList: React.FC = () => {
@@ -22,7 +24,6 @@ const NewsList: React.FC = () => {
   const [news, setNews] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const nav = useNavigate();
   // const change = usePortfolioStore((state) => state.change);
 
   useEffect(() => {
@@ -47,18 +48,16 @@ const NewsList: React.FC = () => {
         }
       })
       .catch((e) => {});
-  }, [location]);
+  }, [location, navigate]);
 
   return (
-    <div>
-      <ListWrapper>
-        {news.length > 0 ? (
-          news.map((news: NewsProps) => <NewsItem key={news.code} {...news} />)
-        ) : (
-          <NoNews />
-        )}
-      </ListWrapper>
-    </div>
+    <ListWrapper>
+      {news.length > 0 ? (
+        news.map((news: NewsProps) => <NewsItem key={news.code} {...news} />)
+      ) : (
+        <NoNews />
+      )}
+    </ListWrapper>
   );
 };
 

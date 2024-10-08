@@ -1,0 +1,302 @@
+#tutorial {
+  & #page {
+    width: 100%;
+
+    /* // 뚫린 배경 */
+    & .background {
+      box-sizing: border-box;
+      padding: 64px 23px 20px 20px;
+      mix-blend-mode: multiply;
+      background-color: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0px;
+      z-index: 1000;
+      // position: absolute;
+      @media (max-width: 768px) {
+        width: 100%;
+        display: flex;
+      }
+
+      // 년도
+      & .rowBox {
+        display: flex;
+        gap: 10px;
+        position: absolute;
+        left: 715px;
+        // width: 100%;
+        height: 100vh;
+        top: 28px;
+        @media (max-width: 430px) {
+          position: absolute;
+          left: 165px;
+          height: 100vh;
+        }
+        @media (max-width: 375px) {
+          position: absolute;
+          left: 135px;
+          height: 100vh;
+        }
+        @media (max-width: 390px) {
+          position: absolute;
+          left: 138px;
+          height: 100vh;
+        }
+        & .mainIcon {
+          background-color: rgb(255 255 255);
+          width: 85px;
+          height: 44px;
+          border-radius: 12px;
+
+          @media (max-width: 430px) {
+            width: 100px;
+          }
+        }
+        & .text {
+          color: rgb(255 255 255);
+          font-size: 16px;
+          width: 250px;
+          // position: absolute;
+          left: 55%;
+          margin-top: 0.2rem;
+          @media (max-width: 430px) {
+            left: -40px;
+            position: absolute;
+            font-size: 12px;
+            top: 48px;
+          }
+        }
+      }
+    }
+    // 거래 가능 금액
+    & .rowBox2 {
+      display: flex;
+      top: 228px;
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      @media (max-width: 430px) {
+        position: absolute;
+        left: 180px;
+        height: 100vh;
+      }
+      @media (max-width: 375px) {
+        position: absolute;
+        left: 135px;
+        height: 100vh;
+      }
+      @media (max-width: 390px) {
+        position: absolute;
+        left: 138px;
+        height: 100vh;
+      }
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon2 {
+        background-color: rgb(255 255 255 / 90%);
+        border-radius: 12px;
+        position: absolute;
+        left: 640px;
+        top: 0;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 40px;
+        @media (max-width: 430px) {
+          width: 100px;
+        }
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        position: absolute;
+        left: 750px;
+        top: 1.5%;
+      }
+    }
+    // 더보기
+    & .rowBox3 {
+      display: flex;
+      align-items: center;
+      margin-top: 215px;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon3 {
+        background-color: rgb(255 255 255 / 90%);
+        position: absolute;
+        left: 60.6%;
+        top: 0;
+        transform: translateX(-50%);
+        border-radius: 12px;
+        width: 90px;
+        height: 55px;
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        text-align: right;
+        margin-top: 1rem;
+        position: absolute;
+        left: 40%;
+        top: 6%;
+      }
+    }
+    // 주식 차트
+    & .rowBox4 {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon4 {
+        background-color: rgb(255 255 255 / 90%);
+        position: absolute;
+        left: 50%;
+        top: 185px;
+        transform: translateX(-50%);
+        border-radius: 12px;
+        width: 450px;
+        height: 420px;
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        text-align: center;
+        position: absolute;
+        left: 40%;
+        top: 135px;
+      }
+    }
+    // 정보 거래소
+    & .rowBox5 {
+      display: flex;
+      align-items: center;
+      margin-top: 612px;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon5 {
+        background-color: rgb(255 255 255 / 90%);
+        position: absolute;
+        left: 42.8%;
+        top: 0px;
+        transform: translateX(-50%);
+        border-radius: 15px;
+        width: 100px;
+        height: 100px;
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        text-align: left;
+        position: absolute;
+        left: 40%;
+        top: -6%;
+      }
+    }
+    // 종목 구매
+    & .rowBox6 {
+      display: flex;
+      align-items: center;
+      margin-top: 612px;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon6 {
+        background-color: rgb(255 255 255 / 90%);
+        position: absolute;
+        left: 50%;
+        top: 0px;
+        transform: translateX(-50%);
+        border-radius: 15px;
+        width: 100px;
+        height: 100px;
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        text-align: left;
+        position: absolute;
+        left: 40%;
+        top: -6%;
+      }
+    }
+    // 종목 구매
+    & .rowBox7 {
+      display: flex;
+      align-items: center;
+      margin-top: 612px;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      color: rgb(255 255 255 / 80%);
+      & .mainIcon7 {
+        background-color: rgb(255 255 255 / 90%);
+        position: absolute;
+        left: 57.5%;
+        top: 0px;
+        transform: translateX(-50%);
+        border-radius: 15px;
+        width: 100px;
+        height: 100px;
+      }
+      & p {
+        color: rgb(255 255 255);
+        font-size: 16px;
+        text-align: left;
+        position: absolute;
+        left: 40%;
+        top: -10%;
+      }
+      & button {
+        border: none;
+        background-color: #615efc;
+        color: #ffffff;
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        margin-left: 15rem;
+        margin-top: -2.4rem;
+      }
+    }
+
+    & .contentBg {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      top: -800px;
+      & .welcomeBox {
+        border-radius: 10px;
+        background-color: #ffffff;
+        display: flex;
+        width: 400px;
+        justify-content: center;
+        height: 160px;
+        align-items: center;
+        z-index: 5000;
+        text-align: center;
+      }
+      & #bottomBox {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+        & button {
+          border: none;
+          background: none;
+        }
+      }
+    }
+  }
+}

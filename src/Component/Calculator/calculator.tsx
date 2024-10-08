@@ -1,118 +1,18 @@
-import styled from "styled-components";
 import Dropdown from "../Dropdown/Dropdown";
 import Button from "../Button/button";
 import Img from "../../img/SkerrImg.png";
-import { Colors } from "../../Styles/Colors";
 import { useState } from "react";
 import { CalculResultProps } from "../../constants/interface";
 import { Input } from "../Input/input";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import CalculResult from "./calculResult";
-import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 50px;
-  border-top: 2px solid rgb(0, 0, 0, 0.2);
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: end;
-  gap: 5px;
-  font-weight: 600;
-  margin-bottom: 1rem;
-`;
-
-const User = styled.span`
-  color: ${Colors.main};
-`;
-
-const DropContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 3px;
-`;
-
-const Label = styled.div`
-  margin-bottom: 0.5rem;
-  margin-left: 1rem;
-`;
+import * as S from "./calculStyle";
+import * as D from "./calculData";
 
 const Calculator = () => {
   const nav = useNavigate();
-
-  // CHECK API 연결할 떄,, 현재 시점 보다 미래의 날짜를 했을 때, 검색 불가하게 막기 필요
-  //       없는 날짜를 검색하면 검색 불가하게 막기 필요
-  const year = [
-    "2014",
-    "2015",
-    "2016",
-    "2017",
-    "2018",
-    "2019",
-    "2020",
-    "2021",
-    "2022",
-    "2023",
-    "2024",
-  ];
-  const month = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-  ];
-  const day = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31",
-  ];
 
   const [price, setPrice] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -150,7 +50,16 @@ const Calculator = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+
+    // 공백, 특수문자 입력 아예 안되게 막기
+    if (regExp.test(value)) {
+      value = value.replace(regExp, "");
+      setErrorMsg("공백 및 특수 문자는 입력 불가합니다");
+      setIsValid(false);
+      return;
+    }
 
     if (value.includes("-")) {
       setErrorMsg("음수 값은 입력 불가합니다");
@@ -221,28 +130,28 @@ const Calculator = () => {
       />
     </div>
   ) : (
-    <Container>
-      <TitleContainer>
+    <S.Container>
+      <S.TitleContainer>
         <img
           src={Img}
           alt="앵무새가 컴퓨터 보는 이미지"
           style={{ width: "45px", height: "30px" }}
         />
         <span style={{ fontSize: "20px" }}>
-          만약 <User>{userName}</User>님이 이 때 샀다면?
+          만약 <S.User>{userName}</S.User>님이 이 때 샀다면?
         </span>
-      </TitleContainer>
+      </S.TitleContainer>
       <div style={{ marginBottom: "0.5rem" }}>
         <div>
-          <Label>날짜 선택</Label>
-          <DropContainer>
-            <Dropdown dropList={year} onSelect={handleSelectedYear} />
-            <Dropdown dropList={month} onSelect={handleSelectedMonth} />
-            <Dropdown dropList={day} onSelect={handleSelectedDay} />
-          </DropContainer>
+          <S.Label>날짜 선택</S.Label>
+          <S.DropContainer>
+            <Dropdown dropList={D.year} onSelect={handleSelectedYear} />
+            <Dropdown dropList={D.month} onSelect={handleSelectedMonth} />
+            <Dropdown dropList={D.day} onSelect={handleSelectedDay} />
+          </S.DropContainer>
         </div>
         <div>
-          <Label>금액</Label>
+          <S.Label>금액</S.Label>
 
           <Input
             placeholder="금액"
@@ -263,7 +172,7 @@ const Calculator = () => {
         $colorType="gradient"
         onClick={ConfirmHandler}
       />
-    </Container>
+    </S.Container>
   );
 };
 

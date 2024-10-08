@@ -1,51 +1,93 @@
 import searchImg from "../../img/search.png";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { StockDataProps } from "../../constants/interface";
 import { getGrowthColor, formatPrice } from "../../util/util";
 import { SearchBarProps } from "../../constants/interface";
 import * as S from "./SearchBarStyle";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { debounce } from "lodash";
 
 const SearchBar: React.FC<SearchBarProps> = () => {
   const [list, setList] = useState<StockDataProps[]>([]);
-  const [keyword, setKeyword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [keyword, setKeyword] = useState("");
   const nav = useNavigate();
 
   const searching = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setKeyword(input);
-  };
+  // debounce 함수 : 1000ms 디바운스를 걸고, 마지막 keyword로만 api 요청
+  const handelDebounce = useCallback(
+    debounce((input: string) => {
+      if (input.trim() === "") {
+        setList([]);
+        return;
+      }
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${input}`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            const result = res.data;
+            setList(result);
+          } else if (res.status === 401) {
+            nav("/login");
+          }
+        })
+        .catch((error) => {});
+    }, 300),
+    []
+  );
 
-  useEffect(() => {
-    if (keyword.trim() === "") {
-      setList([]); // Clear the list if the keyword is empty
-    }
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          const result = res.data;
-          setList(result);
-        } else if (res.status === 401) {
-          nav("/login");
-        }
-      })
-      .catch((error) => {});
-  }, [keyword]);
+  // input 태그에 입력되는 값으로 keyword 업데이트, debounce 함수에 keyword 전달
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let input = e.target.value;
+      const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+      if (regExp.test(input)) {
+        input = input.replace(regExp, "");
+      }
+      setKeyword(input);
+      handelDebounce(input);
+    },
+    [handelDebounce]
+  );
+
+  // # Debounce 적용 전 ver
+  // useEffect(() => {
+  //   if (keyword.trim() === "") {
+  //     setList([]);
+  //     return;
+  //   }
+  //   axios
+  //     .get(
+  //       `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         const result = res.data;
+  //         setList(result);
+  //       } else if (res.status === 401) {
+  //         nav("/login");
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // }, [keyword]);
 
   const handleSelectStock = (event: StockDataProps) => {
     nav(`/stocks/${event.code}`);
@@ -60,11 +102,12 @@ const SearchBar: React.FC<SearchBarProps> = () => {
           onChange={handleSearch}
           onFocus={searching}
           onBlur={searching}
+          value={keyword}
         />
       </S.SearchBarStyle>
       {isOpen && (
         <S.SearchResult>
-          {list.length == 0 || keyword == ""
+          {list.length === 0 || keyword === ""
             ? "일치하는 검색결과가 없습니다"
             : list.map((el) => (
                 <S.StockItemContainer
@@ -72,35 +115,9 @@ const SearchBar: React.FC<SearchBarProps> = () => {
                   onMouseDown={() => handleSelectStock(el)}
                 >
                   {el.logo ? (
-                    <S.Img
-                      src={el.logo}
-                      alt={`${el.name} logo`}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        marginRight: "20px",
-                        marginLeft: "1rem",
-                        borderRadius: "10px",
-                      }}
-                    />
+                    <S.Img src={el.logo} alt={`${el.name} logo`} />
                   ) : (
-                    <div
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        marginRight: "20px",
-                        borderRadius: "10px",
-                        textAlign: "center",
-                        alignItems: "center",
-                        display: "flex",
-                        justifyContent: "center",
-                        color: "#fff",
-                        background: "#615EFC",
-                        marginLeft: "1rem",
-                      }}
-                    >
-                      {el.name.charAt(0)}
-                    </div>
+                    <S.NoImg>{el.name.charAt(0)}</S.NoImg>
                   )}
                   <S.InfoSection>
                     <S.Name>{el.name}</S.Name>

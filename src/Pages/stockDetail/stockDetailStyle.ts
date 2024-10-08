@@ -18,6 +18,10 @@ export const InfoContainer = styled.div`
 export const StockName = styled.div`
   font-size: 35px;
   font-weight: 900;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 export const CodeContainer = styled.div`
@@ -45,6 +49,9 @@ export const StockPrice = styled.div`
   white-space: nowrap;
   display: flex;
   flex-direction: row;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 export const ChangeContainer = styled.div`
@@ -56,6 +63,9 @@ export const ChangeContainer = styled.div`
 export const StockChange = styled.span`
   font-size: 20px;
   color: ${Colors.main};
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 export const ViewSelectContainer = styled.div`

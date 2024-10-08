@@ -7,8 +7,8 @@ interface PortfolioState {
   stockData: StockProps[];
   budget: number;
   principal: number;
-  ret: number;
-  ror: number;
+  profit: number;
+  profitRate: number;
   change: boolean;
   setChange: (change: boolean) => void;
   setPortfolio: (
@@ -22,8 +22,8 @@ interface PortfolioState {
   setFinancialData: (
     budget: number,
     principal: number,
-    ret: number,
-    ror: number
+    profit: number,
+    profitRate: number
   ) => void;
   updateBudget: (amount: number) => void;
   updatePrincipal: (amount: number) => void;
@@ -32,6 +32,9 @@ interface PortfolioState {
 
   portfolioChange: boolean;
   isPortfolio: (portfolioChange: boolean) => void;
+
+  check: boolean;
+  setCheck: (change: boolean) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
@@ -40,14 +43,16 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
   stockData: [],
   budget: 0,
   principal: 0,
-  ret: 0,
-  ror: 0,
+  profit: 0,
+  profitRate: 0,
   change: false,
   portfolioChange: false,
+  check: false,
 
   isPortfolio: (portfolioChange) => set({ portfolioChange }),
 
   setChange: (change) => set({ change }),
+  setCheck: (check) => set({ check }),
 
   setPortfolio: (pfName, data, stockData) => set({ pfName, data, stockData }),
 
@@ -59,7 +64,7 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
         stockData: [...state.stockData, newStock],
         budget: state.budget + newStockValue,
         principal: state.principal + newStockValue,
-        // ret와 ror는 calculateROR 함수에서 계산
+        // profit와 profitRate는 calculateROR 함수에서 계산
       };
     }),
 
@@ -81,7 +86,7 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
         ),
         budget: state.budget + valueDifference,
         principal: state.principal + valueDifference,
-        // ret와 ror는 calculateROR 함수에서 계산
+        // profit와 profitRate는 calculateROR 함수에서 계산
       };
     }),
 
@@ -91,11 +96,11 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
       stockData: state.stockData.filter((stock) => stock.code !== stockCode),
       budget: state.budget - stockValue,
       principal: state.principal - stockValue,
-      // ret와 ror는 calculateROR 함수에서 계산
+      // profit와 profitRate는 calculateROR 함수에서 계산
     })),
 
-  setFinancialData: (budget, principal, ret, ror) =>
-    set({ budget, principal, ret, ror }),
+  setFinancialData: (budget, principal, profit, profitRate) =>
+    set({ budget, principal, profit, profitRate }),
 
   // 재무 데이터 업데이트 함수
   updateBudget: (amount: number) =>
@@ -105,9 +110,9 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
     set((state) => ({ principal: state.principal + amount })),
 
   updateProfitLoss: (amount: number) =>
-    set((state) => ({ ret: state.ret + amount })),
+    set((state) => ({ profit: state.profit + amount })),
 
-  updateROR: (newROR: number) => set((state) => ({ ror: newROR })),
+  updateROR: (newROR: number) => set((state) => ({ profitRate: newROR })),
 
   calculateROR: () =>
     set((state) => {
@@ -117,7 +122,7 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
       );
       const totalCurrentValue = state.stockData.reduce(
         (acc, stock) =>
-          acc + stock.quantity * stock.average * (1 + stock.ror / 100),
+          acc + stock.quantity * stock.average * (1 + stock.profitRate / 100),
         0
       );
       const newROR =
@@ -125,6 +130,6 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
           ? ((totalCurrentValue - totalInvestment) / totalInvestment) * 100
           : 0;
 
-      return { ror: newROR };
+      return { profitRate: newROR };
     }),
 }));

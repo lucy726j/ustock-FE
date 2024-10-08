@@ -34,8 +34,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
   const location = useLocation();
   const id = location.pathname.split("/")[2];
 
-  const changeStatus = usePortfolioStore((state) => state.change);
-  const changeCheck = usePortfolioStore((state) => state.setChange);
+  const { change, setChange } = usePortfolioStore();
 
   const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -77,7 +76,7 @@ const AddOrEditModal: React.FC<AddOrEditModalProps> = ({
             });
             onConfirm(quantity, price);
             onClose();
-            changeCheck(!changeStatus);
+            setChange(!change);
           }
         })
         .catch((error) => {

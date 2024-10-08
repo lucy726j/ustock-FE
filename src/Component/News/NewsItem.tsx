@@ -1,4 +1,5 @@
 import { NewsProps } from "../../constants/interface";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 const NewsItem: React.FC<NewsProps> = ({
   code,
@@ -8,9 +9,6 @@ const NewsItem: React.FC<NewsProps> = ({
   name,
   url,
 }) => {
-  //   const handleClick = () => {
-  //     window.location.href = url;
-  //   };
 
   return (
     // noopener, noreferrer, nofollow 설정을 위해서 <a/>으로 변경
@@ -19,9 +17,7 @@ const NewsItem: React.FC<NewsProps> = ({
       className="NewsItem"
       target="_blank"
       rel="noopener noreferrer nofollow"
-      // onClick={handleClick}
-      // style={{ textDecoration: "none", color: "black" }}
-    >
+     >
       <div className="news-section">
         <div className="news-content">{title}</div>
         <div className="news-info">
@@ -30,6 +26,7 @@ const NewsItem: React.FC<NewsProps> = ({
           <p>{date}</p>
         </div>
       </div>
+      <HiOutlineExternalLink />
     </a>
   );
 };

@@ -11,6 +11,7 @@ const HeaderStyle = styled.header`
   align-items: center;
   margin: 10px 0px;
   padding: 0px 20px;
+  cursor: pointer;
   @media (max-width: 768px) {
     width: 100%;
     height: 100%;

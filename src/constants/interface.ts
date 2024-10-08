@@ -1,7 +1,8 @@
 export type ButtonStyleProps = {
   $state: "normal";
   $size: "small" | "medium" | "large" | "plusBtn" | "gradientBtn";
-  $colorType: "main" | "gradient" | "cancel";
+  $colorType: "main" | "gradient" | "cancel" | "stroke";
+  disabled?: boolean;
 };
 
 export interface ButtonProps extends ButtonStyleProps {
@@ -10,7 +11,7 @@ export interface ButtonProps extends ButtonStyleProps {
 }
 
 export type InputStyleProps = {
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "nickname";
   colorType: "fillType" | "strokeType";
   disabled?: boolean;
 };
@@ -125,7 +126,7 @@ export interface StockProps {
   name: string;
   quantity: number;
   average: number;
-  ror: number;
+  profitRate: number;
   logo?: string;
 }
 
@@ -133,8 +134,8 @@ export interface PortfolioProps {
   name: string;
   budget: number;
   principal: number;
-  ret: number;
-  ror: number;
+  profit: number;
+  profitRate: number;
   stocks: StockProps[];
 }
 
@@ -182,4 +183,98 @@ export interface IconWrapperProps {
   IconComponent: any;
   $isActive: boolean;
   // Type for react-icons components
+}
+
+export interface GameHeaderProp {
+  text: String;
+}
+
+export interface SaySkrrProps {
+  rank: number;
+  money: number;
+}
+
+export interface RankDataProps {
+  nickname: String;
+  total: number;
+  profitRate: number;
+  playerType?: String;
+  index?: number;
+}
+
+export interface RankListProps {
+  data: Array<RankDataProps>;
+}
+
+export interface GameNewsProps {
+  title: string;
+  url: string;
+  publisher: string;
+  date: string;
+}
+
+export interface GameNewsListProps {
+  data: Array<GameNewsProps>;
+}
+
+export interface Stock {
+  stockId: number;
+  name: string;
+  prev: number;
+  current: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StockYearProps {
+  stockId: number;
+  name: string;
+  prev: number;
+  current: number;
+  change: number;
+  changeRate: number;
+}
+
+export interface StocksData {
+  header: string[];
+  data: StockYearProps[];
+}
+
+export interface GameMoneyProps {
+  budget: number;
+  nickname: string;
+  total: number;
+  changeFromLast: number;
+  changeFromStart: number;
+  changeRateFromLast: number;
+  changeRateFromStart: number;
+}
+
+export interface StocksTableProps {
+  stocks: StockYearProps[];
+  year: string;
+}
+
+export interface holding {
+  stockId: number;
+  stockName: string;
+  average: number;
+  price: number;
+  quantity: number;
+  profitRate: number;
+}
+
+export interface GameStockProps {
+  stockId: number;
+  fakeName: string;
+  realName: string;
+  chart: { x: string; y: number }[];
+  news: { title: string; url: string; publisher: string; date: string }[];
+}
+
+export interface LineChartData {
+  data: {
+    x: string;
+    y: number;
+  }[];
 }
