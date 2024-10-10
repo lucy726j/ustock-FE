@@ -9,11 +9,13 @@ import axios from "axios";
 import swal from "sweetalert";
 import { ButtonDiv, GameTitle } from "./styleMain";
 import Loading from "../Loading/loading";
-import { StocksStore } from "../../store/stockContext";
+// import { StocksStore } from "../../store/stockContext";
+import { useStock } from "../../store/stockContext";
 import audioFile from "../../audio/Lucy_skrrr.m4a";
 
 const GameMain: React.FC = () => {
-  const { setStockData } = StocksStore();
+  // const { setStockData } = StocksStore();
+  const { setStockData } = useStock();
   const [isLoadingFinished, setIsLoadingFinished] = useState(false); // skip 로딩
   const [loading, setLoading] = useState(false); // axios 요청 로딩
   const [isFlying, setIsFlying] = useState(false);
