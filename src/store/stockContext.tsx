@@ -15,7 +15,7 @@ export interface StockContextProps {
   setStockData: (data: Stock[]) => void;
 }
 
-// 쥬스탠드 사용
+// // 쥬스탠드 사용
 export const StocksStore = create<StockContextProps>((set) => ({
   stockData: [],
   setStockData: (data: Stock[]) => set({ stockData: data }),

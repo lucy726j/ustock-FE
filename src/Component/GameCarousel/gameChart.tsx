@@ -1,13 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ApexCharts from "apexcharts";
 import { ChartStyle } from "../Chart/chartStyle";
-
-interface LineChartData {
-  data: {
-    x: string;
-    y: number;
-  }[];
-}
+import { LineChartData } from "../../constants/interface";
 
 const GameChart = ({ data }: LineChartData) => {
   const chartRef = useRef<HTMLDivElement>(null);

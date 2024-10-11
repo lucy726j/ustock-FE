@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { ListBox, Restart, IconDiv } from "./bentoStyle";
+import { useGameStore } from "../../../store/useGameStore";
 
 const BentoBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +10,16 @@ const BentoBar = () => {
   const iconRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  const { checkYear, setCheckYear } = useGameStore((state) => ({
+    checkYear: state.checkYear,
+    setCheckYear: state.setCheckYear,
+  }));
+
   const Nav = (location: string) => {
     if (location === "game") {
       navigate("/game");
       localStorage.removeItem("hasSeenTutorial");
+      setCheckYear(2014);
     } else if (location === "rank") {
       navigate("/game/rank");
       localStorage.removeItem("hasSeenTutorial");
