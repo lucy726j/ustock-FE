@@ -19,86 +19,86 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   };
 
   // debounce 함수 : 1000ms 디바운스를 걸고, 마지막 keyword로만 api 요청
-  // const handelDebounce = useCallback(
-  //   debounce((input: string) => {
-  //     if (input.trim() === "") {
-  //       setList([]);
-  //       return;
-  //     }
-  //     axios
-  //       .get(
-  //         `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${input}`,
-  //         {
-  //           withCredentials: true,
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         if (res.status === 200) {
-  //           const result = res.data;
-  //           setList(result);
-  //         } else if (res.status === 401) {
-  //           nav("/login");
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }, 300),
-  //   []
-  // );
-
-  // // input 태그에 입력되는 값으로 keyword 업데이트, debounce 함수에 keyword 전달
-  // const handleSearch = useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     let input = e.target.value;
-  //     const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-  //     if (regExp.test(input)) {
-  //       input = input.replace(regExp, "");
-  //     }
-  //     setKeyword(input);
-  //     handelDebounce(input);
-  //   },
-  //   [handelDebounce]
-  // );
-
-  // // # Debounce 적용 전 ver
+  const handelDebounce = useCallback(
+    debounce((input: string) => {
+      if (input.trim() === "") {
+        setList([]);
+        return;
+      }
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${input}`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            const result = res.data;
+            setList(result);
+          } else if (res.status === 401) {
+            nav("/login");
+          }
+        })
+        .catch((error) => {});
+    }, 300),
+    []
+  );
 
   // input 태그에 입력되는 값으로 keyword 업데이트, debounce 함수에 keyword 전달
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let input = e.target.value;
-    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-    if (regExp.test(input)) {
-      input = input.replace(regExp, "");
-    }
-    setKeyword(input);
-  };
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let input = e.target.value;
+      const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+      if (regExp.test(input)) {
+        input = input.replace(regExp, "");
+      }
+      setKeyword(input);
+      handelDebounce(input);
+    },
+    [handelDebounce]
+  );
 
-  useEffect(() => {
-    if (keyword.trim() === "") {
-      setList([]);
-      return;
-    }
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          const result = res.data;
-          setList(result);
-        } else if (res.status === 401) {
-          nav("/login");
-        }
-      })
-      .catch((error) => {});
-  }, [keyword]);
+  // # Debounce 적용 전 ver
+
+  // input 태그에 입력되는 값으로 keyword 업데이트, debounce 함수에 keyword 전달
+  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   let input = e.target.value;
+  //   const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+  //   if (regExp.test(input)) {
+  //     input = input.replace(regExp, "");
+  //   }
+  //   setKeyword(input);
+  // };
+
+  // useEffect(() => {
+  //   if (keyword.trim() === "") {
+  //     setList([]);
+  //     return;
+  //   }
+  //   axios
+  //     .get(
+  //       `${process.env.REACT_APP_API_URL}/v1/stocks/search?query=${keyword}`,
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         const result = res.data;
+  //         setList(result);
+  //       } else if (res.status === 401) {
+  //         nav("/login");
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // }, [keyword]);
 
   const handleSelectStock = (event: StockDataProps) => {
     nav(`/stocks/${event.code}`);
