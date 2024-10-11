@@ -28,7 +28,7 @@ const GameHoldingsView = ({ holdingList }: any) => {
                     ) : (
                         <>
                             <thead>
-                                <tr>
+                                <tr style={{ fontSize: "13px" }}>
                                     {header.map((item, index) => (
                                         <th key={index}>{item}</th>
                                     ))}
@@ -43,6 +43,7 @@ const GameHoldingsView = ({ holdingList }: any) => {
                                                 index % 2 === 0
                                                     ? "#ededed"
                                                     : "white",
+                                            fontSize: "11px",
                                         }}
                                     >
                                         <td>{holding.stockName}</td>
