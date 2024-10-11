@@ -30,7 +30,6 @@ const Container = styled.div`
 const PlayPage = () => {
     const { year } = useParams<{ year?: string }>();
     const { stockData, setStockData } = useStock();
-    console.log(stockData);
     const nav = useNavigate();
     const yearValue = year || "2014";
     // 페이지 유효성 검사를 위한 변수
