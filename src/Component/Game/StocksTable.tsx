@@ -5,8 +5,10 @@ import "./StocksTableStyle.css";
 import styled, { keyframes } from "styled-components";
 
 const StocksTable: React.FC<StocksTableProps> = ({ stocks, year }) => {
-  const header = ["번호", "종목", "전년", "올해", "등락"];
-  console.log(stocks, year);
+
+    const header = ["번호", "종목", "전년", "올해", "등락"];
+    console.log(stocks);
+
 
   return (
     <div className="StocksTable">
