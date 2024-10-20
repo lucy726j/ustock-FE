@@ -5,26 +5,23 @@
 <h3 align="center"> 뉴스 중심의 차트 분석 서비스 U'STOCK의 frontend repository </h3>
 <h5 align="center"> 카카오테크 부트캠프 클라우드 네이티브 제주 1기 2팀 HRTH (2024-07-02 ~ 2024-10-11) </h5>
 
-<!-- 목차 -->
-<h2 id="table-of-contents"> :book: 목차</h2>
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-<details open="open">
-  <summary>목차</summary>
-  <ol>
-    <li><a href="#architecture"> ➤ 아키텍쳐</a></li>
-    <li><a href="#tech"> ➤ 기술 스택</a></li>
-    <li><a href="#directory"> ➤ 디렉토리 구조</a></li>
-    <li><a href="#trouble"> ➤ 트러블 슈팅</a></li>
-    <li><a href="#refactor"> ➤ 리팩토링</a></li>
-    <li><a href="#auth"> ➤ Google OAuth</a></li>
-    <li><a href="#api"> ➤ REST API 개요</a></li>
-    <li><a href="#stocks"> ➤ /v1/stocks</a></li>
-    <li><a href="#portfolio"> ➤ /v1/portfolio</a></li>
-    <li><a href="#news"> ➤ /v1/news</a></li>
-    <li><a href="#game"> ➤ /v1/game</a></li>
-    <li><a href="#teammates"> ➤ 팀 소개</a></li>
-  </ol>
-</details>
+<img width="180" alt="스크린샷 2024-10-13 오후 4 21 46" src="https://github.com/user-attachments/assets/3e219dea-3a52-4647-a7f7-e4ca0712399f">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 21 56" src="https://github.com/user-attachments/assets/cbd86393-0e95-4297-9eb8-855d1305079d">
+
+<img width="180" alt="스크린샷 2024-10-13 오후 4 22 27" src="https://github.com/user-attachments/assets/b429f26f-5fff-4c5c-893d-65e76a1e1dfb">
+
+<img width="180" alt="스크린샷 2024-10-13 오후 4 23 17" src="https://github.com/user-attachments/assets/3805b481-1c05-49e3-a7b4-d14c9cbb5e64">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 23 20" src="https://github.com/user-attachments/assets/b9a0d767-4982-461e-9d9b-7d0091ce5a06">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 23 23" src="https://github.com/user-attachments/assets/5bc55009-158b-49f3-ac2f-fe2e7cf9b0b3">
+
+
+<img width="180" alt="스크린샷 2024-10-13 오후 4 23 56" src="https://github.com/user-attachments/assets/d6d1d25a-948e-4442-85f6-7308383040b0">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 24 10" src="https://github.com/user-attachments/assets/67fa5e8f-73ef-497f-ab52-5f20629d1cfb">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 24 27" src="https://github.com/user-attachments/assets/a763dc28-e6a2-4644-9cbe-c394d184a83b">
+<img width="180" alt="스크린샷 2024-10-13 오후 4 24 42" src="https://github.com/user-attachments/assets/48cd524a-8713-4c87-a430-fa955376e72b">
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
