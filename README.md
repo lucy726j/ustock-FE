@@ -126,13 +126,13 @@
 
 ```
 --문제--
-- (루시 여기좀 적어주세요)
+- 종목 검색 시 onChange 이번트를 적용하여 불필요한 API 호출이 과도하게 발생
 
 --해결--
-- debounce함수 적용
+- lodash 라이브러리의 debounce함수 적용
 
 --개선--
--
+- '카카오', '카카오게임즈', '카카오뱅크'를 검색했을 때의 검색 API 호출량을 기존 48회에서 3회로 감소
 ```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
