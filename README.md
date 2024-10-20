@@ -123,16 +123,13 @@
 
 ```
 --문제--
-- 검색 시 중복되는 api 요청 발생
-- 총 48번의 API 호출
-- 유효하지 않은 API 호출 19건
+- 종목 검색 시 onChange 이번트를 적용하여 불필요한 API 호출이 과도하게 발생
 
 --해결--
-- debounce함수 적용
+- lodash 라이브러리의 debounce함수 적용
 
 --개선--
-- 총 3번의 API 호출
-- 유효하지 않은 API 호출 0건
+- '카카오', '카카오게임즈', '카카오뱅크'를 검색했을 때의 검색 API 호출량을 기존 48회에서 3회로 감소
 ```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
